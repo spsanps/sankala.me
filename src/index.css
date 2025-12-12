@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles are handled inside App.jsx via <style> tags,
+  but these directives are required for Tailwind classes to work.
+*/
