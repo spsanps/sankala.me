@@ -1,6 +1,8 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Tag } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { experimentsData } from '../data/content';
 
 export default function LabEntry() {
@@ -19,43 +21,35 @@ export default function LabEntry() {
           <ArrowLeft size={16} /> Back to Lab
         </Link>
 
-        <div className="mb-12">
-            <span className="inline-block px-3 py-1 bg-[#2A3C24] text-[#F5F2EB] text-xs rounded-full font-medium mb-4">
+        <div className="mb-16">
+            <span className="inline-block px-4 py-1.5 bg-[#2A3C24] text-[#F5F2EB] text-xs uppercase tracking-widest rounded-full font-medium mb-6">
                 {entry.tag}
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold serif text-[#1A1A1A] mb-6 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold serif text-[#1A1A1A] mb-8 leading-[0.95] tracking-tight">
                 {entry.title}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed font-light border-l-2 border-[#2A3C24] pl-6">
+            <p className="text-xl md:text-2xl text-gray-600 leading-relaxed reading-font border-l-4 border-[#2A3C24] pl-6 italic">
                 {entry.description}
             </p>
         </div>
 
-        <div className="w-full h-[400px] bg-gray-200 rounded-xl mb-12 overflow-hidden relative">
-             <div className={`absolute inset-0 ${entry.color} opacity-50`}></div>
-             <div className="absolute inset-0 flex items-center justify-center text-gray-400 italic serif text-2xl">
+        <div className={`w-full h-[400px] ${entry.color} rounded-2xl mb-16 overflow-hidden relative border border-[#2A3C24]/10`}>
+             <div className="absolute inset-0 flex items-center justify-center text-gray-400/40 italic serif text-3xl">
                 Visual Representation
              </div>
         </div>
 
-        <article className="prose prose-lg prose-stone max-w-none">
-            <p className="lead text-xl text-gray-800">
+        <article className="markdown">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {entry.content}
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <h3 className="serif text-2xl font-bold mt-8 mb-4">The Methodology</h3>
-            <p>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
-            <blockquote className="border-l-4 border-[#2A3C24] pl-4 italic my-8 text-gray-600">
-                "Innovation distinguishes between a leader and a follower."
-            </blockquote>
-            <p>
-                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-            </p>
+            </ReactMarkdown>
         </article>
+
+        <div className="mt-20 pt-12 border-t border-[#2A3C24]/10">
+            <Link to="/#lab" className="inline-flex items-center gap-2 text-[#2A3C24] hover:underline font-medium">
+                <ArrowLeft size={16} /> Back to Lab
+            </Link>
+        </div>
       </div>
     </div>
   );
