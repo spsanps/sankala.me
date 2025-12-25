@@ -4,6 +4,7 @@ import Layout from './Layout';
 import Home from './pages/Home';
 import LabEntry from './pages/LabEntry';
 import NoteEntry from './pages/NoteEntry';
+import EssayEntry from './pages/EssayEntry';
 import Resume from './pages/Resume';
 import LabIndex from './pages/LabIndex';
 import NotesIndex from './pages/NotesIndex';
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "notes/:id",
         element: <NoteEntry />,
+      },
+      {
+        path: "essays/:slug",
+        element: <EssayEntry />,
       },
       {
         path: "resume",

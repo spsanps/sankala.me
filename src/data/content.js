@@ -179,3 +179,24 @@ Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit la
 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.`
     }
   ];
+
+export const essaysData = [
+  {
+    id: 1001,
+    slug: "gpt7-will-have-arms",
+    title: "GPT-7 Will Have Arms",
+    subtitle: "The Coming Convergence of Foundation Models and Robotics",
+    date: "December 2025",
+    author: "San Sankala",
+    readTime: "45 min read",
+    tags: ["AI", "Robotics", "Geopolitics", "Foundation Models"],
+    category: "deep-dive",
+    color: "bg-[#F5F2EB]",
+
+    // Reference to essay content - will be imported dynamically
+    getContent: async () => {
+      const { gpt7EssayContent } = await import('./essays/gpt7-content.js');
+      return gpt7EssayContent;
+    }
+  }
+];
