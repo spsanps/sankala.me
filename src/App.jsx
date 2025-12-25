@@ -31,7 +31,7 @@ const router = createBrowserRouter([
         element: <NotesIndex />,
       },
       {
-        path: "notes/:id",
+        path: "notes/:slug",
         element: <NoteEntry />,
       },
       {

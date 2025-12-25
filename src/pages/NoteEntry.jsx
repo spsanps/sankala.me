@@ -1,30 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { notesData } from '../data/content';
 
 export default function NoteEntry() {
-  const { id } = useParams();
+  const { slug } = useParams();
+  const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const entry = notesData.find(n => n.id === parseInt(id));
+  // Find entry by slug (supports both essay slugs and numeric IDs)
+  const entry = notesData.find(n => n.slug === slug || n.id === parseInt(slug));
+
+  useEffect(() => {
+    if (entry) {
+      if (entry.type === "essay" && entry.getContent) {
+        // Load essay content dynamically
+        entry.getContent().then(c => {
+          setContent(c);
+          setLoading(false);
+        });
+      } else {
+        // Use direct content for notes
+        setContent(entry.content || '');
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [entry]);
 
   if (!entry) {
     return <div className="min-h-screen flex items-center justify-center text-[#F5F2EB]">Entry not found</div>;
+  }
+
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center text-[#F5F2EB]">Loading...</div>;
   }
 
   return (
     <div className="min-h-screen bg-[#2A3C24] text-[#F5F2EB] pt-32 pb-20 px-6">
       <div className="max-w-3xl mx-auto">
         <Link to="/#notes" className="inline-flex items-center gap-2 text-[#8A9A85] hover:text-white hover:underline mb-12 transition-colors font-medium">
-          <ArrowLeft size={16} /> Back to Notes
+          <ArrowLeft size={16} /> Back to Writing
         </Link>
 
         <header className="mb-16 border-b border-[#8A9A85]/30 pb-12">
-            <div className="flex items-center gap-3 text-[#8A9A85] mb-8 font-mono text-sm uppercase tracking-widest">
-                <Calendar size={14} />
-                <span>{entry.date}</span>
+            <div className="flex items-center gap-4 text-[#8A9A85] mb-8 font-mono text-sm uppercase tracking-widest">
+                <div className="flex items-center gap-2">
+                    <Calendar size={14} />
+                    <span>{entry.date}</span>
+                </div>
+                {entry.readTime && (
+                    <div className="flex items-center gap-2">
+                        <Clock size={14} />
+                        <span>{entry.readTime}</span>
+                    </div>
+                )}
+                {entry.type === "essay" && (
+                    <span className="px-2 py-0.5 border border-[#8A9A85]/30 rounded text-[10px]">Essay</span>
+                )}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold serif leading-[0.95] mb-8 tracking-tight">
                 {entry.title}
@@ -130,13 +166,13 @@ export default function NoteEntry() {
                 }
             `}</style>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {entry.content}
+                {content}
             </ReactMarkdown>
         </article>
 
         <div className="mt-20 pt-12 border-t border-[#8A9A85]/30">
             <Link to="/#notes" className="inline-flex items-center gap-2 text-[#8A9A85] hover:text-white hover:underline font-medium transition-colors">
-                <ArrowLeft size={16} /> Back to Notes
+                <ArrowLeft size={16} /> Back to Writing
             </Link>
         </div>
       </div>

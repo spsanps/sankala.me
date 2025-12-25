@@ -14,7 +14,7 @@ export default function Resume() {
                         San Kala<span className="text-[#2A3C24]">.</span>
                     </h1>
                     <p className="text-xl md:text-2xl text-[#2A3C24] font-light serif italic max-w-xl">
-                        Applied AI Researcher — Kaggle Competitions Expert — LLM Research
+                        Building with LLMs, competing on Kaggle, placing first at NeurIPS
                     </p>
                 </div>
                 
@@ -60,9 +60,9 @@ export default function Resume() {
                     <div className="md:col-span-8">
                         <div className="text-xl serif italic text-[#2A3C24] mb-4">Applied Researcher @ Knowledge Extraction for Search</div>
                         <ul className="text-gray-600 leading-relaxed mb-6 text-base space-y-2 reading-font">
-                            <li>• Built & deployed Generative Extraction Models capable of 1000s of TPS with Small Language Models (1B) to replace NER and dictionary based methods</li>
-                            <li>• Built synthetic datasets with Multi-Modal open source Large Language Models to evaluate services and train small models</li>
-                            <li>• Automated Prompt Engineering Flows with Agents/Workflows increasing iteration velocity</li>
+                            <li>• Deployed 1B-parameter language models for product attribute extraction at thousands of transactions per second, replacing rule-based NER systems</li>
+                            <li>• Generated synthetic training data using multimodal LLMs to evaluate and improve extraction accuracy</li>
+                            <li>• Built agent-based prompt optimization workflows to speed up model iteration</li>
                         </ul>
                         <div className="flex flex-wrap gap-2">
                             {['GenAI', 'LLMs', 'Python', 'Small Language Models', 'NER'].map(tag => (
@@ -83,8 +83,8 @@ export default function Resume() {
                     <div className="md:col-span-8">
                         <div className="text-xl serif italic text-[#2A3C24] mb-4">AI Applied Research Intern</div>
                         <ul className="text-gray-600 leading-relaxed mb-6 text-base space-y-2 reading-font">
-                            <li>• Finetuned BERT Models with PyTorch and Huggingface for data extraction from unstructured text, enhancing search coverage</li>
-                            <li>• Explored generative models and LLMs for advanced information extraction and open-source/commercial LLMs for efficient synthetic dataset creation</li>
+                            <li>• Fine-tuned BERT models for extracting product attributes from unstructured text</li>
+                            <li>• Prototyped LLM-based extraction systems and evaluated synthetic data generation approaches</li>
                         </ul>
                         <div className="flex flex-wrap gap-2">
                             {['BERT', 'PyTorch', 'Huggingface', 'NLP'].map(tag => (

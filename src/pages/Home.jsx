@@ -50,7 +50,7 @@ export default function Home() {
                     { label: 'About', id: 'about' },
                     { label: 'News', id: 'publications' },
                     { label: 'Lab', id: 'lab' },
-                    { label: 'Notes', id: 'notes' }
+                    { label: 'Writing', id: 'notes' }
                 ].map((item) => (
                     <a
                         key={item.id}
@@ -93,7 +93,7 @@ export default function Home() {
                     </h1>
 
                     <p className="max-w-lg text-xl md:text-2xl text-gray-600 leading-relaxed font-light border-l-2 border-[#2A3C24] pl-6 ml-2">
-                        AI researcher working on <span className="text-[#2A3C24] font-medium">machine learning systems</span> and <span className="text-[#2A3C24] font-medium">intelligent agents</span>.
+                        ASIC designer turned AI researcher. Built things with <span className="text-[#2A3C24] font-medium">LLMs</span>, won <span className="text-[#2A3C24] font-medium">Kaggle medals</span>, placed first at <span className="text-[#2A3C24] font-medium">NeurIPS</span>.
                     </p>
                 </div>
 
@@ -117,7 +117,7 @@ export default function Home() {
                         <div className="flex gap-4 justify-center md:justify-end text-sm font-medium text-gray-500">
                             <a href="#lab" className="hover:text-[#2A3C24] transition-colors">The Lab</a>
                             <span>•</span>
-                            <a href="#notes" className="hover:text-[#2A3C24] transition-colors">Field Notes</a>
+                            <a href="#notes" className="hover:text-[#2A3C24] transition-colors">Writing</a>
                         </div>
                     </div>
                 </div>
@@ -154,16 +154,16 @@ export default function Home() {
                             <div>
                                 <span className="text-[#2A3C24] font-mono text-xs uppercase tracking-widest mb-4 block">About</span>
                                 <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-8 leading-[1.1]">
-                                    Building intelligent <br/>
-                                    <span className="italic font-light text-[#2A3C24]">systems</span> that work <br/>
-                                    <span className="italic font-light text-[#2A3C24]">in practice</span>.
+                                    From <span className="italic font-light text-[#2A3C24]">circuits</span> to <br/>
+                                    <span className="italic font-light text-[#2A3C24]">code</span> to <br/>
+                                    competition wins.
                                 </h2>
                                 <div className="space-y-6 text-lg text-gray-700 leading-relaxed max-w-2xl reading-font">
                                     <p>
-                                        Currently at <span className="font-semibold text-[#1A1A1A]">eBay</span> working on ML systems at scale. Previously at <span className="font-semibold text-[#1A1A1A]">UC San Diego</span> researching recommender systems and NLP.
+                                        Started designing <span className="font-semibold text-[#1A1A1A]">ASICs</span> at Texas Instruments, got hooked on machine learning through Kaggle competitions, ended up at <span className="font-semibold text-[#1A1A1A]">UC San Diego</span> doing research.
                                     </p>
                                     <p>
-                                        Interested in the gap between research and production—building things that actually work, at scale, with real users.
+                                        Now at <span className="font-semibold text-[#1A1A1A]">eBay</span> building LLM-powered extraction systems that handle thousands of requests per second. Still compete occasionally—recently took first at NeurIPS.
                                     </p>
                                 </div>
                             </div>
@@ -226,15 +226,20 @@ export default function Home() {
                                     1st Place at NeurIPS EAI Challenge
                                 </h3>
                                 <p className="text-gray-600 reading-font mb-5 leading-relaxed text-base">
-                                    Global first place in embodied AI challenge. Built agents that interact with physical environments through vision-language models and reinforcement learning.
+                                    Took first globally in the Embodied Agent Interface challenge. Built agents that use LLMs to reason about physical tasks in simulated environments—evaluated on breaking down goals, sequencing actions, and predicting state changes in BEHAVIOR and VirtualHome simulators.
                                 </p>
                                 {/* Image */}
                                 <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors mb-6">
                                     <img src="/images/awards/uist-2023-presentation.jpg" alt="EAI Challenge Presentation" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                                 </div>
-                                <a href="#" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                    Read Paper <ArrowUpRight size={13} />
-                                </a>
+                                <div className="flex gap-4 flex-wrap">
+                                    <a href="https://openreview.net/pdf?id=gABfrJI5ni" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                        Paper <ArrowUpRight size={13} />
+                                    </a>
+                                    <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                        Challenge Site <ArrowUpRight size={13} />
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
@@ -242,36 +247,28 @@ export default function Home() {
                         <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
                             {/* Left: Content */}
                             <div className="pl-6 md:pl-0 md:pr-16 md:text-right order-2 md:order-1">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-[#8A9A85]/80 mb-3">Publication</span>
+                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Career</span>
                                 <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    ZINify: Research to Zines
+                                    Joined eBay
                                 </h3>
-                                <p className="text-gray-600 reading-font mb-5 leading-relaxed text-base">
-                                    Honorable Mention at UIST 2023. Using LLMs to transform dense papers into accessible visual zines, making research digestible for everyone.
+                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
+                                    Applied Researcher on the Knowledge Extraction team. Building production LLM systems for product attribute extraction—1B-parameter models serving thousands of requests per second.
                                 </p>
                                 {/* Image */}
                                 <div className="mb-6 mt-6 md:flex md:justify-end">
                                     <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors">
-                                        <img src="/images/awards/uist-2023-award-ceremony.jpg" alt="UIST 2023 Award Ceremony" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                        <img src="/images/locations/ebay-headquarters.jpg" alt="eBay Headquarters" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                                     </div>
-                                </div>
-                                <div className="flex gap-4 md:justify-end flex-wrap">
-                                    <a href="#" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Paper <ArrowUpRight size={13} />
-                                    </a>
-                                    <a href="#" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Demo <ArrowUpRight size={13} />
-                                    </a>
                                 </div>
                             </div>
                             {/* Center dot */}
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
+                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-gray-400 transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
                             {/* Right: Date */}
                             <div className="hidden md:flex flex-col justify-center pl-16 text-left order-1 md:order-2">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2023</span>
+                                <span className="text-4xl md:text-5xl font-bold serif text-gray-300/50 group-hover:text-gray-300/70 transition-colors mb-2">2024</span>
                                 <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">October</span>
-                                    <span className="block text-xs text-gray-400">San Francisco, CA</span>
+                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">April</span>
+                                    <span className="block text-xs text-gray-400">San Jose, CA</span>
                                 </div>
                             </div>
                         </div>
@@ -281,22 +278,30 @@ export default function Home() {
                             <div className="hidden md:flex flex-col justify-center pr-16 text-right">
                                 <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2023</span>
                                 <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">June</span>
-                                    <span className="block text-xs text-gray-400">San Jose, CA</span>
+                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">October</span>
+                                    <span className="block text-xs text-gray-400">San Francisco, CA</span>
                                 </div>
                             </div>
                             <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
                             <div className="pl-6 md:pl-16">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Career</span>
+                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-[#8A9A85]/80 mb-3">Publication</span>
                                 <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    Joined eBay
+                                    ZINify: Research to Zines
                                 </h3>
                                 <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
-                                    Applied AI Researcher on GenAI team. Building production ML systems serving millions, focused on recommendations and NLP.
+                                    Won Honorable Mention (People's Choice) at UIST. Turns academic papers into visual zines using LLMs and image generation—think magazine-style summaries that actually look interesting. Makes research more shareable and helps papers cut through the noise.
                                 </p>
                                 {/* Image */}
-                                <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors">
-                                    <img src="/images/locations/ebay-headquarters.jpg" alt="eBay Headquarters" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors mb-6">
+                                    <img src="/images/awards/uist-2023-award-ceremony.jpg" alt="UIST 2023 Award Ceremony" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                </div>
+                                <div className="flex gap-4 flex-wrap">
+                                    <a href="https://dl.acm.org/doi/abs/10.1145/3586182.3625118" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                        Paper <ArrowUpRight size={13} />
+                                    </a>
+                                    <a href="https://jaidevshriram.com/zinify-uist/" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                        Demo <ArrowUpRight size={13} />
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -449,32 +454,47 @@ export default function Home() {
             </div>
         </section>
 
-        {/* --- Section V: Notes (Simple Grid) --- */}
+        {/* --- Section V: Writing (Essays & Notes) --- */}
         <section id="notes" className="py-32 px-6 bg-[#2A3C24] text-[#F5F2EB]">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-4xl md:text-5xl font-bold mb-16 serif text-center">
-                    Field Notes
-                </h2>
+                <div className="mb-16 text-center">
+                    <h2 className="text-4xl md:text-5xl font-bold serif mb-4">
+                        Writing
+                    </h2>
+                    <p className="text-lg text-[#D1D9CE] max-w-2xl mx-auto">
+                        Long-form essays, technical deep dives, and shorter notes on AI, robotics, and other explorations.
+                    </p>
+                </div>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                    {previewNotes.map((note) => (
-                        <Link to={`/notes/${note.id}`} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
-                            <span className="text-xs text-[#8A9A85] font-mono mb-4 block">{note.date}</span>
-                            <h3 className="text-xl font-bold serif mb-3 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
-                            <p className="text-[#D1D9CE] text-sm leading-relaxed mb-6">
-                                {note.excerpt}
-                            </p>
-                            <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors">
-                                Read Entry <ArrowUpRight size={14} />
-                            </div>
-                        </Link>
-                    ))}
+                    {previewNotes.map((note) => {
+                        // Use essay route if it's a link to an essay, otherwise use note route
+                        const linkTo = note.isEssayLink ? note.essayRoute : (note.type === "essay" ? `/notes/${note.slug}` : `/notes/${note.id}`);
+
+                        return (
+                            <Link to={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                                <div className="flex items-center justify-between mb-4">
+                                    <span className="text-xs text-[#8A9A85] font-mono">{note.date}</span>
+                                    {note.type === "essay" && (
+                                        <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Essay</span>
+                                    )}
+                                </div>
+                                <h3 className="text-xl font-bold serif mb-3 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
+                                <p className="text-[#D1D9CE] text-sm leading-relaxed mb-6">
+                                    {note.excerpt}
+                                </p>
+                                <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors">
+                                    {note.readTime ? note.readTime : "Read Entry"} <ArrowUpRight size={14} />
+                                </div>
+                            </Link>
+                        );
+                    })}
                     
                     {/* View All CTA */}
                     <Link to="/notes" className="border border-[#8A9A85]/50 p-8 rounded-xl hover:bg-[#1A2616] transition-all flex flex-col justify-center items-center text-center opacity-70 hover:opacity-100 group">
                         <PenTool size={32} className="mb-4 text-[#8A9A85]" />
                         <h3 className="text-lg font-medium serif">View Archive</h3>
-                        <p className="text-xs mt-2 text-[#8A9A85]">Read all field notes</p>
+                        <p className="text-xs mt-2 text-[#8A9A85]">Read all writing</p>
                     </Link>
                 </div>
             </div>
