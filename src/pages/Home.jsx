@@ -34,7 +34,7 @@ export default function Home() {
 
         {/* --- Top Nav --- */}
         <nav className="fixed top-0 right-0 left-0 z-40 transition-all duration-300 bg-[#F5F2EB]/90 backdrop-blur-md border-b border-[#2A3C24]/5">
-            <div className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
+            <div className="max-w-7xl mx-auto px-6 py-4 md:py-6 flex justify-between items-center">
             <div className="group cursor-default">
                 <h1 className="serif text-2xl font-bold tracking-tight text-[#1A1A1A] group-hover:text-[#2A3C24] transition-colors">
                     San Kala
@@ -76,8 +76,11 @@ export default function Home() {
             </div>
         </nav>
 
+        {/* Spacer for fixed header */}
+        <div className="h-20 md:h-20"></div>
+
         {/* --- Section I: Hero (Strong & Nice) --- */}
-        <section id="home" className="min-h-screen flex items-center px-6 relative overflow-hidden pt-20">
+        <section id="home" className="min-h-screen flex items-center px-6 relative overflow-hidden -mt-12">
             <div className="absolute top-0 right-0 w-[60vw] h-[80vh] bg-gradient-to-b from-[#E3E7E2] to-transparent rounded-bl-[200px] opacity-60 pointer-events-none -z-10"></div>
             
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-end pb-20">
@@ -93,7 +96,7 @@ export default function Home() {
                     </h1>
 
                     <p className="max-w-lg text-xl md:text-2xl text-gray-600 leading-relaxed font-light border-l-2 border-[#2A3C24] pl-6 ml-2">
-                        ASIC designer turned AI researcher. Built things with <span className="text-[#2A3C24] font-medium">LLMs</span>, won <span className="text-[#2A3C24] font-medium">Kaggle medals</span>, placed first at <span className="text-[#2A3C24] font-medium">NeurIPS</span>.
+                        Applied researcher working on <span className="text-[#2A3C24] font-medium">language models</span> and <span className="text-[#2A3C24] font-medium">generative information extraction</span>.
                     </p>
                 </div>
 
@@ -154,16 +157,15 @@ export default function Home() {
                             <div>
                                 <span className="text-[#2A3C24] font-mono text-xs uppercase tracking-widest mb-4 block">About</span>
                                 <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-8 leading-[1.1]">
-                                    From <span className="italic font-light text-[#2A3C24]">circuits</span> to <br/>
-                                    <span className="italic font-light text-[#2A3C24]">code</span> to <br/>
-                                    competition wins.
+                                    Learning the <br/>
+                                    <span className="italic font-light text-[#2A3C24]">reward function</span>.
                                 </h2>
                                 <div className="space-y-6 text-lg text-gray-700 leading-relaxed max-w-2xl reading-font">
                                     <p>
-                                        Started designing <span className="font-semibold text-[#1A1A1A]">ASICs</span> at Texas Instruments, got hooked on machine learning through Kaggle competitions, ended up at <span className="font-semibold text-[#1A1A1A]">UC San Diego</span> doing research.
+                                        I follow my internal reward signal: pick <span className="font-semibold text-[#1A1A1A]">hard things I genuinely want to understand</span>, then build until they're real. I studied EE to stay close to the sciences, found ML through Kaggle, and did <span className="font-semibold text-[#1A1A1A]">ASIC design</span> at Texas Instruments (chips are so cool).
                                     </p>
                                     <p>
-                                        Now at <span className="font-semibold text-[#1A1A1A]">eBay</span> building LLM-powered extraction systems that handle thousands of requests per second. Still compete occasionally—recently took first at NeurIPS.
+                                        After DALL·E 3, it felt obvious the <span className="font-semibold text-[#1A1A1A]">singularity was underway</span>, so I shifted into CS at <span className="font-semibold text-[#1A1A1A]">UC San Diego</span>. Now I'm a researcher at <span className="font-semibold text-[#1A1A1A]">eBay</span> building production <span className="font-semibold text-[#1A1A1A]">LLM-powered extraction systems</span>.
                                     </p>
                                 </div>
                             </div>
@@ -176,14 +178,14 @@ export default function Home() {
                                     <p className="text-sm text-gray-600">San Jose • Present</p>
                                 </div>
                                 <div>
-                                    <h3 className="serif text-xl mb-1">NeurIPS</h3>
-                                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">EAI Winner</p>
-                                    <p className="text-sm text-gray-600">Vancouver • 2025</p>
-                                </div>
-                                <div>
                                     <h3 className="serif text-xl mb-1">UCSD</h3>
                                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">MS CS (AI/ML)</p>
-                                    <p className="text-sm text-gray-600">San Diego • 2023</p>
+                                    <p className="text-sm text-gray-600">San Diego • 2024</p>
+                                </div>
+                                <div>
+                                    <h3 className="serif text-xl mb-1">TI</h3>
+                                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">ASIC Engineer</p>
+                                    <p className="text-sm text-gray-600">Bangalore • 2022</p>
                                 </div>
                             </div>
                         </div>

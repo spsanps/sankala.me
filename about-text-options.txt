@@ -1,0 +1,46 @@
+ABOUT SECTION TEXT OPTIONS
+=============================
+
+HEADING (current):
+Learning the
+reward function.
+
+---
+
+SUBTEXT OPTIONS - Edit the one you like best:
+
+---
+
+OPTION 1:
+Been mining the reward signals, exploring widely. Studied electrical engineering for the hard sciences, got hooked on Kaggle competitions during undergrad. Went to design ASICs at Texas Instruments after graduating—chips are amazing.
+
+Then DALL-E 3 dropped. It was clear the technological singularity was kicking off. Went all-in on AI research at UC San Diego, now building LLM-powered extraction systems at eBay. (I have a tattoo on my arm to remind me we live in the most interesting of times.)
+
+---
+
+OPTION 2:
+Been exploring widely, mining the reward signals along the way. Electrical engineering for the hard sciences. Kaggle and ML during undergrad. Chip design at Texas Instruments because chips are incredible.
+
+DALL-E 3 was the inflection point. The technological singularity—happening in our lifetime. I have a tattoo on my right arm to remind me we live in the most interesting of times. Pivoted to AI research at UC San Diego, now at eBay building production LLM systems.
+
+---
+
+OPTION 3:
+Mining the reward signals, trying things that interest me. Started with electrical engineering for the hard sciences. Kaggle competitions during undergrad. ASIC design at Texas Instruments—chips are just too cool.
+
+Then DALL-E 3. The technological singularity kicking off in real time. I have a tattoo to remind me: we live in the most interesting of times. Went to UC San Diego for AI research. Now at eBay building LLM systems at scale.
+
+---
+
+OPTION 4:
+Been exploring, following the reward signals. Electrical engineering, Kaggle, chip design at Texas Instruments. Wide range, all interesting.
+
+DALL-E 3 made it undeniable—the technological singularity is here. I have a tattoo on my right arm: we live in the most interesting of times. UC San Diego for AI research. eBay for production LLM systems.
+
+---
+
+YOUR EDITED VERSION (edit below):
+
+[PASTE OR WRITE YOUR VERSION HERE]
+
+

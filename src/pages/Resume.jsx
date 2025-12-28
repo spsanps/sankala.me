@@ -3,7 +3,7 @@ import { Download, ArrowUpRight, Mail, Linkedin, Github } from 'lucide-react';
 
 export default function Resume() {
   return (
-    <div className="min-h-screen bg-[#F5F2EB] text-[#1A1A1A] pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#F5F2EB] text-[#1A1A1A] pt-24 pb-20 px-6">
       <div className="max-w-5xl mx-auto">
         
         {/* Header */}

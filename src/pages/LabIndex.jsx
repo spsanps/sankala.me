@@ -5,7 +5,7 @@ import { experimentsData } from '../data/content';
 
 export default function LabIndex() {
   return (
-    <div className="min-h-screen bg-[#F0F4EF] text-[#1A1A1A] pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#F0F4EF] text-[#1A1A1A] pt-24 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <Link to="/#lab" className="inline-flex items-center gap-2 text-[#2A3C24] hover:underline mb-12 opacity-60 hover:opacity-100 transition-opacity">
           <ArrowLeft size={16} /> Back to Home

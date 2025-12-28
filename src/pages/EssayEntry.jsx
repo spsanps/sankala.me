@@ -31,7 +31,7 @@ export default function EssayEntry() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F5F2EB] text-[#1A1A1A] pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#F5F2EB] text-[#1A1A1A] pt-24 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
         <Link to="/" className="inline-flex items-center gap-2 text-[#2A3C24] hover:underline mb-8 opacity-60 hover:opacity-100 transition-opacity font-medium">
           <ArrowLeft size={16} /> Back to Home

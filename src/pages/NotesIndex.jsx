@@ -5,7 +5,7 @@ import { notesData } from '../data/content';
 
 export default function NotesIndex() {
   return (
-    <div className="min-h-screen bg-[#2A3C24] text-[#F5F2EB] pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#2A3C24] text-[#F5F2EB] pt-24 pb-20 px-6">
       <div className="max-w-7xl mx-auto">
         <Link to="/#notes" className="inline-flex items-center gap-2 text-[#8A9A85] hover:text-white hover:underline mb-12 transition-colors">
           <ArrowLeft size={16} /> Back to Home
