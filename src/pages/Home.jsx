@@ -3,6 +3,147 @@ import { Github, Linkedin, Mail, ArrowDown, ArrowRight, ArrowUpRight, PenTool, F
 import { Link } from 'react-router-dom';
 import { publicationsData, experimentsData, notesData } from '../data/content';
 
+// Timeline data - automatically alternates left/right based on array index
+const timelineData = [
+  {
+    year: "2025",
+    month: "December",
+    location: "San Diego, CA",
+    category: "Competition Win",
+    categoryColor: "#2A3C24",
+    dotColor: "#2A3C24",
+    title: "1st Place at NeurIPS EAI Challenge",
+    description: "Won first place globally in the Embodied Agent Interface (EAI) Challenge at NeurIPS 2025 Foundation Models Meet Embodied Agents Workshop. Built systems that use LLMs to power embodied agents (robots) to reason about physical tasks.",
+    image: "/images/awards/uist-2023-presentation.jpg",
+    imageAlt: "EAI Challenge Presentation",
+    links: [
+      { label: "Paper", url: "https://openreview.net/pdf?id=gABfrJI5ni" },
+      { label: "Challenge Site", url: "https://foundation-models-meet-embodied-agents.github.io/eai_challenge/" }
+    ]
+  },
+  {
+    year: "2024",
+    month: "April",
+    location: "San Jose, CA",
+    category: "Career",
+    categoryColor: "gray-400",
+    dotColor: "gray-400",
+    title: "Joined eBay",
+    description: "Applied Researcher on the Knowledge Extraction team, building and researching production-grade LLM systems for information extraction at scale. Promoted in Oct 2025.",
+    image: "/images/locations/ebay-headquarters.jpg",
+    imageAlt: "eBay Headquarters",
+    links: []
+  },
+  {
+    year: "2024",
+    month: "March",
+    location: "San Diego, CA",
+    category: "Education",
+    categoryColor: "gray-400",
+    dotColor: "#8A9A85",
+    title: "Graduated from UCSD",
+    description: "Master of Science in Computer Science at University of California San Diego. Research in Prof. Julian McAuley's group on AI music and LLMs. Teaching Assistant for graduate course on Recommender Systems and Data Mining.",
+    image: "/images/team/ucsd-research-group-2023.jpg",
+    imageAlt: "UCSD Research Group",
+    links: []
+  },
+  {
+    year: "2023",
+    month: "October",
+    location: "San Francisco, CA",
+    category: "Publication",
+    categoryColor: "#8A9A85",
+    dotColor: "#8A9A85",
+    title: "ZINify: Research to Zines",
+    description: "Honorable Mention at UIST 2023 Student Innovation Contest. Early agentic systems (before agents were mainstream) using Claude 2 to transform research papers into visual zines.",
+    image: "/images/awards/uist-2023-award-ceremony.jpg",
+    imageAlt: "UIST 2023 Award Ceremony",
+    links: [
+      { label: "Paper", url: "https://dl.acm.org/doi/abs/10.1145/3586182.3625118" },
+      { label: "Demo", url: "https://jaidevshriram.com/zinify-uist/" }
+    ]
+  },
+  {
+    year: "2023",
+    month: "October",
+    location: "San Diego, CA",
+    category: "Entrepreneurship",
+    categoryColor: "gray-400",
+    dotColor: "#8A9A85",
+    title: "UCSD StartR Rady Accelerator",
+    description: "Accepted into UCSD StartR Rady FAWI23 accelerator program. My foray into entrepreneurship—learned a lot about startups and building products. Worked on a writing assistant for novelists, but it didn't pan out.",
+    image: null,
+    links: [
+      { label: "Post-mortem (coming soon)", url: "/notes/startr-postmortem" }
+    ]
+  },
+  {
+    year: "2023",
+    month: "June",
+    location: "San Jose, CA",
+    category: "Career",
+    categoryColor: "#8A9A85",
+    dotColor: "#8A9A85",
+    title: "eBay Research Intern",
+    description: "AI Applied Research Intern on the Knowledge Extraction team. First exposure to industry research and information extraction at scale.",
+    image: "/images/locations/ebay-intern.jpg",
+    imageAlt: "eBay Internship",
+    links: []
+  },
+  {
+    year: "2023",
+    month: "January",
+    location: "San Diego, CA",
+    category: "Competition Win",
+    categoryColor: "#8A9A85",
+    dotColor: "#8A9A85",
+    title: "1st Place: eBay ML Challenge",
+    description: "Placed first out of 591 teams in named entity extraction from product titles using DeBERTa V3 with K-fold ensembling. This win led to a summer 2023 research internship at eBay.",
+    image: null,
+    links: [
+      { label: "Winner Announcement", url: "https://innovation.ebayinc.com/stories/ebay-announces-winners-of-4th-annual-machine-learning-challenge/" }
+    ]
+  },
+  {
+    year: "2022",
+    month: "September",
+    location: "San Diego, CA",
+    category: "Education",
+    categoryColor: "gray-400",
+    dotColor: "#8A9A85",
+    title: "Started MS at UC San Diego",
+    description: "Started Master of Science in Computer Science at University of California San Diego. Transitioned from hardware engineering to machine learning research.",
+    image: "/images/education/ucsd-start.jpg",
+    imageAlt: "UCSD Geisel Library",
+    links: []
+  },
+  {
+    year: "2019",
+    month: "July",
+    location: "Bangalore, India",
+    category: "Career",
+    categoryColor: "gray-400",
+    dotColor: "#8A9A85",
+    title: "Texas Instruments",
+    description: "ASIC Digital Design Engineer. Spent COVID era here exploring chip design and finding a newfound respect for silicon.",
+    image: null,
+    links: []
+  },
+  {
+    year: "2019",
+    month: "May",
+    location: "Karnataka, India",
+    category: "Education",
+    categoryColor: "gray-400",
+    dotColor: "#8A9A85",
+    title: "Undergrad in Electrical Engineering",
+    description: "National Institute of Technology Karnataka, Electrical Engineering. Got into deep learning through Kaggle—Silver and Bronze medals. Major thesis on LSTM-based power quality event classification won best paper at IEEE conference. Explored my interest in astronomy and space through the Amateur Astronomy Club.",
+    image: "/images/education/nitk-lab.jpg",
+    imageAlt: "NITK Lab",
+    links: []
+  }
+];
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState('home');
 
@@ -96,7 +237,7 @@ export default function Home() {
                     </h1>
 
                     <p className="max-w-lg text-xl md:text-2xl text-gray-600 leading-relaxed font-light border-l-2 border-[#2A3C24] pl-6 ml-2">
-                        Applied researcher working on <span className="text-[#2A3C24] font-medium">language models</span> and <span className="text-[#2A3C24] font-medium">generative information extraction</span>.
+                        AI researcher working on <span className="text-[#2A3C24] font-medium">intelligent agents</span> and <span className="text-[#2A3C24] font-medium">generative information extraction</span>.
                     </p>
                 </div>
 
@@ -157,15 +298,15 @@ export default function Home() {
                             <div>
                                 <span className="text-[#2A3C24] font-mono text-xs uppercase tracking-widest mb-4 block">About</span>
                                 <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-8 leading-[1.1]">
-                                    Learning the <br/>
-                                    <span className="italic font-light text-[#2A3C24]">reward function</span>.
+                                    Follow the <br/>
+                                    <span className="italic font-light text-[#2A3C24]">reward signal</span>
                                 </h2>
-                                <div className="space-y-6 text-lg text-gray-700 leading-relaxed max-w-2xl reading-font">
+                                <div className="space-y-4 text-lg text-gray-700 leading-relaxed max-w-2xl reading-font">
                                     <p>
-                                        I follow my internal reward signal: pick <span className="font-semibold text-[#1A1A1A]">hard things I genuinely want to understand</span>, then build until they're real. I studied EE to stay close to the sciences, found ML through Kaggle, and did <span className="font-semibold text-[#1A1A1A]">ASIC design</span> at Texas Instruments (chips are so cool).
+                                        Pick hard things you want to understand, build until they're real. Started in <span className="text-[#1A1A1A]">EE</span>, found ML through Kaggle, designed <span className="text-[#1A1A1A]">ASICs</span> at <a href="https://www.ti.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Texas Instruments</a>.
                                     </p>
                                     <p>
-                                        After DALL·E 3, it felt obvious the <span className="font-semibold text-[#1A1A1A]">singularity was underway</span>, so I shifted into CS at <span className="font-semibold text-[#1A1A1A]">UC San Diego</span>. Now I'm a researcher at <span className="font-semibold text-[#1A1A1A]">eBay</span> building production <span className="font-semibold text-[#1A1A1A]">LLM-powered extraction systems</span>.
+                                        After DALL·E 3, singularity looked underway—shifted to CS at <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">UCSD</a>. Now building production <span className="text-[#1A1A1A]">LLM extraction systems</span> at <a href="https://www.ebayinc.com/company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">eBay</a>.
                                     </p>
                                 </div>
                             </div>
@@ -173,17 +314,17 @@ export default function Home() {
                             {/* Minimal Timeline */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-[#2A3C24]/20 pt-8">
                                 <div>
-                                    <h3 className="serif text-xl mb-1">eBay</h3>
+                                    <a href="https://www.ebayinc.com/company/" target="_blank" rel="noopener noreferrer" className="serif text-xl mb-1 text-[#2A3C24] hover:underline block">eBay</a>
                                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">Applied Researcher</p>
                                     <p className="text-sm text-gray-600">San Jose • Present</p>
                                 </div>
                                 <div>
-                                    <h3 className="serif text-xl mb-1">UCSD</h3>
+                                    <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer" className="serif text-xl mb-1 text-[#2A3C24] hover:underline block">UCSD</a>
                                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">MS CS (AI/ML)</p>
                                     <p className="text-sm text-gray-600">San Diego • 2024</p>
                                 </div>
                                 <div>
-                                    <h3 className="serif text-xl mb-1">TI</h3>
+                                    <a href="https://www.ti.com/" target="_blank" rel="noopener noreferrer" className="serif text-xl mb-1 text-[#2A3C24] hover:underline block">TI</a>
                                     <p className="text-xs uppercase tracking-wider text-gray-500 mb-2">ASIC Engineer</p>
                                     <p className="text-sm text-gray-600">Bangalore • 2022</p>
                                 </div>
@@ -197,7 +338,7 @@ export default function Home() {
         <section id="publications" className="py-32 px-6 bg-[#F5F2EB]">
             <div className="max-w-5xl mx-auto">
                 <div className="mb-24 text-center">
-                    <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-4">News & Milestones<span className="text-[#2A3C24]">.</span></h2>
+                    <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-4">News & Milestones</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto reading-font">
                         Recent publications, projects, and career highlights.
                     </p>
@@ -209,194 +350,105 @@ export default function Home() {
                     <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-[#2A3C24]/20 via-[#2A3C24]/10 to-transparent transform -translate-x-1/2"></div>
 
                     <div className="space-y-0">
-                        {/* Timeline Item 1 - Right Side */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            {/* Left: Date & Meta */}
-                            <div className="hidden md:flex flex-col justify-center pr-16 text-right">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#2A3C24]/10 group-hover:text-[#2A3C24]/20 transition-colors mb-2">2025</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">December</span>
-                                    <span className="block text-xs text-gray-400">Vancouver, Canada</span>
-                                </div>
-                            </div>
-                            {/* Center dot */}
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#2A3C24] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            {/* Right: Content */}
-                            <div className="pl-6 md:pl-16">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-[#2A3C24]/60 mb-3">Competition Win</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    1st Place at NeurIPS EAI Challenge
-                                </h3>
-                                <p className="text-gray-600 reading-font mb-5 leading-relaxed text-base">
-                                    Took first globally in the Embodied Agent Interface challenge. Built agents that use LLMs to reason about physical tasks in simulated environments—evaluated on breaking down goals, sequencing actions, and predicting state changes in BEHAVIOR and VirtualHome simulators.
-                                </p>
-                                {/* Image */}
-                                <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors mb-6">
-                                    <img src="/images/awards/uist-2023-presentation.jpg" alt="EAI Challenge Presentation" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                                </div>
-                                <div className="flex gap-4 flex-wrap">
-                                    <a href="https://openreview.net/pdf?id=gABfrJI5ni" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Paper <ArrowUpRight size={13} />
-                                    </a>
-                                    <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Challenge Site <ArrowUpRight size={13} />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        {timelineData.map((item, index) => {
+                            const isRight = index % 2 === 0; // Even indices go RIGHT, odd go LEFT
+                            const isLast = index === timelineData.length - 1;
 
-                        {/* Timeline Item 2 - Left Side */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            {/* Left: Content */}
-                            <div className="pl-6 md:pl-0 md:pr-16 md:text-right order-2 md:order-1">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Career</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    Joined eBay
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
-                                    Applied Researcher on the Knowledge Extraction team. Building production LLM systems for product attribute extraction—1B-parameter models serving thousands of requests per second.
-                                </p>
-                                {/* Image */}
-                                <div className="mb-6 mt-6 md:flex md:justify-end">
-                                    <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors">
-                                        <img src="/images/locations/ebay-headquarters.jpg" alt="eBay Headquarters" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                                    </div>
+                            return (
+                                <div
+                                    key={index}
+                                    className={`relative grid md:grid-cols-2 gap-16 py-12 ${!isLast ? 'border-b border-[#2A3C24]/5' : ''} group`}
+                                >
+                                    {isRight ? (
+                                        // RIGHT SIDE LAYOUT: Date left, Content right
+                                        <>
+                                            {/* Left: Date & Meta */}
+                                            <div className="hidden md:flex flex-col justify-center pr-16 text-right">
+                                                <span className={`text-4xl md:text-5xl font-bold serif text-[${item.categoryColor}]/10 group-hover:text-[${item.categoryColor}]/20 transition-colors mb-2`}>
+                                                    {item.year}
+                                                </span>
+                                                <div className="space-y-1">
+                                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">{item.month}</span>
+                                                    <span className="block text-xs text-gray-400">{item.location}</span>
+                                                </div>
+                                            </div>
+                                            {/* Center dot */}
+                                            <div className={`absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[${item.dotColor}] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform`}></div>
+                                            {/* Right: Content */}
+                                            <div className="pl-6 md:pl-16">
+                                                <span className={`inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-[${item.categoryColor}] mb-3`}>
+                                                    {item.category}
+                                                </span>
+                                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
+                                                    {item.title}
+                                                </h3>
+                                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
+                                                    {item.description}
+                                                </p>
+                                                {item.image && (
+                                                    <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors mb-6">
+                                                        <img src={item.image} alt={item.imageAlt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                                    </div>
+                                                )}
+                                                {item.links.length > 0 && (
+                                                    <div className="flex gap-4 flex-wrap">
+                                                        {item.links.map((link, i) => (
+                                                            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                                                {link.label} <ArrowUpRight size={13} />
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </>
+                                    ) : (
+                                        // LEFT SIDE LAYOUT: Content left, Date right
+                                        <>
+                                            {/* Left: Content */}
+                                            <div className="pl-6 md:pl-0 md:pr-16 md:text-right order-2 md:order-1">
+                                                <span className={`inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-${item.categoryColor} mb-3`}>
+                                                    {item.category}
+                                                </span>
+                                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
+                                                    {item.title}
+                                                </h3>
+                                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
+                                                    {item.description}
+                                                </p>
+                                                {item.image && (
+                                                    <div className="mb-6 mt-6 md:flex md:justify-end">
+                                                        <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors">
+                                                            <img src={item.image} alt={item.imageAlt} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                {item.links.length > 0 && (
+                                                    <div className="flex gap-4 flex-wrap md:justify-end">
+                                                        {item.links.map((link, i) => (
+                                                            <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
+                                                                {link.label} <ArrowUpRight size={13} />
+                                                            </a>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            {/* Center dot */}
+                                            <div className={`absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[${item.dotColor}] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform`}></div>
+                                            {/* Right: Date */}
+                                            <div className="hidden md:flex flex-col justify-center pl-16 text-left order-1 md:order-2">
+                                                <span className={`text-4xl md:text-5xl font-bold serif text-[${item.categoryColor}]/10 group-hover:text-[${item.categoryColor}]/20 transition-colors mb-2`}>
+                                                    {item.year}
+                                                </span>
+                                                <div className="space-y-1">
+                                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">{item.month}</span>
+                                                    <span className="block text-xs text-gray-400">{item.location}</span>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
-                            </div>
-                            {/* Center dot */}
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-gray-400 transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            {/* Right: Date */}
-                            <div className="hidden md:flex flex-col justify-center pl-16 text-left order-1 md:order-2">
-                                <span className="text-4xl md:text-5xl font-bold serif text-gray-300/50 group-hover:text-gray-300/70 transition-colors mb-2">2024</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">April</span>
-                                    <span className="block text-xs text-gray-400">San Jose, CA</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Timeline Item 3 - Right Side */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            <div className="hidden md:flex flex-col justify-center pr-16 text-right">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2023</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">October</span>
-                                    <span className="block text-xs text-gray-400">San Francisco, CA</span>
-                                </div>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            <div className="pl-6 md:pl-16">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-[#8A9A85]/80 mb-3">Publication</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    ZINify: Research to Zines
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
-                                    Won Honorable Mention (People's Choice) at UIST. Turns academic papers into visual zines using LLMs and image generation—think magazine-style summaries that actually look interesting. Makes research more shareable and helps papers cut through the noise.
-                                </p>
-                                {/* Image */}
-                                <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors mb-6">
-                                    <img src="/images/awards/uist-2023-award-ceremony.jpg" alt="UIST 2023 Award Ceremony" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                                </div>
-                                <div className="flex gap-4 flex-wrap">
-                                    <a href="https://dl.acm.org/doi/abs/10.1145/3586182.3625118" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Paper <ArrowUpRight size={13} />
-                                    </a>
-                                    <a href="https://jaidevshriram.com/zinify-uist/" target="_blank" rel="noopener noreferrer" className="text-sm text-[#2A3C24] font-medium hover:underline inline-flex items-center gap-1.5">
-                                        Demo <ArrowUpRight size={13} />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Timeline Item 4 - Left Side */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            <div className="pl-6 md:pl-0 md:pr-16 md:text-right order-2 md:order-1">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Education</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    MS in Computer Science
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base mb-6">
-                                    Graduated from UC San Diego with focus on AI/ML. Specialized in recommender systems, deep learning, and NLP.
-                                </p>
-                                {/* Image */}
-                                <div className="mb-6 mt-6 md:flex md:justify-end">
-                                    <div className="w-full md:w-80 aspect-video overflow-hidden rounded-lg border-2 border-[#2A3C24]/10 group-hover:border-[#2A3C24]/30 transition-colors">
-                                        <img src="/images/team/ucsd-research-group-2023.jpg" alt="UCSD Research Group" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            <div className="hidden md:flex flex-col justify-center pl-16 text-left order-1 md:order-2">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2024</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">June</span>
-                                    <span className="block text-xs text-gray-400">San Diego, CA</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Timeline Item 5 - Right Side: Started Grad School */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            <div className="hidden md:flex flex-col justify-center pr-16 text-right">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2022</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">September</span>
-                                    <span className="block text-xs text-gray-400">San Diego, CA</span>
-                                </div>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            <div className="pl-6 md:pl-16">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Education</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    Started MS at UC San Diego
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base">
-                                    Began graduate studies in Computer Science & Engineering, diving deep into AI/ML research and advanced coursework.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Timeline Item 6 - Left Side: Texas Instruments */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 border-b border-[#2A3C24]/5 group">
-                            <div className="pl-6 md:pl-0 md:pr-16 md:text-right order-2 md:order-1">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Career</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    Texas Instruments
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base">
-                                    ASIC Digital Design Engineer working on power management ICs. Designed and implemented digital circuits for multiphase control solutions.
-                                </p>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            <div className="hidden md:flex flex-col justify-center pl-16 text-left order-1 md:order-2">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2019</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">July</span>
-                                    <span className="block text-xs text-gray-400">Bangalore, India</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Timeline Item 7 - Right Side: NIT Karnataka Graduation */}
-                        <div className="relative grid md:grid-cols-2 gap-16 py-12 group">
-                            <div className="hidden md:flex flex-col justify-center pr-16 text-right">
-                                <span className="text-4xl md:text-5xl font-bold serif text-[#8A9A85]/10 group-hover:text-[#8A9A85]/20 transition-colors mb-2">2019</span>
-                                <div className="space-y-1">
-                                    <span className="block font-mono text-xs text-[#2A3C24] font-medium">May</span>
-                                    <span className="block text-xs text-gray-400">Karnataka, India</span>
-                                </div>
-                            </div>
-                            <div className="absolute left-0 md:left-1/2 top-1/2 w-2 h-2 rounded-full bg-[#8A9A85] transform md:-translate-x-1/2 -translate-y-1/2 z-10 group-hover:scale-[2] transition-transform"></div>
-                            <div className="pl-6 md:pl-16">
-                                <span className="inline-block text-[9px] uppercase tracking-[0.15em] font-bold text-gray-400 mb-3">Education</span>
-                                <h3 className="text-3xl md:text-4xl font-bold serif mb-4 text-[#1A1A1A] leading-tight group-hover:text-[#2A3C24] transition-colors">
-                                    B.Tech in Electrical Engineering
-                                </h3>
-                                <p className="text-gray-600 reading-font leading-relaxed text-base">
-                                    Graduated from National Institute of Technology Karnataka. Early interests in deep learning led to Kaggle competitions and research publications.
-                                </p>
-                            </div>
-                        </div>
+                            );
+                        })}
                     </div>
                 </div>
 
