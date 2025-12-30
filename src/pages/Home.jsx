@@ -74,7 +74,7 @@ const timelineData = [
     description: "Accepted into UCSD StartR Rady FAWI23 accelerator program. My foray into entrepreneurship—learned a lot about startups and building products. Worked on a writing assistant for novelists, but it didn't pan out.",
     image: null,
     links: [
-      { label: "Post-mortem (coming soon)", url: "/notes/startr-postmortem" }
+      { label: "Post-mortem", url: "/notes/startr-postmortem" }
     ]
   },
   {
@@ -150,7 +150,7 @@ export default function Home() {
   // Smooth scroll spy
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'publications', 'lab', 'notes'];
+      const sections = ['home', 'about', 'timeline', 'lab', 'notes'];
       const scrollPosition = window.scrollY + 300;
 
       for (const section of sections) {
@@ -162,6 +162,25 @@ export default function Home() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Handle hash navigation on mount and hash changes
+  useEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 100);
+        }
+      }
+    };
+
+    scrollToHash();
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
   }, []);
 
   // Slice data for preview
@@ -212,7 +231,7 @@ export default function Home() {
             <div className="flex gap-4 text-[#1A1A1A] items-center pl-6 border-l border-[#2A3C24]/10">
                 <a href="https://github.com/spsanps" target="_blank" rel="noreferrer" className="hover:text-[#2A3C24] hover:scale-110 transition-all"><Github size={18} strokeWidth={1.5} /></a>
                 <a href="https://linkedin.com/in/sanjayanps" target="_blank" rel="noreferrer" className="hover:text-[#2A3C24] hover:scale-110 transition-all"><Linkedin size={18} strokeWidth={1.5} /></a>
-                <a href="mailto:sanjayanps@gmail.com" className="hover:text-[#2A3C24] hover:scale-110 transition-all"><Mail size={18} strokeWidth={1.5} /></a>
+                <a href="mailto:san@sankala.me" className="hover:text-[#2A3C24] hover:scale-110 transition-all"><Mail size={18} strokeWidth={1.5} /></a>
             </div>
             </div>
         </nav>
@@ -248,11 +267,11 @@ export default function Home() {
                     </div>
                     <div className="text-right hidden md:block">
                         <p className="text-sm uppercase tracking-widest text-gray-400 mb-2">Latest Win</p>
-                        <p className="serif text-xl text-[#2A3C24] italic">NeurIPS '25 EAI</p>
+                        <a href="#timeline" className="serif text-xl text-[#2A3C24] italic hover:underline cursor-pointer">NeurIPS '25 EAI</a>
                     </div>
                     <div className="flex flex-col gap-4 w-full md:w-auto">
-                        <a 
-                            href="#publications"
+                        <a
+                            href="#timeline"
                             className="group flex items-center justify-center md:justify-start gap-4 bg-[#1A1A1A] text-[#F5F2EB] px-8 py-4 rounded-lg hover:bg-[#2A3C24] transition-all duration-300 mt-8"
                         >
                             <span className="font-medium tracking-wide">Explore Work</span>
@@ -303,7 +322,7 @@ export default function Home() {
                                 </h2>
                                 <div className="space-y-4 text-lg text-gray-700 leading-relaxed max-w-2xl reading-font">
                                     <p>
-                                        Pick hard things you want to understand, build until they're real. Started in <span className="text-[#1A1A1A]">EE</span>, found ML through Kaggle, designed <span className="text-[#1A1A1A]">ASICs</span> at <a href="https://www.ti.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Texas Instruments</a>.
+                                        Pick hard things you want to understand, build until they're real. Started in <span className="text-[#1A1A1A]">Electrical Engineering</span>, found ML through Kaggle, designed <span className="text-[#1A1A1A]">ASICs</span> at <a href="https://www.ti.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Texas Instruments</a>.
                                     </p>
                                     <p>
                                         After DALL·E 3, singularity looked underway—shifted to CS at <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">UCSD</a>. Now building production <span className="text-[#1A1A1A]">LLM extraction systems</span> at <a href="https://www.ebayinc.com/company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">eBay</a>.
@@ -335,7 +354,7 @@ export default function Home() {
         </section>
 
         {/* --- Section III: Timeline / News --- */}
-        <section id="publications" className="py-32 px-6 bg-[#F5F2EB]">
+        <section id="timeline" className="py-32 px-6 bg-[#F5F2EB]">
             <div className="max-w-5xl mx-auto">
                 <div className="mb-24 text-center">
                     <h2 className="text-5xl md:text-6xl font-bold text-[#1A1A1A] serif mb-4">News & Milestones</h2>
@@ -473,38 +492,49 @@ export default function Home() {
                 </div>
 
                 {/* Grid of Visual Project Cards */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {previewExperiments.map((exp) => (
-                        <Link to={`/lab/${exp.id}`} key={exp.id} className="bg-white rounded-xl overflow-hidden hover-card cursor-pointer group flex flex-col h-full border border-gray-100">
-                            {/* Image Area for "Showing" */}
-                            <div className={`h-48 ${exp.color} relative flex items-center justify-center overflow-hidden`}>
-                                {/* Placeholder for project image */}
-                                <span className="serif italic text-[#2A3C24]/40 text-2xl group-hover:scale-110 transition-transform duration-500">
-                                    {exp.tag}
-                                </span>
-                            </div>
-                            
-                            <div className="p-8 flex-1 flex flex-col">
-                                <h3 className="text-2xl font-bold serif mb-3 text-[#1A1A1A] group-hover:text-[#2A3C24] transition-colors">
-                                    {exp.title}
-                                </h3>
-                                <p className="text-gray-600 leading-relaxed mb-6 flex-1">
-                                    {exp.description}
-                                </p>
-                                <div className="pt-6 border-t border-gray-100 flex items-center justify-between text-sm font-medium text-[#2A3C24]">
-                                    <span>Read Log</span>
-                                    <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
-                
-                <div className="mt-12 text-center">
-                    <Link to="/lab" className="inline-flex items-center gap-2 text-[#2A3C24] font-semibold hover:underline">
-                        View All Experiments <ArrowRight size={16} />
-                    </Link>
-                </div>
+                {previewExperiments.length > 0 ? (
+                    <>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {previewExperiments.map((exp) => (
+                                <Link to={`/lab/${exp.id}`} key={exp.id} className="bg-white rounded-xl overflow-hidden hover-card cursor-pointer group flex flex-col h-full border border-gray-100">
+                                    {/* Image Area for "Showing" */}
+                                    <div className={`h-48 ${exp.color} relative flex items-center justify-center overflow-hidden`}>
+                                        {/* Placeholder for project image */}
+                                        <span className="serif italic text-[#2A3C24]/40 text-2xl group-hover:scale-110 transition-transform duration-500">
+                                            {exp.tag}
+                                        </span>
+                                    </div>
+
+                                    <div className="p-8 flex-1 flex flex-col">
+                                        <h3 className="text-2xl font-bold serif mb-3 text-[#1A1A1A] group-hover:text-[#2A3C24] transition-colors">
+                                            {exp.title}
+                                        </h3>
+                                        <p className="text-gray-600 leading-relaxed mb-6 flex-1">
+                                            {exp.description}
+                                        </p>
+                                        <div className="pt-6 border-t border-gray-100 flex items-center justify-between text-sm font-medium text-[#2A3C24]">
+                                            <span>Read Log</span>
+                                            <ArrowUpRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1" />
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+
+                        <div className="mt-12 text-center">
+                            <Link to="/lab" className="inline-flex items-center gap-2 text-[#2A3C24] font-semibold hover:underline">
+                                View All Experiments <ArrowRight size={16} />
+                            </Link>
+                        </div>
+                    </>
+                ) : (
+                    <div className="text-center py-16">
+                        <p className="text-xl text-gray-500 serif italic">Coming Soon</p>
+                        <p className="text-gray-400 mt-4 max-w-md mx-auto reading-font">
+                            New experiments and technical explorations will be shared here.
+                        </p>
+                    </div>
+                )}
             </div>
         </section>
 
@@ -566,7 +596,7 @@ export default function Home() {
                     <a href="https://linkedin.com/in/sanjayanps" className="text-sm hover:text-[#F5F2EB] uppercase tracking-widest transition-colors">LinkedIn</a>
                     <a href="https://github.com/spsanps" className="text-sm hover:text-[#F5F2EB] uppercase tracking-widest transition-colors">GitHub</a>
                     <a href="https://kaggle.com/spsanps" className="text-sm hover:text-[#F5F2EB] uppercase tracking-widest transition-colors">Kaggle</a>
-                    <a href="mailto:sanjayanps@gmail.com" className="text-sm hover:text-[#F5F2EB] uppercase tracking-widest transition-colors">Contact</a>
+                    <a href="mailto:san@sankala.me" className="text-sm hover:text-[#F5F2EB] uppercase tracking-widest transition-colors">Contact</a>
                 </div>
             </div>
         </footer>
