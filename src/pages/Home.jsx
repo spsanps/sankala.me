@@ -208,7 +208,7 @@ export default function Home() {
             <div className="hidden md:flex items-center gap-8">
                 {[
                     { label: 'About', id: 'about' },
-                    { label: 'News', id: 'publications' },
+                    { label: 'News', id: 'timeline' },
                     { label: 'Lab', id: 'lab' },
                     { label: 'Writing', id: 'notes' }
                 ].map((item) => (
