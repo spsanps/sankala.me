@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Sparkles } from 'lucide-react';
 import RichMarkdown from '../components/markdown/RichMarkdown';
 import { essaysData } from '../data/content';
 
@@ -33,9 +33,17 @@ export default function EssayEntry() {
   return (
     <div className="min-h-screen bg-[#F5F2EB] text-[#1A1A1A] pt-24 pb-20 px-6">
       <div className="max-w-4xl mx-auto">
-        <Link to="/" className="inline-flex items-center gap-2 text-[#2A3C24] hover:underline mb-8 opacity-60 hover:opacity-100 transition-opacity font-medium">
-          <ArrowLeft size={16} /> Back to Home
-        </Link>
+        <div className="flex items-center justify-between mb-8">
+          <Link to="/" className="inline-flex items-center gap-2 text-[#2A3C24] hover:underline opacity-60 hover:opacity-100 transition-opacity font-medium">
+            <ArrowLeft size={16} /> Back to Home
+          </Link>
+          <Link
+            to={`/essays/${slug}/interactive`}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-[#2A3C24] text-[#F5F2EB] rounded-lg hover:bg-[#2A3C24]/90 transition-colors text-sm font-medium"
+          >
+            <Sparkles size={14} /> Interactive View
+          </Link>
+        </div>
 
         <header className="mb-16 border-b border-[#2A3C24]/10 pb-12">
           {/* Metadata */}
