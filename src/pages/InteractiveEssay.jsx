@@ -90,7 +90,14 @@ function extractReferences(content) {
       currentSection = 'introduction';
     }
 
-    const cleanBody = calloutBody.replace(/\s*\[REF:\s*[^\]]+\]/g, '');
+    // Convert [REF: url] to clickable links instead of stripping them
+    const cleanBody = calloutBody.replace(/\[REF:\s*([^\]]+)\]/g, (match, url) => {
+      if (url.startsWith('http')) {
+        const hostname = new URL(url).hostname.replace('www.', '');
+        return `[${hostname}](${url})`;
+      }
+      return ''; // Remove non-URL refs
+    });
 
     refs.push({
       id: `callout-${calloutMatch.index}`,
@@ -155,8 +162,12 @@ function extractReferences(content) {
 }
 
 // Markdown to HTML converter
-function renderMarkdownToHTML(markdown, focusMode = false, isFirst = false) {
+function renderMarkdownToHTML(markdown, focusMode = false, isFirst = false, isNewSection = false) {
   let html = markdown
+    // Remove the main title and subtitles (shown in header)
+    .replace(/^#\s+GPT-7 Will Have Arms\s*$/gm, '')
+    .replace(/^\*\*The Coming Convergence of Foundation Models and Robotics\*\*\s*$/gm, '')
+    .replace(/^\*& Why the Scaling Believers.*Robotics\*\s*$/gm, '')
     // Remove titled callout boxes
     .replace(/^>\s*\*\*[^*]+\*\*\s*\n((?:>\s*.*\n?)+)/gm, '')
     // Remove markers
@@ -167,7 +178,7 @@ function renderMarkdownToHTML(markdown, focusMode = false, isFirst = false) {
     .replace(/\[IMAGE:\s*([^\]]+)\]/g, '<figure class="image-placeholder"><div class="image-icon"></div><figcaption><strong>$1</strong></figcaption></figure>')
     // Convert [HOVER: ...]
     .replace(/\[HOVER:\s*([^|\]]+)\s*\|\s*([^\]]+)\]/g, '<span class="hover-term" data-tooltip="$2">$1</span>')
-    // Headers
+    // Headers (skip the main title which was already removed)
     .replace(/^### (.+)$/gm, '<h3 class="essay-h3">$1</h3>')
     .replace(/^## (.+)$/gm, '<h2 class="essay-h2">$1</h2>')
     .replace(/^# (.+)$/gm, '<h1 class="essay-h1">$1</h1>')
@@ -238,8 +249,9 @@ function renderMarkdownToHTML(markdown, focusMode = false, isFirst = false) {
 
     // Everything else gets wrapped in a paragraph (including lines with inline HTML like <strong>)
     paragraphCount++;
-    if (paragraphCount === 1 && isFirst) {
-      processedLines.push(`<p class="first-para">${trimmed}</p>`);
+    // Add drop cap class to first real paragraph of sections with drop caps enabled
+    if (paragraphCount === 1 && isNewSection && !trimmed.startsWith('<em>') && !trimmed.startsWith('<strong>The Coming')) {
+      processedLines.push(`<p class="drop-cap">${trimmed}</p>`);
     } else {
       processedLines.push(`<p>${trimmed}</p>`);
     }
@@ -282,15 +294,19 @@ function RenderMarkdownWithSections({ content, focusMode }) {
 
   return (
     <div className="essay-content">
-      {sections.map((section, idx) => (
-        <section key={idx} id={section.id} className="scroll-mt-24" data-section={section.id}>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: renderMarkdownToHTML(section.content.join('\n'), focusMode, idx === 0)
-            }}
-          />
-        </section>
-      ))}
+      {sections.map((section, idx) => {
+        // Drop cap on intro and on first paragraph after h2 headings (main sections)
+        const useDropCap = idx === 0 || section.level === 2;
+        return (
+          <section key={idx} id={section.id} className="scroll-mt-24" data-section={section.id}>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: renderMarkdownToHTML(section.content.join('\n'), focusMode, idx === 0, useDropCap)
+              }}
+            />
+          </section>
+        );
+      })}
     </div>
   );
 }
@@ -619,9 +635,14 @@ export default function InteractiveEssay() {
               </h1>
 
               {essay.subtitle && (
-                <p className="text-xl text-[#2A3C24]/80 leading-relaxed font-light font-serif italic">
-                  {essay.subtitle}
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xl text-[#2A3C24]/80 leading-relaxed font-light font-serif">
+                    {essay.subtitle}
+                  </p>
+                  <p className="text-lg text-[#8A9A85] leading-relaxed font-light font-serif italic">
+                    & Why the Scaling Believers Should Apply Their Own Logic to Robotics
+                  </p>
+                </div>
               )}
 
               {essay.tags && essay.tags.length > 0 && (
@@ -698,7 +719,7 @@ export default function InteractiveEssay() {
 
       {/* Styles */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Infant:wght@600;700&display=swap');
 
         .font-serif {
           font-family: 'Playfair Display', Georgia, serif;
@@ -730,14 +751,14 @@ export default function InteractiveEssay() {
           margin-top: 0;
         }
 
-        .essay-prose p.first-para::first-letter {
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 3.25rem;
-          font-weight: 600;
-          float: left;
-          line-height: 0.85;
-          padding-right: 0.5rem;
-          padding-top: 0.15rem;
+        /* Raised cap - ornate decorative first letter that extends upward only */
+        .essay-prose p.drop-cap::first-letter {
+          font-family: 'Cinzel Decorative', 'Cormorant Infant', Georgia, serif;
+          font-size: 3.2rem;
+          font-weight: 700;
+          line-height: 1;
+          vertical-align: baseline;
+          margin-right: 0.05rem;
           color: #2A3C24;
         }
 
@@ -977,7 +998,16 @@ export default function InteractiveEssay() {
         .sidebar-content a {
           color: #2A3C24;
           text-decoration: underline;
-          text-underline-offset: 1px;
+          text-decoration-color: rgba(42, 60, 36, 0.4);
+          text-underline-offset: 2px;
+          transition: all 0.15s ease;
+          cursor: pointer;
+        }
+
+        .sidebar-content a:hover {
+          color: #1A1A1A;
+          text-decoration-color: #2A3C24;
+          background: rgba(42, 60, 36, 0.05);
         }
 
         .sidebar-content code {
@@ -999,6 +1029,21 @@ export default function InteractiveEssay() {
           position: absolute;
           left: 0;
           color: #8A9A85;
+        }
+
+        /* Make annotation card links clearly clickable */
+        .annotation-card a {
+          color: #2A3C24;
+          text-decoration: underline;
+          text-decoration-color: rgba(42, 60, 36, 0.3);
+          text-underline-offset: 2px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .annotation-card a:hover {
+          color: #1A1A1A;
+          text-decoration-color: #2A3C24;
         }
 
         /* Focus mode */
@@ -1117,8 +1162,8 @@ export default function InteractiveEssay() {
             font-size: 1.1rem;
           }
 
-          .essay-prose p.first-para::first-letter {
-            font-size: 2.5rem;
+          .essay-prose p.drop-cap::first-letter {
+            font-size: 2.25rem;
           }
         }
       `}</style>
