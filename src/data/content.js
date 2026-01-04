@@ -28,11 +28,11 @@ export const notesData = [
       id: 1,
       type: "essay",
       slug: "gpt7-will-have-arms",
-      date: "Dec 2024",
+      date: "Dec 2025",
       title: "GPT-7 Will Have Arms",
       excerpt: "The Coming Convergence of Foundation Models and Robotics",
-      readTime: "45 min read",
-      tags: ["AI", "Robotics", "Geopolitics", "Foundation Models"],
+      readTime: "28 min read",
+      tags: ["AI", "Robotics", "Economics", "Foundation Models"],
       // This links to the essay in essaysData - use /essays/ route
       isEssayLink: true,
       essayRoute: "/essays/gpt7-will-have-arms"
@@ -89,10 +89,11 @@ export const essaysData = [
     slug: "gpt7-will-have-arms",
     title: "GPT-7 Will Have Arms",
     subtitle: "The Coming Convergence of Foundation Models and Robotics",
+    secondarySubtitle: "& Why the Scaling Believers Should Apply Their Own Logic to Robotics",
     date: "December 2025",
     author: "San Sankala",
-    readTime: "45 min read",
-    tags: ["AI", "Robotics", "Geopolitics", "Foundation Models"],
+    readTime: "28 min read",
+    tags: ["AI", "Robotics", "Economics", "Foundation Models"],
     category: "deep-dive",
     color: "bg-[#F5F2EB]",
 

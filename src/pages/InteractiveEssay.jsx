@@ -1,7 +1,35 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Zap, ChevronUp, ExternalLink, Image as ImageIcon, List, ChevronDown } from 'lucide-react';
+import { ArrowLeft, Zap, ChevronUp, ExternalLink, Image as ImageIcon, List, ChevronDown, Video, AlertCircle } from 'lucide-react';
 import { essaysData } from '../data/content';
+import {
+  DataPyramid,
+  ModelScaleComparison,
+  UnitreePriceChart,
+  ComponentCostsChart,
+  ChinaMultipliers,
+  ValueCaptureDiagram,
+  RobotEconomicsTable,
+  LatencyComparisonTable,
+  EVvsHumanoidTable,
+  ReferencesSection,
+  KeyStatsBanner
+} from '../components/essay/EssayCharts';
+
+// Chart component mapping
+const chartComponents = {
+  DataPyramid,
+  ModelScaleComparison,
+  UnitreePriceChart,
+  ComponentCostsChart,
+  ChinaMultipliers,
+  ValueCaptureDiagram,
+  RobotEconomicsTable,
+  LatencyComparisonTable,
+  EVvsHumanoidTable,
+  ReferencesSection,
+  KeyStatsBanner
+};
 
 // Parse markdown to extract headings
 function parseMarkdownStructure(content) {
@@ -260,50 +288,229 @@ function renderMarkdownToHTML(markdown, focusMode = false, isFirst = false, isNe
   return processedLines.join('\n');
 }
 
+// Render inline callouts (stay in main content flow)
+// Subtle, minimal design inspired by PI blog - clean reading experience
+function InlineCallout({ title, children }) {
+  return (
+    <div className="my-10 relative">
+      {/* Subtle left accent */}
+      <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#2A3C24]/20 rounded-full" />
+
+      <div className="pl-6">
+        <h4 className="text-sm font-semibold text-[#2A3C24] mb-3 tracking-wide uppercase">
+          {title}
+        </h4>
+        <div
+          className="callout-content-minimal text-[#1A1A1A]/85"
+          dangerouslySetInnerHTML={{ __html: children }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// Asset placeholder for needed videos/images
+function AssetPlaceholder({ type, description }) {
+  const Icon = type === 'video' ? Video : ImageIcon;
+  return (
+    <div className="my-8 border-2 border-dashed border-[#8A9A85]/40 rounded-xl p-8 text-center bg-[#FAFAF7]">
+      <Icon size={32} className="mx-auto mb-3 text-[#8A9A85]/60" />
+      <p className="text-sm font-medium text-[#2A3C24] mb-1">
+        {type === 'video' ? 'Video Needed' : 'Image Needed'}
+      </p>
+      <p className="text-xs text-[#8A9A85]">{description}</p>
+    </div>
+  );
+}
+
+// Parse content into blocks (text, charts, callouts, assets)
+function parseContentBlocks(content) {
+  const blocks = [];
+  let currentText = [];
+  const lines = content.split('\n');
+  let inCallout = false;
+  let calloutTitle = '';
+  let calloutContent = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    // Check for chart markers
+    const chartMatch = line.match(/^\[CHART:\s*(\w+)\]$/);
+    if (chartMatch) {
+      if (currentText.length > 0) {
+        blocks.push({ type: 'text', content: currentText.join('\n') });
+        currentText = [];
+      }
+      blocks.push({ type: 'chart', component: chartMatch[1] });
+      continue;
+    }
+
+    // Check for callout start
+    const calloutStartMatch = line.match(/^\[CALLOUT:\s*(.+)\]$/);
+    if (calloutStartMatch) {
+      if (currentText.length > 0) {
+        blocks.push({ type: 'text', content: currentText.join('\n') });
+        currentText = [];
+      }
+      inCallout = true;
+      calloutTitle = calloutStartMatch[1];
+      calloutContent = [];
+      continue;
+    }
+
+    // Check for callout end
+    if (line.trim() === '[/CALLOUT]') {
+      blocks.push({ type: 'callout', title: calloutTitle, content: calloutContent.join('\n') });
+      inCallout = false;
+      calloutTitle = '';
+      calloutContent = [];
+      continue;
+    }
+
+    // Check for video/image needed markers
+    const videoMatch = line.match(/^\[VIDEO_NEEDED:\s*(.+)\]$/);
+    if (videoMatch) {
+      if (currentText.length > 0) {
+        blocks.push({ type: 'text', content: currentText.join('\n') });
+        currentText = [];
+      }
+      blocks.push({ type: 'asset', assetType: 'video', description: videoMatch[1] });
+      continue;
+    }
+
+    const imageMatch = line.match(/^\[IMAGE_NEEDED:\s*(.+)\]$/);
+    if (imageMatch) {
+      if (currentText.length > 0) {
+        blocks.push({ type: 'text', content: currentText.join('\n') });
+        currentText = [];
+      }
+      blocks.push({ type: 'asset', assetType: 'image', description: imageMatch[1] });
+      continue;
+    }
+
+    // Accumulate lines
+    if (inCallout) {
+      calloutContent.push(line);
+    } else {
+      currentText.push(line);
+    }
+  }
+
+  // Don't forget remaining text
+  if (currentText.length > 0) {
+    blocks.push({ type: 'text', content: currentText.join('\n') });
+  }
+
+  return blocks;
+}
+
 // Custom renderer with sections
 function RenderMarkdownWithSections({ content, focusMode }) {
-  const sections = useMemo(() => {
-    const parts = [];
-    const lines = content.split('\n');
-    let currentSection = { id: 'intro', content: [], level: 0 };
+  const blocks = useMemo(() => parseContentBlocks(content), [content]);
 
-    lines.forEach((line) => {
-      const h1Match = line.match(/^#\s+(.+)$/);
-      const h2Match = line.match(/^##\s+(.+)$/);
-      const h3Match = line.match(/^###\s+(.+)$/);
+  // Group blocks into sections for scroll tracking
+  const sectionsWithBlocks = useMemo(() => {
+    const result = [];
+    let currentSection = { id: 'intro', blocks: [], level: 0 };
 
-      if (h1Match || h2Match || h3Match) {
-        if (currentSection.content.length > 0) {
-          parts.push(currentSection);
+    blocks.forEach((block) => {
+      if (block.type === 'text') {
+        // Check for section headers in text
+        const h1Match = block.content.match(/^#\s+(.+)$/m);
+        const h2Match = block.content.match(/^##\s+(.+)$/m);
+
+        if (h1Match || h2Match) {
+          // Split this text block at the header
+          const lines = block.content.split('\n');
+          let beforeHeader = [];
+          let headerFound = false;
+
+          for (const line of lines) {
+            const isH1 = line.match(/^#\s+(.+)$/);
+            const isH2 = line.match(/^##\s+(.+)$/);
+
+            if ((isH1 || isH2) && !headerFound) {
+              // Save content before header to current section
+              if (beforeHeader.length > 0 || currentSection.blocks.length > 0) {
+                if (beforeHeader.length > 0) {
+                  currentSection.blocks.push({ type: 'text', content: beforeHeader.join('\n') });
+                }
+                result.push(currentSection);
+              }
+              // Start new section
+              const title = (isH1 || isH2)[1].trim();
+              const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+              currentSection = { id, title, blocks: [{ type: 'text', content: line }], level: isH1 ? 1 : 2 };
+              headerFound = true;
+              beforeHeader = [];
+            } else {
+              if (headerFound) {
+                beforeHeader.push(line);
+              } else {
+                beforeHeader.push(line);
+              }
+            }
+          }
+          // Add remaining content
+          if (beforeHeader.length > 0 && headerFound) {
+            currentSection.blocks.push({ type: 'text', content: beforeHeader.join('\n') });
+          } else if (beforeHeader.length > 0) {
+            currentSection.blocks.push({ type: 'text', content: beforeHeader.join('\n') });
+          }
+        } else {
+          currentSection.blocks.push(block);
         }
-        const title = (h1Match || h2Match || h3Match)[1].trim();
-        const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        const level = h1Match ? 1 : h2Match ? 2 : 3;
-        currentSection = { id, title, content: [line], level };
       } else {
-        currentSection.content.push(line);
+        currentSection.blocks.push(block);
       }
     });
 
-    if (currentSection.content.length > 0) {
-      parts.push(currentSection);
+    if (currentSection.blocks.length > 0) {
+      result.push(currentSection);
     }
 
-    return parts;
-  }, [content]);
+    return result;
+  }, [blocks]);
 
   return (
     <div className="essay-content">
-      {sections.map((section, idx) => {
-        // Drop cap on intro and on first paragraph after h2 headings (main sections)
-        const useDropCap = idx === 0 || section.level === 2;
+      {sectionsWithBlocks.map((section, sectionIdx) => {
+        const useDropCap = sectionIdx === 0 || section.level === 2;
+        let isFirstTextInSection = true;
+
         return (
-          <section key={idx} id={section.id} className="scroll-mt-24" data-section={section.id}>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: renderMarkdownToHTML(section.content.join('\n'), focusMode, idx === 0, useDropCap)
-              }}
-            />
+          <section key={sectionIdx} id={section.id} className="scroll-mt-24" data-section={section.id}>
+            {section.blocks.map((block, blockIdx) => {
+              if (block.type === 'chart') {
+                const ChartComponent = chartComponents[block.component];
+                if (ChartComponent) {
+                  return <ChartComponent key={blockIdx} />;
+                }
+                return null;
+              }
+
+              if (block.type === 'callout') {
+                const calloutHtml = renderMarkdownToHTML(block.content, focusMode, false, false);
+                return <InlineCallout key={blockIdx} title={block.title}>{calloutHtml}</InlineCallout>;
+              }
+
+              if (block.type === 'asset') {
+                return <AssetPlaceholder key={blockIdx} type={block.assetType} description={block.description} />;
+              }
+
+              // Text block
+              const shouldDropCap = useDropCap && isFirstTextInSection;
+              isFirstTextInSection = false;
+              return (
+                <div
+                  key={blockIdx}
+                  dangerouslySetInnerHTML={{
+                    __html: renderMarkdownToHTML(block.content, focusMode, sectionIdx === 0, shouldDropCap)
+                  }}
+                />
+              );
+            })}
           </section>
         );
       })}
@@ -543,11 +750,11 @@ export default function InteractiveEssay() {
       <header className="fixed top-0 left-0 right-0 z-40 pointer-events-none">
         <div className="max-w-[1600px] mx-auto px-6 py-5 flex items-center justify-between">
           <Link
-            to={`/essays/${slug}`}
+            to="/"
             className="pointer-events-auto group inline-flex items-center gap-2 text-[#2A3C24] opacity-50 hover:opacity-100 transition-opacity"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-medium">Back</span>
+            <span className="text-sm font-medium">Home</span>
           </Link>
 
           <button
@@ -639,9 +846,11 @@ export default function InteractiveEssay() {
                   <p className="text-xl text-[#2A3C24]/80 leading-relaxed font-light font-serif">
                     {essay.subtitle}
                   </p>
-                  <p className="text-lg text-[#8A9A85] leading-relaxed font-light font-serif italic">
-                    & Why the Scaling Believers Should Apply Their Own Logic to Robotics
-                  </p>
+                  {essay.secondarySubtitle && (
+                    <p className="text-lg text-[#8A9A85] leading-relaxed font-light font-serif italic">
+                      {essay.secondarySubtitle}
+                    </p>
+                  )}
                 </div>
               )}
 
@@ -666,21 +875,13 @@ export default function InteractiveEssay() {
 
             {/* Footer */}
             <footer className="mt-24 pt-10 border-t border-[#2A3C24]/10">
-              <div className="flex items-center justify-between">
-                <Link
-                  to="/"
-                  className="group inline-flex items-center gap-2 text-[#2A3C24] hover:underline font-medium text-sm"
-                >
-                  <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-                  Back to Home
-                </Link>
-                <Link
-                  to={`/essays/${slug}`}
-                  className="text-xs text-[#8A9A85] hover:text-[#2A3C24] transition-colors"
-                >
-                  Standard view
-                </Link>
-              </div>
+              <Link
+                to="/"
+                className="group inline-flex items-center gap-2 text-[#2A3C24] hover:underline font-medium text-sm"
+              >
+                <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                Back to Home
+              </Link>
             </footer>
         </main>
 
@@ -901,6 +1102,58 @@ export default function InteractiveEssay() {
         .essay-prose tr:first-child td {
           font-weight: 600;
           background: rgba(42, 60, 36, 0.03);
+        }
+
+        /* Minimal callout content styling - clean, subtle */
+        .callout-content-minimal {
+          font-family: 'Crimson Pro', Georgia, serif;
+        }
+
+        .callout-content-minimal p {
+          margin-bottom: 0.875rem;
+          font-size: 1rem;
+          line-height: 1.75;
+          color: #1A1A1A;
+          opacity: 0.85;
+        }
+
+        .callout-content-minimal p:last-child {
+          margin-bottom: 0;
+        }
+
+        .callout-content-minimal strong {
+          color: #2A3C24;
+          font-weight: 600;
+        }
+
+        .callout-content-minimal em {
+          font-style: italic;
+        }
+
+        .callout-content-minimal ul {
+          margin: 0.5rem 0;
+          padding-left: 0;
+          list-style: none;
+        }
+
+        .callout-content-minimal li {
+          position: relative;
+          padding-left: 1.25rem;
+          margin-bottom: 0.4rem;
+          font-size: 1rem;
+          line-height: 1.7;
+        }
+
+        .callout-content-minimal li::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0.6em;
+          width: 4px;
+          height: 4px;
+          background: #2A3C24;
+          border-radius: 50%;
+          opacity: 0.4;
         }
 
         /* Hover tooltips */
