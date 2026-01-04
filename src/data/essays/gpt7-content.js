@@ -1,13 +1,5 @@
-// GPT-7 Will Have Arms - Complete Essay Content v17
-// Updated January 2026
-//
-// FORMAT GUIDE:
-// - Blockquotes with **Bold Title** = SIDEBAR (goes to right panel)
-// - [CALLOUT: title]...[/CALLOUT] = INLINE CALLOUT (stays in main flow)
-// - [HOVER: text | tooltip] = hover annotation
-// - [CHART: ComponentName] = chart component
-// - [VIDEO_NEEDED: desc] / [IMAGE_NEEDED: desc] = asset placeholders
-// - Regular blockquotes with attribution = quotes
+// GPT-7 Will Have Arms - Essay Content
+// Manually converted from v17 docx
 
 export const gpt7EssayContent = `
 
@@ -38,23 +30,19 @@ I think this framing is incorrect. The robot that folds your laundry will be pow
 
 This essay makes three claims:
 
-[CALLOUT: The Three Claims]
-
 **First**, frontier multimodal models—the GPTs, Geminis, Claudes—will become the robot brains. Not purpose-built robotics models. The same model that powers your chatbot will power your robot.
 
 The scaling insight: the next generation of frontier models [HOVER: will be natively multimodal | Or perhaps the generation after—the timing is uncertain, but the direction is not]—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—we postulate—will emerge almost for free.
-
-**Second**, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. The intelligence lives in the cloud. One brain, millions of bodies—I call this the [HOVER: VIKI architecture | Named after the AI in I, Robot that controlled all NS-5 robots centrally]. The slider between edge and cloud is moving cloud-ward faster than roboticists expect.
-
-**Third**, this creates Wintel-like value capture. AI labs capture value through inference APIs. Hardware commoditizes—China is already producing humanoids under $6,000. The hardware race is a race to the bottom. The intelligence race is the one that matters.
-
-[/CALLOUT]
 
 > **Early Signs**
 >
 > Physical Intelligence has shown that as models scale, they treat human demonstration data as "just another modality"—leveraging it for robotic skills.
 >
 > But the claim here is stronger: see Section 1.
+
+**Second**, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. The intelligence lives in the cloud. One brain, millions of bodies—I call this the [HOVER: VIKI architecture | Named after the AI in I, Robot that controlled all NS-5 robots centrally]. The slider between edge and cloud is moving cloud-ward faster than roboticists expect.
+
+**Third**, this creates Wintel-like value capture. AI labs capture value through inference APIs. Hardware commoditizes—China is already producing humanoids under $6,000. The hardware race is a race to the bottom. The intelligence race is the one that matters.
 
 This matters beyond technology. If AI takeoff happens in the late 20s, it won't just be intelligence in datacenters as we imagine it to be. It will be intelligence with physical presence—in factories, warehouses, homes, and battlefields. The [HOVER: competition | Between countries and labs both] won't just be about who builds AGI first. It will be about who controls physical AGI during the takeoff window.
 
@@ -131,8 +119,6 @@ In a recent interview with Lex Fridman, Hassabis elaborated: even five or ten ye
 > When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them.
 >
 > Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
->
-> RL on video-generating models could give us reasoning in visual tokens. Models that "imagine" actions before taking them.
 
 And just as RL on text models gave us chain-of-thought reasoning, RL on video-generating models could give us reasoning in visual tokens. Models that "imagine" actions before taking them—mentally simulating the physics of a grasp, visualizing the trajectory of a throw, previewing the result of an assembly step.
 
@@ -194,15 +180,7 @@ But what happens when you need [HOVER: general embodied intelligence | We imagin
 
 My prediction: as capability requirements increase, the slider moves cloud-ward. The robots of 2027 will run small models on-device for reflexes, but their "brain"—the part that reasons and plans—will live in a datacenter.
 
-[CALLOUT: Important Clarification]
-
-This is not the System 1/System 2 cognitive split. I'm not arguing that "fast intuitive thinking" stays on-device while "slow deliberate reasoning" moves to cloud.
-
-The thesis is stronger. The entire intelligent agent—perception, planning, reasoning, language, control—lives in the cloud. The on-device component handles only: translating action vectors to real action, reflexes, and safety-critical functions (emergency stops, collision limits, balance recovery, network-drop handling).
-
-The cloud will do everything intelligent.
-
-[/CALLOUT]
+This is not the System 1/System 2 cognitive split. I'm not arguing that "fast intuitive thinking" stays on-device while "slow deliberate reasoning" moves to cloud. The thesis is stronger. The entire intelligent agent—perception, planning, reasoning, language, control—lives in the cloud. The on-device component handles only: translating action vectors to real action, reflexes, and safety-critical functions (emergency stops, collision limits, balance recovery, network-drop handling). The cloud will do everything intelligent.
 
 Whoever runs the cloud controls the robots.
 
@@ -315,6 +293,12 @@ This changes the economics fundamentally:
 
 The hardware story is simple: costs are collapsing faster than anyone expected.
 
+Unitree's headline humanoid pricing has moved dramatically:
+
+~$90,000 (H1, mid-2023) → $16,000 (G1, 2024) → ~$5,900 (R1, July 2025)
+
+**93% price reduction in under two years**
+
 [CHART: UnitreePriceChart]
 
 Note: these are different capability tiers, not the same robot getting cheaper. But the trend is clear—a 93% reduction in entry-point pricing in under two years.
@@ -335,8 +319,6 @@ This wasn't market forces alone. The Chinese government identified EVs as strate
 
 Humanoids are getting the same treatment.
 
-China is layering national "patient capital" and regional funds behind embodied AI and humanoids—Shanghai announced a major fund in July 2024, consistent with prior strategic-industry playbooks. Over 100 Chinese companies are building humanoids. Government goal: humanoids as "new engine" for economic development.
-
 Here's what analyses miss: humanoids are easier than EVs.
 
 [CHART: EVvsHumanoidTable]
@@ -353,15 +335,7 @@ Every component is on a steep cost curve driven by other industries. The humanoi
 
 This is why $5,000 humanoids are plausible by 2027-2028.
 
-[CALLOUT: The Bottleneck Shifts]
-
-A $5,000 body with no brain is useless.
-
-A $5,000 body with frontier AI is worth $50,000 in labor per year.
-
-The value comes entirely from intelligence. The bottleneck is no longer hardware—it's the model.
-
-[/CALLOUT]
+A $5,000 body with no brain is useless. A $5,000 body with frontier AI is worth $50,000 in labor per year. The value comes entirely from intelligence. The bottleneck is no longer hardware—it's the model.
 
 > **Dexterity Isn't Hardware-Gated**
 >
@@ -423,11 +397,9 @@ Predicting technology adoption is hard. I've seen "robotics is about to take off
 
 What exactly are we building toward?
 
-[CALLOUT: General Embodied Intelligence (GEI)]
+**General Embodied Intelligence (GEI):** A system that treats physical action as just another modality. The same world model that generates video, reasons about physics, and holds conversation can inhabit a body—learning manipulation from the same trillion-token pretraining that teaches it everything else.
 
-A system that treats physical action as just another modality. The same world model that generates video, reasons about physics, and holds conversation can inhabit a body—learning manipulation from the same trillion-token pretraining that teaches it everything else.
-
-**Core properties:**
+Core properties:
 
 **Body-agnostic:** One model, many embodiments. Skills transfer across robot morphologies because they're grounded in world understanding, not hardware-specific policies.
 
@@ -436,8 +408,6 @@ A system that treats physical action as just another modality. The same world mo
 **Reasoning-integrated:** Plans actions by simulating outcomes in the same latent space it uses for language and vision.
 
 Unlike the R2-D2s and C-3POs of science fiction—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.
-
-[/CALLOUT]
 
 By 2027, I expect GEI systems will reliably handle:
 
@@ -523,8 +493,6 @@ Chinese manufacturers already produce humanoids at $6,000. By 2027: probably $5,
 
 This essay makes falsifiable predictions. Here's what would prove the thesis wrong:
 
-[CALLOUT: Conditions That Would Falsify This Thesis]
-
 **1. VLA models plateau at scale.** If going from 7B to 70B to 700B parameters doesn't improve manipulation capability, the core thesis fails. The scaling laws have to apply to embodied tasks as they have to language and reasoning.
 
 **2. The 5Hz assumption fails.** If valuable tasks require the foundation model to run at 50Hz+ — if you can't cleanly separate "brain" from "spinal cord" — then edge computing wins and the cloud thesis collapses.
@@ -532,8 +500,6 @@ This essay makes falsifiable predictions. Here's what would prove the thesis wro
 **3. Domain-specific beats general.** If small, specialized robotics models consistently outperform foundation models on real-world tasks, the bitter lesson doesn't apply to robotics. The generalists might not win this time.
 
 **4. Investment doesn't materialize.** If total investment in humanoid robotics stays below $10B annually through 2028, the opportunity isn't being recognized by capital markets. Either I'm wrong about the opportunity, or everyone else is.
-
-[/CALLOUT]
 
 ---
 
@@ -571,25 +537,3 @@ The question isn't whether this happens. The question is who builds it, who runs
 
 [CHART: ReferencesSection]
 `;
-
-// Assets needed for the essay
-export const assetsNeeded = [
-  {
-    type: 'video',
-    description: 'Sora or similar video model generating a hand manipulating a wine glass - demonstrating physics understanding',
-    placement: 'Section 1 - The Data Is Already There',
-    priority: 'high'
-  },
-  {
-    type: 'image',
-    description: 'VIKI from I, Robot - the central AI controlling all NS-5 robots. Represents the "one brain, many bodies" architecture.',
-    placement: 'Part II opener - The Architecture',
-    priority: 'medium'
-  },
-  {
-    type: 'diagram',
-    description: 'Brain/Spinal Split diagram - showing brain at 4-5Hz for planning, spinal cord at 200Hz for reflexes. Mirrors cloud/edge architecture.',
-    placement: 'Section 4 - The Human Precedent',
-    priority: 'medium'
-  }
-];
