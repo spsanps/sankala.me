@@ -1,130 +1,127 @@
 // GPT-7 Will Have Arms - Full Essay Content
-// Using the original :::syntax::: format from the docx
+// Auto-generated from markdown source
 
-export const gpt7EssayContent = `GPT-7 Will Have Arms
-The Coming Convergence of Foundation Models and Robotics
-& Why the Scaling Believers Should Apply Their Own Logic to Robotics
+export const gpt7EssayContent = `# GPT-7 Will Have Arms
 
-Introduction
+**The Coming Convergence of Foundation Models and Robotics**
 
-On the eve of the technological singularity, the discussion around superintelligence—and the vision we have in our collective psyche—is of a world transformed by superintelligent AI that is fundamentally about software and virtual agents. The AIs are disembodied: a "country of geniuses in a datacenter" doing research and writing superhuman code, but never picking up a test tube or building a bridge.
+*& Why the Scaling Believers Should Apply Their Own Logic to Robotics*
 
-:::sidebar{title="The Disembodied AI Assumption"} The current AGI discourse largely assumes intelligence stays in datacenters:
-- Dario Amodei's "Machines of Loving Grace" — focuses on AI accelerating science and policy, with physical applications as an afterthought
-- Leopold Aschenbrenner's "Situational Awareness" — charts a path to superintelligence through software, not embodiment
-- The AI-2027 scenario (Kokotajlo et al.) — models AGI impact primarily through digital channels
-- Most AGI timelines discussions — software-only singularity
+---
 
-This essay argues the assumption is wrong. :::
+## Introduction
 
-I think this framing is incorrect. The robot that folds your laundry will be powered by a version of GPT-7. :::hover{content="By 'GPT-7' I mean GPT-7 class models from any frontier lab—Google, Anthropic, OpenAI, or others. The name is shorthand for 'frontier foundation model circa 2027-2028'"} Not a robotics model. Not a purpose-built manipulation system. A finetune of the same trillion-parameter model that automates software engineering and scientific research—that model will also fold your shirts.
+The discussion around superintelligence — and the vision we have in our collective psyche — is of a world transformed by superintelligent AI that is fundamentally about software and virtual agents. The AIs in our vision (and leading experts' visions) are disembodied: a "country of geniuses in a datacenter" doing research and writing superhuman code, but never picking up a test tube or building a bridge.
 
-:::sidebar{title="Labs Have Started Realizing This"} The AI labs are now training robot brains:
-- Google DeepMind: Gemini Robotics (March 2025)
-- OpenAI: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence
-- Physical Intelligence: $400M funding to build foundation models for robots
+> **The Disembodied AI Assumption**
+>
+> The current AGI discourse largely assumes intelligence stays in datacenters:
+> - Dario Amodei's "Machines of Loving Grace" — geniuses without hands [REF: https://www.darioamodei.com/essay/machines-of-loving-grace]
+> - Leopold Aschenbrenner's AI-2027 — superhuman coders who can't pick up a box [REF: https://ai-2027.com/]
+> - Most AGI timelines discussions — software-only singularity [REF: https://www.aifuturesmodel.com/]
+>
+> This essay argues the assumption is wrong.
 
-Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI." :::
+I think this framing is incorrect. The robot that folds your laundry will be powered by a version of [HOVER: GPT-7 | By "GPT-7" I mean GPT-7 class models from any frontier lab — Google, Anthropic, OpenAI, or others. The name is shorthand for "frontier foundation model circa 2027-2028"]. Not a robotics model. Not a purpose-built manipulation system. A finetune of the same trillion-parameter model that automates software engineering and achieves superhuman reasoning — that model will also fold your shirts.
+
+> **Labs Have Started Realizing This**
+>
+> The teams that trained GPT-4 are now training robot brains:
+> - Google DeepMind: Gemini Robotics (March 2025) [REF: Gemini Robotics announcement]
+> - OpenAI: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence [REF: OpenAI robotics investments]
+> - Physical Intelligence: $400M Series A to build foundation models for robots [REF: PI funding]
+>
+> Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI. We are going to see a lot more robots in the real world soon." [REF: Logan Kilpatrick tweet]
 
 This essay makes three claims:
 
-:::callout{type="claims" title="The Three Claims"} **First**, frontier multimodal models—the GPTs, Geminis, Claudes—will become the robot brains. Not purpose-built robotics models. The same model that powers your chatbot will power your robot.
+**First**, frontier multimodal models — the GPTs, Geminis, Claudes — will become the robot brains. Not purpose-built robotics models. The same model that powers your chatbot will power your robot.
 
-The scaling insight: the next generation of frontier models will be natively multimodal :::hover{content="Or perhaps the generation after—the timing is uncertain, but the direction is not"}—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—we postulate—will emerge almost for free.
+The scaling insight: the next generation of frontier models will be natively multimodal — video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation will emerge almost for free.
 
-:::sidebar{title="Early Signs"} Physical Intelligence has shown that as models scale, they treat human demonstration data as "just another modality"—leveraging it for robotic skills.
+> **Early Signs**
+>
+> Physical Intelligence has shown that as models scale, they treat human demonstration data as "just another modality" — leveraging it for robotic skills. [REF: https://www.pi.website/research/human_to_robot]
+>
+> But the claim here is stronger: see Section 1.
 
-But the claim here is stronger: see Section 1. :::
+**Second**, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. The intelligence lives in the cloud. One brain, millions of bodies — I call this the [HOVER: VIKI model | Named after the AI in I, Robot that controlled all NS-5 robots centrally]. The slider between edge and cloud is moving cloud-ward faster than roboticists expect.
 
-**Second**, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. The intelligence lives in the cloud. One brain, millions of bodies—I call this the VIKI architecture. :::hover{content="Named after the AI in I, Robot that controlled all NS-5 robots centrally"} The slider between edge and cloud is moving cloud-ward faster than roboticists expect.
+[SIDEBAR_IMAGE: iRobot VIKI]
 
-**Third**, this creates Wintel-like value capture. AI labs capture value through inference APIs. Hardware commoditizes—China is already producing humanoids under $6,000. The hardware race is a race to the bottom. The intelligence race is the one that matters. :::
+**Third**, this creates Wintel-like value capture. AI labs capture value through inference APIs. Hardware commoditizes — China is already producing $6,000 humanoids. The hardware race is a race to the bottom. The intelligence race is the one that matters.
 
-This matters beyond technology. If AI takeoff happens in the late 20s, it won't just be intelligence in datacenters as we imagine it to be. It will be intelligence with physical presence—in factories, warehouses, homes, and battlefields. The competition :::hover{content="Between countries and labs both"} won't just be about who builds AGI first. It will be about who controls physical AGI during the takeoff window.
+This matters beyond technology. If AI takeoff happens in the late 2020s, it won't just be intelligence in datacenters. It will be intelligence with physical presence — in factories, warehouses, homes, and battlefields. The [HOVER: competition | Between countries and labs both] won't just be about who builds AGI first. It will be about who controls physical AGI during the takeoff window.
 
-PART I: THE CONVERGENCE
+---
 
-1. On the Altar of Scale
+# PART I: THE CONVERGENCE
 
-The robotics data problem was supposed to be insurmountable. You can train GPT-4/GPT-5 class models on trillions of tokens from the internet; you cannot download robot demonstrations. This implied that robotics would lag language AI by decades.
+## 1. The Scaling Insight
 
-This is turning out to be wrong, for reasons that become clear once you accept the scaling hypothesis.
+The robotics data problem was supposed to be insurmountable. You can train GPT-4 on trillions of tokens from the internet; you cannot download robot demonstrations. This implied that robotics would lag language AI by decades.
 
-The Data Is Already There
+This turns out to be wrong, for reasons that become clear once you accept the scaling hypothesis.
 
-The internet already contains most of what a robot needs to know.
+There are two key dynamics at play. First, large-scale video pretraining provides most of the "knowledge" needed for manipulation — physics, object properties, spatial reasoning. Second, large models trained on large data are sample-efficient when learning new capabilities: you can finetune advanced skills with far less data on pretrained models than you'd need to train from scratch. Robot-specific data provides only calibration — mapping general understanding to specific sensors and actuators.
 
-**Video is implicit physics.** YouTube contains trillions of frames of the physical world in motion. Objects falling, liquids pouring, hands manipulating, bodies moving through space. A model trained to predict the next frame of video must learn how the world works—gravity, friction, rigidity, occlusion, cause and effect.
+The stronger you think the data efficiency effect is, the faster you think the transition will occur.
 
-**Human video is manipulation data.** Billions of hours of humans folding laundry, cooking, assembling furniture, using tools. First-person GoPro footage. Cooking tutorials. Assembly instructions. This teaches the model what it looks like when a humanoid-shaped agent interacts with objects.
+### The Data Pyramid
 
-Consider what a video generation model must know to accurately render a human hand holding a wine glass. To model each frame correctly—from every angle, in any lighting, through any motion—the model must understand dexterous manipulation at a granular level. It needs to know exactly where fingers should be positioned, how grip pressure affects the glass, how the liquid moves, how wrist rotation translates through the arm. A model that can generate this video has already learned the physics of manipulation. The robot-specific training just needs to steer this immense pre-trained knowledge.
+[IMAGE: Data Pyramid | Base: YouTube-scale general video (trillions of frames) — FOUNDATION. Middle: Egocentric human video (billions of frames) — ALIGNMENT. Top: Robot demonstrations (millions of frames) — CALIBRATION. Caption: Each layer requires orders of magnitude less data than the one below.]
 
-:::quote{attribution="Ilya Sutskever" source="Dwarkesh Patel Interview"} "Predicting the next token well means that you understand the underlying reality that led to the creation of that token." :::
+Think of it as a pyramid:
+- **Base: YouTube-scale general video (trillions of frames)** — FOUNDATION
+- **Middle: Egocentric human video (billions of frames)** — ALIGNMENT
+- **Top: Robot demonstrations (millions of frames)** — CALIBRATION
 
-**Modality-seep.** Understanding can bleed between modalities. Early text-only models "knew" things about vision—they could describe colors, spatial relationships, visual aesthetics—despite never seeing an image. A picture is worth a thousand words, but a thousand words also encode the picture.
+Each layer requires orders of magnitude less data than the one below.
 
-The same applies to touch, temperature, and force. Video of a hand gripping a hot mug implicitly contains thermal information (steam rising, careful handling). Video of fingers testing fruit ripeness encodes tactile feedback (the slight give, the pressure applied). Video of lifting objects reveals weight and balance. A model trained on enough video may develop surprisingly rich representations of sensory modalities it has never directly experienced.
+Consider the progression of robotics models:
 
-The data for robot intelligence was always there. It just wasn't labeled "robot data."
+**RT-1 (Google, 2022):** Trained on 130,000 demonstrations collected over 17 months. Pure robot data. No transfer from other modalities. [REF: RT-1 paper]
 
-The Data Pyramid
+**RT-2 (Google, 2023):** Same robot data, combined with vision-language pretraining on internet data. Result: 2x performance on novel tasks. Notably, the model exhibited emergent reasoning — asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data. [REF: RT-2 paper]
 
-:::figure{id="data-pyramid" caption="Each layer requires orders of magnitude less data than the one below."} :::
+**π0 (Physical Intelligence, 2024):** New tasks learned from 1-20 hours of demonstration data. The pretraining handles general understanding; task-specific data is calibration. [REF: π0 paper]
 
-The evidence for this hierarchy is already visible in the progression of robotics models:
+**Physical Intelligence (December 2025):** "Adding robot data in pre-training improves absorption of human data in fine-tuning." Human video transfers to robot learning. [REF: PI blog post]
 
-**RT-1 (Google, 2022):** Trained on 130,000 demonstrations collected over 17 months. Used vision-language pretraining (ImageNet-pretrained image encoder), but robot-specific manipulation data was collected from scratch.
+The pattern is clear: each generation requires less robot-specific data because more work happens during general pretraining.
 
-**RT-2 (Google, 2023):** Same robot data, combined with large-scale vision-language pretraining. Result: performance on novel semantic concepts jumped from 32% to 62%—nearly doubling. The model exhibited emergent reasoning: asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data.
+### The Extrapolation
 
-:::sidebar{title="The Emergent Reasoning Discovery"} RT-2's most surprising result: 32% → 62% performance on novel concepts with the same robot data, just better pretraining.
+Now extrapolate. Current video models are small by frontier standards. Estimates place Sora at 3-10B parameters. GPT-4 is 1+ trillion — two orders of magnitude larger.
 
-The model wasn't explicitly taught "dinosaurs are extinct." It connected concepts from language pretraining to physical action. :::
+| Model | Parameters | Rough Era |
+|-------|------------|-----------|
+| Sora (2024) | ~3-10B | GPT-2 |
+| Current VLAs | 7-12B | GPT-2/3 |
+| Frontier LLMs | 1T+ | GPT-4+ |
+| Unified multimodal (2026-27?) | 1T+ | ??? |
 
-**π0 (Physical Intelligence, 2024):** Demonstrates that foundation model pretraining dramatically reduces the robot-specific data needed. The paper describes using diverse demonstration data, with task-specific finetuning requiring far less data than training from scratch.
+To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. Nobody has trained unified multimodal models — video + language + reasoning — at frontier scale on YouTube-scale data. This will only happen when the next wave of datacenters come online in 2026. [REF: datacenter buildout timeline]
 
-**Physical Intelligence (December 2024):** "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
+Perhaps this is why intuition about what large multimodal models can do is systematically wrong.
 
-The pattern is clear: each generation requires less robot-specific data because more capability comes from general pretraining.
+A model that's seen YouTube-scale video of everything in existence — humans manipulating objects, navigating spaces, using tools, in every context and configuration, real and imagined worlds — has already learned most of what it needs to know about the physical world. The robot-specific data just aligns this understanding to a specific embodiment. The foundation does the heavy lifting. The fine-tuning is the easy part.
 
-What Scaled Multimodal Models Will Look Like
+This is why frontier labs — not robotics labs — will build the robot brain. They're training trillion-parameter multimodal models on internet-scale video. The robotics teams are finetuning 7B models while the real capability is being built elsewhere.
 
-The next generation of frontier models won't just understand video. They will think in video.
+---
 
-Today's multimodal models—GPT-4.5, Gemini 2.5, Claude 4—can look at images and video. They accept visual inputs. But they don't generate visual outputs, and they don't reason in visual tokens. When you ask them to imagine rotating an object, they simulate it in language. They're text models with eyes.
-
-The next generation will be different. These models will be trained with video generation objectives alongside text—predicting future frames, generating scenes from descriptions, completing partial videos. Think Sora merged with GPT, or Veo merged with Gemini, in a single unified model.
-
-:::quote{attribution="Demis Hassabis" source="Twitter, May 2025"} "It's kind of mindblowing how good Veo 3 is at modeling intuitive physics. Our world models are getting pretty good, and in my view this has important implications regarding the computational complexity of the world." :::
-
-In a recent interview with Lex Fridman, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
-
-:::sidebar{title="Why This Matters for Reasoning"} When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text. :::
-
-And just as RL on text models gave us chain-of-thought reasoning, RL on video-generating models could give us reasoning in visual tokens. Models that "imagine" actions before taking them—mentally simulating the physics of a grasp, visualizing the trajectory of a throw, previewing the result of an assembly step.
-
-:::table{id="model-scale-comparison" caption="Video models today are where language models were in 2019"} :::
-
-To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. To our knowledge, nobody has trained unified multimodal models—video generation + language + reasoning—at frontier scale on YouTube-scale data. This will likely only happen when the next wave of datacenters come online in 2026.
-
-Perhaps this is why intuition about what large multimodal models can do is systematically wrong. We're extrapolating from GPT-2-scale video models and concluding "video models can't do X." We made the same mistake about language models in 2020.
-
-The Implication
-
-A frontier-scale model that's seen YouTube-scale video of everything in existence—humans manipulating objects, navigating spaces, using tools, in every context and configuration—has already learned most of what it needs to know about the physical world. The robot-specific data just aligns this understanding to a specific embodiment. The foundation does the heavy lifting. The fine-tuning is the easy part.
-
-This is why frontier labs—not robotics labs—will likely build the robot brain. They're training trillion-parameter multimodal models on internet-scale video. The robotics teams are finetuning 7B models while the real capability is being built elsewhere.
-
-2. Many a Bitter Lesson to Go
+## 2. Many a Bitter-Lesson to Go
 
 Chess. Go. Protein folding. Machine translation. Image recognition. Speech synthesis. Self-driving. In every domain, the pattern repeated: hand-engineered systems with decades of expert knowledge were swept away by scaled-up learning.
 
-:::sidebar{title="The NLP Reckoning"} Quanta Magazine (April 2025) published an oral history of the NLP community's reaction to ChatGPT:
-
-Christopher Callison-Burch (UPenn): "I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."
-
-Iz Beltagy (Allen Institute): "In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared." :::
+> **The NLP Reckoning**
+>
+> Quanta Magazine (April 2025) published an oral history of the NLP community's reaction to ChatGPT: [REF: Quanta oral history]
+>
+> Christopher Callison-Burch (UPenn): *"I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."*
+>
+> Iz Beltagy (Allen Institute): *"In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared."*
 
 The NLP researchers didn't see it coming. They were world experts in parsing, syntax, semantics, discourse. They had spent decades building linguistic knowledge into systems. And then a team at OpenAI trained a large transformer on internet text and made most of that expertise irrelevant.
 
@@ -132,111 +129,149 @@ This is about to happen to robotics.
 
 The roboticists don't see it coming. They're debating actuator designs and sim-to-real transfer and reward shaping, while foundation model labs are building the fundamental scale required for embodiment.
 
-PART II: THE ARCHITECTURE
+The robotics community assumes their field is special. That manipulation requires something language models don't have. That you can't learn physics from video. That embodiment requires embodied experience.
 
-3. The Cloud Thesis
+These assumptions are about to be tested at scale. I'm betting against them.
 
-A natural question is where computation should live. The robotics community has historically assumed edge-first architecture: robots should be autonomous, self-contained, independent. This assumption deserves scrutiny.
+---
 
-The Slider
+# PART II: THE ARCHITECTURE
 
-There's a spectrum between "cloud robotics" and "edge robotics"—not a binary choice, but a slider.
+## 3. The Slider
 
-**Pure edge:** All computation on the robot. No network required. Tesla FSD works this way—the car runs entirely on its onboard computer.
+People talk about "cloud robotics" versus "edge robotics" like it's a binary. It's not. It's a slider.
 
-**Pure cloud:** The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Think VIKI from I, Robot—one central intelligence controlling every NS-5 body simultaneously. This is the architecture I'm predicting.
+**Pure edge:** All computation on the robot. No network required. Tesla FSD works this way — the car runs entirely on its onboard computer. This is what roboticists have historically assumed: robots should be autonomous, self-contained, independent.
 
-Most systems today are somewhere between. The question is: where is the slider going?
+**Pure cloud:** The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Basically telepresence with AI in the middle.
 
-Today's leading humanoids are mixed. Figure describes a two-level control stack: a larger vision-language model for high-level perception and planning, and a smaller policy network for real-time trajectory tracking, both running on-device embedded GPUs. Tesla Optimus similarly runs on-board. 1X, meanwhile, is heavily investing in teleoperation infrastructure—their architecture explicitly includes remote human operators providing demonstrations and corrections.
+Most systems are somewhere between. The question is: where is the slider going?
 
-This works for current capabilities. A mid-size model can pick up a box.
+Today's leading humanoids — Figure, Tesla Optimus, 1X — run on-device. Figure's Helix runs a 7B parameter model locally. Their System 1 (80M parameters) handles trajectory tracking at 200Hz. Their System 2 (7B parameters) handles visual understanding at 7-9Hz. Both run on the robot. [REF: Figure Helix specs]
 
-But what happens when you need general embodied intelligence? :::hover{content="We imagine such a system could be a top-notch sous-chef and a breakdancer—learning new physical skills in context, reasoning about novel situations with multimodal tokens in its reasoning rollouts, conversing naturally about what to do and then doing it."} I expect those capabilities will require 1T+ parameters. And those only run in the cloud.
+This works for current capabilities. A 7B model can pick up a box.
 
-My prediction: as capability requirements increase, the slider moves cloud-ward. The robots of 2027 will run small models on-device for reflexes, but their "brain"—the part that reasons and plans—will live in a datacenter.
+But what happens when you need frontier-scale reasoning? Can a 7B model generalize to novel situations it's never seen? Can it have a natural conversation about what to do and then do it? Those capabilities require 100B, 1T parameters. Those only run in the cloud.
 
-:::callout{type="important" title="Important Clarification"} This is not the System 1/System 2 cognitive split. I'm not arguing that "fast intuitive thinking" stays on-device while "slow deliberate reasoning" moves to cloud.
+**My prediction:** as capability requirements increase, the slider moves cloud-ward. The robots of 2027 will run small models on-device for reflexes, but their "brain" — the part that reasons and plans — will live in a datacenter.
 
-The thesis is stronger. The entire intelligent agent—perception, planning, reasoning, language, control—lives in the cloud. The on-device component handles only: translating action vectors to real action, reflexes, and safety-critical functions (emergency stops, collision limits, balance recovery, network-drop handling).
-
-The cloud will do everything intelligent. :::
+**Important clarification:** This is not the System 1/System 2 cognitive split. I'm not arguing that "fast intuitive thinking" stays on-device while "slow deliberate reasoning" moves to cloud. The thesis is stronger. The entire intelligent agent — perception, planning, reasoning, language — lives in the cloud. The on-device component makes no decisions at all. It tracks trajectories, like a thermostat following a temperature setpoint. The cloud doesn't just do the "thinking" — it does everything intelligent.
 
 Whoever runs the cloud controls the robots.
 
 The robotics industry thinks it's building robots. It might actually be building terminals.
 
-Why Cloud Wins
+---
 
-:::sidebar{title="Why AI Ended Up in the Cloud"} Every major chatbot runs in datacenters, not on your phone. Why?
+## 4. Why Cloud Wins
 
-**Scale & Performance:** Models got huge—tens to hundreds of GB. Inference is compute-bound. Memory bandwidth is the bottleneck.
+A natural question is where computation should live. The robotics community has historically assumed edge-first architecture. This assumption deserves scrutiny.
 
-**Economics:** One cluster serving millions beats everyone maintaining local hardware. Multi-tenancy and cost amortization.
+It is clear why today's chatbots run in datacenters rather than on laptops and devices:
 
-**Operations:** Fast iteration—model updates deploy instantly. Centralized safety. IP security.
+> **Why AI Ended Up in the Cloud**
+>
+> Every major chatbot runs in datacenters, not on your phone. Why?
+>
+> - **Models got huge.** State-of-the-art needs tens-hundreds of GB of weights. Phones can't fit that.
+> - **Inference is compute-bound.** Quality generation needs GPU FLOPs that devices lack.
+> - **Power + thermals.** Sustained generation is a space heater. Phones throttle, batteries die.
+> - **Memory bandwidth.** Even if weights "fit," reading them fast enough is the bottleneck.
+> - **Economies of scale.** One cluster serving millions beats everyone maintaining local hardware.
+> - **Fast iteration.** Model updates deploy instantly. On-device updates are slow and fragmented.
+> - **Centralized safety.** Content filters and abuse detection are easier server-side.
+> - **Data gravity.** Useful data is already in the cloud. Inference near data avoids moving it.
+> - **Training → serving pipeline.** Same infra trains and serves. Less friction.
+> - **Multi-tenancy.** Many users share same model and caches. Cost amortizes.
+> - **Specialized hardware.** Datacenters deploy newest GPUs immediately. Device cycles are years.
+> - **Security of IP.** Weights stay server-side. Harder to clone product.
+> - **Business model.** Usage-based pricing maps to centralized serving.
 
-These forces don't disappear for robotics. They intensify. :::
+These forces don't disappear for robotics. They intensify.
 
-For robotics specifically, many of the same arguments hold—and perhaps are even stronger:
+For robotics specifically, many of the same arguments hold — and perhaps are even stronger:
 
-**Economies of scale.** An on-device GPU sits idle when the robot waits. Real-world utilization will probably be tiny. A datacenter GPU serves 100+ robots by interleaving requests and amortizing costs with huge batch sizes.
+**Utilization and batch-sizes.** An on-device GPU sits idle when the robot waits. Real-world utilization will probably be tiny. A datacenter GPU serves 100+ robots by interleaving requests and amortizing the cost with huge batch sizes.
 
-**GPUs are scarce.** A cloud robot doesn't need a $1,000+ reasoning GPU in its body. The expensive compute stays in the datacenter—and can leverage the massive datacenter buildout already underway.
+**No on-device GPU.** A cloud robot doesn't need a $1,000+ reasoning GPU in its body. The expensive compute stays in the datacenter. Result: cheaper, lighter, simpler hardware.
 
-**Model scale.** A trillion-parameter model takes ~2TB of weights in FP16. NVIDIA's Jetson Orin runs mid-size models (up to ~20B parameters) comfortably on-device; frontier-scale reasoning requires datacenter hardware.
+**Model scale.** A trillion-parameter model takes ~2TB of weights. You can't fit that on embedded hardware. If frontier reasoning requires trillion-parameter models, cloud isn't optional — it's mandatory.
 
-**Training & IP.** Every robot interaction generates data. In cloud architecture, all data flows back to the corporation. And no company will distribute their newly trained robotics model weights to sit on-device where they can be extracted.
+**Instant fleet-wide updates.** New weights deployed to the entire fleet overnight. Every robot improves simultaneously. No firmware update process. No version fragmentation.
 
-**Inference costs are falling.** GPT-4 launched at $30/million input tokens (March 2023). The trend compounds: whatever latency/cost tradeoff you're making today gets better next year.
+**Training & IP.** Every robot interaction generates data. In cloud architecture, all data flows back to improve a shared model — just as AI companies value coding interaction data today. And no company is going to distribute their newly trained robotics model weights to sit on-device where they can be extracted.
 
-4. The Latency Objection
+**Inference costs are falling.** ~79% per year decline in cost per token. GPT-4 API: $30/million tokens at launch (March 2023). Equivalent capability: under $1 by late 2024. Under $0.30 by late 2025. [REF: Token pricing history]
 
-"But latency!" This is the first objection everyone raises. Motor control needs 200Hz—every 5 milliseconds. You can't wait for datacenter round-trip. Cloud robotics is physically impossible.
+Whatever latency/cost tradeoff you're making today gets better next year. If cloud is borderline viable now, it's clearly superior in 18 months. The trend compounds.
+
+---
+
+## 5. The Latency Objection
+
+"But latency!" This is the first objection everyone raises. Motor control needs 200Hz — every 5 milliseconds. You can't wait for datacenter round-trip. Cloud robotics is physically impossible.
 
 This objection is why the thesis hasn't been widely internalized. Everyone assumes latency kills it.
 
-This objection deserves serious examination. But it doesn't survive scrutiny.
+Let me kill the objection.
 
-Teleoperation Already Works
+### Teleoperation Already Works
 
-Sanctuary AI operates robots remotely over standard internet connections. Humans teleoperating robots fold laundry, manipulate objects, perform dexterous tasks—at latencies in the 100-200ms range.
+Sanctuary AI operates robots remotely with 100-200ms latency. Humans teleoperating robots fold laundry, manipulate objects, perform dexterous tasks — all over standard internet connections. [REF: Sanctuary AI]
 
-If a human teleoperator can control a robot at that latency, so can an AI.
+If a human teleoperator can control a robot at that latency, so can an AI. This isn't theoretical. It's deployed.
 
-The Human Precedent
+### The Human Precedent
 
-Consider how you pick up a coffee cup. Your conscious reaction time—from "I want to grab that" to "my hand starts moving"—is approximately 200-250 milliseconds. That's 4-5Hz, not 200Hz.
+Consider how you pick up a coffee cup. Your conscious reaction time — from "I want to grab that" to "my hand starts moving" — is approximately 200-250 milliseconds. That's 4-5Hz, not 200Hz.
 
 Your brain doesn't update your motor plan 200 times per second. It updates 4-5 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust.
 
-What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking. Your spinal system doesn't understand coffee cups. It tracks trajectories your brain commanded.
+What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking. Execution, not intelligence. Your spinal cord doesn't understand coffee cups. It tracks trajectories your brain commanded.
 
-Robots can work the same way. The cloud runs the "brain" at 5-10Hz—deciding what to do. The on-device controller runs at 200Hz—tracking the commanded trajectory.
+Robots can work the same way. The cloud runs the "brain" at 5-10Hz — deciding what to do. The on-device controller runs at 200Hz — tracking the commanded trajectory. This is precisely how Figure's Helix works today, just with both components on-device.
 
-Latency Is Solved Engineering
+### Latency Is Solved Engineering
 
 Roboticists miss something: latency optimization is what big tech is good at.
 
-Google invested heavily in Stadia. Amazon optimized AWS for real-time applications. Video calling handles real-time bidirectional audio/video globally. Financial firms built high-frequency trading infrastructure with microsecond precision.
+Google spent billions on Stadia. Amazon optimized AWS for real-time gaming. Microsoft built Xbox Cloud Gaming. These companies have spent years solving exactly this problem — running complex real-time compute in datacenters and streaming results back with minimal lag. They are also solving it now for voice agents and other latency-critical applications.
 
-They're now applying the same expertise to AI voice agents, achieving sub-100ms response times. The infrastructure for cloud robotics is being built for other applications.
+Latency is an engineering problem, not a physics problem. And the companies building foundation models have already solved it for other applications.
 
-:::table{id="latency-comparison" caption="Cloud robotics has more forgiving latency requirements than gaming"} :::
+> **AI Companies Are Already Building This**
+>
+> AI companies are building low-latency voice agents — sub-100ms response times for natural conversation. This infrastructure transfers directly to robotics. The jump from "cloud voice agent" to "cloud robot brain" is smaller than it appears.
 
-A cloud gaming lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
+### Cloud Gaming Precedent
 
-The Real Objection
+**Cloud-rendered gaming (Stadia, GeForce Now, Xbox Cloud):** Entire game runs in datacenter. Controller inputs up, video frames down. Latency: 50-100ms round trip. Millions played this way.
 
-Roboticists have spent decades building on-device systems. Self-contained intelligence. A robot depending on a network feels fragile, unreliable, wrong.
+**Competitive online gaming (League, Valorant, CS):** Players compete over 20-100ms network latency. Human reaction time: 200-250ms. Esports works despite delay.
 
-This intuition made sense when "network-dependent" meant "broken when offline." But we've built a world where network dependence is the norm. Your car's navigation, your phone's assistant, your home's thermostat, your company's software—all depend on cloud connectivity.
+Cloud robotics is less demanding than either:
 
-The question isn't "can networks support this?" but "do the benefits justify the architecture?" For trillion-parameter emergent reasoning and cross-task generalization, they do.
+| | Cloud Gaming | Cloud Robotics |
+|---|---|---|
+| Frame rate | 60Hz | 5-10Hz control rate |
+| Latency tolerance | Latency-critical: competitive PvP | Latency-tolerant: pick up box |
+| Failure mode | Failure: lose match | Failure: robot pauses |
 
-5. The Revenue Connection
+A Stadia lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
 
-Claude Code became the revenue story for AI in 2025. Coding—where AI creates measurable value, where enterprises pay—is now central to every lab's business model.
+### The Real Objection
+
+Roboticists have spent decades building autonomous systems. Edge compute. Self-contained intelligence. A robot depending on a network feels fragile, unreliable, wrong.
+
+But phones depend on networks. Cars depend on networks. Every cloud-connected device depends on networks. The question is whether the benefits outweigh the costs.
+
+For trillion-parameter emergent reasoning and cross-task generalization? Yes.
+
+---
+
+## 6. The Revenue Connection
+
+Claude Code became the revenue story for AI in 2025. Coding — where AI creates measurable value, where enterprises pay — is now central to every lab's business model.
 
 Robotics is next. Here's what financial analysts miss:
 
@@ -244,251 +279,320 @@ Robotics is next. Here's what financial analysts miss:
 
 When analysts project the "robotics AI market," they model it separately from "language AI." Separate TAMs. Separate products. Separate revenue streams.
 
-However, if GPT-7 powers the robots, it's one model serving both digital and physical applications. Training and research costs amortize across all use cases. Inference infrastructure is shared. The same datacenter that answers your ChatGPT query controls the warehouse robot.
+Wrong.
 
-:::sidebar{title="Every Major AI Lab Is Suddenly Interested"} - OpenAI: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence. Aditya Ramesh (VP Research) now leads "Worldsim."
-- Google DeepMind: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application."
-
-Observable pattern: investments in robotics companies, API-based business models, hiring for embodied AI teams. These are distribution plays, not science projects. :::
+If GPT-7 powers the robots, it's one model serving both digital and physical applications. Training costs amortize across all use cases. Inference infrastructure is shared. The same datacenter that answers your ChatGPT query controls the warehouse robot.
 
 This changes the economics fundamentally:
 
-**For AI labs:** Robotics is a new distribution channel for the existing product, not a new product. The marginal cost to serve a robot is just inference.
+**For AI labs:** Robotics is a new distribution channel for the existing product, not a new product. The marginal cost to serve a robot is just inference. The model is already trained. The infrastructure already exists.
+
+**Token economics work.** A cloud robot at 10Hz streams ~10 tokens per second — continuous in/out like audio streaming. That's 36,000 tokens per hour. At $10/million tokens: $0.36/hour in inference cost. The robot replaces a $20-30/hour worker. Margins are enormous.
+
+**Inference costs falling ~79%/year.** By 2027, same compute costs pennies per hour.
 
 **For hardware companies:** The "brain" is an API call. You're not building intelligence. You're building a body and paying rent.
 
-**For investors:** The robotics boom and AI boom are the same boom.
+**For investors:** The robotics boom and AI boom are the same boom. Don't model them separately.
 
-PART III: THE HARDWARE FLOOD
+> **Every Major AI Lab Is Suddenly Interested**
+>
+> - **OpenAI**: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence. [REF: OpenAI robotics investments]
+> - **Google DeepMind**: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application." [REF: Gemini Robotics announcement]
+>
+> These are distribution plays, not science projects.
 
-6. The Unitree Trajectory
+The financial consensus hasn't internalized this. They see OpenAI investing in Figure and think "OpenAI is entering robotics." The correct frame: "OpenAI is extending its distribution."
 
-The hardware story is simple: costs are collapsing faster than anyone expected.
+---
 
-Unitree's headline humanoid pricing has moved dramatically:
+# PART III: THE HARDWARE FLOOD
 
-~$90,000 (H1, mid-2023) → $16,000 (G1, 2024) → ~$5,900 (R1, July 2025)
+## 7. The Unitree Trajectory
 
-**93% price reduction in under two years**
+August 2023: Unitree releases H1. Humanoid robot, 1.8m tall. Price: $90,000.
 
-:::figure{id="unitree-price-trajectory" caption="Unitree humanoid pricing trajectory 2023-2025"} :::
+May 2024: Unitree releases G1. Smaller (1.27m), lighter (35kg), more joints. Price: $16,000.
 
-Note: these are different capability tiers, not the same robot getting cheaper. But the trend is clear—a 93% reduction in entry-point pricing in under two years.
+July 2025: Unitree releases R1. Similar form factor, simplified design. Price: $5,900.
 
-Goldman Sachs, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
+That's 93% price reduction in under two years. [REF: Unitree announcements]
+
+Goldman Sachs, in their February 2025 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031. [REF: Goldman Feb 2025 report]
 
 Goldman might be conservative. Their model doesn't account for what happens when China decides an industry is strategic.
 
-7. The EV Precedent
+---
 
-2014: China produced ~78,000 new energy vehicles (NEVs).
+## 8. The EV Precedent
 
-2024: China produced ~12.4 million electric cars (BEV+PHEV).
+2014: China produces 75,000 EVs.
 
-~160x growth in 10 years. Peak compound annual growth rate ~66%. By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M).
+2024: China produces 10+ million EVs.
 
-This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
+63% compound annual growth sustained for a decade. By 2024, China was producing more EVs than the rest of the world combined. [REF: China EV statistics]
+
+This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors — BYD, NIO, XPeng — became globally competitive in a decade.
 
 Humanoids are getting the same treatment.
 
+2024: China announces $140B government fund for robotics. 100+ Chinese companies building humanoids. Government goal: humanoids as "new engine" for economic development. [REF: China robotics fund]
+
 Here's what analyses miss: humanoids are easier than EVs.
 
-:::table{id="ev-vs-humanoid" caption="Humanoids leverage existing supply chains that EVs had to build"} :::
+| Factor | EVs (2014) | Humanoids (2025) |
+|--------|-----------|------------------|
+| Battery supply | Build gigafactories | Already exists (EV chain) |
+| Battery per unit | $15,000+ (60-100 kWh) | $500-1,500 (1-3 kWh) |
+| Motor supply | Build from scratch | Already exists (drones, EVs) |
+| Parts count | 10,000+ | ~3,000 |
+| Crash safety | Heavy regulation | Minimal requirements |
+| Assembly time | 20-30 hours | 5-10 hours |
 
-If you extrapolate the EV curve onto humanoids, adjust for supply chain advantages, you get numbers that seem unrealistic—until you remember nobody in 2014 thought China would produce 12 million EVs by 2024.
+EVs required building supply chains from scratch. Gigafactories for batteries. New production lines for motors. It took years before the manufacturing base existed.
 
-8. The Components Collapse
+Humanoids parasitize the existing EV supply chain. Batteries: same cells, fewer of them. Motors: already mass-produced for EVs and drones. Sensors: smartphone components.
+
+An EV costs $30,000+ to manufacture. A humanoid costs $6,000 and falling. Same factory investment produces 5x more units. Same working capital supports 5x more inventory.
+
+If you extrapolate the EV curve onto humanoids, adjust for supply chain advantages, you get numbers that seem unrealistic — until you remember nobody in 2014 thought China would produce 10 million EVs by 2024.
+
+---
+
+## 9. The Components Collapse
 
 Zoom in on the components, and the price collapse makes more sense.
 
-:::figure{id="component-costs" caption="Every major component is on a steep cost curve driven by other industries"} :::
+**LIDAR:** $75,000 (2012) → $100 (2025). 99.9% reduction, driven by mass adoption in vehicles and drones. [REF: LIDAR prices]
 
-Every component is on a steep cost curve driven by other industries. The humanoid isn't pioneering manufacturing—it's assembling existing commodities in a new configuration.
+**IMUs:** Thousands of dollars a decade ago. Now smartphone components. Every iPhone has one. Price: few dollars.
+
+**Cameras:** Were specialized industrial equipment. Now commodity hardware from phone cameras. Robot vision costs less than a GoPro.
+
+**Batteries:** EV production drove lithium-ion costs down 90% (2010-2023). Humanoid needs 1-3 kWh — same cells, fewer of them. Cost: $500-1,500, falling. [REF: Battery costs]
+
+**Servo motors:** Drones, EVs, industrial automation drove massive scale. Specialized became commodity.
+
+**Compute:** Nvidia Jetson Orin runs 70B model with optimization. Cost: ~$999. [REF: Jetson specs]
+
+Every component is on a steep cost curve driven by other industries. The humanoid isn't pioneering manufacturing — it's assembling existing commodities in a new configuration.
 
 This is why $5,000 humanoids are plausible by 2027-2028.
 
-:::callout{type="key-insight" title="The Bottleneck Shifts"} A $5,000 body with no brain is useless. A $5,000 body with frontier AI is worth $50,000 in labor per year.
+The bottleneck is then intelligence.
 
-The value comes entirely from intelligence. The bottleneck is no longer hardware—it's the model. :::
+A $5,000 body with no brain is useless. A $5,000 body with frontier AI is worth $50,000 in labor per year. The value comes entirely from intelligence.
 
-:::sidebar{title="Dexterity Isn't Hardware-Gated"} Chris Paxton (Meta robotics researcher): "Human level dexterity is absolutely not gated by hardware."
+This is why the robotics industry's obsession with hardware is misplaced. Hardware is a solved problem — or will be within 2-3 years. Intelligence is the differentiator. And intelligence is being built by AI labs, not robotics companies.
 
-The proof: excavator operators flipping water bottles with 30-ton machines. The hardware is crude—hydraulic cylinders with massive backlash. The dexterity comes entirely from the human operator's learned control policy. :::
+---
 
-This is why the robotics industry's obsession with hardware is misplaced. Hardware challenges remain—actuators, reliability, safety certification, battery energy density—but the trajectory is clear and the supply chains exist. Intelligence is the differentiator. And intelligence is being built by AI labs, not robotics companies.
+## 10. Volume Projections
 
-9. The Forecasts
+Goldman Sachs: 76,000 humanoids by 2027, 250,000 by 2030. [REF: Goldman report]
 
-How many humanoids will actually ship? The analyst projections:
+Morgan Stanley: 1 billion by 2050. [REF: MS projections]
 
-**Goldman Sachs (Feb 2024):** 250,000 annual shipments by 2030, with 40% annual cost declines
+Why the disagreement? Mental models.
 
-**Bank of America (Apr 2025):** 18,000 units in 2025, scaling to ~1 million annually by 2030-35
+**Industrial equipment framing:** Humanoids as forklifts and CNC machines. Linear adoption. Factories replace capital stock on depreciation schedules. Gradual growth.
 
-**Morgan Stanley:** 1 billion installed base by 2050, $5T market
+**EV analogy framing:** Humanoids as state-prioritized industry. Exponential adoption. China pushes, supply chains scale, costs fall, adoption accelerates.
 
-I don't have a better model than these analysts. The uncertainty isn't about point estimates—it's about which regime we're in:
+Four scenarios:
 
-- If humanoids remain industrial equipment with slow enterprise sales cycles, even Goldman's 250K may be optimistic.
-- If GEI capabilities emerge and China treats humanoids like EVs, Goldman is probably 2-4x low.
-- If state mobilization compounds with GEI, BofA's 1M becomes plausible.
+| Scenario | 2027 | 2030 | Assumption |
+|----------|------|------|------------|
+| A: Goldman Linear | 45k | 250k | Commercial only |
+| B: EV Analogy | 100k | 800k | China push = EV push |
+| C: Faster Than EV | 200k | 2.2M | Pre-built supply chain |
+| D: State Mobilization | 350k | 4M | Strategic asset status |
 
-The key variable is capability. Price declines alone don't create demand—a $5,000 robot that can't do useful work is worthless. A $20,000 robot that can reliably perform $50,000/year of labor sells itself.
+My base case: 100,000-200,000 by 2027, 800,000-2,000,000 by 2030. This is 2-8x Goldman's estimate, driven by factors their model doesn't capture.
 
-:::sidebar{title="The Recognition Moment"} Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
+---
 
-The graph won't be a steady exponential. It'll look normal in 2025-2026, then steepen sharply as capital and focus rush in. :::
-
-10. The China Factor
+## 11. The China Factor
 
 China has repeatedly demonstrated what happens when they identify an industry as strategic.
 
-:::table{id="china-multipliers" caption="Historical scaling when China designates strategic industries"} :::
+Semiconductors. EVs. Batteries. Solar panels. Each time: coordinated government funding, provincial support, SOE mandates, rapid scaling. The $140B robotics fund signals humanoids have received this designation.
 
-Why Humanoids May Scale Faster
+Goldman's linear projections assume market-driven adoption. They don't model state-directed procurement. They don't model provincial governments mandating pilots. They don't model what happens when "strategic industry" status unlocks coordinated policy support.
 
-The EV analogy actually understates the potential for several reasons:
+The EV parallel is instructive. In 2012, skeptics said China would never compete with Western automakers. By 2024, Chinese EVs were threatening to dominate global markets. The skeptics weren't wrong about the technology. They were wrong about the will.
 
-**Lower unit cost enables faster adoption.** A $6,000 humanoid is 5x cheaper than a $30,000 EV. Same capital buys more units.
+The same dynamic likely applies to humanoids. When China decides an industry matters, they move faster than market analysts expect.
 
-**Supply chains already exist.** EVs required building gigafactories from scratch. Humanoids assemble existing components from mature supply chains.
+---
 
-**Capability inflection creates demand shock.** EVs offered incremental improvement over ICE vehicles. GEI could offer step-function capability that creates entirely new demand categories.
+# PART IV: THE ECONOMICS AND THE BET
 
-**Strategic priority may be higher.** The USCC report explicitly flags military-civil fusion implications. Humanoids aren't just economic—they're strategic.
+Predicting the future is hard. I've seen "robotics is about to take off" predictions before. They were wrong for decades. So let me be clear about what I'm claiming, what the evidence is, and how to check my work.
 
-PART IV: THE ECONOMICS
-
-Predicting technology adoption is hard. I've seen "robotics is about to take off" predictions before—they were wrong for decades. But the current moment feels different, and worth examining with whatever specificity we can muster.
-
-11. General Embodied Intelligence
-
-What exactly are we building toward?
-
-:::callout{type="definition" title="General Embodied Intelligence (GEI)"} A system that treats physical action as just another modality. The same world model that generates video, reasons about physics, and holds conversation can inhabit a body—learning manipulation from the same trillion-token pretraining that teaches it everything else.
-
-**Core properties:**
-
-**Body-agnostic:** One model, many embodiments. Skills transfer across robot morphologies because they're grounded in world understanding, not hardware-specific policies.
-
-**Demonstration-efficient:** Learns new physical skills from few-shot human demonstration, the way current LLMs learn new tasks from few-shot prompting.
-
-**Reasoning-integrated:** Plans actions by simulating outcomes in the same latent space it uses for language and vision.
-
-Unlike the R2-D2s and C-3POs of science fiction—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model. :::
-
-By 2027, I expect GEI systems will reliably handle:
-
-**Warehousing & Logistics:** Picking, packing, inventory management, loading/unloading—the current focus of most humanoid deployments.
-
-**Retail & Hospitality:** Store assistance, restocking, basic food preparation, cleaning, customer-facing tasks in hotels and restaurants.
-
-**Light Manufacturing:** Assembly line "last mile" tasks too variable for fixed automation, quality inspection, machine tending.
-
-**Facility Operations:** Security patrols, building maintenance, groundskeeping—roaming through semi-structured spaces doing dozens of small tasks.
-
-**Service & Wellness:** Fitness instruction, physical therapy assistance, personal training. A GEI that understands biomechanics from video pretraining could spot form issues, demonstrate exercises, and provide real-time feedback.
-
-**Companionship & Daily Living:** Assistance with activities of daily living for elderly or disabled individuals, social interaction. Japan and South Korea, facing acute eldercare shortages, may be early adopters.
-
-The first killer apps of GEI probably won't look like sci-fi. They'll look like a night shift: roaming through semi-structured spaces doing dozens of tiny tasks that internet video accidentally contains at scale.
-
-12. The Demand Side
-
-The TAM Question
-
-Most economic analyses assume humanoid robots will do one thing well—warehouse picking or assembly line work. They model the TAM as "tasks currently done by human warehouse workers."
-
-This dramatically underestimates the opportunity.
-
-**$4.6 trillion per year** — US employee compensation for "hands-on/service/manual" work (2024)
-
-A GEI system competes not with warehouse workers, but with human physical capability broadly. The TAM is physical labor in its entirety—and beyond. A sous-chef. An exercise trainer. A tennis partner. A night janitor who also handles security.
-
-The Robot Economics
-
-:::table{id="robot-economics" caption="Unit economics at current and projected price points"} :::
-
-:::sidebar{title="Inference Economics Insight"} A coding agent might burn through millions of tokens per task: reading codebases, reasoning through architectures, generating and revising.
-
-A robot doing physical work might need far fewer tokens—mostly ingesting video tokens and generating real-time control signals.
-
-The token cost per hour of productive labor could actually be *lower* for physical work than knowledge work.
-
-If you're an AI lab selling inference, a million robots doing night shifts might be better unit economics than a million developers. :::
-
-The Labor Shortage Is Already Real
-
-**85.2 million** — projected global worker shortage by 2030 (Korn Ferry)
-
-**4.6 million** — projected US eldercare worker shortfall by 2032
-
-China's working-age population has peaked and is projected to fall toward 40% of total population by 2050. Japan's elderly population already exceeds its working-age population in some regions.
-
-Demographics, not wages. The workers don't exist.
-
-The Jevons Paradox
-
-There's an economic pattern worth noting: when a resource becomes cheaper, :::hover{content="The Jevons Paradox: When a resource becomes more efficient to use, total consumption often increases rather than decreases. Named after William Jevons, who observed that coal consumption rose as steam engines became more efficient."} demand often increases faster than efficiency gains. Coal consumption rose as steam engines became more efficient. Computing usage exploded as transistors shrank.
-
-Cheaper physical labor may not just substitute for existing workers—it may create entirely new demand. Tasks currently "not worth paying someone to do" become viable. 24/7 operations become standard. New categories of physical service emerge.
-
-13. Value Capture: The Wintel Precedent
+## 12. Value Capture: The Wintel Precedent
 
 If cloud wins and hardware commoditizes, who captures the value? History offers a precedent.
 
 In the 1990s, the PC industry looked competitive. Dell, HP, Compaq, IBM, Gateway sold computers to businesses and consumers. Competitive market, right?
 
-Not really.
-
-**Intel + Microsoft (2004 net profit): $15 billion**
-
-**Top three PC OEMs combined: $2.5 billion**
-
-The platform layer captured 6x the profits of the hardware makers.
+Not really. A Harvard Business School study found that Intel and Microsoft — who manufactured zero PCs — earned more profit than every PC manufacturer combined. In 2004, Intel + Microsoft earned $15B net profit. Top three OEMs earned $2.5B combined. The companies controlling the "platform layer" captured 6x the profits of the hardware makers. [REF: HBS Wintel study]
 
 Competition among hardware makers drove margins toward zero. Intel and Microsoft collected rent. This was "Wintel."
 
 The robotics industry could follow the same pattern.
 
-:::figure{id="value-capture" caption="Two winning positions in the robotics value chain"} :::
+If foundation models are the intelligence layer that makes robots useful, then whoever provides that layer captures the value. Hardware manufacturers compete on cost. Model provider collects API fees on every hour of robot operation.
 
-Chinese manufacturers already produce humanoids at $6,000. By 2027: probably $5,000. By 2030: perhaps $3,000. Hardware commoditization helps the AI labs—cheaper bodies mean more deployments, more deployments mean more API revenue.
+Chinese manufacturers already produce humanoids at $6,000. By 2027: probably $5,000. By 2030: perhaps $3,000. Hardware commoditization helps the AI labs — cheaper bodies mean more deployments, more deployments mean more API revenue.
 
-14. What Would Prove Me Wrong
+There's a counterexample: Apple. They kept hardware and software integrated, controlled the full stack, built one of the most valuable companies in history.
 
-This essay makes falsifiable predictions. Here's what would prove the thesis wrong:
+The Apple model in robotics: a company that builds both the robot body AND the AI brain, capturing value through integration rather than platform control. Tesla is betting on this. Figure AI too — they ended their OpenAI collaboration in February 2025 to develop proprietary AI. [REF: Figure-OpenAI split]
 
-:::callout{type="falsifiable" title="Conditions That Would Falsify This Thesis"}
-**1. VLA models plateau at scale.** If going from 7B to 70B to 700B parameters doesn't improve manipulation capability, the core thesis fails. The scaling laws have to apply to embodied tasks as they have to language and reasoning.
+**Two winning positions:**
 
-**2. The 5Hz assumption fails.** If valuable tasks require the foundation model to run at 50Hz+ — if you can't cleanly separate "brain" from "spinal cord" — then edge computing wins and the cloud thesis collapses.
+**Platform:** Cloud AI provider. License foundation model. Capture value via API fees. Google/OpenAI territory.
 
-**3. Domain-specific beats general.** If small, specialized robotics models consistently outperform foundation models on real-world tasks, the bitter lesson doesn't apply to robotics. The generalists might not win this time.
+**Integration:** Full stack. Own hardware and software. Tesla territory.
 
-**4. Investment doesn't materialize.** If total investment in humanoid robotics stays below $10B annually through 2028, the opportunity isn't being recognized by capital markets. Either I'm wrong about the opportunity, or everyone else is. :::
+**What doesn't work:** hardware without controlling intelligence. That's Dell in 1998 — competing on cost with no moat, while platform owners take the profit.
 
-CODA: The Bet
+---
 
-This essay makes a specific bet:
+## 13. The Demand Side
 
-**The team training GPT-7 will also train the dominant robot brain.**
+The labor shortage is already real, not forecast.
+
+Korn Ferry projects an 85.2 million worker shortage globally by 2030. The US eldercare sector faces a 4.6 million worker shortfall by 2032. China's working-age population has peaked and is projected to fall toward 40% by 2050. [REF: Korn Ferry projections]
+
+Demographics, not wages. The workers don't exist.
+
+Now the robot economics:
+
+A humanoid at current pricing: $6,000. Operating 7,000 hours annually (20 hours/day, 350 days), with 3-year depreciation, maintenance, and electricity: roughly $0.50-1.50 per hour all-in.
+
+Manufacturing wages in Vietnam: $2-3/hour. US: $20-30/hour.
+
+The economics work almost everywhere. The question is capability: can the robots actually do the tasks?
+
+Humanoids compete where traditional robotics can't — mobile rather than fixed, multi-task rather than single-task, unstructured rather than structured environments. The likeliest early verticals: warehousing (Amazon/Agility already deploying), manufacturing "last mile" (tasks too variable for fixed automation), construction (repetitive physical work, labor shortage).
+
+---
+
+## 14. Deployment Timeline
+
+I expect three waves:
+
+**Wave 1 (2025-2027): Pilots and State Procurement**
+
+Chinese SOEs, military applications, enterprise pilots. Running on strategic mandate and R&D budgets, not proven ROI.
+
+**Wave 2 (2027-2030): Commercial Scaling**
+
+Mainstream enterprises buying once ROI is proven. Warehouses, manufacturing, logistics.
+
+**Wave 3 (2030+): Consumer and Services**
+
+If hardware hits $5,000 and AI improves: eldercare, hospitality, home applications.
+
+Goldman projects 76,000 humanoids by 2027, 250,000 by 2030. I think they're too conservative — but I also think the timing is non-linear.
+
+**The "wake-up" problem:** Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits — probably late 2026 — you'll see a rapid shift in investment, deployment, and attention.
+
+The graph won't be a steady exponential from today. It'll look normal in 2025-2026, then steepen sharply as capital and focus rush in.
+
+Don't extrapolate from current deployment rates. The underlying capability is building faster than the deployment numbers suggest. When perception catches up to reality, the numbers will move fast.
+
+---
+
+## 15. What To Watch
+
+Rather than predict specific dates, here are observable indicators. When you see these, the thesis is playing out:
+
+**Foundation model lab ships robotics API.** Google, OpenAI, or Anthropic releases commercial API for robot control. Not a demo — a product with pricing. Confirms AI labs see robotics as revenue opportunity.
+
+**Cloud robot beats on-device in benchmark.** Robot with cloud-based foundation model outperforms comparably-priced on-device model in manipulation benchmark. Confirms capability advantage of cloud.
+
+**Chinese manufacturers capture majority market share.** Unitree, UBTECH, or another Chinese company sells more humanoids than Western competitors combined. Consistent with value migrating to intelligence layer.
+
+**Major single-company deployment.** 1,000+ humanoids at single enterprise (Amazon, BYD, Chinese SOE). Confirms unit economics work at scale.
+
+**Emergence documented.** Published paper shows emergent capabilities in robot foundation model — capabilities not explicitly trained. Confirms scaling laws apply to robotics.
+
+---
+
+## 16. What Would Prove Me Wrong
+
+**VLA models plateau at scale.** If going from 7B to 70B to 700B parameters doesn't improve manipulation, the core thesis fails. Scaling laws have to apply.
+
+**5Hz assumption fails.** If valuable tasks require foundation model at 50Hz+ — if you can't separate "brain" from "spinal cord" — then edge wins.
+
+**Domain-specific beats general.** If small, specialized models consistently outperform foundation models, the bitter lesson doesn't apply to robotics.
+
+**Investment doesn't materialize.** If total investment stays below $10B annually through 2028, the opportunity isn't being recognized.
+
+---
+
+## 17. Predictions
+
+I'll be concrete. We're in late December 2025.
+
+### By end of 2026:
+- Major AI lab ships commercial robotics API (85% confidence)
+- Global humanoid deployments: 15,000-30,000
+- First 1,000+ robot deployment at single company (75% confidence)
+
+### By end of 2027:
+- Global deployments: 100,000-200,000 (vs. Goldman's 76,000)
+- Chinese manufacturers >50% of global production (80% confidence)
+- Foundation models power 30%+ of new deployments (75% confidence)
+
+### By end of 2028:
+- Global deployments: 300,000-600,000
+- Foundation models power majority of new deployments (85% confidence)
+- Hardware margins fall below 20% (70% confidence)
+
+### By 2030:
+- Global deployments: 800,000-2,000,000 (vs. Goldman's 250,000)
+- Leading humanoid AI provider market cap exceeds leading hardware manufacturer (65% confidence)
+
+**Volume comparison:**
+
+| Year | Goldman Sachs | My Base Case |
+|------|---------------|--------------|
+| 2026 | ~20,000 | 15,000-30,000 |
+| 2027 | 76,000 | 100,000-200,000 |
+| 2028 | ~120,000 | 300,000-600,000 |
+| 2030 | 250,000 | 800,000-2,000,000 |
+
+**Falsification thresholds:**
+- If 2027 < 50,000: I'm wrong, Goldman was right
+- If 2027 > 150,000: Thesis validated
+
+---
+
+# CODA: The Bet
+
+This essay makes a specific bet: the team training GPT-7 will also train the dominant robot brain.
 
 Not a separate robotics team. Not a purpose-built manipulation system. The same researchers, infrastructure, and scaling laws that produce frontier language models will produce the model controlling millions of robot bodies.
 
 **Why is this time different?**
 
-**The intelligence actually works.** Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer—real capabilities, not vaporware.
+**The intelligence actually works.** Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer — real capabilities, not vaporware.
 
 **The hardware is actually cheap.** Previous cycles featured $500,000 research platforms. This time: $6,000 production humanoids and falling.
 
-**The demand is actually urgent.** Previous cycles offered "wouldn't it be cool" applications. This time: 85 million worker shortage globally, AI companies seeking new revenue streams beyond chatbots, and geopolitical competition accelerating state investment.
+**The demand is actually urgent.** Previous cycles offered "wouldn't it be cool" applications. This time: 85 million worker shortage. Real pull.
 
 When capability, cost, and demand align simultaneously, technology transitions happen.
 
-The Stakes
+---
 
-The robot that folds your laundry will run GPT-7. But GPT-7 will also fold the laundry of millions of other people. It will work in factories and warehouses and construction sites and hospitals.
+## The Stakes
+
+The robot that folds your laundry will run GPT-7. But GPT-7 will also fold the laundry of a billion other people. It will work in factories and warehouses and construction sites and hospitals.
 
 One model. Many bodies. Whoever controls the model controls the future of physical labor.
 
@@ -498,5 +602,7 @@ The question isn't whether this happens. The question is who builds it, who runs
 
 *Written December 2025.*
 
-*Check back in 2027, 2028, 2030.*
+*The author has no financial position in any company mentioned. This essay reflects personal analysis, not insider information.*
+
+*Check back in 2027, 2028, 2030. The predictions are falsifiable. The bet is on the table.*
 `;

@@ -4,6 +4,7 @@ import Layout from './Layout';
 import Home from './pages/Home';
 import LabEntry from './pages/LabEntry';
 import NoteEntry from './pages/NoteEntry';
+import EssayEntry from './pages/EssayEntry';
 import InteractiveEssay from './pages/InteractiveEssay';
 import Resume from './pages/Resume';
 import LabIndex from './pages/LabIndex';
@@ -35,12 +36,10 @@ const router = createBrowserRouter([
         element: <NoteEntry />,
       },
       {
-        // Main essay route - now serves interactive version
         path: "essays/:slug",
-        element: <InteractiveEssay />,
+        element: <EssayEntry />,
       },
       {
-        // Keep /interactive working for any old links
         path: "essays/:slug/interactive",
         element: <InteractiveEssay />,
       },
