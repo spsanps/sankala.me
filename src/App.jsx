@@ -6,6 +6,7 @@ import LabEntry from './pages/LabEntry';
 import NoteEntry from './pages/NoteEntry';
 import EssayEntry from './pages/EssayEntry';
 import InteractiveEssay from './pages/InteractiveEssay';
+import GPT7Essay from './pages/GPT7Essay';
 import Resume from './pages/Resume';
 import LabIndex from './pages/LabIndex';
 import NotesIndex from './pages/NotesIndex';
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "essays/:slug/interactive",
         element: <InteractiveEssay />,
+      },
+      {
+        path: "essays/gpt7-will-have-arms",
+        element: <GPT7Essay />,
       },
       {
         path: "resume",
