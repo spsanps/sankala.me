@@ -740,19 +740,19 @@ export default function GPT7Essay() {
     { id: 'on-the-altar-of-scale', title: 'On the Altar of Scale', code: 'A1', level: 2 },
     { id: 'many-a-bitter-lesson', title: 'Many a Bitter Lesson', code: 'A2', level: 2 },
     { id: 'part-ii', title: 'The Architecture', code: 'B', level: 1 },
-    { id: 'the-cloud-thesis', title: 'The Cloud Thesis', code: 'B3', level: 2 },
-    { id: 'the-latency-objection', title: 'The Latency Objection', code: 'B4', level: 2 },
-    { id: 'the-revenue-connection', title: 'The Revenue Connection', code: 'B5', level: 2 },
+    { id: 'viki', title: 'VIKI', code: 'B3', level: 2 },
+    { id: 'latency', title: 'But Latency!', code: 'B4', level: 2 },
+    { id: 'robots-as-a-service', title: 'Robots-as-a-Service', code: 'B5', level: 2 },
     { id: 'part-iii', title: 'The Hardware Flood', code: 'C', level: 1 },
-    { id: 'the-unitree-trajectory', title: 'The Unitree Trajectory', code: 'C6', level: 2 },
+    { id: 'racing-to-zero', title: 'Racing to Zero', code: 'C6', level: 2 },
     { id: 'the-ev-precedent', title: 'The EV Precedent', code: 'C7', level: 2 },
-    { id: 'the-components-collapse', title: 'The Components Collapse', code: 'C8', level: 2 },
-    { id: 'the-forecasts', title: 'The Forecasts', code: 'C9', level: 2 },
-    { id: 'the-china-factor', title: 'The China Factor', code: 'C10', level: 2 },
+    { id: 'when-sensors-cost-pennies', title: 'When Sensors Cost Pennies', code: 'C8', level: 2 },
+    { id: 'how-many-how-soon', title: 'How Many, How Soon', code: 'C9', level: 2 },
+    { id: 'china-speed', title: 'China Speed', code: 'C10', level: 2 },
     { id: 'part-iv', title: 'The Economics', code: 'D', level: 1 },
     { id: 'general-embodied-intelligence', title: 'General Embodied Intelligence', code: 'D11', level: 2 },
-    { id: 'the-demand-side', title: 'The Demand Side', code: 'D12', level: 2 },
-    { id: 'value-capture', title: 'Value Capture', code: 'D13', level: 2 },
+    { id: 'who-will-buy-them', title: 'Who Will Buy Them', code: 'D12', level: 2 },
+    { id: 'who-gets-rich', title: 'Who Gets Rich', code: 'D13', level: 2 },
     { id: 'what-would-prove-me-wrong', title: 'What Would Prove Me Wrong', code: 'D14', level: 2 },
     { id: 'coda', title: 'The Bet', code: 'E', level: 1 },
   ];
@@ -1645,17 +1645,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           Not a robotics model. Not a purpose-built manipulation system. A finetune of the same trillion-parameter model that automates software engineering and scientific research—that model will also fold your shirts.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Labs Have Started Realizing This</div>
-          <p>The AI labs are now training robot brains:</p>
-          <ul>
-            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025)</li>
-            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence</li>
-            <li><strong>Physical Intelligence</strong>: $400M funding to build foundation models for robots</li>
-          </ul>
-          <p><em>Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI."</em></p>
-        </div>
-
         <p>This essay makes three claims:</p>
 
         <div className="callout">
@@ -1854,6 +1843,17 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           A frontier-scale model that's seen YouTube-scale video of everything in existence—humans manipulating objects, navigating spaces, using tools, in every context and configuration—has already learned most of what it needs to know about the physical world. The robot-specific data just aligns this understanding to a specific embodiment. The foundation does the heavy lifting. The fine-tuning is the easy part.
         </p>
 
+        <div className="sidebar-note">
+          <div className="sidebar-note-title">Labs Have Started Realizing This</div>
+          <p>The AI labs are now training robot brains:</p>
+          <ul>
+            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025)</li>
+            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence</li>
+            <li><strong>Physical Intelligence</strong>: $400M funding to build foundation models for robots</li>
+          </ul>
+          <p><em>Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI."</em></p>
+        </div>
+
         <p className={focusMode ? 'has-highlight' : ''}>
           <strong>This is why frontier labs—not robotics labs—will likely build the robot brain.</strong> They're training trillion-parameter multimodal models on internet-scale video. The robotics teams are finetuning 7B models while the real capability is being built elsewhere.
         </p>
@@ -1901,13 +1901,13 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
             className="w-full rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain', background: '#E8E5DE' }}
           />
-          <p className="figure-caption">The VIKI architecture: cloud intelligence, distributed bodies</p>
+          <p className="figure-caption">VIKI (Virtual Interactive Kinetic Intelligence) from I, Robot—one central AI controlling all robots. The future architecture: cloud intelligence, distributed bodies.</p>
         </div>
       </section>
 
-      <section id="the-cloud-thesis" data-section="the-cloud-thesis">
+      <section id="viki" data-section="viki">
         <SectionCode code="B3" isPart={false} />
-        <h2>The Cloud Thesis</h2>
+        <h2>VIKI</h2>
 
         <p>
           A natural question is where computation should live. The robotics community has historically assumed edge-first architecture: robots should be autonomous, self-contained, independent. This assumption deserves scrutiny.
@@ -2022,9 +2022,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-latency-objection" data-section="the-latency-objection">
+      <section id="latency" data-section="latency">
         <SectionCode code="B4" isPart={false} />
-        <h2>The Latency Objection</h2>
+        <h2>But Latency!</h2>
 
         <p>
           "But latency!" This is the first objection everyone raises. Motor control needs 200Hz—every 5 milliseconds. You can't wait for datacenter round-trip. Cloud robotics is physically impossible.
@@ -2111,9 +2111,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-revenue-connection" data-section="the-revenue-connection">
+      <section id="robots-as-a-service" data-section="robots-as-a-service">
         <SectionCode code="B5" isPart={false} />
-        <h2>The Revenue Connection</h2>
+        <h2>Robots-as-a-Service</h2>
 
         <p>
           Claude Code became the revenue story for AI in 2025. Coding—where AI creates measurable value, where enterprises pay—is now central to every lab's business model.
@@ -2165,9 +2165,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <h1>PART III: THE HARDWARE FLOOD</h1>
       </section>
 
-      <section id="the-unitree-trajectory" data-section="the-unitree-trajectory">
+      <section id="racing-to-zero" data-section="racing-to-zero">
         <SectionCode code="C6" isPart={false} />
-        <h2>The Unitree Trajectory</h2>
+        <h2>Racing to Zero</h2>
 
         <p className={focusMode ? 'has-highlight' : ''}>
           <strong>The hardware story is simple: costs are collapsing faster than anyone expected.</strong>
@@ -2259,9 +2259,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-components-collapse" data-section="the-components-collapse">
+      <section id="when-sensors-cost-pennies" data-section="when-sensors-cost-pennies">
         <SectionCode code="C8" isPart={false} />
-        <h2>The Components Collapse</h2>
+        <h2>When Sensors Cost Pennies</h2>
 
         <p>
           Zoom in on the components, and the price collapse makes more sense.
@@ -2305,9 +2305,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-forecasts" data-section="the-forecasts">
+      <section id="how-many-how-soon" data-section="how-many-how-soon">
         <SectionCode code="C9" isPart={false} />
-        <h2>The Forecasts</h2>
+        <h2>How Many, How Soon</h2>
 
         <p>How many humanoids will actually ship? The analyst projections:</p>
 
@@ -2335,9 +2335,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-china-factor" data-section="the-china-factor">
+      <section id="china-speed" data-section="china-speed">
         <SectionCode code="C10" isPart={false} />
-        <h2>The China Factor</h2>
+        <h2>China Speed</h2>
 
         <p>
           China has repeatedly demonstrated what happens when they identify an industry as strategic.
@@ -2426,9 +2426,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="the-demand-side" data-section="the-demand-side">
+      <section id="who-will-buy-them" data-section="who-will-buy-them">
         <SectionCode code="D12" isPart={false} />
-        <h2>The Demand Side</h2>
+        <h2>Who Will Buy Them</h2>
 
         <h3>The TAM Question</h3>
 
@@ -2492,9 +2492,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="value-capture" data-section="value-capture">
+      <section id="who-gets-rich" data-section="who-gets-rich">
         <SectionCode code="D13" isPart={false} />
-        <h2>Value Capture: The Wintel Precedent</h2>
+        <h2>Who Gets Rich</h2>
 
         <p>
           If cloud wins and hardware commoditizes, who captures the value? History offers a precedent.
