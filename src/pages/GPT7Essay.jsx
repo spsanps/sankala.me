@@ -680,11 +680,9 @@ export default function GPT7Essay() {
   const [activeSection, setActiveSection] = useState('');
   const [showTOC, setShowTOC] = useState(false);
   const [expandedFootnotes, setExpandedFootnotes] = useState({});
-  const [isScrolling, setIsScrolling] = useState(false);
   const contentRef = useRef(null);
-  const scrollTimeoutRef = useRef(null);
 
-  // Scroll handling with fade detection
+  // Scroll handling for progress bar
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -692,22 +690,12 @@ export default function GPT7Essay() {
       const progress = (scrollTop / docHeight) * 100;
       setReadProgress(Math.min(100, Math.max(0, progress)));
       setShowScrollTop(scrollTop > 500);
-
-      // Detect active scrolling for TOC fade
-      setIsScrolling(true);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsScrolling(false);
-      }, 150);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
@@ -745,28 +733,28 @@ export default function GPT7Essay() {
     }
   }, []);
 
-  // Table of contents
+  // Table of contents with section codes
   const toc = [
-    { id: 'introduction', title: 'Introduction', level: 1 },
-    { id: 'part-i', title: 'Part I: The Convergence', level: 1 },
-    { id: 'on-the-altar-of-scale', title: '1. On the Altar of Scale', level: 2 },
-    { id: 'many-a-bitter-lesson', title: '2. Many a Bitter Lesson to Go', level: 2 },
-    { id: 'part-ii', title: 'Part II: The Architecture', level: 1 },
-    { id: 'the-cloud-thesis', title: '3. The Cloud Thesis', level: 2 },
-    { id: 'the-latency-objection', title: '4. The Latency Objection', level: 2 },
-    { id: 'the-revenue-connection', title: '5. The Revenue Connection', level: 2 },
-    { id: 'part-iii', title: 'Part III: The Hardware Flood', level: 1 },
-    { id: 'the-unitree-trajectory', title: '6. The Unitree Trajectory', level: 2 },
-    { id: 'the-ev-precedent', title: '7. The EV Precedent', level: 2 },
-    { id: 'the-components-collapse', title: '8. The Components Collapse', level: 2 },
-    { id: 'the-forecasts', title: '9. The Forecasts', level: 2 },
-    { id: 'the-china-factor', title: '10. The China Factor', level: 2 },
-    { id: 'part-iv', title: 'Part IV: The Economics', level: 1 },
-    { id: 'general-embodied-intelligence', title: '11. General Embodied Intelligence', level: 2 },
-    { id: 'the-demand-side', title: '12. The Demand Side', level: 2 },
-    { id: 'value-capture', title: '13. Value Capture', level: 2 },
-    { id: 'what-would-prove-me-wrong', title: '14. What Would Prove Me Wrong', level: 2 },
-    { id: 'coda', title: 'Coda: The Bet', level: 1 },
+    { id: 'introduction', title: 'Introduction', code: '§', level: 1 },
+    { id: 'part-i', title: 'The Convergence', code: 'A', level: 1 },
+    { id: 'on-the-altar-of-scale', title: 'On the Altar of Scale', code: 'A1', level: 2 },
+    { id: 'many-a-bitter-lesson', title: 'Many a Bitter Lesson', code: 'A2', level: 2 },
+    { id: 'part-ii', title: 'The Architecture', code: 'B', level: 1 },
+    { id: 'the-cloud-thesis', title: 'The Cloud Thesis', code: 'B3', level: 2 },
+    { id: 'the-latency-objection', title: 'The Latency Objection', code: 'B4', level: 2 },
+    { id: 'the-revenue-connection', title: 'The Revenue Connection', code: 'B5', level: 2 },
+    { id: 'part-iii', title: 'The Hardware Flood', code: 'C', level: 1 },
+    { id: 'the-unitree-trajectory', title: 'The Unitree Trajectory', code: 'C6', level: 2 },
+    { id: 'the-ev-precedent', title: 'The EV Precedent', code: 'C7', level: 2 },
+    { id: 'the-components-collapse', title: 'The Components Collapse', code: 'C8', level: 2 },
+    { id: 'the-forecasts', title: 'The Forecasts', code: 'C9', level: 2 },
+    { id: 'the-china-factor', title: 'The China Factor', code: 'C10', level: 2 },
+    { id: 'part-iv', title: 'The Economics', code: 'D', level: 1 },
+    { id: 'general-embodied-intelligence', title: 'General Embodied Intelligence', code: 'D11', level: 2 },
+    { id: 'the-demand-side', title: 'The Demand Side', code: 'D12', level: 2 },
+    { id: 'value-capture', title: 'Value Capture', code: 'D13', level: 2 },
+    { id: 'what-would-prove-me-wrong', title: 'What Would Prove Me Wrong', code: 'D14', level: 2 },
+    { id: 'coda', title: 'The Bet', code: 'E', level: 1 },
   ];
 
   return (
@@ -841,35 +829,30 @@ export default function GPT7Essay() {
 
       {/* Main Layout */}
       <div className="flex justify-center">
-        {/* Left Sidebar - TOC (Desktop) */}
-        <aside
-          className={`hidden lg:block fixed left-0 top-14 bottom-0 w-56 xl:w-64 pt-8 pb-12 pl-6 pr-4 overflow-y-auto ${
-            isScrolling ? 'opacity-30' : 'opacity-100'
-          }`}
-        >
-          <nav className="space-y-0.5">
-            <p className="text-[10px] uppercase tracking-[0.2em] text-[#8A9A85] font-medium mb-4 px-3">Contents</p>
-            {toc.map((item) => (
-              <button
-                key={item.id}
-                onClick={() => scrollToSection(item.id)}
-                className={`toc-item block w-full text-left py-1.5 px-3 rounded text-[12px] transition-all duration-150 font-serif ${
-                  item.level === 1
-                    ? 'font-semibold text-[#1A1A1A] mt-2 first:mt-0'
-                    : 'text-[#8A9A85] pl-4'
-                } ${activeSection === item.id
-                    ? 'bg-[#2A3C24] text-[#F5F2EB]'
-                    : 'hover:bg-[#2A3C24]/10 hover:text-[#2A3C24]'
-                }`}
-              >
-                {item.title}
-              </button>
-            ))}
+        {/* Left Sidebar TOC - shows on hover */}
+        <aside className="left-sidebar-toc hidden xl:block fixed left-0 top-0 h-full w-[300px] z-30">
+          <div className="left-sidebar-trigger h-full" />
+          <nav className="left-sidebar-content">
+            <div className="left-sidebar-header">
+              <div className="text-xs font-semibold text-[#8A9A85] uppercase tracking-wider">Contents</div>
+            </div>
+            <div className="left-sidebar-scroll">
+              {toc.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`left-toc-item ${item.level === 1 ? 'left-toc-part' : 'left-toc-section'} ${activeSection === item.id ? 'active' : ''}`}
+                >
+                  <span className="left-toc-code">{item.code}</span>
+                  <span className="left-toc-title">{item.title}</span>
+                </button>
+              ))}
+            </div>
           </nav>
         </aside>
 
-        {/* Main Content */}
-        <main ref={contentRef} className="w-full max-w-[680px] mx-auto px-5 sm:px-8 pt-24 pb-24 lg:ml-56 xl:ml-64">
+        {/* Main Content with vertical border lines */}
+        <main ref={contentRef} className="essay-container w-full max-w-[680px] mx-auto px-5 sm:px-8 pt-24 pb-24">
 
           {/* Essay Header */}
           <header className="mb-16 pb-10 border-b border-[#2A3C24]/10">
@@ -912,7 +895,7 @@ export default function GPT7Essay() {
 
           {/* Essay Content */}
           <article className={`essay-prose ${focusMode ? 'focus-active' : ''}`}>
-            <EssayContent focusMode={focusMode} />
+            <EssayContent focusMode={focusMode} toc={toc} scrollToSection={scrollToSection} activeSection={activeSection} />
           </article>
 
           {/* Footer */}
@@ -980,41 +963,129 @@ export default function GPT7Essay() {
           font-style: italic;
         }
 
-        /* Headings */
+        /* Left margin section codes - big bold letters */
+        .section-code {
+          display: none;
+        }
+
+        @media (min-width: 1280px) {
+          .section-code {
+            display: block;
+            position: absolute;
+            left: -180px;
+            top: 0.85rem;
+            width: 150px;
+            text-align: right;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #2A3C24;
+            opacity: 0.25;
+            line-height: 1;
+            cursor: default;
+            transition: opacity 0.15s;
+          }
+
+          .section-code:hover {
+            opacity: 0.4;
+          }
+
+          .section-code-sub {
+            font-size: 2rem;
+            font-weight: 800;
+            top: 0.6rem;
+          }
+
+          /* Position relative to section */
+          .essay-prose section {
+            position: relative;
+          }
+        }
+
+        /* Headings with decorative lines */
         .essay-prose h1 {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 1.875rem;
+          font-size: 1.75rem;
           font-weight: 700;
-          color: #1A1A1A;
-          margin-top: 3.5rem;
+          color: #2A3C24;
+          margin-top: 4rem;
           margin-bottom: 1.5rem;
-          padding-bottom: 0.5rem;
-          border-bottom: 1px solid rgba(42, 60, 36, 0.15);
+          padding: 1rem 0;
           line-height: 1.2;
+          position: relative;
+          clear: both;
+        }
+
+        .essay-prose h1::before,
+        .essay-prose h1::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: #2A3C24;
+          opacity: 0.2;
+        }
+
+        .essay-prose h1::before {
+          top: 0;
+        }
+
+        .essay-prose h1::after {
+          bottom: 0;
         }
 
         .essay-prose h1:first-child {
           margin-top: 0;
         }
 
+        /* Remove margin when heading follows section code */
+        .essay-prose .section-code + h1,
+        .essay-prose .section-code + h2 {
+          margin-top: 0;
+        }
+
         .essay-prose h2 {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 1.5rem;
+          font-size: 1.4rem;
           font-weight: 600;
           color: #1A1A1A;
-          margin-top: 2.75rem;
+          margin-top: 3rem;
           margin-bottom: 1.25rem;
+          padding: 0.75rem 0;
           line-height: 1.3;
+          position: relative;
+          clear: both;
+        }
+
+        .essay-prose h2::before,
+        .essay-prose h2::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: #8A9A85;
+          opacity: 0.3;
+        }
+
+        .essay-prose h2::before {
+          top: 0;
+        }
+
+        .essay-prose h2::after {
+          bottom: 0;
         }
 
         .essay-prose h3 {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 1.2rem;
+          font-size: 1.15rem;
           font-weight: 600;
           color: #2A3C24;
-          margin-top: 2.25rem;
+          margin-top: 2.5rem;
           margin-bottom: 1rem;
           line-height: 1.4;
+          clear: both;
         }
 
         /* Links */
@@ -1069,12 +1140,18 @@ export default function GPT7Essay() {
           margin-bottom: 0;
         }
 
-        /* Horizontal rules */
+        /* Horizontal rules - Major part dividers */
         .essay-prose hr {
           border: none;
           height: 1px;
-          background: linear-gradient(to right, transparent, rgba(42, 60, 36, 0.2), transparent);
-          margin: 3.5rem 0;
+          background: linear-gradient(90deg,
+            transparent 0%,
+            #2A3C24 20%,
+            #2A3C24 80%,
+            transparent 100%
+          );
+          opacity: 0.2;
+          margin: 4rem 0;
         }
 
         /* Code */
@@ -1386,17 +1463,170 @@ export default function GPT7Essay() {
         html {
           scroll-behavior: auto;
         }
+
+        /* Left Sidebar TOC - hover to reveal */
+        .left-sidebar-toc {
+          pointer-events: none;
+        }
+
+        .left-sidebar-trigger {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 220px;
+          height: 100%;
+          pointer-events: auto;
+        }
+
+        .left-sidebar-content {
+          position: absolute;
+          left: 1.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 280px;
+          max-height: 70vh;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.1s ease;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .left-sidebar-toc:hover .left-sidebar-content {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .left-sidebar-header {
+          padding: 0 0.5rem 0.75rem;
+          flex-shrink: 0;
+        }
+
+        .left-sidebar-scroll {
+          flex: 1;
+          overflow-y: auto;
+          padding: 0.5rem 0;
+          mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+          );
+          -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 8%,
+            black 92%,
+            transparent 100%
+          );
+        }
+
+        .left-toc-item {
+          display: flex;
+          align-items: baseline;
+          gap: 0.75rem;
+          width: 100%;
+          padding: 0.45rem 0.5rem;
+          text-align: left;
+          font-family: 'Crimson Pro', Georgia, serif;
+          font-size: 0.95rem;
+          color: #8A9A85;
+          transition: color 0.1s;
+          cursor: pointer;
+          border: none;
+          background: transparent;
+        }
+
+        .left-toc-item:hover {
+          color: #2A3C24;
+        }
+
+        .left-toc-item:hover .left-toc-code {
+          color: #2A3C24;
+        }
+
+        .left-toc-item.active {
+          color: #2A3C24;
+        }
+
+        .left-toc-item.active .left-toc-code {
+          color: #2A3C24;
+        }
+
+        .left-toc-part {
+          font-weight: 600;
+          font-size: 1rem;
+          color: #2A3C24;
+        }
+
+        .left-toc-part .left-toc-code {
+          color: #2A3C24;
+          font-size: 1rem;
+        }
+
+        .left-toc-section {
+          padding-left: 2rem;
+          font-weight: 400;
+          font-size: 0.9rem;
+        }
+
+        .left-toc-code {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 0.85rem;
+          font-weight: 700;
+          color: #8A9A85;
+          min-width: 2rem;
+          transition: color 0.1s;
+        }
+
+        .left-toc-title {
+          flex: 1;
+        }
+
+        /* Hide scrollbar */
+        .left-sidebar-scroll::-webkit-scrollbar {
+          width: 0;
+          display: none;
+        }
       `}</style>
     </div>
   );
 }
 
+// Simple Section Code Component (just displays the code)
+function SectionCode({ code, isPart }) {
+  return (
+    <span className={`section-code ${!isPart ? 'section-code-sub' : ''}`}>
+      {code}
+    </span>
+  );
+}
+
 // Essay Content Component
-function EssayContent({ focusMode }) {
+function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
   return (
     <div>
       {/* Introduction */}
       <section id="introduction" data-section="introduction">
+        {/* Opening Image */}
+        <div className="figure-container" style={{ marginBottom: '2.5rem' }}>
+          <div style={{ overflow: 'hidden', borderRadius: '0.5rem' }}>
+            <img
+              src="/essays/gpt7/Opening.png"
+              alt="Chrome robot standing under a partial Dyson swarm in a sunflower field"
+              className="w-full"
+              style={{
+                height: '350px',
+                objectFit: 'cover',
+                objectPosition: 'center top',
+                background: '#E8E5DE'
+              }}
+            />
+          </div>
+          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial Dyson swarm in a sunflower field</p>
+        </div>
+
         <p>
           On the eve of the technological singularity, the discussion around superintelligence—and the vision we have in our collective psyche—is of a world transformed by superintelligent AI that is fundamentally about software and virtual agents. The AIs are disembodied: a "country of geniuses in a datacenter" doing research and writing superhuman code, but never picking up a test tube or building a bridge.
         </p>
@@ -1453,9 +1683,9 @@ function EssayContent({ focusMode }) {
           This matters beyond technology. If AI takeoff happens in the late 20s, it won't just be intelligence in datacenters as we imagine it to be. It will be intelligence with physical presence—in factories, warehouses, homes, and battlefields. The competition won't just be about who builds AGI first. It will be about who controls <em>physical</em> AGI during the takeoff window.
         </p>
 
-        <div className="callout" style={{ background: '#E8E5DE', color: '#2A3C24' }}>
-          <div className="callout-title" style={{ color: '#8A9A85' }}>Reading Guide</div>
-          <p style={{ color: '#2A3C24', fontStyle: 'italic' }}>
+        <div className="callout">
+          <div className="callout-title">Reading Guide</div>
+          <p style={{ fontStyle: 'italic' }}>
             This essay proceeds in four parts: <strong>The Convergence</strong> (why foundation models become robot brains), <strong>The Architecture</strong> (why cloud beats edge), <strong>The Hardware Flood</strong> (why costs collapse), and <strong>The Economics</strong> (who captures value).
           </p>
         </div>
@@ -1465,11 +1695,13 @@ function EssayContent({ focusMode }) {
 
       {/* Part I */}
       <section id="part-i" data-section="part-i">
+        <SectionCode code="A" isPart={true} />
         <h1>PART I: THE CONVERGENCE</h1>
       </section>
 
       <section id="on-the-altar-of-scale" data-section="on-the-altar-of-scale">
-        <h2>1. On the Altar of Scale</h2>
+        <SectionCode code="A1" isPart={false} />
+        <h2>On the Altar of Scale</h2>
 
         <p>
           The robotics data problem was supposed to be insurmountable. You can train GPT-4/GPT-5 class models on trillions of tokens from the internet; you cannot download robot demonstrations. This implied that robotics would lag language AI by decades.
@@ -1632,7 +1864,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="many-a-bitter-lesson" data-section="many-a-bitter-lesson">
-        <h2>2. Many a Bitter Lesson to Go</h2>
+        <SectionCode code="A2" isPart={false} />
+        <h2>Many a Bitter Lesson to Go</h2>
 
         <p>
           Chess. Go. Protein folding. Machine translation. Image recognition. Speech synthesis. Self-driving. In every domain, the pattern repeated: hand-engineered systems with decades of expert knowledge were swept away by scaled-up learning.
@@ -1662,11 +1895,12 @@ function EssayContent({ focusMode }) {
 
       {/* Part II */}
       <section id="part-ii" data-section="part-ii">
+        <SectionCode code="B" isPart={true} />
         <h1>PART II: THE ARCHITECTURE</h1>
 
         <div className="figure-container">
           <img
-            src="/essays/gpt7/VIKI.png"
+            src="/essays/gpt7/VIKI_alt.png"
             alt="VIKI from I, Robot"
             className="w-full rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain', background: '#E8E5DE' }}
@@ -1676,7 +1910,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-cloud-thesis" data-section="the-cloud-thesis">
-        <h2>3. The Cloud Thesis</h2>
+        <SectionCode code="B3" isPart={false} />
+        <h2>The Cloud Thesis</h2>
 
         <p>
           A natural question is where computation should live. The robotics community has historically assumed edge-first architecture: robots should be autonomous, self-contained, independent. This assumption deserves scrutiny.
@@ -1792,7 +2027,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-latency-objection" data-section="the-latency-objection">
-        <h2>4. The Latency Objection</h2>
+        <SectionCode code="B4" isPart={false} />
+        <h2>The Latency Objection</h2>
 
         <p>
           "But latency!" This is the first objection everyone raises. Motor control needs 200Hz—every 5 milliseconds. You can't wait for datacenter round-trip. Cloud robotics is physically impossible.
@@ -1880,7 +2116,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-revenue-connection" data-section="the-revenue-connection">
-        <h2>5. The Revenue Connection</h2>
+        <SectionCode code="B5" isPart={false} />
+        <h2>The Revenue Connection</h2>
 
         <p>
           Claude Code became the revenue story for AI in 2025. Coding—where AI creates measurable value, where enterprises pay—is now central to every lab's business model.
@@ -1928,11 +2165,13 @@ function EssayContent({ focusMode }) {
 
       {/* Part III */}
       <section id="part-iii" data-section="part-iii">
+        <SectionCode code="C" isPart={true} />
         <h1>PART III: THE HARDWARE FLOOD</h1>
       </section>
 
       <section id="the-unitree-trajectory" data-section="the-unitree-trajectory">
-        <h2>6. The Unitree Trajectory</h2>
+        <SectionCode code="C6" isPart={false} />
+        <h2>The Unitree Trajectory</h2>
 
         <p className={focusMode ? 'has-highlight' : ''}>
           <strong>The hardware story is simple: costs are collapsing faster than anyone expected.</strong>
@@ -1970,7 +2209,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-ev-precedent" data-section="the-ev-precedent">
-        <h2>7. The EV Precedent</h2>
+        <SectionCode code="C7" isPart={false} />
+        <h2>The EV Precedent</h2>
 
         <p>
           2014: China produced ~78,000 new energy vehicles (NEVs).
@@ -2024,7 +2264,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-components-collapse" data-section="the-components-collapse">
-        <h2>8. The Components Collapse</h2>
+        <SectionCode code="C8" isPart={false} />
+        <h2>The Components Collapse</h2>
 
         <p>
           Zoom in on the components, and the price collapse makes more sense.
@@ -2069,7 +2310,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-forecasts" data-section="the-forecasts">
-        <h2>9. The Forecasts</h2>
+        <SectionCode code="C9" isPart={false} />
+        <h2>The Forecasts</h2>
 
         <p>How many humanoids will actually ship? The analyst projections:</p>
 
@@ -2098,7 +2340,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-china-factor" data-section="the-china-factor">
-        <h2>10. The China Factor</h2>
+        <SectionCode code="C10" isPart={false} />
+        <h2>The China Factor</h2>
 
         <p>
           China has repeatedly demonstrated what happens when they identify an industry as strategic.
@@ -2133,6 +2376,7 @@ function EssayContent({ focusMode }) {
 
       {/* Part IV */}
       <section id="part-iv" data-section="part-iv">
+        <SectionCode code="D" isPart={true} />
         <h1>PART IV: THE ECONOMICS</h1>
 
         <p>
@@ -2141,7 +2385,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="general-embodied-intelligence" data-section="general-embodied-intelligence">
-        <h2>11. General Embodied Intelligence</h2>
+        <SectionCode code="D11" isPart={false} />
+        <h2>General Embodied Intelligence</h2>
 
         <p>What exactly are we building toward?</p>
 
@@ -2162,9 +2407,9 @@ function EssayContent({ focusMode }) {
           </p>
           <p><strong>Core properties:</strong></p>
           <ul style={{ color: '#D1D9CE' }}>
-            <li><strong style={{ color: '#F5F2EB' }}>Body-agnostic</strong>: One model, many embodiments. Skills transfer across robot morphologies.</li>
-            <li><strong style={{ color: '#F5F2EB' }}>Demonstration-efficient</strong>: Learns new physical skills from few-shot human demonstration.</li>
-            <li><strong style={{ color: '#F5F2EB' }}>Reasoning-integrated</strong>: Plans actions by simulating outcomes in the same latent space it uses for language and vision.</li>
+            <li><strong style={{ color: '#FBD45B' }}>Body-agnostic</strong>: One model, many embodiments. Skills transfer across robot morphologies.</li>
+            <li><strong style={{ color: '#FBD45B' }}>Demonstration-efficient</strong>: Learns new physical skills from few-shot human demonstration.</li>
+            <li><strong style={{ color: '#FBD45B' }}>Reasoning-integrated</strong>: Plans actions by simulating outcomes in the same latent space it uses for language and vision.</li>
           </ul>
           <p>
             Unlike R2-D2s and C-3POs—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.
@@ -2186,7 +2431,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="the-demand-side" data-section="the-demand-side">
-        <h2>12. The Demand Side</h2>
+        <SectionCode code="D12" isPart={false} />
+        <h2>The Demand Side</h2>
 
         <h3>The TAM Question</h3>
 
@@ -2251,7 +2497,8 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="value-capture" data-section="value-capture">
-        <h2>13. Value Capture: The Wintel Precedent</h2>
+        <SectionCode code="D13" isPart={false} />
+        <h2>Value Capture: The Wintel Precedent</h2>
 
         <p>
           If cloud wins and hardware commoditizes, who captures the value? History offers a precedent.
@@ -2299,22 +2546,23 @@ function EssayContent({ focusMode }) {
       </section>
 
       <section id="what-would-prove-me-wrong" data-section="what-would-prove-me-wrong">
-        <h2>14. What Would Prove Me Wrong</h2>
+        <SectionCode code="D14" isPart={false} />
+        <h2>What Would Prove Me Wrong</h2>
 
         <p>This essay makes falsifiable predictions. Here's what would prove the thesis wrong:</p>
 
-        <div className="callout" style={{ background: '#E8E5DE', color: '#2A3C24', border: '2px solid #2A3C24' }}>
-          <div className="callout-title" style={{ color: '#2A3C24' }}>Conditions That Would Falsify This Thesis</div>
-          <p style={{ color: '#2A3C24' }}>
+        <div className="callout">
+          <div className="callout-title">Conditions That Would Falsify This Thesis</div>
+          <p>
             <strong>1. VLA models plateau at scale.</strong> If going from 7B to 70B to 700B parameters doesn't improve manipulation capability, the core thesis fails.
           </p>
-          <p style={{ color: '#2A3C24' }}>
+          <p>
             <strong>2. The 5Hz assumption fails.</strong> If valuable tasks require the foundation model to run at 50Hz+, edge computing wins and the cloud thesis collapses.
           </p>
-          <p style={{ color: '#2A3C24' }}>
+          <p>
             <strong>3. Domain-specific beats general.</strong> If small, specialized robotics models consistently outperform foundation models on real-world tasks, the bitter lesson doesn't apply.
           </p>
-          <p style={{ color: '#2A3C24' }}>
+          <p>
             <strong>4. Investment doesn't materialize.</strong> If total investment in humanoid robotics stays below $10B annually through 2028, either I'm wrong or everyone else is.
           </p>
         </div>
@@ -2324,6 +2572,7 @@ function EssayContent({ focusMode }) {
 
       {/* Coda */}
       <section id="coda" data-section="coda">
+        <SectionCode code="E" isPart={true} />
         <h1>CODA: The Bet</h1>
 
         <p>This essay makes a specific bet:</p>
