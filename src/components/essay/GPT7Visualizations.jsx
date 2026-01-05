@@ -5,68 +5,78 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 export function DataPyramid() {
   return (
     <div className="w-full py-8">
-      <svg viewBox="0 0 500 320" className="w-full max-w-lg mx-auto">
-        {/* Pyramid layers */}
-        {/* Base - Foundation */}
+      <svg viewBox="0 0 400 340" className="w-full max-w-md mx-auto">
+        {/* Pyramid outline */}
         <polygon
-          points="250,30 450,280 50,280"
+          points="200,20 380,280 20,280"
           fill="none"
           stroke="#8A9A85"
           strokeWidth="2"
-          opacity="0.4"
+          opacity="0.3"
         />
 
         {/* Foundation layer (bottom) */}
         <polygon
-          points="120,200 380,200 450,280 50,280"
+          points="80,200 320,200 380,280 20,280"
           fill="#2A3C24"
         />
-        <text x="250" y="248" textAnchor="middle" fill="#F5F2EB" fontSize="14" fontWeight="600">
+        <text x="200" y="235" textAnchor="middle" fill="#F5F2EB" fontSize="13" fontWeight="600">
           FOUNDATION
         </text>
-        <text x="250" y="268" textAnchor="middle" fill="#8A9A85" fontSize="10">
-          YouTube-scale video • Trillions of tokens
+        <text x="200" y="252" textAnchor="middle" fill="#8A9A85" fontSize="9">
+          YouTube-scale video
+        </text>
+        <text x="200" y="266" textAnchor="middle" fill="#8A9A85" fontSize="9">
+          Trillions of tokens
         </text>
 
         {/* Alignment layer (middle) */}
         <polygon
-          points="160,130 340,130 380,200 120,200"
+          points="120,120 280,120 320,200 80,200"
           fill="#3D5235"
         />
-        <text x="250" y="165" textAnchor="middle" fill="#F5F2EB" fontSize="13" fontWeight="600">
+        <text x="200" y="152" textAnchor="middle" fill="#F5F2EB" fontSize="12" fontWeight="600">
           ALIGNMENT
         </text>
-        <text x="250" y="183" textAnchor="middle" fill="#B5C4B0" fontSize="9">
-          Egocentric human video • Billions of tokens
+        <text x="200" y="168" textAnchor="middle" fill="#B5C4B0" fontSize="9">
+          Egocentric human video
+        </text>
+        <text x="200" y="182" textAnchor="middle" fill="#B5C4B0" fontSize="9">
+          Billions of tokens
         </text>
 
         {/* Calibration layer (top) */}
         <polygon
-          points="210,60 290,60 340,130 160,130"
+          points="165,50 235,50 280,120 120,120"
           fill="#FBD45B"
         />
-        <text x="250" y="90" textAnchor="middle" fill="#2A3C24" fontSize="11" fontWeight="600">
+        <text x="200" y="78" textAnchor="middle" fill="#2A3C24" fontSize="11" fontWeight="600">
           CALIBRATION
         </text>
-        <text x="250" y="106" textAnchor="middle" fill="#4A5D42" fontSize="8">
+        <text x="200" y="94" textAnchor="middle" fill="#4A5D42" fontSize="8">
           Robot demos • Millions
         </text>
 
-        {/* Labels on right */}
-        <text x="460" y="248" textAnchor="start" fill="#8A9A85" fontSize="10">
-          Physics, objects, causality
-        </text>
-        <text x="395" y="165" textAnchor="start" fill="#8A9A85" fontSize="10">
-          Humanoid manipulation
-        </text>
-        <text x="340" y="95" textAnchor="start" fill="#8A9A85" fontSize="10">
-          Specific embodiment
+        {/* Labels below pyramid */}
+        <text x="200" y="305" textAnchor="middle" fill="#8A9A85" fontSize="10" fontStyle="italic">
+          Each layer requires orders of magnitude less data
         </text>
 
-        {/* Connecting lines */}
-        <line x1="450" y1="248" x2="455" y2="248" stroke="#8A9A85" strokeWidth="1" />
-        <line x1="380" y1="165" x2="390" y2="165" stroke="#8A9A85" strokeWidth="1" />
-        <line x1="325" y1="95" x2="335" y2="95" stroke="#8A9A85" strokeWidth="1" />
+        {/* Side annotations with arrows */}
+        <text x="385" y="240" textAnchor="start" fill="#8A9A85" fontSize="9">
+          Physics
+        </text>
+        <line x1="350" y1="240" x2="380" y2="240" stroke="#8A9A85" strokeWidth="1" opacity="0.5" />
+
+        <text x="330" y="160" textAnchor="start" fill="#8A9A85" fontSize="9">
+          Manipulation
+        </text>
+        <line x1="290" y1="160" x2="325" y2="160" stroke="#8A9A85" strokeWidth="1" opacity="0.5" />
+
+        <text x="285" y="85" textAnchor="start" fill="#8A9A85" fontSize="9">
+          Embodiment
+        </text>
+        <line x1="245" y1="85" x2="280" y2="85" stroke="#8A9A85" strokeWidth="1" opacity="0.5" />
       </svg>
     </div>
   );
@@ -186,34 +196,39 @@ export function UniTreePriceChart() {
   };
 
   return (
-    <div className="w-full h-72 my-6">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#8A9A85" opacity={0.3} />
-          <XAxis
-            dataKey="date"
-            tick={{ fontSize: 12, fill: '#8A9A85' }}
-            axisLine={{ stroke: '#8A9A85', opacity: 0.5 }}
-          />
-          <YAxis
-            scale="log"
-            domain={[5000, 100000]}
-            tick={{ fontSize: 12, fill: '#8A9A85' }}
-            tickFormatter={(v) => `$${(v/1000).toFixed(0)}K`}
-            axisLine={{ stroke: '#8A9A85', opacity: 0.5 }}
-          />
-          <Tooltip content={<CustomTooltip />} />
-          <Line
-            type="monotone"
-            dataKey="price"
-            stroke="#2A3C24"
-            strokeWidth={3}
-            dot={{ fill: '#FBD45B', stroke: '#2A3C24', strokeWidth: 2, r: 6 }}
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-      <div className="text-center mt-2">
+    <div className="w-full my-6">
+      <h4 className="text-center text-sm font-semibold text-[#2A3C24] mb-4" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+        Unitree Humanoid Pricing (Log Scale)
+      </h4>
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 10, right: 30, left: 20, bottom: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#8A9A85" opacity={0.3} />
+            <XAxis
+              dataKey="date"
+              tick={{ fontSize: 11, fill: '#8A9A85' }}
+              axisLine={{ stroke: '#8A9A85', opacity: 0.5 }}
+            />
+            <YAxis
+              scale="log"
+              domain={[5000, 100000]}
+              tick={{ fontSize: 11, fill: '#8A9A85' }}
+              tickFormatter={(v) => `$${(v/1000).toFixed(0)}K`}
+              axisLine={{ stroke: '#8A9A85', opacity: 0.5 }}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Line
+              type="monotone"
+              dataKey="price"
+              stroke="#2A3C24"
+              strokeWidth={3}
+              dot={{ fill: '#FBD45B', stroke: '#2A3C24', strokeWidth: 2, r: 6 }}
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div className="text-center mt-4">
         <span className="inline-block px-3 py-1 bg-[#2A3C24] text-[#F5F2EB] text-xs rounded-full">
           93% reduction in 2 years
         </span>
@@ -318,46 +333,44 @@ export function ComponentCostsInfographic() {
 
 // China Multipliers Chart
 export function ChinaMultipliersChart() {
+  // All metrics normalized to ~10 year growth multiples in production/capacity
   const data = [
-    { industry: 'EVs', start: '78K (2014)', end: '12.4M (2024)', multiplier: 160, years: 10, cagr: '66%' },
-    { industry: 'Solar PV', start: '3 GW (2011)', end: '880 GW (2024)', multiplier: 290, years: 13, cagr: '25%' },
-    { industry: 'Batteries', start: 'Minimal (2015)', end: '80%+ share', multiplier: null, years: '<10', cagr: '—' },
+    { industry: 'EVs', metric: 'Annual production', start: '78K units', end: '12.4M units', period: '2014→2024', multiplier: 159 },
+    { industry: 'Solar', metric: 'Installed capacity', start: '19 GW', end: '609 GW', period: '2014→2024', multiplier: 32 },
+    { industry: 'Li-ion Batteries', metric: 'Production capacity', start: '16 GWh', end: '900+ GWh', period: '2015→2024', multiplier: 56 },
   ];
+
+  const maxMultiplier = Math.max(...data.map(d => d.multiplier));
 
   return (
     <div className="w-full my-8">
-      <div className="space-y-4">
+      <div className="space-y-5">
         {data.map((d, i) => (
-          <div key={i} className="relative">
-            <div className="flex items-center gap-4 mb-2">
-              <span className="font-bold text-[#2A3C24] w-24" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+          <div key={i}>
+            <div className="flex items-center gap-3 mb-2">
+              <span className="font-bold text-[#2A3C24] w-28 text-sm" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
                 {d.industry}
               </span>
-              <div className="flex-1 h-10 bg-[#E8E5DE] rounded-full overflow-hidden relative">
+              <div className="flex-1 h-8 bg-[#E8E5DE] rounded overflow-hidden relative">
                 <div
-                  className="h-full bg-[#2A3C24] rounded-full flex items-center justify-end pr-4"
-                  style={{ width: d.multiplier ? `${Math.min(100, d.multiplier / 3)}%` : '60%' }}
+                  className="h-full bg-[#2A3C24] rounded flex items-center justify-end pr-3"
+                  style={{ width: `${Math.max(20, (d.multiplier / maxMultiplier) * 100)}%` }}
                 >
-                  {d.multiplier && (
-                    <span className="text-[#F5F2EB] font-bold text-lg">{d.multiplier}x</span>
-                  )}
-                  {!d.multiplier && (
-                    <span className="text-[#F5F2EB] font-bold text-sm">80%+ share</span>
-                  )}
+                  <span className="text-[#FBD45B] font-bold text-sm">{d.multiplier}×</span>
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-4 text-xs text-[#8A9A85] ml-28" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
-              <span>{d.start}</span>
+            <div className="flex items-center gap-2 text-xs text-[#8A9A85] ml-[7.5rem]" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
+              <span className="text-[#2A3C24] font-medium">{d.start}</span>
               <span>→</span>
-              <span>{d.end}</span>
-              <span className="ml-auto font-mono">CAGR: {d.cagr}</span>
+              <span className="text-[#2A3C24] font-medium">{d.end}</span>
+              <span className="ml-auto text-[#8A9A85]">{d.period}</span>
             </div>
           </div>
         ))}
       </div>
-      <p className="text-center text-sm text-[#8A9A85] mt-6 italic" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
-        When China designates an industry as strategic, the scaling is dramatic
+      <p className="text-center text-xs text-[#8A9A85] mt-6 italic" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
+        When China designates an industry strategic, scaling follows
       </p>
     </div>
   );

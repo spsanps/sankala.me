@@ -1291,7 +1291,8 @@ export default function GPT7Essay() {
         .stat-highlight {
           display: flex;
           align-items: baseline;
-          gap: 1rem;
+          flex-wrap: wrap;
+          gap: 0.75rem 1rem;
           margin: 2rem 0;
           padding: 1.25rem 0;
           border-top: 1px solid rgba(42, 60, 36, 0.1);
@@ -1304,6 +1305,7 @@ export default function GPT7Essay() {
           font-weight: 700;
           color: #2A3C24;
           letter-spacing: -0.02em;
+          flex-shrink: 0;
         }
 
         .stat-label {
@@ -1311,6 +1313,8 @@ export default function GPT7Essay() {
           font-size: 1rem;
           color: #8A9A85;
           line-height: 1.4;
+          flex: 1;
+          min-width: 200px;
         }
 
         /* Quote */
@@ -2328,7 +2332,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <ul>
           <li><strong>If humanoids remain industrial equipment</strong> with slow enterprise sales cycles, even Goldman's 250K may be optimistic.</li>
-          <li><strong>If GEI capabilities emerge</strong> and China treats humanoids like EVs, Goldman is probably 2-4x low.</li>
+          <li><strong>If General Embodied Intelligence (GEI) capabilities emerge</strong> and China treats humanoids like EVs, Goldman is probably 2-4x low.</li>
           <li><strong>If state mobilization compounds with GEI</strong>, BofA's 1M becomes plausible.</li>
         </ul>
 
