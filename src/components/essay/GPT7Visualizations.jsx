@@ -78,7 +78,7 @@ export function ModelScaleTable() {
     { model: 'Sora-class (2024)', params: '~3-10B (estimated)', era: 'GPT-2', current: false },
     { model: 'Current VLAs', params: '7-12B', era: 'GPT-2/3', current: false },
     { model: 'Frontier LLMs', params: '100B+', era: 'GPT-4/5', current: false },
-    { model: 'Unified multimodal (2026-27?)', params: '1T+', era: 'The frontier moves here', current: true },
+    { model: 'Unified multimodal (2026-27?)', params: '1T+', era: 'GPT-7 class', current: true },
   ];
 
   return (
@@ -102,7 +102,6 @@ export function ModelScaleTable() {
               </td>
               <td className="py-3 px-4 text-sm font-mono text-[#8A9A85]">{row.params}</td>
               <td className={`py-3 px-4 text-sm ${row.current ? 'font-semibold text-[#2A3C24]' : 'text-[#8A9A85]'}`}>
-                {row.current && <span className="mr-2">←</span>}
                 {row.era}
               </td>
             </tr>
@@ -120,7 +119,7 @@ export function BrainSpinalDiagram() {
       <svg viewBox="0 0 600 250" className="w-full max-w-2xl mx-auto">
         {/* Brain section */}
         <rect x="20" y="30" width="260" height="180" rx="8" fill="#E8E5DE" stroke="#8A9A85" strokeWidth="2" />
-        <text x="150" y="60" textAnchor="middle" fill="#2A3C24" fontSize="14" fontWeight="700">BRAIN (4-5 Hz)</text>
+        <text x="150" y="60" textAnchor="middle" fill="#2A3C24" fontSize="14" fontWeight="700">BRAIN (Low Hz)</text>
         <text x="150" y="82" textAnchor="middle" fill="#8A9A85" fontSize="11">Cloud / High-level planning</text>
 
         {/* Brain steps */}
@@ -142,7 +141,7 @@ export function BrainSpinalDiagram() {
 
         {/* Spinal section */}
         <rect x="320" y="30" width="260" height="180" rx="8" fill="#FBD45B" stroke="#E5B82A" strokeWidth="2" />
-        <text x="450" y="60" textAnchor="middle" fill="#2A3C24" fontSize="14" fontWeight="700">SPINAL CORD (200 Hz)</text>
+        <text x="450" y="60" textAnchor="middle" fill="#2A3C24" fontSize="14" fontWeight="700">SPINAL CORD (High Hz)</text>
         <text x="450" y="82" textAnchor="middle" fill="#4A5D42" fontSize="11">On-device / Trajectory tracking</text>
 
         {/* Spinal items */}
@@ -229,7 +228,7 @@ export function ComponentCostsInfographic() {
     {
       name: 'LiDAR',
       then: '$75,000 (2012)',
-      now: '$500-1,000 (2024)',
+      now: '$500-1,000 (2025)',
       future: '<$200',
       decline: '99%',
       color: '#2A3C24'
@@ -237,7 +236,7 @@ export function ComponentCostsInfographic() {
     {
       name: 'Batteries',
       then: '$1,100/kWh (2010)',
-      now: '$115/kWh (2024)',
+      now: '$115/kWh (2025)',
       future: '$80-100/kWh',
       decline: '90%',
       color: '#3D5235'
@@ -245,7 +244,7 @@ export function ComponentCostsInfographic() {
     {
       name: 'IMUs',
       then: 'Thousands (2010)',
-      now: '$1-10 (2024)',
+      now: '$1-10 (2025)',
       future: 'Commodity',
       decline: '99%+',
       color: '#4A5D42'
@@ -377,7 +376,7 @@ export function ValueCaptureDiagram() {
           <div className="bg-[#2A3C24] text-[#F5F2EB] p-4 rounded-lg text-center">
             <p className="font-semibold mb-1">Cloud AI Provider</p>
             <p className="text-xs text-[#8A9A85]">Google, OpenAI, Anthropic</p>
-            <p className="text-[#FBD45B] text-sm mt-2 font-semibold">← Captures value via API fees</p>
+            <p className="text-[#FBD45B] text-sm mt-2 font-semibold">Captures value via API fees</p>
           </div>
           <div className="text-center text-2xl text-[#8A9A85]">↓</div>
           <div className="bg-[#E8E5DE] text-[#8A9A85] p-4 rounded-lg text-center border-2 border-dashed border-[#8A9A85]/50">
@@ -396,7 +395,7 @@ export function ValueCaptureDiagram() {
             <p className="font-bold mb-1 text-lg">Full-Stack Company</p>
             <p className="text-sm mb-2">Hardware + AI Brain</p>
             <p className="text-xs text-[#4A5D42]">Tesla, Figure AI</p>
-            <p className="text-[#2A3C24] text-sm mt-3 font-semibold">← Captures via integration</p>
+            <p className="text-[#2A3C24] text-sm mt-3 font-semibold">Captures via integration</p>
           </div>
         </div>
       </div>
@@ -477,11 +476,6 @@ export function RobotEconomicsTable() {
             <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">~$700/year</td>
             <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">~$700/year</td>
           </tr>
-          <tr className="border-b border-[#8A9A85]/30">
-            <td className="py-3 px-4 text-sm text-[#2A3C24]">Cloud inference (estimated)</td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">~$500-2,000/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">~$300-1,000/year</td>
-          </tr>
           <tr className="border-b-2 border-[#2A3C24] bg-[#E8E5DE]">
             <td className="py-3 px-4 text-sm font-bold text-[#2A3C24]">Total annual cost</td>
             <td className="py-3 px-4 text-sm font-bold font-mono text-[#2A3C24]">~$9,000-10,500</td>
@@ -535,11 +529,6 @@ export function EVvsHumanoidTable() {
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Crash safety</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Heavy regulation</td>
             <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">Minimal requirements</td>
-          </tr>
-          <tr className="border-b border-[#8A9A85]/30">
-            <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Assembly time</td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85]">20-30 hours</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">5-10 hours</td>
           </tr>
         </tbody>
       </table>

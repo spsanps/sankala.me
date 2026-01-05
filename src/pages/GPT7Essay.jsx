@@ -41,7 +41,7 @@ The AI labs are now training robot brains:
 - **OpenAI**: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence
 - **Physical Intelligence**: $400M funding to build foundation models for robots
 
-Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI."
+Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."
 :::
 
 This essay makes three claims:
@@ -91,7 +91,7 @@ Consider what a video generation model must know to accurately render a human ha
 
 **Modality-seep.** Understanding can bleed between modalities. Early text-only models "knew" things about vision—they could describe colors, spatial relationships, visual aesthetics—despite never seeing an image. A picture is worth a thousand words, but a thousand words also encode the picture.
 
-The same applies to touch, temperature, and force. Video of a hand gripping a hot mug implicitly contains thermal information (steam rising, careful handling). Video of fingers testing fruit ripeness encodes tactile feedback (the slight give, the pressure applied). Video of lifting objects reveals weight and balance. A model trained on enough video may develop surprisingly rich representations of sensory modalities it has never directly experienced. Sensor data in post-training can then align these representations to actual tactile and proprioceptive feedback.
+The same applies to other modalities like touch, temperature, and force. Video of a hand gripping a hot mug implicitly contains thermal information (steam rising, careful handling). Video of fingers testing fruit ripeness encodes tactile feedback (the slight give, the pressure applied). Video of lifting objects reveals weight and balance. A model trained on enough video may develop surprisingly rich representations of sensory modalities it has never directly experienced. Sensor data in post-training can then align these representations to actual tactile and proprioceptive feedback.
 
 **The data for robot intelligence was always there. It just wasn't labeled "robot data."**
 
@@ -256,7 +256,7 @@ For robotics specifically, many of the same arguments hold—and perhaps are eve
 
 This objection is why the thesis hasn't been widely internalized. Everyone assumes latency kills it.
 
-This objection deserves serious examination. But it doesn't survive scrutiny.
+But:
 
 ### Teleoperation Already Works
 
@@ -270,7 +270,7 @@ Consider how you pick up a coffee cup. Your conscious reaction time—from "I wa
 
 Your brain doesn't update your motor plan 200 times per second. It updates 4-5 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust.
 
-What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking. Your spinal system doesn't understand coffee cups. It tracks trajectories your brain commanded.
+What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking.
 
 :::figure{id="brain-spinal-diagram" type="component"}
 :::
@@ -648,7 +648,7 @@ Not a separate robotics team. Not a purpose-built manipulation system. The same 
 
 Why is this time different?
 
-**The intelligence actually works.** Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer—real capabilities, not vaporware.
+**The intelligence actually works.** Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer.
 
 **The hardware is actually cheap.** Previous cycles featured $500,000 research platforms. This time: $6,000 production humanoids and falling.
 
@@ -1605,6 +1605,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
     <div>
       {/* Introduction */}
       <section id="introduction" data-section="introduction">
+        <SectionCode code="§" isPart={true} />
+        <h1>Introduction</h1>
+
         {/* Opening Image */}
         <div className="figure-container" style={{ marginBottom: '2.5rem' }}>
           <div style={{ overflow: 'hidden', borderRadius: '0.5rem' }}>
@@ -1640,8 +1643,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
-          I think this framing is incorrect. <strong>The robot that folds your laundry will be powered by a version of GPT-7.</strong>{' '}
-          <span className="hover-term" data-definition="By 'GPT-7' I mean GPT-7 class models from any frontier lab—Google, Anthropic, OpenAI, or others. The name is shorthand for 'frontier foundation model circa 2027-2028'">GPT-7</span>{' '}
+          I think this framing is incorrect. <strong>The robot that folds your laundry will be powered by a version of <span className="hover-term" data-definition="By 'GPT-7' I mean GPT-7 class models from any frontier lab—Google, Anthropic, OpenAI, or others. The name is shorthand for 'frontier foundation model circa 2027-2028'">GPT-7</span>.</strong>{' '}
           Not a robotics model. Not a purpose-built manipulation system. A finetune of the same trillion-parameter model that automates software engineering and scientific research—that model will also fold your shirts.
         </p>
 
@@ -1710,10 +1712,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong>Human video is manipulation data.</strong> Billions of hours of humans folding laundry, cooking, assembling furniture, using tools. First-person GoPro footage. Cooking tutorials. Assembly instructions. This teaches the model what it looks like when a humanoid-shaped agent interacts with objects.
         </p>
 
-        <p>
-          Consider what a video generation model must know to accurately render a human hand holding a wine glass. To model each frame correctly—from every angle, in any lighting, through any motion—the model must understand dexterous manipulation at a granular level. It needs to know exactly where fingers should be positioned, how grip pressure affects the glass, how the liquid moves, how wrist rotation translates through the arm. A model that can generate this video has already learned the physics of manipulation. The robot-specific training just needs to steer this immense pre-trained knowledge.
-        </p>
-
         {/* Sora Wine Glass Video */}
         <div className="figure-container">
           <div className="relative overflow-hidden rounded-lg" style={{ background: '#E8E5DE' }}>
@@ -1731,6 +1729,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p className="figure-caption">To render this accurately, the model must already understand manipulation physics</p>
         </div>
 
+        <p>
+          Consider what a video generation model must know to accurately render a human hand holding a wine glass. To model each frame correctly—from every angle, in any lighting, through any motion—the model must understand dexterous manipulation at a granular level. It needs to know exactly where fingers should be positioned, how grip pressure affects the glass, how the liquid moves, how wrist rotation translates through the arm. A model that can generate this video has already learned the physics of manipulation. The robot-specific training just needs to steer this immense pre-trained knowledge.
+        </p>
+
         <div className="quote-block">
           <p className="quote-text">
             "Predicting the next token well means that you understand the underlying reality that led to the creation of that token."
@@ -1743,7 +1745,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          The same applies to touch, temperature, and force. Video of a hand gripping a hot mug implicitly contains thermal information (steam rising, careful handling). Video of fingers testing fruit ripeness encodes tactile feedback (the slight give, the pressure applied). Video of lifting objects reveals weight and balance. A model trained on enough video may develop surprisingly rich representations of sensory modalities it has never directly experienced. Sensor data in post-training can then align these representations to actual tactile and proprioceptive feedback.
+          The same applies to other modalities like touch, temperature, and force. Video of a hand gripping a hot mug implicitly contains thermal information (steam rising, careful handling). Video of fingers testing fruit ripeness encodes tactile feedback (the slight give, the pressure applied). Video of lifting objects reveals weight and balance. A model trained on enough video may develop surprisingly rich representations of sensory modalities it has never directly experienced. Sensor data in post-training can then align these representations to actual tactile and proprioceptive feedback.
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1777,7 +1779,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          <strong>Physical Intelligence (December 2024):</strong> "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
+          <strong>Physical Intelligence (December 2025):</strong> "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1851,7 +1853,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
             <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence</li>
             <li><strong>Physical Intelligence</strong>: $400M funding to build foundation models for robots</li>
           </ul>
-          <p><em>Logan Kilpatrick (Google Gemini API): "2026 is going to be a huge year for embodied AI."</em></p>
+          <p><em>Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1893,6 +1895,11 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       <section id="part-ii" data-section="part-ii">
         <SectionCode code="B" isPart={true} />
         <h1>PART II: THE ARCHITECTURE</h1>
+      </section>
+
+      <section id="viki" data-section="viki">
+        <SectionCode code="B3" isPart={false} />
+        <h2>VIKI</h2>
 
         <div className="figure-container">
           <img
@@ -1903,11 +1910,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           />
           <p className="figure-caption">VIKI (Virtual Interactive Kinetic Intelligence) from I, Robot—one central AI controlling all robots. The future architecture: cloud intelligence, distributed bodies.</p>
         </div>
-      </section>
-
-      <section id="viki" data-section="viki">
-        <SectionCode code="B3" isPart={false} />
-        <h2>VIKI</h2>
 
         <p>
           A natural question is where computation should live. The robotics community has historically assumed edge-first architecture: robots should be autonomous, self-contained, independent. This assumption deserves scrutiny.
@@ -2035,7 +2037,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          This objection deserves serious examination. But it doesn't survive scrutiny.
+          But:
         </p>
 
         <h3>Teleoperation Already Works</h3>
@@ -2059,7 +2061,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking. Your spinal system doesn't understand coffee cups. It tracks trajectories your brain commanded.
+          What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking.
         </p>
 
         <div className="figure-container">
@@ -2089,7 +2091,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong>The infrastructure for cloud robotics is being built for other applications.</strong>
         </p>
 
-        <p>Cloud robotics is <em>less</em> demanding than gaming:</p>
+        <p>For instance, cloud robotics is <em>less</em> demanding than gaming:</p>
 
         <div className="figure-container">
           <LatencyComparisonTable />
@@ -2130,10 +2132,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <div className="sidebar-note">
           <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
           <ul>
-            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence.</li>
+            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence. Now hiring for robotics world models.</li>
             <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application."</li>
           </ul>
-          <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays, not science projects.</em></p>
+          <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays.</em></p>
         </div>
 
         <p>
@@ -2238,7 +2240,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
-          Here's what analyses miss: <strong>humanoids are easier than EVs.</strong>
+          But <strong>humanoids are easier than EVs.</strong>
         </p>
 
         <div className="figure-container">
@@ -2273,7 +2275,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
-          <strong>Every component is on a steep cost curve driven by other industries.</strong> The humanoid isn't pioneering manufacturing—it's assembling existing commodities in a new configuration.
+          <strong>Every component is on a steep cost curve driven by other industries.</strong>
         </p>
 
         <p>
@@ -2393,7 +2395,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
             className="w-full rounded-lg"
             style={{ maxHeight: '350px', objectFit: 'contain', background: '#E8E5DE' }}
           />
-          <p className="figure-caption">A vision of general-purpose robot assistance</p>
+          <p className="figure-caption">Robbie from I, Robot with Gloria—a vision of general-purpose robot assistance</p>
         </div>
 
         <div className="callout">
@@ -2584,7 +2586,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p>Why is this time different?</p>
 
         <p>
-          <strong>The intelligence actually works.</strong> Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer—real capabilities, not vaporware.
+          <strong>The intelligence actually works.</strong> Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer.
         </p>
 
         <p>
@@ -2616,11 +2618,11 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <hr />
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
-          Written December 2025.
+          Written December 2025. Published January 6, 2026.
         </p>
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
-          The author has no financial position in any company mentioned. This essay reflects personal analysis, not insider information.
+          The author has no financial position in any company mentioned. Opinions my own.
         </p>
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
