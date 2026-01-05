@@ -1002,13 +1002,6 @@ export default function GPT7Essay() {
           position: relative;
         }
 
-        /* Clear floats from sidebar notes */
-        .essay-prose section::before {
-          content: '';
-          display: table;
-          clear: both;
-        }
-
         /* Headings with decorative lines */
         .essay-prose h1 {
           font-family: 'Playfair Display', Georgia, serif;
@@ -1206,14 +1199,10 @@ export default function GPT7Essay() {
 
         @media (min-width: 1280px) {
           .sidebar-note {
-            position: relative;
-            float: right;
-            clear: right;
+            position: absolute;
+            right: -260px;
             width: 220px;
-            margin-right: -260px;
-            margin-top: 0;
-            margin-bottom: 1rem;
-            margin-left: 1.5rem;
+            margin: 0;
             padding: 0;
             border-left: none;
             font-size: 0.8rem;
