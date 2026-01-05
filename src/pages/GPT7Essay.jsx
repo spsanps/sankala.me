@@ -1002,6 +1002,13 @@ export default function GPT7Essay() {
           position: relative;
         }
 
+        /* Clear floats from sidebar notes */
+        .essay-prose section::before {
+          content: '';
+          display: table;
+          clear: both;
+        }
+
         /* Headings with decorative lines */
         .essay-prose h1 {
           font-family: 'Playfair Display', Georgia, serif;
