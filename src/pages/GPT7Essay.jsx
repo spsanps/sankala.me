@@ -995,11 +995,11 @@ export default function GPT7Essay() {
             font-weight: 800;
             top: 0.15rem;
           }
+        }
 
-          /* Position relative to section */
-          .essay-prose section {
-            position: relative;
-          }
+        /* Position relative to section - must be outside media query */
+        .essay-prose section {
+          position: relative;
         }
 
         /* Headings with decorative lines */
