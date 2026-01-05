@@ -2138,6 +2138,15 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong><em>It's the same model.</em></strong>
         </p>
 
+        <div className="sidebar-note">
+          <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
+          <ul>
+            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence.</li>
+            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application."</li>
+          </ul>
+          <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays, not science projects.</em></p>
+        </div>
+
         <p>
           When analysts project the "robotics AI market," they model it separately from "language AI." Separate TAMs. Separate products. Separate revenue streams.
         </p>
@@ -2157,15 +2166,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p>
           <strong>For investors:</strong> The robotics boom and AI boom are the same boom.
         </p>
-
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
-          <ul>
-            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence.</li>
-            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application."</li>
-          </ul>
-          <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays, not science projects.</em></p>
-        </div>
       </section>
 
       <hr />
