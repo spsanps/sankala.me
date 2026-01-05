@@ -973,7 +973,7 @@ export default function GPT7Essay() {
             display: block;
             position: absolute;
             left: -180px;
-            top: 0.85rem;
+            top: 0.25rem;
             width: 150px;
             text-align: right;
             font-family: 'Playfair Display', Georgia, serif;
@@ -993,7 +993,7 @@ export default function GPT7Essay() {
           .section-code-sub {
             font-size: 2rem;
             font-weight: 800;
-            top: 0.6rem;
+            top: 0.15rem;
           }
 
           /* Position relative to section */
