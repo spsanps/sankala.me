@@ -1180,7 +1180,7 @@ export default function GPT7Essay() {
         /* Margin Notes - collapsible on mobile, side panel on desktop */
         .sidebar-note {
           background: transparent;
-          margin: 0.25rem 0;
+          margin: 0.5rem 0;
           font-size: 0.9rem;
           color: #1A1A1A/80;
           overflow: hidden;
@@ -1188,23 +1188,42 @@ export default function GPT7Essay() {
         }
 
         .sidebar-note-header {
-          display: inline-flex;
+          display: flex;
           align-items: center;
-          padding: 0.125rem 0.5rem;
+          justify-content: flex-end;
+          padding: 0.25rem 0;
           cursor: pointer;
           user-select: none;
-          color: #8A9A85;
-          font-size: 0.7rem;
-          border-radius: 2px;
         }
 
-        .sidebar-note-header:active {
-          background: rgba(138, 154, 133, 0.1);
+        .sidebar-note-header::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          right: 60px;
+          height: 1px;
+          background: linear-gradient(to right, transparent, #8A9A85 80%);
+          top: 50%;
+        }
+
+        .sidebar-note-peek {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          color: #8A9A85;
+          font-size: 0.65rem;
+          font-family: 'Inter', sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        .sidebar-note-peek::before {
+          content: '◢';
+          font-size: 0.5rem;
         }
 
         .sidebar-note-icon {
-          color: #8A9A85;
-          flex-shrink: 0;
+          display: none;
         }
 
         .sidebar-note-title {
@@ -1215,22 +1234,23 @@ export default function GPT7Essay() {
           max-height: 0;
           overflow: hidden;
           transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-          padding: 0 0 0 0.5rem;
+          padding: 0;
           border-left: 2px solid #8A9A85;
-          margin-left: 0.25rem;
+          margin-left: 0;
         }
 
         .sidebar-note.expanded .sidebar-note-content {
           max-height: 500px;
-          padding: 0.5rem 0 0.5rem 0.5rem;
+          padding: 0.75rem 0 0.75rem 0.75rem;
+        }
+
+        .sidebar-note-content .sidebar-note-title {
+          display: block;
+          margin-bottom: 0.5rem;
         }
 
         .sidebar-note-chevron {
           display: none;
-        }
-
-        .sidebar-note.expanded .sidebar-note-chevron {
-          transform: rotate(180deg);
         }
 
         @media (min-width: 1280px) {
@@ -1720,11 +1740,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['disembodied'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('disembodied')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">The Disembodied AI Assumption</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">The Disembodied AI Assumption</div>
             <p>The current AGI discourse largely assumes intelligence stays in datacenters:</p>
             <ul>
               <li><strong><a href="https://darioamodei.com/machines-of-loving-grace" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dario Amodei's "Machines of Loving Grace"</a></strong> — focuses on AI accelerating science and policy, with physical applications as an afterthought</li>
@@ -1804,11 +1823,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['physics-video'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('physics-video')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Learning Physics From Video</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Learning Physics From Video</div>
             <p>
               In a recent <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">interview with Lex Fridman</a>, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
             </p>
@@ -1915,11 +1933,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['reasoning'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('reasoning')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Why This Matters for Reasoning</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Why This Matters for Reasoning</div>
             <p>
               When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
             </p>
@@ -1955,11 +1972,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['labs-realizing'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-realizing')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Labs Have Started Realizing This</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Labs Have Started Realizing This</div>
             <p>The AI labs are now training robot brains:</p>
             <ul>
               <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
@@ -1985,11 +2001,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['nlp-reckoning'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('nlp-reckoning')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">The NLP Reckoning</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">The NLP Reckoning</div>
             <p><a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Quanta Magazine (April 2025)</a> published an oral history of the NLP community's reaction to ChatGPT:</p>
             <p><strong>Christopher Callison-Burch (UPenn):</strong> <em>"I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."</em></p>
             <p><strong>Iz Beltagy (Allen Institute):</strong> <em>"In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared."</em></p>
@@ -2089,11 +2104,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['why-cloud'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('why-cloud')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Why AI Ended Up in the Cloud</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Why AI Ended Up in the Cloud</div>
             <p><strong>Scale & Performance</strong></p>
             <ul>
               <li>Models got huge. State-of-the-art needs tens-hundreds of GB of weights.</li>
@@ -2244,11 +2258,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['labs-interested'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-interested')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
             <ul>
               <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a>. Now hiring for robotics world models.</li>
               <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
@@ -2347,11 +2360,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['dexterity'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('dexterity')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
             <p>
               Chris Paxton (Agility Robotics): "<a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Human level dexterity is absolutely not gated by hardware.</a>"
             </p>
@@ -2397,11 +2409,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['recognition'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('recognition')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">The Recognition Moment</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">The Recognition Moment</div>
             <p>
               Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
             </p>
@@ -2524,11 +2535,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['gei-wrappers'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('gei-wrappers')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">GEI Wrappers</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">GEI Wrappers</div>
             <p>
               One could imagine startups emerging as robot API wrappers—collecting proprietary prompts and industry domain knowledge (in both text and action demonstrations) to sell GEI competence by vertical. Not building models, not building bodies. Just accumulating the best scaffolding and data, just like today's API wrapper companies.
             </p>
@@ -2586,11 +2596,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['inference-economics'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('inference-economics')}>
-            <MessageSquare size={14} className="sidebar-note-icon" />
-            <div className="sidebar-note-title">The Counterintuitive Inference Economics</div>
-            <ChevronDown size={14} className="sidebar-note-chevron" />
+            <span className="sidebar-note-peek">note</span>
           </div>
           <div className="sidebar-note-content">
+            <div className="sidebar-note-title">The Counterintuitive Inference Economics</div>
             <p>
               The obvious play is white-collar automation—coding, analysis, document work. Pure software, no hardware risk.
             </p>
