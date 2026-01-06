@@ -719,7 +719,7 @@ export default function GPT7Essay() {
         <meta property="og:title" content="GPT-7 Will Have Arms" />
         <meta property="og:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
         <meta property="og:image" content="https://sankala.me/essays/gpt7/Opening.png" />
-        <meta property="og:url" content="https://sankala.me/essays/gpt7" />
+        <meta property="og:url" content="https://sankala.me/essays/gpt7-will-have-arms" />
         <meta property="og:site_name" content="San Kala" />
         <meta property="article:author" content="San Kala" />
         <meta property="article:published_time" content="2026-01-06" />
