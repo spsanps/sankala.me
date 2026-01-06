@@ -1608,7 +1608,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <div className="figure-container" style={{ marginBottom: '2.5rem' }}>
           <div style={{ overflow: 'hidden', borderRadius: '0.5rem' }}>
             <img
-              src="/essays/gpt7/Opening.png"
+              src="/essays/gpt7/Opening-optimized.jpg"
               alt="Chrome robot standing under a partial Dyson swarm in a sunflower field"
               className="w-full"
               style={{
@@ -1901,7 +1901,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <div className="figure-container">
           <img
-            src="/essays/gpt7/VIKI_alt.png"
+            src="/essays/gpt7/VIKI_alt-optimized.jpg"
             alt="VIKI from I, Robot"
             className="w-full rounded-lg"
             style={{ maxHeight: '400px', objectFit: 'contain', background: '#E8E5DE' }}
@@ -2352,7 +2352,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <div className="figure-container">
           <img
-            src="/essays/gpt7/Robbie-IROBOT.png"
+            src="/essays/gpt7/Robbie-IROBOT-optimized.jpg"
             alt="Robbie from I, Robot"
             className="w-full rounded-lg"
             style={{ maxHeight: '350px', objectFit: 'contain', background: '#E8E5DE' }}
