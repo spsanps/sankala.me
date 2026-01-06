@@ -2,11 +2,12 @@ export const config = {
   runtime: 'edge',
 };
 
-export default function handler(request) {
+export default async function handler(request) {
+  const url = new URL(request.url);
   const userAgent = request.headers.get('user-agent') || '';
 
   // Check if crawler
-  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot|Applebot|Pinterest|Embedly|quora|outbrain|vkShare|redditbot/i.test(userAgent);
+  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot|Applebot|Pinterest|Embedly|quora|outbrain|vkShare|redditbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|ia_archiver/i.test(userAgent);
 
   if (isCrawler) {
     const html = `<!DOCTYPE html>
@@ -31,7 +32,8 @@ export default function handler(request) {
 </head>
 <body>
   <h1>GPT-7 Will Have Arms</h1>
-  <p>Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.</p>
+  <p>Situational Awareness for robotics.</p>
+  <a href="https://sankala.me/essays/gpt7-will-have-arms">Read the full essay</a>
 </body>
 </html>`;
 
@@ -40,6 +42,14 @@ export default function handler(request) {
     });
   }
 
-  // For regular users, redirect to the SPA
-  return Response.redirect('https://sankala.me/essays/gpt7-will-have-arms', 302);
+  // For regular users, fetch and return index.html (SPA shell)
+  // Use the origin to fetch the static index.html
+  const indexUrl = new URL('/index.html', url.origin);
+  const indexResponse = await fetch(indexUrl.toString(), {
+    headers: { 'x-skip-og': 'true' }
+  });
+
+  return new Response(indexResponse.body, {
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  });
 }
