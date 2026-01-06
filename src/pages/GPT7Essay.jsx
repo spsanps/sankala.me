@@ -747,7 +747,7 @@ export default function GPT7Essay() {
                   ? 'bg-[#FBD45B] text-[#1A1A1A]'
                   : 'text-[#2A3C24]/50 hover:text-[#2A3C24] hover:bg-[#2A3C24]/5'
               }`}
-              title="Focus Mode - Highlights key points"
+              title="ADHD Mode - Read highlighted sentences for a quick summary"
             >
               <Zap size={18} strokeWidth={focusMode ? 2.5 : 1.5} />
             </button>
@@ -1129,7 +1129,7 @@ export default function GPT7Essay() {
         }
 
         .focus-active strong {
-          background: linear-gradient(to bottom, transparent 55%, rgba(251, 212, 91, 0.35) 55%);
+          background: rgba(251, 212, 91, 0.25);
           padding: 0 0.1em;
         }
 
@@ -2334,10 +2334,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
             A system that can, with no or minimal adaptation, inhabit diverse robotic bodies to perform physical tasks humans do with or without tools. It will likely function across all modalities humans can.
           </p>
           <p><strong>Core properties:</strong></p>
-          <ul style={{ color: '#D1D9CE' }}>
-            <li><strong style={{ color: '#FBD45B' }}>Body-agnostic</strong>: One model, many embodiments. Skills transfer across robot morphologies.</li>
-            <li><strong style={{ color: '#FBD45B' }}>Multimodal In-Context Learning</strong>: Acquires new physical skills from demonstration, instruction, or multimodal prompts—and transfers them across modalities.</li>
-            <li><strong style={{ color: '#FBD45B' }}>Multimodal Reasoning</strong>: Plans actions by simulating outcomes in the same latent space it uses for language, vision, and action.</li>
+          <ul>
+            <li><strong>Body-agnostic</strong>: One model, many embodiments. Skills transfer across robot morphologies.</li>
+            <li><strong>Multimodal In-Context Learning</strong>: Acquires new physical skills from demonstration, instruction, or multimodal prompts—and transfers them across modalities.</li>
+            <li><strong>Multimodal Reasoning</strong>: Plans actions by simulating outcomes in the same latent space it uses for language, vision, and action.</li>
           </ul>
           <p>
             Unlike R2-D2s and C-3POs—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.

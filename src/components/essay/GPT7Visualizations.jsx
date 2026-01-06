@@ -98,7 +98,7 @@ export function ModelScaleTable() {
               <td className={`py-3 px-4 text-sm ${row.current ? 'font-semibold text-[#2A3C24]' : 'text-[#1A1A1A]'}`}>
                 {row.model}
               </td>
-              <td className="py-3 px-4 text-sm font-mono text-[#8A9A85]">{row.params}</td>
+              <td className="py-3 px-4 text-sm text-[#8A9A85]">{row.params}</td>
               <td className={`py-3 px-4 text-sm ${row.current ? 'font-semibold text-[#2A3C24]' : 'text-[#8A9A85]'}`}>
                 {row.era}
               </td>
@@ -457,25 +457,25 @@ export function LatencyComparisonTable() {
         <thead>
           <tr className="border-b-2 border-[#2A3C24]">
             <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Dimension</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#8A9A85]">Cloud Gaming</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#FBD45B] bg-[#2A3C24]">Cloud Robotics</th>
+            <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Cloud Gaming</th>
+            <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Cloud Robotics</th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Update rate</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">60Hz frame rate</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold bg-[#E8E5DE]">5-10Hz control rate</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">5-10Hz control rate</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Latency sensitivity</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Critical: competitive PvP</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold bg-[#E8E5DE]">Tolerant: pick up box</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">Tolerant: pick up box</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Failure mode</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Lose match</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold bg-[#E8E5DE]">Robot pauses</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">Robot pauses</td>
           </tr>
         </tbody>
       </table>
@@ -491,40 +491,40 @@ export function RobotEconomicsTable() {
         <thead>
           <tr className="border-b-2 border-[#2A3C24]">
             <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Cost Component</th>
-            <th className="text-right py-3 px-4 text-sm font-semibold text-[#8A9A85]">Current (2025)</th>
+            <th className="text-right py-3 px-4 text-sm font-semibold text-[#2A3C24]">Current (2025)</th>
             <th className="text-right py-3 px-4 text-sm font-semibold text-[#2A3C24]">Projected (2028)</th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Hardware (3yr depreciation)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$13,000/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$2,000/year</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">~$13,000/year</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">~$2,000/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Maintenance (~15%/year)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$6,000/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$900/year</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">~$6,000/year</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">~$900/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Electricity (~500W, 20hr/day)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$700/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$700/year</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">~$700/year</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">~$700/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Cloud inference (estimated)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$3,500/year</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">~$3,500/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30 bg-[#E8E5DE]">
             <td className="py-3 px-4 text-sm font-semibold text-[#2A3C24]">Total annual cost</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
-            <td className="py-3 px-4 text-sm font-mono font-semibold text-[#2A3C24] text-right">~$7,100-8,100/year</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm font-semibold text-[#2A3C24] text-right">~$7,100-8,100/year</td>
           </tr>
           <tr className="bg-[#2A3C24]">
             <td className="py-3 px-4 text-sm font-semibold text-[#F5F2EB]">Hourly cost</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
-            <td className="py-3 px-4 text-sm font-mono font-semibold text-[#FBD45B] text-right">$1.00-1.15/hr</td>
+            <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm font-semibold text-[#FBD45B] text-right">$1.00-1.15/hr</td>
           </tr>
         </tbody>
       </table>
@@ -540,35 +540,35 @@ export function EVvsHumanoidTable() {
         <thead>
           <tr className="border-b-2 border-[#2A3C24]">
             <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Factor</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#8A9A85]">EVs (2014)</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#FBD45B] bg-[#2A3C24]">Humanoids (2025)</th>
+            <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">EVs (2014)</th>
+            <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Humanoids (2025)</th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Battery supply</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Build gigafactories from scratch</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">Already exists (EV supply chain)</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">Already exists (EV supply chain)</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Battery cost/unit</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">$15,000+ (60-100 kWh)</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">$150-400 (1-3 kWh)</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">$150-400 (1-3 kWh)</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Motor supply</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Build from scratch</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">Already exists (drones, EVs)</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">Already exists (drones, EVs)</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Parts count</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">10,000+</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">~3,000</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">~3,000</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Crash safety</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">Heavy regulation</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] bg-[#E8E5DE] font-semibold">Minimal requirements</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] font-semibold">Minimal requirements</td>
           </tr>
         </tbody>
       </table>
@@ -591,17 +591,17 @@ export function ForecastsTable() {
         <tbody>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Goldman Sachs (Feb 2024)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24]">250,000/year by 2030</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24]">250,000/year by 2030</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">40% annual cost declines</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Bank of America (Apr 2025)</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24]">18K (2025) → ~1M (2030-35)</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24]">18K (2025) → ~1M (2030-35)</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">BOM: $35K → $13-17K</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm font-medium text-[#2A3C24]">Morgan Stanley</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24]">1B installed by 2050</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24]">1B installed by 2050</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85]">$5T market</td>
           </tr>
         </tbody>
