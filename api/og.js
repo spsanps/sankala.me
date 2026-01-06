@@ -1,16 +1,16 @@
-import { next } from '@vercel/edge';
+export const config = {
+  runtime: 'edge',
+};
 
-export default function middleware(request: Request) {
-  const url = new URL(request.url);
+export default function handler(request) {
   const userAgent = request.headers.get('user-agent') || '';
 
   // Check if crawler
-  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot/i.test(userAgent);
+  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot|Applebot|Pinterest|Embedly|quora|outbrain|vkShare|redditbot/i.test(userAgent);
 
-  // Only intercept essay page for crawlers
-  if (url.pathname === '/essays/gpt7-will-have-arms' && isCrawler) {
+  if (isCrawler) {
     const html = `<!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
   <meta charset="UTF-8">
   <title>GPT-7 Will Have Arms — San Kala</title>
@@ -19,27 +19,27 @@ export default function middleware(request: Request) {
   <meta property="og:title" content="GPT-7 Will Have Arms">
   <meta property="og:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
   <meta property="og:image" content="https://sankala.me/essays/gpt7/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://sankala.me/essays/gpt7-will-have-arms">
   <meta property="og:site_name" content="San Kala">
   <meta property="article:author" content="San Kala">
-  <meta property="article:published_time" content="2026-01-06">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GPT-7 Will Have Arms">
   <meta name="twitter:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
   <meta name="twitter:image" content="https://sankala.me/essays/gpt7/og-image.jpg">
 </head>
-<body></body>
+<body>
+  <h1>GPT-7 Will Have Arms</h1>
+  <p>Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.</p>
+</body>
 </html>`;
 
     return new Response(html, {
-      status: 200,
       headers: { 'Content-Type': 'text/html; charset=utf-8' },
     });
   }
 
-  return next();
+  // For regular users, redirect to the SPA
+  return Response.redirect('https://sankala.me/essays/gpt7-will-have-arms', 302);
 }
-
-export const config = {
-  matcher: ['/essays/:path*'],
-};

@@ -1,5 +1,6 @@
 {
   "rewrites": [
+    { "source": "/essays/gpt7-will-have-arms", "destination": "/api/og" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
