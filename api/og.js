@@ -6,8 +6,8 @@ export default async function handler(request) {
   const url = new URL(request.url);
   const userAgent = request.headers.get('user-agent') || '';
 
-  // Check if crawler
-  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot|Applebot|Pinterest|Embedly|quora|outbrain|vkShare|redditbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|ia_archiver/i.test(userAgent);
+  // Check if crawler or bot (including link preview services)
+  const isCrawler = /facebookexternalhit|Facebot|twitterbot|linkedinbot|slackbot|telegrambot|whatsapp|discordbot|Googlebot|bingbot|Applebot|Pinterest|Embedly|quora|outbrain|vkShare|redditbot|Slurp|DuckDuckBot|Baiduspider|YandexBot|Sogou|ia_archiver|bot|crawler|spider|preview|fetch|curl|wget|python|axios|node-fetch|got|request|http|scraper|OpenGraph/i.test(userAgent);
 
   if (isCrawler) {
     const html = `<!DOCTYPE html>
