@@ -514,7 +514,14 @@ export function RobotEconomicsTable() {
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Cloud inference (estimated)</td>
             <td className="py-3 px-4 text-sm text-[#8A9A85] text-right">—</td>
-            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">~$3,500/year</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">
+              <span
+                className="border-b border-dotted border-[#8A9A85] cursor-help"
+                title="Based on GPT-5 class pricing (~$1.25/1M input, ~$10/1M output). 10 tokens in + 10 tokens out per second × 20 hrs/day × 365 days ≈ 631M tokens/year. At ~$5.60/1M tokens (50/50 mix) ≈ $3,500/year. Could be lower with caching or cheaper model variants."
+              >
+                ~$3,500/year
+              </span>
+            </td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30 bg-[#E8E5DE]">
             <td className="py-3 px-4 text-sm font-semibold text-[#2A3C24]">Total annual cost</td>
