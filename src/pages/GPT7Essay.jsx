@@ -1180,25 +1180,26 @@ export default function GPT7Essay() {
         /* Margin Notes - collapsible on mobile, side panel on desktop */
         .sidebar-note {
           background: transparent;
-          border-left: 2px dashed #8A9A85;
-          border-radius: 0;
-          margin: 1.5rem 0;
+          margin: 0.25rem 0;
           font-size: 0.9rem;
           color: #1A1A1A/80;
           overflow: hidden;
+          position: relative;
         }
 
         .sidebar-note-header {
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 0.75rem;
+          padding: 0.125rem 0.5rem;
           cursor: pointer;
           user-select: none;
+          color: #8A9A85;
+          font-size: 0.7rem;
+          border-radius: 2px;
         }
 
         .sidebar-note-header:active {
-          background: rgba(42, 60, 36, 0.05);
+          background: rgba(138, 154, 133, 0.1);
         }
 
         .sidebar-note-icon {
@@ -1206,23 +1207,26 @@ export default function GPT7Essay() {
           flex-shrink: 0;
         }
 
+        .sidebar-note-title {
+          display: none;
+        }
+
         .sidebar-note-content {
           max-height: 0;
           overflow: hidden;
           transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-          padding: 0 0.75rem;
+          padding: 0 0 0 0.5rem;
+          border-left: 2px solid #8A9A85;
+          margin-left: 0.25rem;
         }
 
         .sidebar-note.expanded .sidebar-note-content {
           max-height: 500px;
-          padding: 0 0.75rem 0.75rem 0.75rem;
+          padding: 0.5rem 0 0.5rem 0.5rem;
         }
 
         .sidebar-note-chevron {
-          transition: transform 0.3s ease;
-          color: #8A9A85;
-          flex-shrink: 0;
-          margin-left: auto;
+          display: none;
         }
 
         .sidebar-note.expanded .sidebar-note-chevron {
@@ -1232,6 +1236,10 @@ export default function GPT7Essay() {
         @media (min-width: 1280px) {
           .sidebar-note-icon {
             display: none;
+          }
+
+          .sidebar-note-title {
+            display: block;
           }
 
           .sidebar-note {
