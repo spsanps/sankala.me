@@ -1264,6 +1264,10 @@ export default function GPT7Essay() {
             display: none;
           }
 
+          .sidebar-note-peek {
+            display: none;
+          }
+
           .sidebar-note-title {
             display: block;
           }
@@ -1284,13 +1288,11 @@ export default function GPT7Essay() {
           }
 
           .sidebar-note-header {
-            display: block;
-            padding: 0;
-            cursor: default;
+            display: none;
           }
 
-          .sidebar-note-header:hover {
-            background: transparent;
+          .sidebar-note-header::before {
+            display: none;
           }
 
           .sidebar-note-chevron {
@@ -1298,9 +1300,10 @@ export default function GPT7Essay() {
           }
 
           .sidebar-note-content {
-            max-height: none;
-            padding: 0;
+            max-height: none !important;
+            padding: 0 !important;
             overflow: visible;
+            border-left: none;
           }
 
           .sidebar-note p {
