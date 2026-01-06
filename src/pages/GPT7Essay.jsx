@@ -1726,7 +1726,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
               className="w-full"
               style={{ maxHeight: '400px', objectFit: 'contain' }}
             >
-              <source src="/essays/gpt7/wine-video-sora-CONVERT-TO-GIF-FOR_SITE.mp4" type="video/mp4" />
+              <source src="/essays/gpt7/wine-video-optimized.mp4" type="video/mp4" />
             </video>
           </div>
           <p className="figure-caption">To render this accurately, the model must already understand manipulation physics</p>
