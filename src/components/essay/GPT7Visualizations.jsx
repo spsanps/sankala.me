@@ -517,7 +517,7 @@ export function RobotEconomicsTable() {
             <td className="py-3 px-4 text-sm text-[#2A3C24] text-right">
               <span
                 className="border-b border-dotted border-[#8A9A85] cursor-help"
-                title="Based on GPT-5 class pricing (~$1.25/1M input, ~$10/1M output). 10 tokens in + 10 tokens out per second × 20 hrs/day × 365 days ≈ 631M tokens/year. At ~$5.60/1M tokens (50/50 mix) ≈ $3,500/year. Could be lower with caching or cheaper model variants."
+                title="GPT-5 class pricing: ~$1.25/1M input, ~$10/1M output. At 10 tokens in + 10 out per second × ~7,000 hrs/year ≈ 500M tokens. 250M input ($312) + 250M output ($2,500) ≈ $2,800-3,500/year depending on usage patterns. Could be lower with caching."
               >
                 ~$3,500/year
               </span>
