@@ -718,7 +718,7 @@ export default function GPT7Essay() {
         <meta property="og:type" content="article" />
         <meta property="og:title" content="GPT-7 Will Have Arms" />
         <meta property="og:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
-        <meta property="og:image" content="https://sankala.me/essays/gpt7/Opening.png" />
+        <meta property="og:image" content="https://sankala.me/essays/gpt7/og-image.jpg" />
         <meta property="og:url" content="https://sankala.me/essays/gpt7-will-have-arms" />
         <meta property="og:site_name" content="San Kala" />
         <meta property="article:author" content="San Kala" />
@@ -728,7 +728,7 @@ export default function GPT7Essay() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="GPT-7 Will Have Arms" />
         <meta name="twitter:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
-        <meta name="twitter:image" content="https://sankala.me/essays/gpt7/Opening.png" />
+        <meta name="twitter:image" content="https://sankala.me/essays/gpt7/og-image.jpg" />
       </Helmet>
 
     <div className={`gpt7-essay min-h-screen bg-[#F5F2EB] text-[#1A1A1A] ${focusMode ? 'focus-mode-active' : ''}`}>
