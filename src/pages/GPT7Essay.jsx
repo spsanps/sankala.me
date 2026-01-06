@@ -1204,6 +1204,11 @@ export default function GPT7Essay() {
           height: 1px;
           background: linear-gradient(to right, transparent, #8A9A85 80%);
           top: 50%;
+          transition: opacity 0.15s ease;
+        }
+
+        .sidebar-note.expanded .sidebar-note-header::before {
+          opacity: 0;
         }
 
         .sidebar-note-peek {
@@ -1233,15 +1238,16 @@ export default function GPT7Essay() {
         .sidebar-note-content {
           max-height: 0;
           overflow: hidden;
-          transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+          transition: max-height 0.2s ease-out, padding 0.15s ease-out;
           padding: 0;
           border-left: 2px solid #8A9A85;
           margin-left: 0;
         }
 
         .sidebar-note.expanded .sidebar-note-content {
-          max-height: 500px;
+          max-height: 600px;
           padding: 0.75rem 0 0.75rem 0.75rem;
+          transition: max-height 0.25s ease-in, padding 0.15s ease-out;
         }
 
         .sidebar-note-content .sidebar-note-title {
