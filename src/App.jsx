@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Layout from './Layout';
 import Home from './pages/Home';
 import LabEntry from './pages/LabEntry';
@@ -57,5 +58,10 @@ const router = createBrowserRouter([
 ]);
 
 export default function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Analytics />
+    </>
+  );
 }
