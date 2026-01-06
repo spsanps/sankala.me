@@ -4,7 +4,6 @@ import { ArrowLeft, Zap, ChevronUp, ExternalLink, Menu, X, BookOpen, Clock, Cale
 import {
   DataPyramid,
   ModelScaleTable,
-  BrainSpinalDiagram,
   UniTreePriceChart,
   ComponentCostsInfographic,
   ChinaMultipliersChart,
@@ -175,7 +174,7 @@ The roboticists don't see it coming. They're debating actuator designs and sim-t
 :::figure{id="viki-image" type="image" caption="The VIKI architecture: cloud intelligence, distributed bodies."}
 :::
 
-## 3. The Cloud Thesis
+## 1. The Cloud Thesis
 
 A natural question is where computation should live. The robotics community has historically assumed edge-first architecture: robots should be autonomous, self-contained, independent. This assumption deserves scrutiny.
 
@@ -250,7 +249,7 @@ For robotics specifically, many of the same arguments hold—and perhaps are eve
 
 **If cloud is borderline viable now, it's clearly superior in 12 months.** The trend compounds.
 
-## 4. The Latency Objection
+## 2. The Latency Objection
 
 "But latency!" This is the first objection everyone raises. Motor control needs 200Hz—every 5 milliseconds. You can't wait for datacenter round-trip. Cloud robotics is physically impossible.
 
@@ -266,16 +265,11 @@ Sanctuary AI operates robots remotely over standard internet connections. Humans
 
 ### The Human Precedent
 
-Consider how you pick up a coffee cup. Your conscious reaction time—from "I want to grab that" to "my hand starts moving"—is approximately 200-250 milliseconds. That's 4-5Hz, not 200Hz.
+Consider how you pick up a coffee cup. Your conscious reaction time—from "I want to grab that" to "my hand starts moving"—is approximately 200-250 milliseconds.
 
-Your brain doesn't update your motor plan 200 times per second. It updates 4-5 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust.
+Your brain doesn't update your motor plan 200 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust. The millisecond-level work—reflexes, balance corrections, smooth muscle coordination—happens automatically in your spinal cord and motor cortex, not in conscious planning.
 
-What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking.
-
-:::figure{id="brain-spinal-diagram" type="component"}
-:::
-
-Robots can work the same way. The cloud runs the "brain" at 5-10Hz—deciding what to do. The on-device controller runs at 200Hz—tracking the commanded trajectory. This is precisely how Figure's system works today, just with both components on-device.
+Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming :::hover{term="action vectors" definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion"} that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz. This is precisely how Figure's system works today, just with both components on-device.
 
 ### Latency Is Solved Engineering
 
@@ -310,7 +304,7 @@ Roboticists have spent decades building on-device systems. Self-contained intell
 
 This intuition made sense when "network-dependent" meant "broken when offline." But we've built a world where network dependence is the norm. Your car's navigation, your phone's assistant, your home's thermostat, your company's software—all depend on cloud connectivity. The infrastructure has matured. The question isn't "can networks support this?" but "do the benefits justify the architecture?" For trillion-parameter emergent reasoning and cross-task generalization, they do.
 
-## 5. The Revenue Connection
+## 3. The Revenue Connection
 
 Claude Code became the revenue story for AI in 2025. Coding—where AI creates measurable value, where enterprises pay—is now central to every lab's business model.
 
@@ -345,7 +339,7 @@ The financial consensus hasn't internalized this. They see OpenAI investing in F
 
 # PART III: THE HARDWARE FLOOD
 
-## 6. The Unitree Trajectory
+## 1. The Unitree Trajectory
 
 **The hardware story is simple: costs are collapsing faster than anyone expected.**
 
@@ -365,7 +359,7 @@ Goldman Sachs, in their February 2024 humanoid robot report, projected 40% annua
 
 Goldman might be conservative. Their model doesn't account for what happens when China decides an industry is strategic.
 
-## 7. The EV Precedent
+## 2. The EV Precedent
 
 2014: China produced ~78,000 new energy vehicles (NEVs).
 
@@ -395,7 +389,7 @@ An EV costs $30,000+ to manufacture. A humanoid costs $6,000 and falling. Same f
 
 If you extrapolate the EV curve onto humanoids, adjust for supply chain advantages, you get numbers that seem unrealistic—until you remember nobody in 2014 thought China would produce 12 million EVs by 2024.
 
-## 8. The Components Collapse
+## 3. The Components Collapse
 
 Zoom in on the components, and the price collapse makes more sense.
 
@@ -420,7 +414,7 @@ The proof: excavator operators flipping water bottles with 30-ton machines. The 
 
 This is why the robotics industry's obsession with hardware is misplaced. Hardware challenges remain—actuators, reliability, safety certification, battery energy density—but the trajectory is clear and the supply chains exist. **Intelligence is the differentiator.** And intelligence is being built by AI labs, not robotics companies.
 
-## 9. The Forecasts
+## 4. The Forecasts
 
 How many humanoids will actually ship? The analyst projections:
 
@@ -445,7 +439,7 @@ Adoption curves don't start smooth. The AI discourse hasn't fully internalized t
 The graph won't be a steady exponential. It'll look normal in 2025-2026, then steepen sharply as capital and focus rush in.
 :::
 
-## 10. The China Factor
+## 5. The China Factor
 
 China has repeatedly demonstrated what happens when they identify an industry as strategic.
 
@@ -489,7 +483,7 @@ The same dynamic likely applies to humanoids.
 
 Predicting technology adoption is hard. I've seen "robotics is about to take off" predictions before—they were wrong for decades. But the current moment feels different, and worth examining with whatever specificity we can muster.
 
-## 11. General Embodied Intelligence
+## 1. General Embodied Intelligence
 
 What exactly are we building toward?
 
@@ -532,7 +526,7 @@ The first killer apps of GEI probably won't look like sci-fi. They'll look like 
 
 I am least certain about adoption timelines. Technology capability and economic viability don't guarantee deployment—regulatory friction, labor politics, and social acceptance all create drag. The wide range in analyst forecasts—from Goldman's 250K to BofA's 1M by 2030—reflects this uncertainty.
 
-## 12. The Demand Side
+## 2. The Demand Side
 
 ### The TAM Question
 
@@ -588,7 +582,7 @@ Cheaper physical labor may not just substitute for existing workers—it may cre
 
 If GEI arrives, the addressable market will likely expand.
 
-## 13. Value Capture: The Wintel Precedent
+## 3. Value Capture: The Wintel Precedent
 
 If cloud wins and hardware commoditizes, who captures the value? History offers a precedent.
 
@@ -622,7 +616,7 @@ The Apple model in robotics: a company that builds both the robot body AND the A
 
 **What doesn't work: hardware without controlling intelligence. That's Dell in 1998—competing on cost with no moat, while platform owners take the profit.**
 
-## 14. What Would Prove Me Wrong
+## 4. What Would Prove Me Wrong
 
 This essay makes falsifiable predictions. Here's what would prove the thesis wrong:
 
@@ -1627,7 +1621,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
               }}
             />
           </div>
-          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial Dyson swarm in a sunflower field</p>
+          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial <a href="https://iopscience.iop.org/article/10.1088/1402-4896/ac9e78" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dyson swarm</a> in a sunflower field</p>
         </div>
 
         <p>
@@ -1638,8 +1632,8 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <div className="sidebar-note-title">The Disembodied AI Assumption</div>
           <p>The current AGI discourse largely assumes intelligence stays in datacenters:</p>
           <ul>
-            <li><strong>Dario Amodei's "Machines of Loving Grace"</strong> — focuses on AI accelerating science and policy, with physical applications as an afterthought</li>
-            <li><strong>Leopold Aschenbrenner's "Situational Awareness"</strong> — charts a path to superintelligence through software, not embodiment</li>
+            <li><strong><a href="https://darioamodei.com/machines-of-loving-grace" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dario Amodei's "Machines of Loving Grace"</a></strong> — focuses on AI accelerating science and policy, with physical applications as an afterthought</li>
+            <li><strong><a href="https://situational-awareness.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Leopold Aschenbrenner's "Situational Awareness"</a></strong> — charts a path to superintelligence through software, not embodiment</li>
             <li><strong>The AI-2027 scenario</strong> — models AGI impact primarily through digital channels</li>
             <li><strong>Most AGI timelines discussions</strong> — software-only singularity</li>
           </ul>
@@ -1766,11 +1760,11 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p>The evidence for this hierarchy is already visible in the progression of robotics models:</p>
 
         <p>
-          <strong>RT-1 (Google, 2022):</strong> Trained on 130,000 demonstrations collected over 17 months. Used vision-language pretraining (ImageNet-pretrained image encoder), but robot-specific manipulation data was collected from scratch.
+          <strong><a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a> (Google, 2022):</strong> Trained on 130,000 demonstrations collected over 17 months. Used vision-language pretraining (ImageNet-pretrained image encoder), but robot-specific manipulation data was collected from scratch.
         </p>
 
         <p>
-          <strong>RT-2 (Google, 2023):</strong> Same robot data, combined with large-scale vision-language pretraining. Result: performance on novel semantic concepts jumped from 32% to 62%—nearly doubling. The model exhibited emergent reasoning: asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data.
+          <strong><a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a> (Google, 2023):</strong> Same robot data, combined with large-scale vision-language pretraining. Result: performance on novel semantic concepts jumped from 32% to 62%—nearly doubling. The model exhibited emergent reasoning: asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data.
         </p>
 
         <div className="stat-highlight">
@@ -1779,7 +1773,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p>
-          <strong>π0 (Physical Intelligence, 2024):</strong> Demonstrates that foundation model pretraining dramatically reduces the robot-specific data needed. The paper describes using diverse demonstration data, with task-specific finetuning requiring far less data than training from scratch.
+          <strong><a href="https://www.physicalintelligence.company/blog/pi0" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">π0</a> (Physical Intelligence, 2024):</strong> Demonstrates that foundation model pretraining dramatically reduces the robot-specific data needed. The paper describes using diverse demonstration data, with task-specific finetuning requiring far less data than training from scratch.
         </p>
 
         <p>
@@ -1853,9 +1847,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <div className="sidebar-note-title">Labs Have Started Realizing This</div>
           <p>The AI labs are now training robot brains:</p>
           <ul>
-            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025)</li>
-            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence</li>
-            <li><strong>Physical Intelligence</strong>: $400M funding to build foundation models for robots</li>
+            <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
+            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, Physical Intelligence</li>
+            <li><strong><a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></strong>: $400M funding to build foundation models for robots</li>
           </ul>
           <p><em>Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
         </div>
@@ -2057,24 +2051,15 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <h3>The Human Precedent</h3>
 
         <p>
-          Consider how you pick up a coffee cup. Your conscious reaction time—from "I want to grab that" to "my hand starts moving"—is approximately 200-250 milliseconds. That's 4-5Hz, not 200Hz.
+          Consider how you pick up a coffee cup. Your conscious reaction time—from "I want to grab that" to "my hand starts moving"—is approximately 200-250 milliseconds.
         </p>
 
         <p>
-          Your brain doesn't update your motor plan 200 times per second. It updates 4-5 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust.
+          Your brain doesn't update your motor plan 200 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust. The millisecond-level work—reflexes, balance corrections, smooth muscle coordination—happens automatically in your spinal cord and motor cortex, not in conscious planning.
         </p>
 
         <p>
-          What happens at 200Hz? Spinal reflexes. Balance corrections. Trajectory tracking.
-        </p>
-
-        <div className="figure-container">
-          <BrainSpinalDiagram />
-          <p className="figure-caption">The brain/spinal cord split mirrors cloud/edge architecture</p>
-        </div>
-
-        <p>
-          Robots can work the same way. The cloud runs the "brain" at 5-10Hz—deciding what to do. The on-device controller runs at 200Hz—tracking the commanded trajectory. This is precisely how Figure's system works today, just with both components on-device.
+          Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming <span className="hover-term" data-definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion">action vectors</span> that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz. This is precisely how Figure's system works today, just with both components on-device.
         </p>
 
         <h3>Latency Is Solved Engineering</h3>
@@ -2136,8 +2121,8 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <div className="sidebar-note">
           <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
           <ul>
-            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in 1X, Figure, Physical Intelligence. Now hiring for robotics world models.</li>
-            <li><strong>Google DeepMind</strong>: Gemini Robotics (March 2025). Published RT-1, RT-2, RT-X. Hassabis: robots are "the ultimate application."</li>
+            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a>. Now hiring for robotics world models.</li>
+            <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
           </ul>
           <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays.</em></p>
         </div>
@@ -2202,7 +2187,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          Goldman Sachs, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
+          <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots-are-coming-and-heres-what-they-could-mean-for-jobs" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Goldman Sachs</a>, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
         </p>
 
         <p>
