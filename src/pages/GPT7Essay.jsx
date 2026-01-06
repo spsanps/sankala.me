@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Zap, ChevronUp, ExternalLink, Menu, X, BookOpen, Clock, Calendar } from 'lucide-react';
 import {
   DataPyramid,
@@ -708,6 +709,28 @@ export default function GPT7Essay() {
   ];
 
   return (
+    <>
+      <Helmet>
+        <title>GPT-7 Will Have Arms — San Kala</title>
+        <meta name="description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
+
+        {/* Open Graph */}
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="GPT-7 Will Have Arms" />
+        <meta property="og:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
+        <meta property="og:image" content="https://sankala.me/essays/gpt7/Opening.png" />
+        <meta property="og:url" content="https://sankala.me/essays/gpt7" />
+        <meta property="og:site_name" content="San Kala" />
+        <meta property="article:author" content="San Kala" />
+        <meta property="article:published_time" content="2026-01-06" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="GPT-7 Will Have Arms" />
+        <meta name="twitter:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
+        <meta name="twitter:image" content="https://sankala.me/essays/gpt7/Opening.png" />
+      </Helmet>
+
     <div className={`gpt7-essay min-h-screen bg-[#F5F2EB] text-[#1A1A1A] ${focusMode ? 'focus-mode-active' : ''}`}>
 
       {/* Progress bar */}
@@ -739,7 +762,7 @@ export default function GPT7Essay() {
               {showTOC ? <X size={18} /> : <Menu size={18} />}
             </button>
 
-            {/* Focus Mode Toggle */}
+            {/* ADHD Mode Toggle */}
             <button
               onClick={() => setFocusMode(!focusMode)}
               className={`p-2 rounded-full transition-all duration-200 ${
@@ -1114,10 +1137,14 @@ export default function GPT7Essay() {
           border-radius: 0.25rem;
         }
 
-        /* Focus Mode */
-        .focus-active p:not(.has-highlight) {
+        /* Focus Mode - only affects main content, not sidebars */
+        .focus-active p:not(.has-highlight):not(.sidebar-note p) {
           opacity: 0.3;
           transition: opacity 0.3s ease;
+        }
+
+        .focus-active .sidebar-note p {
+          opacity: 1;
         }
 
         .focus-active p:hover {
@@ -1128,9 +1155,13 @@ export default function GPT7Essay() {
           opacity: 1;
         }
 
-        .focus-active strong {
+        .focus-active strong:not(.sidebar-note strong) {
           background: rgba(251, 212, 91, 0.25);
           padding: 0 0.1em;
+        }
+
+        .focus-active .sidebar-note strong {
+          background: none;
         }
 
         .focus-mode-active {
@@ -1551,6 +1582,7 @@ export default function GPT7Essay() {
         }
       `}</style>
     </div>
+    </>
   );
 }
 
@@ -1711,7 +1743,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p className="quote-attribution">— Ilya Sutskever, <a href="https://www.dwarkesh.com/p/ilya-sutskever" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dwarkesh Patel Interview</a></p>
         </div>
 
-        <p className={focusMode ? 'has-highlight' : ''}>
+        <p>
           <strong>Modality-seep.</strong> Understanding can bleed between modalities. Early text-only models "knew" things about vision—they could describe colors, spatial relationships, visual aesthetics—despite never seeing an image. A picture is worth a thousand words, but a thousand words also encode the picture.
         </p>
 
@@ -1846,7 +1878,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           The NLP researchers didn't see it coming. They were world experts in parsing, syntax, semantics, discourse. They had spent decades building linguistic knowledge into systems. And then a team at OpenAI trained a large transformer on internet text and made most of that expertise irrelevant.
         </p>
 
-        <p className={focusMode ? 'has-highlight' : ''}>
+        <p>
           <strong>This is about to happen to robotics.</strong>
         </p>
 
@@ -2078,7 +2110,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           Robotics is next. Here's what financial analysts miss:
         </p>
 
-        <p className={focusMode ? 'has-highlight' : ''}>
+        <p>
           <strong><em>It's the same model.</em></strong>
         </p>
 
@@ -2258,7 +2290,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M). This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
         </p>
 
-        <p className={focusMode ? 'has-highlight' : ''}>
+        <p>
           <strong>Humanoids are getting the same treatment.</strong>
         </p>
 
