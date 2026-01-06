@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Zap, ChevronUp, ChevronDown, ExternalLink, Menu, X, BookOpen, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, Zap, ChevronUp, ChevronDown, ExternalLink, Menu, X, BookOpen, Clock, Calendar, MessageSquare } from 'lucide-react';
 import {
   DataPyramid,
   ModelScaleTable,
@@ -1179,9 +1179,9 @@ export default function GPT7Essay() {
 
         /* Margin Notes - collapsible on mobile, side panel on desktop */
         .sidebar-note {
-          background: #F5F2EB;
-          border: 1px solid #2A3C24/15;
-          border-radius: 0.375rem;
+          background: transparent;
+          border-left: 2px dashed #8A9A85;
+          border-radius: 0;
           margin: 1.5rem 0;
           font-size: 0.9rem;
           color: #1A1A1A/80;
@@ -1191,32 +1191,38 @@ export default function GPT7Essay() {
         .sidebar-note-header {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 0.75rem 1rem;
+          gap: 0.5rem;
+          padding: 0.5rem 0.75rem;
           cursor: pointer;
           user-select: none;
         }
 
-        .sidebar-note-header:hover {
-          background: #2A3C24/5;
+        .sidebar-note-header:active {
+          background: rgba(42, 60, 36, 0.05);
+        }
+
+        .sidebar-note-icon {
+          color: #8A9A85;
+          flex-shrink: 0;
         }
 
         .sidebar-note-content {
           max-height: 0;
           overflow: hidden;
           transition: max-height 0.3s ease-out, padding 0.3s ease-out;
-          padding: 0 1rem;
+          padding: 0 0.75rem;
         }
 
         .sidebar-note.expanded .sidebar-note-content {
           max-height: 500px;
-          padding: 0 1rem 1rem 1rem;
+          padding: 0 0.75rem 0.75rem 0.75rem;
         }
 
         .sidebar-note-chevron {
           transition: transform 0.3s ease;
           color: #8A9A85;
           flex-shrink: 0;
+          margin-left: auto;
         }
 
         .sidebar-note.expanded .sidebar-note-chevron {
@@ -1224,6 +1230,10 @@ export default function GPT7Essay() {
         }
 
         @media (min-width: 1280px) {
+          .sidebar-note-icon {
+            display: none;
+          }
+
           .sidebar-note {
             position: absolute;
             right: -260px;
@@ -1702,8 +1712,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['disembodied'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('disembodied')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">The Disembodied AI Assumption</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>The current AGI discourse largely assumes intelligence stays in datacenters:</p>
@@ -1785,8 +1796,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['physics-video'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('physics-video')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Learning Physics From Video</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
@@ -1895,8 +1907,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['reasoning'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('reasoning')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Why This Matters for Reasoning</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
@@ -1934,8 +1947,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['labs-realizing'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-realizing')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Labs Have Started Realizing This</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>The AI labs are now training robot brains:</p>
@@ -1963,8 +1977,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['nlp-reckoning'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('nlp-reckoning')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">The NLP Reckoning</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p><a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Quanta Magazine (April 2025)</a> published an oral history of the NLP community's reaction to ChatGPT:</p>
@@ -2066,8 +2081,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['why-cloud'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('why-cloud')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Why AI Ended Up in the Cloud</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p><strong>Scale & Performance</strong></p>
@@ -2220,8 +2236,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['labs-interested'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-interested')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <ul>
@@ -2322,8 +2339,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['dexterity'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('dexterity')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
@@ -2371,8 +2389,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['recognition'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('recognition')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">The Recognition Moment</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
@@ -2497,8 +2516,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['gei-wrappers'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('gei-wrappers')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">GEI Wrappers</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
@@ -2558,8 +2578,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <div className={`sidebar-note ${expandedSidebars['inference-economics'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('inference-economics')}>
+            <MessageSquare size={14} className="sidebar-note-icon" />
             <div className="sidebar-note-title">The Counterintuitive Inference Economics</div>
-            <ChevronDown size={16} className="sidebar-note-chevron" />
+            <ChevronDown size={14} className="sidebar-note-chevron" />
           </div>
           <div className="sidebar-note-content">
             <p>
