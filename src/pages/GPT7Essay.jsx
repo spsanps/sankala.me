@@ -877,7 +877,7 @@ export default function GPT7Essay() {
 
           {/* Essay Content */}
           <article className={`essay-prose ${focusMode ? 'focus-active' : ''}`}>
-            <EssayContent focusMode={focusMode} toc={toc} scrollToSection={scrollToSection} activeSection={activeSection} />
+            <EssayContent focusMode={focusMode} toc={toc} scrollToSection={scrollToSection} activeSection={activeSection} expandedSidebars={expandedSidebars} toggleSidebar={toggleSidebar} />
           </article>
 
           {/* Footer */}
@@ -1670,7 +1670,7 @@ function SectionCode({ code, isPart }) {
 }
 
 // Essay Content Component
-function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
+function EssayContent({ focusMode, toc, scrollToSection, activeSection, expandedSidebars, toggleSidebar }) {
   return (
     <div>
       {/* Introduction */}
