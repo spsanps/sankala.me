@@ -44,7 +44,7 @@ export function DataPyramid() {
           >
             {/* Full bar with content */}
             <div
-              className="w-full flex items-center justify-between px-3 py-2"
+              className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between px-3 py-2"
               style={{ backgroundColor: layer.color }}
             >
               <div className="min-w-0 flex-shrink">
@@ -55,9 +55,9 @@ export function DataPyramid() {
                   {layer.data}
                 </div>
               </div>
-              <div className="text-right text-xs flex-shrink-0 ml-2" style={{ color: layer.textColor, opacity: 0.8, fontFamily: 'Crimson Pro, Georgia, serif' }}>
+              <div className="sm:text-right text-xs flex-shrink-0 mt-1 sm:mt-0 sm:ml-2" style={{ color: layer.textColor, opacity: 0.8, fontFamily: 'Crimson Pro, Georgia, serif' }}>
                 <span className="whitespace-nowrap">{layer.scale}</span>
-                <span className="block whitespace-nowrap">→ {layer.learns}</span>
+                <span className="sm:block inline ml-1 sm:ml-0 whitespace-nowrap">→ {layer.learns}</span>
               </div>
             </div>
           </div>

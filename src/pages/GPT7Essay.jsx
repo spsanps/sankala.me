@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Zap, ChevronUp, ExternalLink, Menu, X, BookOpen, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, Zap, ChevronUp, ChevronDown, ExternalLink, Menu, X, BookOpen, Clock, Calendar } from 'lucide-react';
 import {
   DataPyramid,
   ModelScaleTable,
@@ -634,7 +634,16 @@ export default function GPT7Essay() {
   const [activeSection, setActiveSection] = useState('');
   const [showTOC, setShowTOC] = useState(false);
   const [expandedFootnotes, setExpandedFootnotes] = useState({});
+  const [expandedSidebars, setExpandedSidebars] = useState({});
   const contentRef = useRef(null);
+
+  // Toggle sidebar expansion (for mobile)
+  const toggleSidebar = useCallback((sidebarId) => {
+    setExpandedSidebars(prev => ({
+      ...prev,
+      [sidebarId]: !prev[sidebarId]
+    }));
+  }, []);
 
   // Scroll handling for progress bar
   useEffect(() => {
@@ -1168,14 +1177,50 @@ export default function GPT7Essay() {
           background: #FAF8F3;
         }
 
-        /* Margin Notes - appear on right side on large screens */
+        /* Margin Notes - collapsible on mobile, side panel on desktop */
         .sidebar-note {
-          background: transparent;
-          border-left: 2px solid #2A3C24/25;
-          padding: 0 0 0 1rem;
+          background: #F5F2EB;
+          border: 1px solid #2A3C24/15;
+          border-radius: 0.375rem;
           margin: 1.5rem 0;
           font-size: 0.9rem;
           color: #1A1A1A/80;
+          overflow: hidden;
+        }
+
+        .sidebar-note-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0.75rem 1rem;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .sidebar-note-header:hover {
+          background: #2A3C24/5;
+        }
+
+        .sidebar-note-content {
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+          padding: 0 1rem;
+        }
+
+        .sidebar-note.expanded .sidebar-note-content {
+          max-height: 500px;
+          padding: 0 1rem 1rem 1rem;
+        }
+
+        .sidebar-note-chevron {
+          transition: transform 0.3s ease;
+          color: #8A9A85;
+          flex-shrink: 0;
+        }
+
+        .sidebar-note.expanded .sidebar-note-chevron {
+          transform: rotate(180deg);
         }
 
         @media (min-width: 1280px) {
@@ -1185,10 +1230,33 @@ export default function GPT7Essay() {
             width: 220px;
             margin: 0;
             padding: 0;
-            border-left: none;
+            border: none;
+            background: transparent;
             font-size: 0.8rem;
             line-height: 1.5;
             color: #8A9A85;
+            border-radius: 0;
+            overflow: visible;
+          }
+
+          .sidebar-note-header {
+            display: block;
+            padding: 0;
+            cursor: default;
+          }
+
+          .sidebar-note-header:hover {
+            background: transparent;
+          }
+
+          .sidebar-note-chevron {
+            display: none;
+          }
+
+          .sidebar-note-content {
+            max-height: none;
+            padding: 0;
+            overflow: visible;
           }
 
           .sidebar-note p {
@@ -1221,7 +1289,13 @@ export default function GPT7Essay() {
           text-transform: uppercase;
           letter-spacing: 0.1em;
           color: #2A3C24;
-          margin-bottom: 0.5rem;
+          margin-bottom: 0;
+        }
+
+        @media (min-width: 1280px) {
+          .sidebar-note-title {
+            margin-bottom: 0.5rem;
+          }
         }
 
         /* Callout */
@@ -1626,16 +1700,21 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           On the eve of the technological singularity, the discussion around superintelligence—and the vision we have in our collective psyche—is of a world transformed by superintelligent AI that is fundamentally about software and virtual agents. The AIs are disembodied: a "country of geniuses in a datacenter" doing research and writing superhuman code, but never picking up a test tube or building a bridge.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">The Disembodied AI Assumption</div>
-          <p>The current AGI discourse largely assumes intelligence stays in datacenters:</p>
-          <ul>
-            <li><strong><a href="https://darioamodei.com/machines-of-loving-grace" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dario Amodei's "Machines of Loving Grace"</a></strong> — focuses on AI accelerating science and policy, with physical applications as an afterthought</li>
-            <li><strong><a href="https://situational-awareness.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Leopold Aschenbrenner's "Situational Awareness"</a></strong> — charts a path to superintelligence through software, not embodiment</li>
-            <li><strong>The AI-2027 scenario</strong> — models AGI impact primarily through digital channels</li>
-            <li><strong>Most AGI timelines discussions</strong> — software-only singularity</li>
-          </ul>
-          <p><strong>This essay argues the assumption is wrong.</strong></p>
+        <div className={`sidebar-note ${expandedSidebars['disembodied'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('disembodied')}>
+            <div className="sidebar-note-title">The Disembodied AI Assumption</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>The current AGI discourse largely assumes intelligence stays in datacenters:</p>
+            <ul>
+              <li><strong><a href="https://darioamodei.com/machines-of-loving-grace" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dario Amodei's "Machines of Loving Grace"</a></strong> — focuses on AI accelerating science and policy, with physical applications as an afterthought</li>
+              <li><strong><a href="https://situational-awareness.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Leopold Aschenbrenner's "Situational Awareness"</a></strong> — charts a path to superintelligence through software, not embodiment</li>
+              <li><strong>The AI-2027 scenario</strong> — models AGI impact primarily through digital channels</li>
+              <li><strong>Most AGI timelines discussions</strong> — software-only singularity</li>
+            </ul>
+            <p><strong>This essay argues the assumption is wrong.</strong></p>
+          </div>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1704,11 +1783,16 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong>Video is implicit physics.</strong> YouTube contains trillions of frames of the physical world in motion. Objects falling, liquids pouring, hands manipulating, bodies moving through space. A model trained to predict the next frame of video must learn how the world works—gravity, friction, rigidity, occlusion, cause and effect.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Learning Physics From Video</div>
-          <p>
-            In a recent <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">interview with Lex Fridman</a>, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['physics-video'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('physics-video')}>
+            <div className="sidebar-note-title">Learning Physics From Video</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              In a recent <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">interview with Lex Fridman</a>, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
+            </p>
+          </div>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1809,11 +1893,16 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p className="quote-attribution">— Demis Hassabis, <a href="https://x.com/demishassabis/status/1926057739416965438" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter</a>, May 2025</p>
         </div>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Why This Matters for Reasoning</div>
-          <p>
-            When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['reasoning'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('reasoning')}>
+            <div className="sidebar-note-title">Why This Matters for Reasoning</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
+            </p>
+          </div>
         </div>
 
         <p>
@@ -1843,15 +1932,20 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           A frontier-scale model that's seen YouTube-scale video of everything in existence—humans manipulating objects, navigating spaces, using tools, in every context and configuration—has already learned most of what it needs to know about the physical world. The robot-specific data just aligns this understanding to a specific embodiment. The foundation does the heavy lifting. The fine-tuning is the easy part.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Labs Have Started Realizing This</div>
-          <p>The AI labs are now training robot brains:</p>
-          <ul>
-            <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
-            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></li>
-            <li><strong><a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></strong>: $400M funding to build foundation models for robots</li>
-          </ul>
-          <p><em><a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Logan Kilpatrick</a> (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
+        <div className={`sidebar-note ${expandedSidebars['labs-realizing'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-realizing')}>
+            <div className="sidebar-note-title">Labs Have Started Realizing This</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>The AI labs are now training robot brains:</p>
+            <ul>
+              <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
+              <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></li>
+              <li><strong><a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></strong>: $400M funding to build foundation models for robots</li>
+            </ul>
+            <p><em><a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Logan Kilpatrick</a> (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
+          </div>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1867,11 +1961,16 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           Chess. Go. Protein folding. Machine translation. Image recognition. Speech synthesis. Self-driving. In every domain, the pattern repeated: hand-engineered systems with decades of expert knowledge were swept away by scaled-up learning.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">The NLP Reckoning</div>
-          <p><a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Quanta Magazine (April 2025)</a> published an oral history of the NLP community's reaction to ChatGPT:</p>
-          <p><strong>Christopher Callison-Burch (UPenn):</strong> <em>"I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."</em></p>
-          <p><strong>Iz Beltagy (Allen Institute):</strong> <em>"In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared."</em></p>
+        <div className={`sidebar-note ${expandedSidebars['nlp-reckoning'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('nlp-reckoning')}>
+            <div className="sidebar-note-title">The NLP Reckoning</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p><a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Quanta Magazine (April 2025)</a> published an oral history of the NLP community's reaction to ChatGPT:</p>
+            <p><strong>Christopher Callison-Burch (UPenn):</strong> <em>"I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."</em></p>
+            <p><strong>Iz Beltagy (Allen Institute):</strong> <em>"In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared."</em></p>
+          </div>
         </div>
 
         <p>
@@ -1965,28 +2064,33 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           It is clear why today's chatbots run in datacenters rather than on laptops and devices:
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Why AI Ended Up in the Cloud</div>
-          <p><strong>Scale & Performance</strong></p>
-          <ul>
-            <li>Models got huge. State-of-the-art needs tens-hundreds of GB of weights.</li>
-            <li>Inference is compute-bound. Quality generation needs GPU FLOPs that devices lack.</li>
-            <li>Memory bandwidth bottleneck—even if weights "fit."</li>
-            <li>Specialized hardware. Datacenters deploy newest GPUs immediately.</li>
-          </ul>
-          <p><strong>Economics</strong></p>
-          <ul>
-            <li>Economies of scale. One cluster serving millions beats everyone maintaining local hardware.</li>
-            <li>Multi-tenancy. Many users share same model and caches.</li>
-            <li>Usage-based pricing maps to centralized serving.</li>
-          </ul>
-          <p><strong>Operations</strong></p>
-          <ul>
-            <li>Fast iteration. Model updates deploy instantly.</li>
-            <li>Centralized safety. Content filters easier server-side.</li>
-            <li>Security of IP. Weights stay server-side.</li>
-          </ul>
-          <p><em>These forces don't disappear for robotics. They intensify.</em></p>
+        <div className={`sidebar-note ${expandedSidebars['why-cloud'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('why-cloud')}>
+            <div className="sidebar-note-title">Why AI Ended Up in the Cloud</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p><strong>Scale & Performance</strong></p>
+            <ul>
+              <li>Models got huge. State-of-the-art needs tens-hundreds of GB of weights.</li>
+              <li>Inference is compute-bound. Quality generation needs GPU FLOPs that devices lack.</li>
+              <li>Memory bandwidth bottleneck—even if weights "fit."</li>
+              <li>Specialized hardware. Datacenters deploy newest GPUs immediately.</li>
+            </ul>
+            <p><strong>Economics</strong></p>
+            <ul>
+              <li>Economies of scale. One cluster serving millions beats everyone maintaining local hardware.</li>
+              <li>Multi-tenancy. Many users share same model and caches.</li>
+              <li>Usage-based pricing maps to centralized serving.</li>
+            </ul>
+            <p><strong>Operations</strong></p>
+            <ul>
+              <li>Fast iteration. Model updates deploy instantly.</li>
+              <li>Centralized safety. Content filters easier server-side.</li>
+              <li>Security of IP. Weights stay server-side.</li>
+            </ul>
+            <p><em>These forces don't disappear for robotics. They intensify.</em></p>
+          </div>
         </div>
 
         <p>
@@ -2114,13 +2218,18 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong><em>It's the same model.</em></strong>
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
-          <ul>
-            <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a>. Now hiring for robotics world models.</li>
-            <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
-          </ul>
-          <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays.</em></p>
+        <div className={`sidebar-note ${expandedSidebars['labs-interested'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('labs-interested')}>
+            <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <ul>
+              <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a>. Now hiring for robotics world models.</li>
+              <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
+            </ul>
+            <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays.</em></p>
+          </div>
         </div>
 
         <p>
@@ -2211,14 +2320,19 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           </p>
         </div>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
-          <p>
-            Chris Paxton (Agility Robotics): "<a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Human level dexterity is absolutely not gated by hardware.</a>"
-          </p>
-          <p>
-            The proof: excavator operators flipping water bottles with 30-ton machines. The hardware is crude—hydraulic cylinders with massive backlash. The dexterity comes entirely from the human operator's learned control policy.
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['dexterity'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('dexterity')}>
+            <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              Chris Paxton (Agility Robotics): "<a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Human level dexterity is absolutely not gated by hardware.</a>"
+            </p>
+            <p>
+              The proof: excavator operators flipping water bottles with 30-ton machines. The hardware is crude—hydraulic cylinders with massive backlash. The dexterity comes entirely from the human operator's learned control policy.
+            </p>
+          </div>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -2255,11 +2369,16 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           The key variable is capability. Price declines alone don't create demand—a $5,000 robot that can't do useful work is worthless. A $20,000 robot that can reliably perform $50,000/year of labor sells itself.
         </p>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">The Recognition Moment</div>
-          <p>
-            Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['recognition'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('recognition')}>
+            <div className="sidebar-note-title">The Recognition Moment</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -2376,11 +2495,16 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           </p>
         </div>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">GEI Wrappers</div>
-          <p>
-            One could imagine startups emerging as robot API wrappers—collecting proprietary prompts and industry domain knowledge (in both text and action demonstrations) to sell GEI competence by vertical. Not building models, not building bodies. Just accumulating the best scaffolding and data, just like today's API wrapper companies.
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['gei-wrappers'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('gei-wrappers')}>
+            <div className="sidebar-note-title">GEI Wrappers</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              One could imagine startups emerging as robot API wrappers—collecting proprietary prompts and industry domain knowledge (in both text and action demonstrations) to sell GEI competence by vertical. Not building models, not building bodies. Just accumulating the best scaffolding and data, just like today's API wrapper companies.
+            </p>
+          </div>
         </div>
 
         <p>By 2027, I expect GEI systems will reliably handle:</p>
@@ -2432,17 +2556,22 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <li>Manufacturing wages in US: $20-30/hour</li>
         </ul>
 
-        <div className="sidebar-note">
-          <div className="sidebar-note-title">The Counterintuitive Inference Economics</div>
-          <p>
-            The obvious play is white-collar automation—coding, analysis, document work. Pure software, no hardware risk.
-          </p>
-          <p>
-            But consider: A coding agent might burn through millions of tokens per task. A robot doing physical work might need far fewer tokens—mostly ingesting video tokens and generating real-time control signals.
-          </p>
-          <p>
-            <em>If you're an AI lab selling inference, a million robots doing night shifts might be better unit economics than a million developers.</em>
-          </p>
+        <div className={`sidebar-note ${expandedSidebars['inference-economics'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('inference-economics')}>
+            <div className="sidebar-note-title">The Counterintuitive Inference Economics</div>
+            <ChevronDown size={16} className="sidebar-note-chevron" />
+          </div>
+          <div className="sidebar-note-content">
+            <p>
+              The obvious play is white-collar automation—coding, analysis, document work. Pure software, no hardware risk.
+            </p>
+            <p>
+              But consider: A coding agent might burn through millions of tokens per task. A robot doing physical work might need far fewer tokens—mostly ingesting video tokens and generating real-time control signals.
+            </p>
+            <p>
+              <em>If you're an AI lab selling inference, a million robots doing night shifts might be better unit economics than a million developers.</em>
+            </p>
+          </div>
         </div>
 
         <h3>The Labor Shortage Is Already Real</h3>
