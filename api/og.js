@@ -15,10 +15,10 @@ export default async function handler(request) {
 <head>
   <meta charset="UTF-8">
   <title>GPT-7 Will Have Arms — San Kala</title>
-  <meta name="description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
+  <meta name="description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
   <meta property="og:type" content="article">
   <meta property="og:title" content="GPT-7 Will Have Arms">
-  <meta property="og:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
+  <meta property="og:description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
   <meta property="og:image" content="https://sankala.me/essays/gpt7/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -27,12 +27,12 @@ export default async function handler(request) {
   <meta property="article:author" content="San Kala">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="GPT-7 Will Have Arms">
-  <meta name="twitter:description" content="Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
+  <meta name="twitter:description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after.">
   <meta name="twitter:image" content="https://sankala.me/essays/gpt7/og-image.jpg">
 </head>
 <body>
   <h1>GPT-7 Will Have Arms</h1>
-  <p>Situational Awareness for robotics.</p>
+  <p>A mini Situational Awareness for robotics.</p>
   <a href="https://sankala.me/essays/gpt7-will-have-arms">Read the full essay</a>
 </body>
 </html>`;
