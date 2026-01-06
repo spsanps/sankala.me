@@ -23,8 +23,8 @@ On the eve of the technological singularity, the discussion around superintellig
 :::sidebar{title="The Disembodied AI Assumption"}
 The current AGI discourse largely assumes intelligence stays in datacenters:
 
-- **Dario Amodei's "Machines of Loving Grace"** — focuses on AI accelerating science and policy, with physical applications as an afterthought
-- **Leopold Aschenbrenner's "Situational Awareness"** — charts a path to superintelligence through software, not embodiment
+- **[Dario Amodei's "Machines of Loving Grace"](https://darioamodei.com/machines-of-loving-grace)** — focuses on AI accelerating science and policy, with physical applications as an afterthought
+- **[Leopold Aschenbrenner's "Situational Awareness"](https://situational-awareness.ai/)** — charts a path to superintelligence through software, not embodiment
 - **The AI-2027 scenario (Kokotajlo et al.)** — models AGI impact primarily through digital channels
 - **Most AGI timelines discussions** — software-only singularity
 
@@ -36,8 +36,8 @@ I think this framing is incorrect. **The robot that folds your laundry will be p
 :::sidebar{title="Labs Have Started Realizing This"}
 The AI labs are now training robot brains:
 
-- **Google DeepMind**: Gemini Robotics (March 2025)
-- **OpenAI**: Restarted robotics team (2024), invested in Figure, 1X, Physical Intelligence
+- **Google DeepMind**: [Gemini Robotics](https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/) (March 2025)
+- **OpenAI**: Restarted robotics team (2024), invested in [Figure](https://www.figure.ai/), [1X](https://www.1x.tech/), [Physical Intelligence](https://www.physicalintelligence.company/)
 - **Physical Intelligence**: $400M funding to build foundation models for robots
 
 Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."
@@ -101,16 +101,16 @@ The same applies to other modalities like touch, temperature, and force. Video o
 
 The evidence for this hierarchy is already visible in the progression of robotics models:
 
-**RT-1 (Google, 2022):** Trained on 130,000 demonstrations collected over 17 months. Used vision-language pretraining (ImageNet-pretrained image encoder), but robot-specific manipulation data was collected from scratch.
+**[RT-1](https://arxiv.org/abs/2212.06817) (Google, 2022):** Trained on 130,000 demonstrations collected over 17 months. Used vision-language pretraining (ImageNet-pretrained image encoder), but robot-specific manipulation data was collected from scratch.
 
-**RT-2 (Google, 2023):** Same robot data, combined with large-scale vision-language pretraining. Result: performance on novel semantic concepts jumped from 32% to 62%—nearly doubling. The model exhibited emergent reasoning: asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data.
+**[RT-2](https://arxiv.org/abs/2307.15818) (Google, 2023):** Same robot data, combined with large-scale vision-language pretraining. Result: performance on novel semantic concepts jumped from 32% to 62%—nearly doubling. The model exhibited emergent reasoning: asking it to "pick up the extinct animal" led it to correctly identify and grasp a plastic dinosaur, despite no such instruction appearing in the robot training data.
 
 :::stat{value="32% → 62%" label="Performance on novel concepts with same robot data, just better pretraining"}
 :::
 
-**π0 (Physical Intelligence, 2024):** Demonstrates that foundation model pretraining dramatically reduces the robot-specific data needed. The paper describes using diverse demonstration data, with task-specific finetuning requiring far less data than training from scratch.
+**[π0](https://www.physicalintelligence.company/blog/pi0) (Physical Intelligence, 2024):** Demonstrates that foundation model pretraining dramatically reduces the robot-specific data needed. The paper describes using diverse demonstration data, with task-specific finetuning requiring far less data than training from scratch.
 
-**Physical Intelligence (December 2024):** "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
+**Physical Intelligence (December 2025):** "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
 
 **The pattern is clear: each generation requires less robot-specific data because more capability comes from general pretraining.** The stronger you think this data efficiency effect is, the faster you think the transition will occur.
 
@@ -120,21 +120,21 @@ The evidence for this hierarchy is already visible in the progression of robotic
 
 Today's multimodal models—GPT-4.5, Gemini 2.5, Claude 4—can look at images and video. They accept visual inputs. But they don't generate visual outputs, and they don't reason in visual tokens. When you ask them to imagine rotating an object, they simulate it in language. They're text models with eyes.
 
-The next generation will be different. These models will be trained with video generation objectives alongside text—predicting future frames, generating scenes from descriptions, completing partial videos. Think Sora merged with GPT, or Veo merged with Gemini, in a single unified model. A frontier-scale model with video generation capabilities won't just recognize videos—it will have to produce physically consistent outputs, frame after frame.
+The next generation will be different. These models will be trained with video generation objectives alongside text—predicting future frames, generating scenes from descriptions, completing partial videos. Think Sora merged with GPT, or Veo merged with Gemini, in a single unified model.
 
 :::quote{attribution="Demis Hassabis" source="Twitter, May 2025"}
 "It's kind of mindblowing how good Veo 3 is at modeling intuitive physics. Our world models are getting pretty good, and in my view this has important implications regarding the computational complexity of the world."
 :::
 
+:::sidebar{title="Learning Physics From Video"}
 In a recent interview with Lex Fridman, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
 
-:::sidebar{title="Why This Matters for Reasoning"}
-When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
+**Why This Matters for Reasoning:** When a model can generate and reason in visual tokens, it can "imagine" physical manipulations before executing them. Benchmarks requiring spatial reasoning—like ARC-AGI puzzles—could fall to models that can visualize and mentally rotate objects, rather than reason purely in text.
 :::
 
 And just as RL on text models gave us chain-of-thought reasoning, RL on video-generating models could give us reasoning in visual tokens. Models that "imagine" actions before taking them—mentally simulating the physics of a grasp, visualizing the trajectory of a throw, previewing the result of an assembly step.
 
-Current video models are small by frontier standards. Open-source Sora equivalents are estimated at 3-10B parameters. Frontier LLMs are 100B+ parameters—one to two orders of magnitude larger.
+Current video models are small by frontier standards. Open-source Sora equivalents are 3-10B parameters. Frontier LLMs are 100B+ parameters—one to two orders of magnitude larger.
 
 :::figure{id="model-scale-table" type="component"}
 :::
@@ -180,13 +180,11 @@ A natural question is where computation should live. The robotics community has 
 
 ### The Slider
 
-There's a spectrum between "cloud robotics" and "edge robotics"—not a binary choice, but a slider.
+There's a spectrum between "cloud robotics" and "edge robotics":
 
 **Pure edge**: All computation on the robot. No network required. Tesla FSD works this way—the car runs entirely on its onboard computer.
 
-**Pure cloud**: The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Think VIKI from *I, Robot*—one central intelligence controlling every NS-5 body simultaneously. This is the architecture I'm predicting.
-
-Most systems today are somewhere between. The question is: where is the slider going?
+**Pure cloud**: The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Think VIKI from *I, Robot*—one central intelligence controlling every NS-5 body simultaneously.
 
 Today's leading humanoids are mixed. Figure describes a two-level control stack: a larger vision-language model for high-level perception and planning, and a smaller policy network for real-time trajectory tracking, both running on-device embedded GPUs. Tesla Optimus similarly runs on-board. 1X, meanwhile, is heavily investing in teleoperation infrastructure—their architecture explicitly includes remote human operators providing demonstrations and corrections.
 
@@ -245,9 +243,9 @@ For robotics specifically, many of the same arguments hold—and perhaps are eve
 
 **Training & IP.** Every robot interaction generates data. In cloud architecture, all data flows back to the corporation—just as AI companies value coding interaction data today, robotics data will be similarly or even more valuable (see Part IV: Economics). And no company will distribute their newly trained robotics model weights to sit on-device where they can be extracted.
 
-**Inference costs are falling.** GPT-4 launched at $30/million input tokens (March 2023). The cost to achieve a fixed level of LLM capability has fallen dramatically—roughly an order of magnitude over the past two years in some analyses. The trend compounds: whatever latency/cost tradeoff you're making today gets better next year.
+**Inference costs are falling.** GPT-4 launched at $30/million input tokens (March 2023). The cost to achieve a fixed level of LLM capability has fallen dramatically—roughly an order of magnitude over the past two years in some analyses. Whatever latency/cost tradeoff you're making today gets better next year.
 
-**If cloud is borderline viable now, it's clearly superior in 12 months.** The trend compounds.
+**If cloud is borderline viable now, it's clearly superior in 12 months.**
 
 ## 2. The Latency Objection
 
@@ -269,7 +267,7 @@ Consider how you pick up a coffee cup. Your conscious reaction time—from "I wa
 
 Your brain doesn't update your motor plan 200 times per second. You decide "move hand toward cup," your arm moves, you get visual feedback, you adjust. The millisecond-level work—reflexes, balance corrections, smooth muscle coordination—happens automatically in your spinal cord and motor cortex, not in conscious planning.
 
-Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming :::hover{term="action vectors" definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion"} that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz. This is precisely how Figure's system works today, just with both components on-device.
+Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming :::hover{term="action vectors" definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion"} that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz.
 
 ### Latency Is Solved Engineering
 
@@ -339,7 +337,7 @@ The financial consensus hasn't internalized this. They see OpenAI investing in F
 
 # PART III: THE HARDWARE FLOOD
 
-## 1. The Unitree Trajectory
+## 1. Racing to Zero
 
 **The hardware story is simple: costs are collapsing faster than anyone expected.**
 
@@ -357,48 +355,14 @@ Note: these are different capability tiers, not the same robot getting cheaper. 
 
 Goldman Sachs, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
 
-Goldman might be conservative. Their model doesn't account for what happens when China decides an industry is strategic.
-
-## 2. The EV Precedent
-
-2014: China produced ~78,000 new energy vehicles (NEVs).
-
-2024: China produced ~12.4 million electric cars (BEV+PHEV).
-
-:::stat{value="~160x" label="Growth in 10 years. Peak compound annual growth rate ~66%."}
-:::
-
-By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M).
-
-This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
-
-**Humanoids are getting the same treatment.**
-
-China is layering national "patient capital" and regional funds behind embodied AI and humanoids—Shanghai announced a major fund in July 2024, consistent with prior strategic-industry playbooks. Over 100 Chinese companies are building humanoids. Government goal: humanoids as "new engine" for economic development. The USCC notes potential military-civil fusion implications—and as capabilities increase, so will strategic priority.
-
-Here's what analyses miss: **humanoids are easier than EVs.**
-
-:::figure{id="ev-vs-humanoid" type="component"}
-:::
-
-EVs required building supply chains from scratch. Gigafactories for batteries. New production lines for motors. It took years before the manufacturing base existed.
-
-Humanoids leverage the existing EV supply chain. Batteries: same cells, fewer of them. Motors: already mass-produced for EVs and drones. Sensors: smartphone components.
-
-An EV costs $30,000+ to manufacture. A humanoid costs $6,000 and falling. Same factory investment produces 5x more units. Same working capital supports 5x more inventory.
-
-If you extrapolate the EV curve onto humanoids, adjust for supply chain advantages, you get numbers that seem unrealistic—until you remember nobody in 2014 thought China would produce 12 million EVs by 2024.
-
-## 3. The Components Collapse
+### Why Costs Are Collapsing
 
 Zoom in on the components, and the price collapse makes more sense.
 
 :::figure{id="component-costs" type="component"}
 :::
 
-**Every component is on a steep cost curve driven by other industries.** The humanoid isn't pioneering manufacturing—it's assembling existing commodities in a new configuration.
-
-This is why $5,000 humanoids are plausible by 2027-2028.
+**Every component is on a steep cost curve driven by other industries.** Humanoids leverage existing supply chains—batteries from EVs, motors from drones, sensors from smartphones. This is why $5,000 humanoids are plausible by 2027-2028.
 
 :::callout{type="key-insight" title="The Bottleneck Shifts"}
 **The bottleneck is then intelligence.**
@@ -407,25 +371,25 @@ A $5,000 body with no brain is useless. A $5,000 body with frontier AI is worth 
 :::
 
 :::sidebar{title="Dexterity Isn't Hardware-Gated"}
-Chris Paxton (Meta robotics researcher): "Human level dexterity is absolutely not gated by hardware."
+Chris Paxton (Agility Robotics): "[Human level dexterity is absolutely not gated by hardware.](https://x.com/chris_j_paxton/status/2007844962780717094)"
 
 The proof: excavator operators flipping water bottles with 30-ton machines. The hardware is crude—hydraulic cylinders with massive backlash. The dexterity comes entirely from the human operator's learned control policy. Give that same control intelligence to a purpose-built hand, and the hardware becomes trivial.
 :::
 
 This is why the robotics industry's obsession with hardware is misplaced. Hardware challenges remain—actuators, reliability, safety certification, battery energy density—but the trajectory is clear and the supply chains exist. **Intelligence is the differentiator.** And intelligence is being built by AI labs, not robotics companies.
 
-## 4. The Forecasts
+## 2. The Forecasts
 
 How many humanoids will actually ship? The analyst projections:
 
 :::figure{id="forecasts-table" type="component"}
 :::
 
-These aren't contradictory—Goldman forecasts near-term annual shipments, Morgan Stanley forecasts long-term installed base, BofA provides the most detailed near-term breakdown.
+Goldman forecasts near-term annual shipments, Morgan Stanley forecasts long-term installed base, BofA provides the most detailed near-term breakdown.
 
 For context: Goldman's 250K by 2030 implies ~69% CAGR from BofA's 18K baseline. That's almost exactly the growth rate China achieved during EVs' fastest scaling period (2014-2019). BofA's 1M target requires ~123% CAGR—roughly double the fastest EV growth ever observed. Goldman is aggressive by historical standards; BofA is very aggressive.
 
-I don't have a better model than these analysts. The uncertainty isn't about point estimates—it's about which regime we're in:
+I don't have a better model than these analysts. The uncertainty is about which regime we're in:
 
 - **If humanoids remain industrial equipment** with slow enterprise sales cycles, even Goldman's 250K may be optimistic.
 - **If GEI capabilities emerge** and China treats humanoids like EVs, Goldman is probably 2-4x low.
@@ -435,13 +399,26 @@ The key variable is capability. Price declines alone don't create demand—a $5,
 
 :::sidebar{title="The Recognition Moment"}
 Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
-
-The graph won't be a steady exponential. It'll look normal in 2025-2026, then steepen sharply as capital and focus rush in.
 :::
 
-## 5. The China Factor
+## 3. China Speed
 
 China has repeatedly demonstrated what happens when they identify an industry as strategic.
+
+### The EV Precedent
+
+2014: China produced ~78,000 new energy vehicles (NEVs).
+
+2024: China produced ~12.4 million electric cars (BEV+PHEV).
+
+:::stat{value="~160x" label="Growth in 10 years. Peak compound annual growth rate ~66%."}
+:::
+
+By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M). This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
+
+**Humanoids are getting the same treatment.**
+
+China is layering national "patient capital" and regional funds behind embodied AI and humanoids—Shanghai announced a major fund in July 2024. Over 100 Chinese companies are building humanoids. Government goal: humanoids as "new engine" for economic development. The USCC notes potential military-civil fusion implications.
 
 ### Historical Multipliers
 
@@ -450,32 +427,26 @@ When China designates an industry as strategic, the scaling multipliers are dram
 :::figure{id="china-multipliers" type="component"}
 :::
 
-If humanoids receive similar treatment—and early signals suggest they will—Goldman's 250K by 2030 projection may prove conservative by an order of magnitude.
-
 ### Why Humanoids May Scale Faster
 
-The EV analogy actually *understates* the potential for several reasons:
+But humanoids are *easier* than EVs:
 
-1. **Lower unit cost enables faster adoption.** A $6,000 humanoid is 5x cheaper than a $30,000 EV. Same capital buys more units. Same working capital supports more inventory.
+:::figure{id="ev-vs-humanoid" type="component"}
+:::
 
-2. **Supply chains already exist.** EVs required building gigafactories from scratch. Humanoids assemble existing components—batteries, motors, sensors—from mature supply chains.
+1. **Lower unit cost.** A $6,000 humanoid is 5x cheaper than a $30,000 EV. Same capital buys more units.
+
+2. **Supply chains already exist.** EVs required building gigafactories from scratch. Humanoids assemble existing components from mature supply chains.
 
 3. **Capability inflection creates demand shock.** EVs offered incremental improvement over ICE vehicles. GEI could offer step-function capability that creates entirely new demand categories.
 
 4. **Strategic priority may be higher.** The USCC report explicitly flags military-civil fusion implications. Humanoids aren't just economic—they're strategic.
 
-### Reading the Signals
-
-Goldman's projections assume market-driven adoption. They don't model:
-
-- State-directed procurement (SOEs mandated to deploy humanoids)
-- Provincial governments mandating pilot programs
-- What happens when "strategic industry" status unlocks coordinated policy support
-- Military demand for logistics, maintenance, and potentially combat applications
+Goldman's projections assume market-driven adoption. They don't model state-directed procurement, provincial pilot mandates, or military demand.
 
 The EV parallel is instructive. In 2012, skeptics said China would never compete with Western automakers. Chinese EVs are now threatening to dominate global markets. The skeptics weren't wrong about the technology. They were wrong about the will.
 
-The same dynamic likely applies to humanoids.
+If humanoids receive similar treatment—and early signals suggest they will—Goldman's 250K by 2030 projection may prove conservative by an order of magnitude.
 
 ---
 
@@ -491,15 +462,19 @@ What exactly are we building toward?
 :::
 
 :::callout{type="definition" title="General Embodied Intelligence (GEI)"}
-A system that treats physical action as just another modality. The same world model that generates video, reasons about physics, and holds conversation can inhabit a body—learning manipulation from the same trillion-token pretraining that teaches it everything else.
+A system that can, with no or minimal adaptation, inhabit diverse robotic bodies to perform physical tasks humans do with or without tools. It will likely function across all modalities humans can.
 
 Core properties:
 
-- **Body-agnostic**: One model, many embodiments. Skills transfer across robot morphologies because they're grounded in world understanding, not hardware-specific policies
-- **Demonstration-efficient**: Learns new physical skills from few-shot human demonstration, the way current LLMs learn new tasks from few-shot prompting
-- **Reasoning-integrated**: Plans actions by simulating outcomes in the same latent space it uses for language and vision
+- **Body-agnostic**: One model, many embodiments. Skills transfer across robot morphologies.
+- **Multimodal In-Context Learning**: Acquires new physical skills from demonstration, instruction, or multimodal prompts—and transfers them across modalities.
+- **Multimodal Reasoning**: Plans actions by simulating outcomes in the same latent space it uses for language, vision, and action.
 
-Unlike the R2-D2s and C-3POs of science fiction—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.
+Unlike R2-D2s and C-3POs—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.
+:::
+
+:::sidebar{title="GEI Wrappers"}
+One could imagine startups emerging as robot API wrappers—collecting proprietary prompts and industry domain knowledge (in both text and action demonstrations) to sell GEI competence by vertical. Not building models, not building bodies. Just accumulating the best scaffolding and data, just like today's API wrapper companies.
 :::
 
 By 2027, I expect GEI systems will reliably handle:
@@ -522,7 +497,7 @@ By 2027, I expect GEI systems will reliably handle:
 
 **Companionship & Daily Living**: Assistance with activities of daily living for elderly or disabled individuals, social interaction, hobby engagement. Japan and South Korea, facing acute eldercare shortages, may be early adopters.
 
-The first killer apps of GEI probably won't look like sci-fi. They'll look like a night shift: roaming through semi-structured spaces doing dozens of tiny tasks that internet video accidentally contains at scale.
+The first killer apps of GEI probably won't look like sci-fi. They'll look like a night shift: roaming through semi-structured spaces doing dozens of tiny tasks that internet video contains at scale.
 
 I am least certain about adoption timelines. Technology capability and economic viability don't guarantee deployment—regulatory friction, labor politics, and social acceptance all create drag. The wide range in analyst forecasts—from Goldman's 250K to BofA's 1M by 2030—reflects this uncertainty.
 
@@ -616,20 +591,6 @@ The Apple model in robotics: a company that builds both the robot body AND the A
 
 **What doesn't work: hardware without controlling intelligence. That's Dell in 1998—competing on cost with no moat, while platform owners take the profit.**
 
-## 4. What Would Prove Me Wrong
-
-This essay makes falsifiable predictions. Here's what would prove the thesis wrong:
-
-:::callout{type="falsifiable" title="Conditions That Would Falsify This Thesis"}
-**1. VLA models plateau at scale.** If going from 7B to 70B to 700B parameters doesn't improve manipulation capability, the core thesis fails. The scaling laws have to apply to embodied tasks as they have to language and reasoning.
-
-**2. The 5Hz assumption fails.** If valuable tasks require the foundation model to run at 50Hz+ — if you can't cleanly separate "brain" from "spinal cord" — then edge computing wins and the cloud thesis collapses.
-
-**3. Domain-specific beats general.** If small, specialized robotics models consistently outperform foundation models on real-world tasks, the bitter lesson doesn't apply to robotics. The generalists might not win this time.
-
-**4. Investment doesn't materialize.** If total investment in humanoid robotics stays below $10B annually through 2028, the opportunity isn't being recognized by capital markets. Either I'm wrong about the opportunity, or everyone else is.
-:::
-
 ---
 
 # CODA: The Bet
@@ -656,13 +617,11 @@ Why is this time different?
 
 **One model. Many bodies. Whoever controls the model controls the future of physical labor.**
 
-The question isn't whether this happens. The question is who builds it, who runs it, and whether you've noticed the race has already begun.
-
 ---
 
-*Written December 2025.*
+*Written December 2025. Published January 6th, 2026.*
 
-*The author has no financial position in any company mentioned. This essay reflects personal analysis, not insider information.*
+*Opinions my own. Written with the help of Claude Opus 4.5.*
 
 *Check back in 2027, 2028, 2030.*
 `;
@@ -734,20 +693,17 @@ export default function GPT7Essay() {
     { id: 'on-the-altar-of-scale', title: 'On the Altar of Scale', code: 'A1', level: 2 },
     { id: 'many-a-bitter-lesson', title: 'Many a Bitter Lesson', code: 'A2', level: 2 },
     { id: 'part-ii', title: 'The Architecture', code: 'B', level: 1 },
-    { id: 'viki', title: 'VIKI', code: 'B3', level: 2 },
-    { id: 'latency', title: 'But Latency!', code: 'B4', level: 2 },
-    { id: 'robots-as-a-service', title: 'Robots-as-a-Service', code: 'B5', level: 2 },
+    { id: 'viki', title: 'VIKI', code: 'B1', level: 2 },
+    { id: 'latency', title: 'But Latency!', code: 'B2', level: 2 },
+    { id: 'robots-as-a-service', title: 'Robots-as-a-Service', code: 'B3', level: 2 },
     { id: 'part-iii', title: 'The Hardware Flood', code: 'C', level: 1 },
-    { id: 'racing-to-zero', title: 'Racing to Zero', code: 'C6', level: 2 },
-    { id: 'the-ev-precedent', title: 'The EV Precedent', code: 'C7', level: 2 },
-    { id: 'when-sensors-cost-pennies', title: 'When Sensors Cost Pennies', code: 'C8', level: 2 },
-    { id: 'how-many-how-soon', title: 'How Many, How Soon', code: 'C9', level: 2 },
-    { id: 'china-speed', title: 'China Speed', code: 'C10', level: 2 },
+    { id: 'racing-to-zero', title: 'Racing to Zero', code: 'C1', level: 2 },
+    { id: 'the-forecasts', title: 'The Forecasts', code: 'C2', level: 2 },
+    { id: 'china-speed', title: 'China Speed', code: 'C3', level: 2 },
     { id: 'part-iv', title: 'The Economics', code: 'D', level: 1 },
-    { id: 'general-embodied-intelligence', title: 'General Embodied Intelligence', code: 'D11', level: 2 },
-    { id: 'who-will-buy-them', title: 'Who Will Buy Them', code: 'D12', level: 2 },
-    { id: 'who-gets-rich', title: 'Who Gets Rich', code: 'D13', level: 2 },
-    { id: 'what-would-prove-me-wrong', title: 'What Would Prove Me Wrong', code: 'D14', level: 2 },
+    { id: 'general-embodied-intelligence', title: 'General Embodied Intelligence', code: 'D1', level: 2 },
+    { id: 'who-will-buy-them', title: 'Who Will Buy Them', code: 'D2', level: 2 },
+    { id: 'who-gets-rich', title: 'Who Gets Rich', code: 'D3', level: 2 },
     { id: 'coda', title: 'The Bet', code: 'E', level: 1 },
   ];
 
@@ -1336,9 +1292,19 @@ export default function GPT7Essay() {
 
         /* Hover term */
         .hover-term {
-          border-bottom: 1px dashed rgba(42, 60, 36, 0.4);
+          border-bottom: 2px dotted #2A3C24;
           cursor: help;
           position: relative;
+        }
+
+        .hover-term:hover {
+          border-bottom-style: solid;
+        }
+
+        /* Hover term inside callout (dark background) */
+        .callout .hover-term {
+          border-bottom-color: #F5F2EB;
+          color: #F5F2EB;
         }
 
         .hover-term:hover::after {
@@ -1621,7 +1587,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
               }}
             />
           </div>
-          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial <a href="https://iopscience.iop.org/article/10.1088/1402-4896/ac9e78" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dyson swarm</a> in a sunflower field</p>
+          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial <a href="https://iopscience.iop.org/article/10.1088/1402-4896/ac9e78" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px dotted #8A9A85' }}>Dyson swarm</a> in a sunflower field</p>
         </div>
 
         <p>
@@ -1706,6 +1672,13 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong>Video is implicit physics.</strong> YouTube contains trillions of frames of the physical world in motion. Objects falling, liquids pouring, hands manipulating, bodies moving through space. A model trained to predict the next frame of video must learn how the world works—gravity, friction, rigidity, occlusion, cause and effect.
         </p>
 
+        <div className="sidebar-note">
+          <div className="sidebar-note-title">Learning Physics From Video</div>
+          <p>
+            In a recent <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">interview with Lex Fridman</a>, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
+          </p>
+        </div>
+
         <p className={focusMode ? 'has-highlight' : ''}>
           <strong>Human video is manipulation data.</strong> Billions of hours of humans folding laundry, cooking, assembling furniture, using tools. First-person GoPro footage. Cooking tutorials. Assembly instructions. This teaches the model what it looks like when a humanoid-shaped agent interacts with objects.
         </p>
@@ -1735,7 +1708,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p className="quote-text">
             "Predicting the next token well means that you understand the underlying reality that led to the creation of that token."
           </p>
-          <p className="quote-attribution">— Ilya Sutskever, Dwarkesh Patel Interview</p>
+          <p className="quote-attribution">— Ilya Sutskever, <a href="https://www.dwarkesh.com/p/ilya-sutskever" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dwarkesh Patel Interview</a></p>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1754,7 +1727,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <div className="figure-container">
           <DataPyramid />
-          <p className="figure-caption">Each layer requires orders of magnitude less data than the one below</p>
         </div>
 
         <p>The evidence for this hierarchy is already visible in the progression of robotics models:</p>
@@ -1777,7 +1749,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          <strong>Physical Intelligence (December 2025):</strong> "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
+          <strong><a href="https://www.pi.website/research/human_to_robot" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a> (December 2025):</strong> "Adding more robot data in pre-training improves ability to absorb human data in fine-tuning." Human video transfers to robot learning.
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1795,19 +1767,15 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          The next generation will be different. These models will be trained with video generation objectives alongside text—predicting future frames, generating scenes from descriptions, completing partial videos. Think Sora merged with GPT, or Veo merged with Gemini, in a single unified model. A frontier-scale model with video generation capabilities won't just recognize videos—it will have to produce physically consistent outputs, frame after frame.
+          The next generation will be different. These models will be trained with video generation objectives alongside text—predicting future frames, generating scenes from descriptions, completing partial videos. Think <a href="https://openai.com/index/video-generation-models-as-world-simulators/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Sora</a> merged with GPT, or Veo merged with Gemini, in a single unified model.
         </p>
 
         <div className="quote-block">
           <p className="quote-text">
             "It's kind of mindblowing how good Veo 3 is at modeling intuitive physics. Our world models are getting pretty good, and in my view this has important implications regarding the computational complexity of the world."
           </p>
-          <p className="quote-attribution">— Demis Hassabis, Twitter, May 2025</p>
+          <p className="quote-attribution">— Demis Hassabis, <a href="https://x.com/demishassabis/status/1926057739416965438" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter</a>, May 2025</p>
         </div>
-
-        <p>
-          In a recent interview with Lex Fridman, Hassabis elaborated: even five or ten years ago, he would have assumed you need embodied experience to understand intuitive physics. Veo 3 is directly challenging that assumption—learning physics just from watching video.
-        </p>
 
         <div className="sidebar-note">
           <div className="sidebar-note-title">Why This Matters for Reasoning</div>
@@ -1821,7 +1789,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          Current video models are small by frontier standards. Open-source Sora equivalents are estimated at 3-10B parameters. Frontier LLMs are 100B+ parameters—one to two orders of magnitude larger.
+          Current video models are small by frontier standards. Open-source Sora equivalents are 3-10B parameters. Frontier LLMs are 100B+ parameters—one to two orders of magnitude larger.
         </p>
 
         <div className="figure-container">
@@ -1848,10 +1816,10 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p>The AI labs are now training robot brains:</p>
           <ul>
             <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
-            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, Physical Intelligence</li>
+            <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></li>
             <li><strong><a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></strong>: $400M funding to build foundation models for robots</li>
           </ul>
-          <p><em>Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
+          <p><em><a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Logan Kilpatrick</a> (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -1869,7 +1837,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <div className="sidebar-note">
           <div className="sidebar-note-title">The NLP Reckoning</div>
-          <p>Quanta Magazine (April 2025) published an oral history of the NLP community's reaction to ChatGPT:</p>
+          <p><a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Quanta Magazine (April 2025)</a> published an oral history of the NLP community's reaction to ChatGPT:</p>
           <p><strong>Christopher Callison-Burch (UPenn):</strong> <em>"I'm trying out all the things that my recent Ph.D. students had done as their dissertations, and just realizing—oh my God, the thing that had taken a student five years? Seems like I could reproduce that in a month."</em></p>
           <p><strong>Iz Beltagy (Allen Institute):</strong> <em>"In a day, a lot of the problems that a large percentage of researchers were working on—they just disappeared."</em></p>
         </div>
@@ -1896,7 +1864,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       </section>
 
       <section id="viki" data-section="viki">
-        <SectionCode code="B3" isPart={false} />
+        <SectionCode code="B1" isPart={false} />
         <h2>VIKI</h2>
 
         <div className="figure-container">
@@ -1916,7 +1884,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <h3>The Slider</h3>
 
         <p>
-          There's a spectrum between "cloud robotics" and "edge robotics"—not a binary choice, but a slider.
+          There's a spectrum between "cloud robotics" and "edge robotics":
         </p>
 
         <p>
@@ -1924,11 +1892,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          <strong>Pure cloud</strong>: The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Think VIKI from <em>I, Robot</em>—one central intelligence controlling every NS-5 body simultaneously. This is the architecture I'm predicting.
-        </p>
-
-        <p>
-          Most systems today are somewhere between. The question is: where is the slider going?
+          <strong>Pure cloud</strong>: The robot is a dumb terminal. All decisions happen in a datacenter. The robot streams sensors up, receives motor commands back. Think VIKI from <em>I, Robot</em>—one central intelligence controlling every NS-5 body simultaneously.
         </p>
 
         <p>
@@ -2018,12 +1982,12 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
-          <strong>If cloud is borderline viable now, it's clearly superior in 12 months.</strong> The trend compounds.
+          <strong>If cloud is borderline viable now, it's clearly superior in 12 months.</strong>
         </p>
       </section>
 
       <section id="latency" data-section="latency">
-        <SectionCode code="B4" isPart={false} />
+        <SectionCode code="B2" isPart={false} />
         <h2>But Latency!</h2>
 
         <p>
@@ -2059,7 +2023,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming <span className="hover-term" data-definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion">action vectors</span> that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz. This is precisely how Figure's system works today, just with both components on-device.
+          Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming <span className="hover-term" data-definition="Vectors in some latent action/multimodal space that the low-level controller uses to guide motion">action vectors</span> that guide the motion. The robot's onboard controller handles low-level corrections, balance, and reflexes at hundreds of Hz.
         </p>
 
         <h3>Latency Is Solved Engineering</h3>
@@ -2069,11 +2033,11 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          Google invested heavily in Stadia. Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
+          Google invested heavily in <a href="https://blog.google/products/stadia/stadia-update/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia</a>. Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
         </p>
 
         <p>
-          They're now applying the same expertise to AI voice agents, achieving sub-100ms response times for natural conversation.
+          They're now applying the same expertise to AI voice agents, achieving <a href="https://platform.openai.com/docs/guides/realtime" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">sub-100ms response times</a> for natural conversation.
         </p>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -2103,7 +2067,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       </section>
 
       <section id="robots-as-a-service" data-section="robots-as-a-service">
-        <SectionCode code="B5" isPart={false} />
+        <SectionCode code="B3" isPart={false} />
         <h2>Robots-as-a-Service</h2>
 
         <p>
@@ -2157,7 +2121,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       </section>
 
       <section id="racing-to-zero" data-section="racing-to-zero">
-        <SectionCode code="C6" isPart={false} />
+        <SectionCode code="C1" isPart={false} />
         <h2>Racing to Zero</h2>
 
         <p className={focusMode ? 'has-highlight' : ''}>
@@ -2165,7 +2129,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
 
         <p>
-          Unitree's headline humanoid pricing has moved dramatically:
+          <a href="https://www.unitree.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Unitree's</a> headline humanoid pricing has moved dramatically:
         </p>
 
         <p>
@@ -2190,69 +2154,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots-are-coming-and-heres-what-they-could-mean-for-jobs" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Goldman Sachs</a>, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
         </p>
 
-        <p>
-          Goldman might be conservative. Their model doesn't account for what happens when China decides an industry is strategic.
-        </p>
-      </section>
-
-      <section id="the-ev-precedent" data-section="the-ev-precedent">
-        <SectionCode code="C7" isPart={false} />
-        <h2>The EV Precedent</h2>
-
-        <p>
-          2014: China produced ~78,000 new energy vehicles (NEVs).
-        </p>
-
-        <p>
-          2024: China produced ~12.4 million electric cars (BEV+PHEV).
-        </p>
-
-        <div className="stat-highlight">
-          <span className="stat-value">~160x</span>
-          <span className="stat-label">Growth in 10 years. Peak compound annual growth rate ~66%.</span>
-        </div>
-
-        <p>
-          By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M).
-        </p>
-
-        <p>
-          This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
-        </p>
-
-        <p className={focusMode ? 'has-highlight' : ''}>
-          <strong>Humanoids are getting the same treatment.</strong>
-        </p>
-
-        <p>
-          China is layering national "patient capital" and regional funds behind embodied AI and humanoids. Over 100 Chinese companies are building humanoids. Government goal: humanoids as "new engine" for economic development.
-        </p>
-
-        <p className={focusMode ? 'has-highlight' : ''}>
-          But <strong>humanoids are easier than EVs.</strong>
-        </p>
-
-        <div className="figure-container">
-          <EVvsHumanoidTable />
-          <p className="figure-caption">Humanoids leverage existing supply chains that EVs had to build</p>
-        </div>
-
-        <p>
-          EVs required building supply chains from scratch. Gigafactories for batteries. New production lines for motors. It took years before the manufacturing base existed.
-        </p>
-
-        <p>
-          Humanoids leverage the existing EV supply chain. Batteries: same cells, fewer of them. Motors: already mass-produced for EVs and drones. Sensors: smartphone components.
-        </p>
-
-        <p>
-          An EV costs $30,000+ to manufacture. A humanoid costs $6,000 and falling. Same factory investment produces 5x more units.
-        </p>
-      </section>
-
-      <section id="when-sensors-cost-pennies" data-section="when-sensors-cost-pennies">
-        <SectionCode code="C8" isPart={false} />
-        <h2>When Sensors Cost Pennies</h2>
+        <h3>Why Costs Are Collapsing</h3>
 
         <p>
           Zoom in on the components, and the price collapse makes more sense.
@@ -2264,11 +2166,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p className={focusMode ? 'has-highlight' : ''}>
-          <strong>Every component is on a steep cost curve driven by other industries.</strong>
-        </p>
-
-        <p>
-          This is why $5,000 humanoids are plausible by 2027-2028.
+          <strong>Every component is on a steep cost curve driven by other industries.</strong> Humanoids leverage existing supply chains—batteries from EVs, motors from drones, sensors from smartphones. This is why $5,000 humanoids are plausible by 2027-2028.
         </p>
 
         <div className="callout">
@@ -2284,7 +2182,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <div className="sidebar-note">
           <div className="sidebar-note-title">Dexterity Isn't Hardware-Gated</div>
           <p>
-            Chris Paxton (Meta robotics researcher): "Human level dexterity is absolutely not gated by hardware."
+            Chris Paxton (Agility Robotics): "<a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Human level dexterity is absolutely not gated by hardware.</a>"
           </p>
           <p>
             The proof: excavator operators flipping water bottles with 30-ton machines. The hardware is crude—hydraulic cylinders with massive backlash. The dexterity comes entirely from the human operator's learned control policy.
@@ -2296,9 +2194,9 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="how-many-how-soon" data-section="how-many-how-soon">
-        <SectionCode code="C9" isPart={false} />
-        <h2>How Many, How Soon</h2>
+      <section id="the-forecasts" data-section="the-forecasts">
+        <SectionCode code="C2" isPart={false} />
+        <h2>The Forecasts</h2>
 
         <p>How many humanoids will actually ship? The analyst projections:</p>
 
@@ -2308,11 +2206,11 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p>
-          These aren't contradictory—Goldman forecasts near-term annual shipments, Morgan Stanley forecasts long-term installed base, BofA provides the most detailed near-term breakdown.
+          <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Goldman</a> forecasts near-term annual shipments, <a href="https://www.morganstanley.com/insights/articles/humanoid-robots-ai-market" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Morgan Stanley</a> forecasts long-term installed base, <a href="https://institute.bankofamerica.com/content/dam/transformation/humanoid-robots.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">BofA</a> provides the most detailed near-term breakdown.
         </p>
 
         <p>
-          I don't have a better model than these analysts. The uncertainty isn't about point estimates—it's about which regime we're in:
+          I don't have a better model than these analysts. The uncertainty is about which regime we're in:
         </p>
 
         <ul>
@@ -2324,14 +2222,48 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p>
           The key variable is capability. Price declines alone don't create demand—a $5,000 robot that can't do useful work is worthless. A $20,000 robot that can reliably perform $50,000/year of labor sells itself.
         </p>
+
+        <div className="sidebar-note">
+          <div className="sidebar-note-title">The Recognition Moment</div>
+          <p>
+            Adoption curves don't start smooth. The AI discourse hasn't fully internalized that the robot story is the same as the LLM story. When that recognition hits—probably late 2026—you'll see a rapid shift in investment, deployment, and attention.
+          </p>
+        </div>
       </section>
 
       <section id="china-speed" data-section="china-speed">
-        <SectionCode code="C10" isPart={false} />
+        <SectionCode code="C3" isPart={false} />
         <h2>China Speed</h2>
 
         <p>
           China has repeatedly demonstrated what happens when they identify an industry as strategic.
+        </p>
+
+        <h3>The EV Precedent</h3>
+
+        <p>
+          2014: China produced ~78,000 new energy vehicles (NEVs).
+        </p>
+
+        <p>
+          2024: China produced ~12.4 million electric cars (BEV+PHEV).
+        </p>
+
+        <div className="stat-highlight">
+          <span className="stat-value">~160x</span>
+          <span className="stat-label">Growth in 10 years. Peak compound annual growth rate ~66%.</span>
+        </div>
+
+        <p>
+          By 2024, China was producing more EVs than the rest of the world combined (12.4M vs global 17.3M). This wasn't market forces alone. The Chinese government identified EVs as strategic. Subsidies. Mandates. Infrastructure. Coordinated supply chain. Dozens of companies emerged. The ones that couldn't compete died. The survivors—BYD, NIO, XPeng—became globally competitive in a decade.
+        </p>
+
+        <p className={focusMode ? 'has-highlight' : ''}>
+          <strong>Humanoids are getting the same treatment.</strong>
+        </p>
+
+        <p>
+          China is layering national "patient capital" and regional funds behind embodied AI and humanoids—Shanghai announced a major fund in July 2024. Over 100 Chinese companies are building humanoids. Government goal: humanoids as "new engine" for economic development. The <a href="https://www.uscc.gov/sites/default/files/2024-10/Humanoid_Robots.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">USCC</a> notes potential military-civil fusion implications.
         </p>
 
         <h3>Historical Multipliers</h3>
@@ -2343,20 +2275,29 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <p className="figure-caption">Historical scaling when China designates strategic industries</p>
         </div>
 
-        <p>
-          If humanoids receive similar treatment—and early signals suggest they will—Goldman's 250K by 2030 projection may prove conservative by an order of magnitude.
-        </p>
-
         <h3>Why Humanoids May Scale Faster</h3>
 
-        <p>The EV analogy actually <em>understates</em> the potential for several reasons:</p>
+        <p>But humanoids are <em>easier</em> than EVs:</p>
+
+        <div className="figure-container">
+          <EVvsHumanoidTable />
+          <p className="figure-caption">Humanoids leverage existing supply chains that EVs had to build</p>
+        </div>
 
         <ol>
           <li><strong>Lower unit cost enables faster adoption.</strong> A $6,000 humanoid is 5x cheaper than a $30,000 EV.</li>
           <li><strong>Supply chains already exist.</strong> EVs required building gigafactories from scratch. Humanoids assemble existing components.</li>
           <li><strong>Capability inflection creates demand shock.</strong> EVs offered incremental improvement over ICE vehicles. GEI could offer step-function capability.</li>
-          <li><strong>Strategic priority may be higher.</strong> The USCC report explicitly flags military-civil fusion implications.</li>
+          <li><strong>Strategic priority may be higher.</strong> The <a href="https://www.uscc.gov/sites/default/files/2024-10/Humanoid_Robots.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">USCC report</a> explicitly flags military-civil fusion implications.</li>
         </ol>
+
+        <p>
+          Goldman's projections assume market-driven adoption. They don't model state-directed procurement, provincial pilot mandates, or military demand.
+        </p>
+
+        <p className={focusMode ? 'has-highlight' : ''}>
+          <strong>If humanoids receive similar treatment—and early signals suggest they will—Goldman's 250K by 2030 projection may prove conservative by an order of magnitude.</strong>
+        </p>
       </section>
 
       <hr />
@@ -2372,7 +2313,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       </section>
 
       <section id="general-embodied-intelligence" data-section="general-embodied-intelligence">
-        <SectionCode code="D11" isPart={false} />
+        <SectionCode code="D1" isPart={false} />
         <h2>General Embodied Intelligence</h2>
 
         <p>What exactly are we building toward?</p>
@@ -2390,16 +2331,23 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <div className="callout">
           <div className="callout-title">General Embodied Intelligence (GEI)</div>
           <p>
-            A system that treats physical action as just another modality. The same world model that generates video, reasons about physics, and holds conversation can inhabit a body—learning manipulation from the same trillion-token pretraining that teaches it everything else.
+            A system that can, with no or minimal adaptation, inhabit diverse robotic bodies to perform physical tasks humans do with or without tools. It will likely function across all modalities humans can.
           </p>
           <p><strong>Core properties:</strong></p>
           <ul style={{ color: '#D1D9CE' }}>
             <li><strong style={{ color: '#FBD45B' }}>Body-agnostic</strong>: One model, many embodiments. Skills transfer across robot morphologies.</li>
-            <li><strong style={{ color: '#FBD45B' }}>Demonstration-efficient</strong>: Learns new physical skills from few-shot human demonstration.</li>
-            <li><strong style={{ color: '#FBD45B' }}>Reasoning-integrated</strong>: Plans actions by simulating outcomes in the same latent space it uses for language and vision.</li>
+            <li><strong style={{ color: '#FBD45B' }}>Multimodal In-Context Learning</strong>: Acquires new physical skills from demonstration, instruction, or multimodal prompts—and transfers them across modalities.</li>
+            <li><strong style={{ color: '#FBD45B' }}>Multimodal Reasoning</strong>: Plans actions by simulating outcomes in the same latent space it uses for language, vision, and action.</li>
           </ul>
           <p>
             Unlike R2-D2s and C-3POs—specialized units with narrow competencies—a GEI system could be a sous-chef, teach jujitsu, and do facility maintenance, all from the same underlying world model.
+          </p>
+        </div>
+
+        <div className="sidebar-note">
+          <div className="sidebar-note-title">GEI Wrappers</div>
+          <p>
+            One could imagine startups emerging as robot API wrappers—collecting proprietary prompts and industry domain knowledge (in both text and action demonstrations) to sell GEI competence by vertical. Not building models, not building bodies. Just accumulating the best scaffolding and data, just like today's API wrapper companies.
           </p>
         </div>
 
@@ -2413,12 +2361,12 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p><strong>Service & Wellness</strong>: Fitness instruction, physical therapy assistance.</p>
 
         <p>
-          The first killer apps of GEI probably won't look like sci-fi. They'll look like a night shift: roaming through semi-structured spaces doing dozens of tiny tasks that internet video accidentally contains at scale.
+          The first killer apps of GEI probably won't look like sci-fi. They'll look like a night shift: roaming through semi-structured spaces doing dozens of tiny tasks that internet video contains at scale.
         </p>
       </section>
 
       <section id="who-will-buy-them" data-section="who-will-buy-them">
-        <SectionCode code="D12" isPart={false} />
+        <SectionCode code="D2" isPart={false} />
         <h2>Who Will Buy Them</h2>
 
         <h3>The TAM Question</h3>
@@ -2469,7 +2417,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <div className="stat-highlight">
           <span className="stat-value">85.2M</span>
-          <span className="stat-label">Projected global worker shortage by 2030 (Korn Ferry)</span>
+          <span className="stat-label">Projected global worker shortage by 2030 (<a href="https://www.kornferry.com/insights/this-week-in-leadership/talent-crunch-future-of-work" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Korn Ferry</a>)</span>
         </div>
 
         <p><strong>4.6 million</strong> — projected US eldercare worker shortfall by 2032</p>
@@ -2484,7 +2432,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
       </section>
 
       <section id="who-gets-rich" data-section="who-gets-rich">
-        <SectionCode code="D13" isPart={false} />
+        <SectionCode code="D3" isPart={false} />
         <h2>Who Gets Rich</h2>
 
         <p>
@@ -2532,29 +2480,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </p>
       </section>
 
-      <section id="what-would-prove-me-wrong" data-section="what-would-prove-me-wrong">
-        <SectionCode code="D14" isPart={false} />
-        <h2>What Would Prove Me Wrong</h2>
-
-        <p>This essay makes falsifiable predictions. Here's what would prove the thesis wrong:</p>
-
-        <div className="callout">
-          <div className="callout-title">Conditions That Would Falsify This Thesis</div>
-          <p>
-            <strong>1. VLA models plateau at scale.</strong> If going from 7B to 70B to 700B parameters doesn't improve manipulation capability, the core thesis fails.
-          </p>
-          <p>
-            <strong>2. The 5Hz assumption fails.</strong> If valuable tasks require the foundation model to run at 50Hz+, edge computing wins and the cloud thesis collapses.
-          </p>
-          <p>
-            <strong>3. Domain-specific beats general.</strong> If small, specialized robotics models consistently outperform foundation models on real-world tasks, the bitter lesson doesn't apply.
-          </p>
-          <p>
-            <strong>4. Investment doesn't materialize.</strong> If total investment in humanoid robotics stays below $10B annually through 2028, either I'm wrong or everyone else is.
-          </p>
-        </div>
-      </section>
-
       <hr />
 
       {/* Coda */}
@@ -2575,7 +2500,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         <p>Why is this time different?</p>
 
         <p>
-          <strong>The intelligence actually works.</strong> Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. RT-2's emergent reasoning, π0's cross-embodiment transfer.
+          <strong>The intelligence actually works.</strong> Previous hype cycles assumed intelligence would come from robotics research. This time it's coming from foundation models. <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2's</a> emergent reasoning, <a href="https://www.physicalintelligence.company/blog/pi0" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">π0's</a> cross-embodiment transfer.
         </p>
 
         <p>
@@ -2600,23 +2525,102 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
           <strong>One model. Many bodies. Whoever controls the model controls the future of physical labor.</strong>
         </p>
 
-        <p>
-          The question isn't whether this happens. The question is who builds it, who runs it, and whether you've noticed the race has already begun.
-        </p>
-
         <hr />
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
-          Written December 2025. Published January 6, 2026.
+          Written December 2025. Published January 6th, 2026.
         </p>
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
-          The author has no financial position in any company mentioned. Opinions my own.
+          Opinions my own. Written with the help of Claude Opus 4.5.
         </p>
 
         <p style={{ color: '#8A9A85', fontStyle: 'italic' }}>
           Check back in 2027, 2028, 2030.
         </p>
+      </section>
+
+      {/* References Section */}
+      <section id="references" className="mt-16 pt-8 border-t-2 border-[#2A3C24]/20">
+        <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>References</h2>
+        <div className="text-sm space-y-3" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
+          <p><strong>Essays & Papers:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Dario Amodei, <a href="https://www.darioamodei.com/essay/machines-of-loving-grace" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Machines of Loving Grace"</a></li>
+            <li>Leopold Aschenbrenner, <a href="https://situational-awareness.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Situational Awareness"</a></li>
+            <li>Kokotajlo et al., <a href="https://ai-2027.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"AI 2027"</a></li>
+            <li><a href="https://www.aifuturesmodel.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">AI Futures Model</a></li>
+            <li>OpenAI, <a href="https://openai.com/index/video-generation-models-as-world-simulators/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Video generation models as world simulators"</a></li>
+            <li>Wintel Profit Study, <a href="https://www.hbs.edu/ris/Publication%20Files/05-083.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Harvard Business School</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Robotics Research:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Google, <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1: Robotics Transformer (2022)</a></li>
+            <li>Google, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2: Vision-Language-Action Models (2023)</a></li>
+            <li>Google, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Open X-Embodiment (RT-X) (2023)</a></li>
+            <li>Physical Intelligence, <a href="https://www.physicalintelligence.company/blog/pi0" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">π0 Foundation Model (2024)</a></li>
+            <li>Physical Intelligence, <a href="https://www.pi.website/research/human_to_robot" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Human to Robot Transfer</a></li>
+            <li>Ilya Sutskever, <a href="https://www.dwarkesh.com/p/ilya-sutskever" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Dwarkesh Patel Interview</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Industry Reports:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Goldman Sachs, <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Humanoid Robots" (February 2024)</a></li>
+            <li>Bank of America, <a href="https://institute.bankofamerica.com/content/dam/transformation/humanoid-robots.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Humanoid Robots" (April 2025)</a></li>
+            <li>Morgan Stanley, <a href="https://www.morganstanley.com/insights/articles/humanoid-robots-ai-market" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Humanoid Robots and AI Market"</a></li>
+            <li>USCC, <a href="https://www.uscc.gov/sites/default/files/2024-10/Humanoid_Robots.pdf" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Humanoid Robots" (October 2024)</a></li>
+            <li>Korn Ferry, <a href="https://www.kornferry.com/insights/this-week-in-leadership/talent-crunch-future-of-work" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Global Talent Crunch"</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Company & Lab Sources:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Google DeepMind, <a href="https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Gemini Robotics" (March 2025)</a></li>
+            <li>Google DeepMind, <a href="https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Gemini Robotics On-Device"</a></li>
+            <li>Figure AI, <a href="https://www.figure.ai/news/helix" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Helix Architecture</a></li>
+            <li>Figure AI, <a href="https://www.businessinsider.com/figure-ai-ends-openai-partnership-building-own-models-2025-2" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">OpenAI Partnership Split (2025)</a></li>
+            <li>1X Technologies, <a href="https://www.1x.tech/discover/introducing-neo-gamma" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Neo Gamma Introduction</a></li>
+            <li>1X Technologies, <a href="https://www.1x.tech/discover/1x-rasies-23-5m-in-series-a2-funding-led-by-open-ai" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">OpenAI Funding</a></li>
+            <li>Sanctuary AI, <a href="https://sanctuary.ai/blog/ai-robotics-and-the-case-for-teleoperation/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"AI Robotics and Teleoperation"</a></li>
+            <li>Physical Intelligence, <a href="https://www.reuters.com/technology/artificial-intelligence/robot-ai-startup-physical-intelligence-raises-400-mln-bezos-openai-2024-11-04/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">$400M Funding (Reuters)</a></li>
+            <li>OpenAI, <a href="https://www.forbes.com/sites/kenrickcai/2024/05/30/openai-robotics-team/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Robotics Team Restart (Forbes)</a></li>
+            <li>Unitree, <a href="https://www.unitree.com/R1" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">R1 Humanoid Robot</a></li>
+            <li>Unitree, <a href="https://shop.unitree.com/products/unitree-h1" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">H1 Robot</a> / <a href="https://shop.unitree.com/products/unitree-g1" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">G1 Robot</a></li>
+            <li>NVIDIA, <a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Jetson Orin</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Interviews & Commentary:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Demis Hassabis, <a href="https://x.com/demishassabis/status/1926057739416965438" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Veo 3 physics (May 2025)</a></li>
+            <li>Demis Hassabis, <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Lex Fridman Interview</a></li>
+            <li>Logan Kilpatrick, <a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Embodied AI (2024)</a></li>
+            <li>Chris Paxton, <a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Hardware vs Software</a></li>
+            <li>Quanta Magazine, <a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"When ChatGPT Broke an Entire Field" (April 2025)</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Latency & Infrastructure:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>Google, <a href="https://blog.google/products/stadia/stadia-update/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia Shutdown Announcement</a></li>
+            <li>OpenAI, <a href="https://platform.openai.com/docs/guides/realtime" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Realtime API Documentation</a></li>
+            <li>Google, <a href="https://ai.google.dev/gemini-api/docs/live" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Gemini Live API Documentation</a></li>
+          </ul>
+
+          <p className="pt-3"><strong>Data & Economics:</strong></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
+            <li>IEA, <a href="https://www.iea.org/reports/global-ev-outlook-2025" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Global EV Outlook 2025</a></li>
+            <li>a16z, <a href="https://a16z.com/llmflation-llm-inference-cost/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"LLMflation: LLM Inference Cost"</a></li>
+            <li>Epoch AI, <a href="https://epoch.ai/blog/what-you-need-to-know-about-ai-data-centers" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"AI Data Centers"</a></li>
+            <li>OpenAI, <a href="https://openai.com/index/gpt-4-research/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">GPT-4 Research & Pricing</a></li>
+            <li>BloombergNEF, <a href="https://about.bnef.com/insights/commodities/lithium-ion-battery-pack-prices-see-largest-drop-since-2017-falling-to-115-per-kilowatt-hour-bloombergnef/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Battery Pack Prices 2024</a></li>
+            <li>Ars Technica, <a href="https://arstechnica.com/cars/2017/01/googles-waymo-invests-in-lidar-technology-cuts-costs-by-90-percent/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">LiDAR Historical Costs (Waymo)</a></li>
+            <li>Reuters, <a href="https://www.reuters.com/technology/chinas-hesai-halve-lidar-prices-next-year-sees-wide-adoption-electric-cars-2024-11-27/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Hesai LiDAR Pricing</a></li>
+            <li>FRED, <a href="https://fred.stlouisfed.org/series/A033RC1A027NBEA" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">US Employee Compensation Data</a></li>
+            <li>China Daily, <a href="https://www.chinadaily.com.cn/business/motoring/2015-01/16/content_19330066.htm" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China EV Production (2014 baseline)</a></li>
+            <li>Gasgoo/CAPBIIA, <a href="https://autonews.gasgoo.com/70035698.html" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China Li-ion Battery Data</a></li>
+            <li>CAAM, <a href="https://en.caam.org.cn/Index/show/catid/44/id/1026.html" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China NEV Production Statistics</a></li>
+            <li>pv magazine, <a href="https://www.pv-magazine.com/2025/01/21/china-hits-277-17-gw-of-new-pv-installations-in-2024/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China Solar PV Installations</a></li>
+          </ul>
+        </div>
       </section>
     </div>
   );

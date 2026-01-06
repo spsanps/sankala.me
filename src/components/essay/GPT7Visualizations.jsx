@@ -1,31 +1,31 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from 'recharts';
 
-// Data Pyramid Visualization - Clean stacked design
+// Data Pyramid Visualization - Stacked layers with pyramid-like widths
 export function DataPyramid() {
   const layers = [
     {
       name: 'CALIBRATION',
       data: 'Robot demonstrations',
-      scale: 'Millions of tokens',
+      scale: 'Millions',
       learns: 'Specific embodiment',
       color: '#FBD45B',
       textColor: '#2A3C24',
-      width: '40%'
+      width: '50%'
     },
     {
       name: 'ALIGNMENT',
       data: 'Egocentric human video',
-      scale: 'Billions of tokens',
+      scale: 'Billions',
       learns: 'Humanoid manipulation',
       color: '#3D5235',
       textColor: '#F5F2EB',
-      width: '70%'
+      width: '75%'
     },
     {
       name: 'FOUNDATION',
       data: 'YouTube-scale video',
-      scale: 'Trillions of tokens',
+      scale: 'Trillions',
       learns: 'Physics, objects, causality',
       color: '#2A3C24',
       textColor: '#F5F2EB',
@@ -35,28 +35,30 @@ export function DataPyramid() {
 
   return (
     <div className="w-full py-6">
-      <div className="flex flex-col items-center gap-1 max-w-md mx-auto">
+      <div className="flex flex-col items-center gap-2">
         {layers.map((layer, i) => (
           <div
             key={i}
-            className="relative py-3 px-4 text-center transition-all duration-200 hover:scale-[1.02]"
-            style={{
-              width: layer.width,
-              backgroundColor: layer.color,
-              borderRadius: i === 0 ? '0.5rem 0.5rem 0 0' : i === layers.length - 1 ? '0 0 0.5rem 0.5rem' : '0',
-              clipPath: i === 0 ? 'polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%)' :
-                       i === layers.length - 1 ? 'polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%)' :
-                       'polygon(0% 0%, 100% 0%, 105% 100%, -5% 100%)'
-            }}
+            className="flex items-stretch rounded overflow-hidden"
+            style={{ width: layer.width, minHeight: '72px' }}
           >
-            <div className="font-semibold text-xs tracking-wider mb-1" style={{ color: layer.textColor, fontFamily: 'Inter, sans-serif' }}>
-              {layer.name}
-            </div>
-            <div className="text-xs opacity-90" style={{ color: layer.textColor, fontFamily: 'Crimson Pro, Georgia, serif' }}>
-              {layer.data}
-            </div>
-            <div className="text-[10px] opacity-70 mt-0.5" style={{ color: layer.textColor, fontFamily: 'Crimson Pro, Georgia, serif' }}>
-              {layer.scale} → {layer.learns}
+            {/* Full bar with content */}
+            <div
+              className="w-full flex items-center justify-between px-3 py-2"
+              style={{ backgroundColor: layer.color }}
+            >
+              <div className="min-w-0 flex-shrink">
+                <span className="font-semibold text-xs tracking-wide block" style={{ color: layer.textColor, fontFamily: 'Inter, sans-serif' }}>
+                  {layer.name}
+                </span>
+                <div className="text-sm" style={{ color: layer.textColor, opacity: 0.9, fontFamily: 'Crimson Pro, Georgia, serif' }}>
+                  {layer.data}
+                </div>
+              </div>
+              <div className="text-right text-xs flex-shrink-0 ml-2" style={{ color: layer.textColor, opacity: 0.8, fontFamily: 'Crimson Pro, Georgia, serif' }}>
+                <span className="whitespace-nowrap">{layer.scale}</span>
+                <span className="block whitespace-nowrap">→ {layer.learns}</span>
+              </div>
             </div>
           </div>
         ))}
@@ -282,15 +284,15 @@ export function ComponentCostsInfographic() {
         {components.map((c, i) => (
           <div
             key={i}
-            className="p-4 rounded-lg border-2 bg-[#F5F2EB]/50 transition-all duration-200 hover:scale-[1.02] hover:shadow-lg hover:bg-[#F5F2EB] cursor-default group"
+            className="p-4 rounded-lg border-2 bg-[#F5F2EB]/50"
             style={{ borderColor: c.color }}
           >
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold text-[#2A3C24] group-hover:text-[#1A1A1A] transition-colors" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+              <h4 className="font-semibold text-[#2A3C24]" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
                 {c.name}
               </h4>
               <span
-                className="text-xs font-bold px-2 py-1 rounded transition-transform group-hover:scale-110"
+                className="text-xs font-bold px-2 py-1 rounded"
                 style={{ background: c.color, color: c.color === '#FBD45B' ? '#2A3C24' : '#F5F2EB' }}
               >
                 {c.decline}
@@ -299,15 +301,15 @@ export function ComponentCostsInfographic() {
             <div className="space-y-1 text-sm" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
               <div className="flex justify-between">
                 <span className="text-[#8A9A85]">Then:</span>
-                <span className="text-[#8A9A85] font-mono text-xs group-hover:line-through group-hover:opacity-60 transition-all">{c.then}</span>
+                <span className="text-[#8A9A85] font-mono text-xs">{c.then}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[#8A9A85] group-hover:text-[#2A3C24] group-hover:font-semibold transition-all">Now:</span>
-                <span className="text-[#2A3C24] font-mono text-xs font-semibold group-hover:text-[#1A1A1A] group-hover:bg-[#FBD45B]/30 group-hover:px-1 group-hover:rounded transition-all">{c.now}</span>
+                <span className="text-[#8A9A85]">Now:</span>
+                <span className="text-[#2A3C24] font-mono text-xs font-semibold">{c.now}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#8A9A85]">Future:</span>
-                <span className="text-[#8A9A85] font-mono text-xs group-hover:text-[#3D5235] transition-colors">{c.future}</span>
+                <span className="text-[#8A9A85] font-mono text-xs">{c.future}</span>
               </div>
             </div>
           </div>
@@ -327,7 +329,9 @@ export function ChinaMultipliersChart() {
       end: '791 GWh',
       period: '2014→2024',
       multiplier: 180,
-      tooltip: 'EV battery sales. Sources: CBS policy brief (2014), Gasgoo/CAPBIIA (2024)'
+      tooltip: 'EV battery sales',
+      sourceUrl: 'https://autonews.gasgoo.com/70035698.html',
+      sourceName: 'Gasgoo'
     },
     {
       industry: 'EVs',
@@ -335,7 +339,9 @@ export function ChinaMultipliersChart() {
       end: '12.9M units',
       period: '2014→2024',
       multiplier: 164,
-      tooltip: 'NEV annual production. Source: CAAM'
+      tooltip: 'NEV annual production',
+      sourceUrl: 'https://en.caam.org.cn/Index/show/catid/44/id/1026.html',
+      sourceName: 'CAAM'
     },
     {
       industry: 'Solar PV',
@@ -343,7 +349,9 @@ export function ChinaMultipliersChart() {
       end: '887 GW',
       period: '2014→2024',
       multiplier: 32,
-      tooltip: 'Cumulative installed capacity. Sources: Reuters (2015), pv magazine (2025)'
+      tooltip: 'Cumulative installed capacity',
+      sourceUrl: 'https://www.pv-magazine.com/2025/01/21/china-hits-277-17-gw-of-new-pv-installations-in-2024/',
+      sourceName: 'pv magazine'
     },
   ];
 
@@ -356,7 +364,7 @@ export function ChinaMultipliersChart() {
           <div key={i}>
             <div className="flex items-center gap-3 mb-2">
               <span
-                className="font-bold text-[#2A3C24] w-32 text-sm cursor-help border-b border-dashed border-[#8A9A85]"
+                className="font-bold text-[#2A3C24] w-32 text-sm"
                 style={{ fontFamily: 'Playfair Display, Georgia, serif' }}
                 title={d.tooltip}
               >
@@ -375,7 +383,9 @@ export function ChinaMultipliersChart() {
               <span className="text-[#2A3C24] font-medium">{d.start}</span>
               <span>→</span>
               <span className="text-[#2A3C24] font-medium">{d.end}</span>
-              <span className="ml-auto text-[#8A9A85]">{d.period}</span>
+              <a href={d.sourceUrl} target="_blank" rel="noopener noreferrer" className="ml-auto text-[#8A9A85] hover:text-[#2A3C24] hover:underline">
+                [{d.sourceName}]
+              </a>
             </div>
           </div>
         ))}
@@ -391,43 +401,44 @@ export function ChinaMultipliersChart() {
 export function ValueCaptureDiagram() {
   return (
     <div className="w-full py-8">
-      <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto items-stretch">
         {/* Platform Model */}
-        <div className="space-y-4">
+        <div className="flex flex-col">
           <h4 className="text-center font-bold text-[#2A3C24] pb-2 border-b-2 border-[#2A3C24]" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
             PLATFORM MODEL
           </h4>
-          <div className="bg-[#2A3C24] text-[#F5F2EB] p-4 rounded-lg text-center">
-            <p className="font-semibold mb-1">Cloud AI Provider</p>
-            <p className="text-xs text-[#8A9A85]">Google, OpenAI, Anthropic</p>
-            <p className="text-[#FBD45B] text-sm mt-2 font-semibold">Captures value via API fees</p>
-          </div>
-          <div className="text-center text-2xl text-[#8A9A85]">↓</div>
-          <div className="bg-[#E8E5DE] text-[#8A9A85] p-4 rounded-lg text-center border-2 border-dashed border-[#8A9A85]/50">
-            <p className="font-semibold mb-1 text-[#2A3C24]">Hardware OEMs</p>
-            <p className="text-xs">Unitree, Boston Dynamics, etc.</p>
-            <p className="text-[#8A6A4A] text-sm mt-2">Compete on cost, thin margins</p>
+          <div className="flex-1 flex flex-col mt-4">
+            <div className="bg-[#2A3C24] text-[#F5F2EB] p-4 rounded-lg text-center">
+              <p className="font-semibold mb-1">Cloud AI Provider</p>
+              <p className="text-xs text-[#8A9A85]">Google, OpenAI, Anthropic</p>
+              <p className="text-[#FBD45B] text-sm mt-2 font-semibold">Captures value via API fees</p>
+            </div>
+            <div className="text-center text-2xl text-[#8A9A85] py-2">↓</div>
+            <div className="bg-[#E8E5DE] text-[#8A9A85] p-4 rounded-lg text-center border-2 border-dashed border-[#8A9A85]/50">
+              <p className="font-semibold mb-1 text-[#2A3C24]">Hardware OEMs</p>
+              <p className="text-xs">Unitree, Boston Dynamics, etc.</p>
+              <p className="text-[#8A9A85] text-sm mt-2">Compete on cost, thin margins</p>
+            </div>
           </div>
         </div>
 
-        {/* Integration Model */}
-        <div className="space-y-4">
-          <h4 className="text-center font-bold text-[#2A3C24] pb-2 border-b-2 border-[#FBD45B]" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
+        {/* Integration Model - Flexbox to match height */}
+        <div className="flex flex-col">
+          <h4 className="text-center font-bold text-[#2A3C24] pb-2 border-b-2 border-[#3D5235]" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
             INTEGRATION MODEL
           </h4>
-          <div className="bg-[#FBD45B] text-[#2A3C24] p-6 rounded-lg text-center">
-            <p className="font-bold mb-1 text-lg">Full-Stack Company</p>
-            <p className="text-sm mb-2">Hardware + AI Brain</p>
-            <p className="text-xs text-[#4A5D42]">Tesla, Figure AI</p>
-            <p className="text-[#2A3C24] text-sm mt-3 font-semibold">Captures via integration</p>
+          <div className="flex-1 bg-[#3D5235] text-[#F5F2EB] rounded-lg text-center flex flex-col justify-center p-6 mt-4">
+            <p className="font-semibold text-lg mb-2">Full-Stack Company</p>
+            <p className="text-sm text-[#8A9A85] mb-3">Tesla, Figure AI</p>
+            <p className="text-[#FBD45B] text-sm font-semibold">Captures value via integration</p>
           </div>
         </div>
       </div>
 
       {/* Losing position */}
-      <div className="max-w-xl mx-auto mt-8 p-4 bg-[#E8E5DE] border border-[#8A6A4A]/30 rounded-lg text-center">
-        <p className="text-[#8A6A4A] font-semibold" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>LOSING POSITION</p>
-        <p className="text-[#8A6A4A]/80 text-sm mt-1" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
+      <div className="max-w-xl mx-auto mt-8 p-4 bg-[#E8E5DE] border border-[#8A9A85]/30 rounded-lg text-center">
+        <p className="text-[#2A3C24] font-semibold" style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>LOSING POSITION</p>
+        <p className="text-[#2A3C24]/80 text-sm mt-1" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
           Hardware without controlling intelligence = Dell in 1998
         </p>
         <p className="text-[#8A9A85] text-xs mt-1" style={{ fontFamily: 'Crimson Pro, Georgia, serif' }}>
@@ -472,7 +483,7 @@ export function LatencyComparisonTable() {
   );
 }
 
-// Robot Economics Table
+// Robot Economics Table - Current vs Projected costs
 export function RobotEconomicsTable() {
   return (
     <div className="w-full overflow-x-auto my-6">
@@ -480,44 +491,40 @@ export function RobotEconomicsTable() {
         <thead>
           <tr className="border-b-2 border-[#2A3C24]">
             <th className="text-left py-3 px-4 text-sm font-semibold text-[#2A3C24]">Cost Component</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#8A9A85]">Current (~$16K robot)</th>
-            <th className="text-left py-3 px-4 text-sm font-semibold text-[#FBD45B] bg-[#2A3C24]">Projected (~$6K robot)</th>
+            <th className="text-right py-3 px-4 text-sm font-semibold text-[#8A9A85]">Current (2025)</th>
+            <th className="text-right py-3 px-4 text-sm font-semibold text-[#2A3C24]">Projected (2028)</th>
           </tr>
         </thead>
         <tbody>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Hardware (3yr depreciation)</td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">$5,333/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">$2,000/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$13,000/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$2,000/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Maintenance (~15%/year)</td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">$2,400/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">$900/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$6,000/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$900/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
             <td className="py-3 px-4 text-sm text-[#2A3C24]">Electricity (~500W, 20hr/day)</td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">~$700/year</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">~$700/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">~$700/year</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$700/year</td>
           </tr>
           <tr className="border-b border-[#8A9A85]/30">
-            <td className="py-3 px-4 text-sm text-[#2A3C24]">
-              <span className="cursor-help border-b border-dashed border-[#8A9A85]" title="Estimated: 20 tokens/sec × 31.5M sec/year ≈ 630M tokens/year. At GPT-5-class rates (~$5.63/1M tokens avg), ≈ $3,500/year">
-                Cloud inference
-              </span>
-            </td>
-            <td className="py-3 px-4 text-sm text-[#8A9A85] font-mono">—</td>
-            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] bg-[#E8E5DE]">~$3,500/year</td>
+            <td className="py-3 px-4 text-sm text-[#2A3C24]">Cloud inference (estimated)</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#2A3C24] text-right">~$3,500/year</td>
           </tr>
-          <tr className="border-b-2 border-[#2A3C24] bg-[#E8E5DE]">
-            <td className="py-3 px-4 text-sm font-bold text-[#2A3C24]">Total annual cost</td>
-            <td className="py-3 px-4 text-sm font-bold font-mono text-[#2A3C24]">~$9,000-10,500</td>
-            <td className="py-3 px-4 text-sm font-bold font-mono text-[#2A3C24] bg-[#FBD45B]/30">~$7,100-8,100</td>
+          <tr className="border-b border-[#8A9A85]/30 bg-[#E8E5DE]">
+            <td className="py-3 px-4 text-sm font-semibold text-[#2A3C24]">Total annual cost</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm font-mono font-semibold text-[#2A3C24] text-right">~$7,100-8,100/year</td>
           </tr>
-          <tr className="bg-[#2A3C24] text-[#F5F2EB]">
-            <td className="py-3 px-4 text-sm font-bold">Hourly cost (7,000 hrs/year)</td>
-            <td className="py-3 px-4 text-sm font-bold font-mono">$1.30-1.50/hr</td>
-            <td className="py-3 px-4 text-sm font-bold font-mono text-[#FBD45B]">$1.00-1.15/hr</td>
+          <tr className="bg-[#2A3C24]">
+            <td className="py-3 px-4 text-sm font-semibold text-[#F5F2EB]">Hourly cost</td>
+            <td className="py-3 px-4 text-sm font-mono text-[#8A9A85] text-right">—</td>
+            <td className="py-3 px-4 text-sm font-mono font-semibold text-[#FBD45B] text-right">$1.00-1.15/hr</td>
           </tr>
         </tbody>
       </table>
