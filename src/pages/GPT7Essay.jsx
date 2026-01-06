@@ -48,7 +48,7 @@ This essay makes three claims:
 :::callout{type="claims" title="The Three Claims"}
 **First**, frontier multimodal models—the GPTs, Geminis, Claudes—will become the robot brains. Not purpose-built robotics models. **The same model that powers your chatbot will power your robot.**
 
-The scaling insight: the next generation of frontier models will be natively multimodal—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—we postulate—will emerge almost for free.
+The scaling insight: the next generation of frontier models will be natively multimodal—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—I postulate—will emerge almost for free.
 
 **Second**, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. **The intelligence lives in the cloud.** One brain, millions of bodies—I call this the VIKI architecture. :::hover{term="VIKI architecture" definition="Named after the AI in I, Robot that controlled all NS-5 robots centrally"} The slider between edge and cloud is moving cloud-ward faster than roboticists expect.
 
@@ -139,7 +139,7 @@ Current video models are small by frontier standards. Open-source Sora equivalen
 :::figure{id="model-scale-table" type="component"}
 :::
 
-To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. To our knowledge, nobody has trained unified multimodal models—video generation + language + reasoning—at frontier scale on YouTube-scale data. This will likely only happen when the next wave of datacenters come online in 2026.
+To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. To my knowledge, nobody has trained unified multimodal models—video generation + language + reasoning—at frontier scale on YouTube-scale data. This will likely only happen when the next wave of datacenters come online in 2026.
 
 Perhaps this is why intuition about what large multimodal models can do is systematically wrong. We're extrapolating from GPT-2-scale video models and concluding "video models can't do X." We made the same mistake about language models in 2020.
 
@@ -190,7 +190,7 @@ Today's leading humanoids are mixed. Figure describes a two-level control stack:
 
 This works for current capabilities. A mid-size model can pick up a box.
 
-But what happens when you need *general embodied intelligence*? :::hover{term="general embodied intelligence" definition="We imagine such a system could be a top-notch sous-chef *and* a breakdancer—learning new physical skills in context, reasoning about novel situations with multimodal tokens in its reasoning rollouts, conversing naturally about what to do and then doing it."} I expect those capabilities will require 1T+ parameters. And those only run in the cloud.
+But what happens when you need *general embodied intelligence*? :::hover{term="general embodied intelligence" definition="I imagine such a system could be a top-notch sous-chef *and* a breakdancer—learning new physical skills in context, reasoning about novel situations with multimodal tokens in its reasoning rollouts, conversing naturally about what to do and then doing it."} I expect those capabilities will require 1T+ parameters. And those only run in the cloud.
 
 My prediction: as capability requirements increase, the slider moves cloud-ward. The robots of 2027 will run small models on-device for reflexes, but their "brain"—the part that reasons and plans—will live in a datacenter.
 
@@ -1619,7 +1619,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
             <strong>First</strong>, frontier multimodal models—the GPTs, Geminis, Claudes—will become the robot brains. Not purpose-built robotics models. <strong>The same model that powers your chatbot will power your robot.</strong>
           </p>
           <p>
-            The scaling insight: the next generation of frontier models will be natively multimodal—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—we postulate—will emerge almost for free.
+            The scaling insight: the next generation of frontier models will be natively multimodal—video generation integrated with language and reasoning. To generate video, you must model how the world works. Current video models already show physics understanding at moderate scale. When frontier labs apply trillion-parameter scale to unified multimodal training, dexterous humanoid manipulation—I postulate—will emerge almost for free.
           </p>
           <p className={focusMode ? 'has-highlight' : ''}>
             <strong>Second</strong>, this implies cloud architecture. You can't run a trillion-parameter model on embedded hardware. <strong>The intelligence lives in the cloud.</strong> One brain, millions of bodies—I call this the{' '}
@@ -1798,7 +1798,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
         </div>
 
         <p>
-          To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. To our knowledge, nobody has trained unified multimodal models—video generation + language + reasoning—at frontier scale on YouTube-scale data. This will likely only happen when the next wave of datacenters come online in 2026.
+          To make the analogy concrete: current video models are to frontier LLMs what GPT-2 was to GPT-4. To my knowledge, nobody has trained unified multimodal models—video generation + language + reasoning—at frontier scale on YouTube-scale data. This will likely only happen when the next wave of datacenters come online in 2026.
         </p>
 
         <p>
@@ -1905,7 +1905,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection }) {
 
         <p>
           But what happens when you need{' '}
-          <span className="hover-term" data-definition="We imagine such a system could be a top-notch sous-chef *and* a breakdancer—learning new physical skills in context, reasoning about novel situations with multimodal tokens in its reasoning rollouts, conversing naturally about what to do and then doing it.">general embodied intelligence</span>? I expect those capabilities will require 1T+ parameters. And those only run in the cloud.
+          <span className="hover-term" data-definition="I imagine such a system could be a top-notch sous-chef *and* a breakdancer—learning new physical skills in context, reasoning about novel situations with multimodal tokens in its reasoning rollouts, conversing naturally about what to do and then doing it.">general embodied intelligence</span>? I expect those capabilities will require 1T+ parameters. And those only run in the cloud.
         </p>
 
         <p>
