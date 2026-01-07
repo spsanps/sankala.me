@@ -2229,15 +2229,6 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
 
         <p>For instance, cloud robotics is <em>less</em> demanding than gaming:</p>
 
-        <div className="figure-container">
-          <LatencyComparisonTable />
-          <p className="figure-caption">Cloud robotics has more forgiving latency requirements than gaming</p>
-        </div>
-
-        <p>
-          A cloud gaming lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
-        </p>
-
         <div className={`sidebar-note ${expandedSidebars['edge-cases'] ? 'expanded' : ''}`}>
           <div className="sidebar-note-header" onClick={() => toggleSidebar('edge-cases')}>
             <span className="sidebar-note-peek">note</span>
@@ -2252,6 +2243,15 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
             </p>
           </div>
         </div>
+
+        <div className="figure-container">
+          <LatencyComparisonTable />
+          <p className="figure-caption">Cloud robotics has more forgiving latency requirements than gaming</p>
+        </div>
+
+        <p>
+          A cloud gaming lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
+        </p>
       </section>
 
       <section id="robots-as-a-service" data-section="robots-as-a-service">
