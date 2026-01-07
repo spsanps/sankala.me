@@ -325,7 +325,7 @@ export default function Home() {
                                         Pick hard things you want to understand, build until they're real. Started in <span className="text-[#1A1A1A]">Electrical Engineering</span>, found ML through Kaggle, designed <span className="text-[#1A1A1A]">ASICs</span> at <a href="https://www.ti.com/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Texas Instruments</a>.
                                     </p>
                                     <p>
-                                        After DALL·E 3, singularity looked underway—shifted to CS at <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">UCSD</a>. Now building production <span className="text-[#1A1A1A]">LLM extraction systems</span> at <a href="https://www.ebayinc.com/company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">eBay</a>.
+                                        After DALL·E 3, singularity looked underway—shifted to CS at <a href="https://ucsd.edu/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">UCSD</a>. Now building <span className="text-[#1A1A1A]">LLM extraction systems</span> at <a href="https://www.ebayinc.com/company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">eBay</a>.
                                     </p>
                                 </div>
                             </div>
