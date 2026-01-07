@@ -291,11 +291,11 @@ Cloud robotics is *less* demanding than either:
 
 A cloud gaming lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
 
-### Edge Cases Remain Edge
-
-To be fair: some applications may remain edge-first longer. Surgical robotics where milliseconds matter. Military applications where network denial is a tactic. Remote locations without reliable connectivity. These domains may require on-device intelligence even at capability cost.
+:::sidebar{title="Edge Cases Remain Edge"}
+Some applications may remain edge-first longer: surgical robotics where milliseconds matter, military applications where network denial is a tactic, remote locations without reliable connectivity. These domains may require on-device intelligence even at capability cost.
 
 But for the vast majority of commercial applications—warehouses, factories, retail, eldercare, hospitality—cloud architecture works.
+:::
 
 ### The Real Objection
 
@@ -2238,15 +2238,20 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
           A cloud gaming lag spike means you die in PvP. A cloud robot lag spike means the robot pauses for a second before picking up the next box. For warehouse tasks, that's fine.
         </p>
 
-        <h3>Edge Cases Remain Edge</h3>
-
-        <p>
-          To be fair: some applications may remain edge-first longer. Surgical robotics where milliseconds matter. Military applications where network denial is a tactic. Remote locations without reliable connectivity. These domains may require on-device intelligence even at capability cost.
-        </p>
-
-        <p>
-          But for the vast majority of commercial applications—warehouses, factories, retail, eldercare, hospitality—cloud architecture works.
-        </p>
+        <div className={`sidebar-note ${expandedSidebars['edge-cases'] ? 'expanded' : ''}`}>
+          <div className="sidebar-note-header" onClick={() => toggleSidebar('edge-cases')}>
+            <span className="sidebar-note-peek">note</span>
+          </div>
+          <div className="sidebar-note-content">
+            <div className="sidebar-note-title">Edge Cases Remain Edge</div>
+            <p>
+              Some applications may remain edge-first longer: surgical robotics where milliseconds matter, military applications where network denial is a tactic, remote locations without reliable connectivity. These domains may require on-device intelligence even at capability cost.
+            </p>
+            <p>
+              But for the vast majority of commercial applications—warehouses, factories, retail, eldercare, hospitality—cloud architecture works.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section id="robots-as-a-service" data-section="robots-as-a-service">
