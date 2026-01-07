@@ -70,7 +70,7 @@ I also wasn't really in [founder mode](https://paulgraham.com/foundermode.html).
 
 Meanwhile, competitors like [Sudowrite](https://sudowrite.com/) and [Jenni AI](https://jenni.ai/) had picked specific niches and stuck with them. Watching their progress over the same timeframe taught me more about what building a product actually involves than any course could—getting users, growing users, keeping users, making money. I was worrying about the wrong things entirely. I kept thinking about features when I should have been thinking about distribution.
 
-Later I tried pivoting to video content with [Glyp Podcasts](https://www.youtube.com/@glyp.podcasts), thinking it was a larger TAM play. Same fundamental problems though—too late, poorly executed, no real conviction behind the pivot. Just trying things instead of building toward something.
+Later [Rohan](https://www.linkedin.com/in/rohan-mishra-cs/) and I tried pivoting to video content with [Glyp Podcasts](https://www.youtube.com/@glyp.podcasts), thinking it was a larger TAM play. Same fundamental problems though—too late, poorly executed, no real conviction behind the pivot. Just trying things instead of building toward something.
 
 ## What I Learned
 
