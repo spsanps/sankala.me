@@ -42,7 +42,7 @@ const timelineData = [
     categoryColor: "gray-400",
     dotColor: "#8A9A85",
     title: "Graduated from UCSD",
-    description: "Master of Science in Computer Science at University of California San Diego. Research in Prof. Julian McAuley's group on AI music and LLMs. Teaching Assistant for graduate course on Recommender Systems and Data Mining.",
+    description: "Master of Science in Computer Science at University of California San Diego. Worked with Prof. Julian McAuley's group on AI music and LLMs. Teaching Assistant for graduate course on Recommender Systems and Data Mining.",
     image: "/images/team/ucsd-research-group-2023.jpg",
     imageAlt: "UCSD Research Group",
     links: []
