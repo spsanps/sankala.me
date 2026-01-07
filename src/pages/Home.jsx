@@ -552,15 +552,19 @@ export default function Home() {
 
                 <div className="grid md:grid-cols-3 gap-6">
                     {previewNotes.map((note) => {
-                        // Use essay route if it's a link to an essay, otherwise use note route
-                        const linkTo = note.isEssayLink ? note.essayRoute : (note.type === "essay" ? `/notes/${note.slug}` : `/notes/${note.id}`);
+                        // Use essay route if it's a link to an essay, external URL if external, otherwise use note route
+                        const linkTo = note.isEssayLink ? note.essayRoute : (note.isExternalLink ? note.externalUrl : (note.type === "essay" ? `/notes/${note.slug}` : `/notes/${note.id}`));
+                        const isExternal = note.isExternalLink;
 
-                        return (
-                            <Link to={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                        const cardContent = (
+                            <>
                                 <div className="flex items-center justify-between mb-4">
                                     <span className="text-xs text-[#8A9A85] font-mono">{note.date}</span>
                                     {note.type === "essay" && (
                                         <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Essay</span>
+                                    )}
+                                    {note.type === "toy" && (
+                                        <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Toy</span>
                                     )}
                                 </div>
                                 <h3 className="text-xl font-bold serif mb-3 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
@@ -570,6 +574,16 @@ export default function Home() {
                                 <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors">
                                     {note.readTime ? note.readTime : "Read Entry"} <ArrowUpRight size={14} />
                                 </div>
+                            </>
+                        );
+
+                        return isExternal ? (
+                            <a href={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                                {cardContent}
+                            </a>
+                        ) : (
+                            <Link to={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                                {cardContent}
                             </Link>
                         );
                     })}

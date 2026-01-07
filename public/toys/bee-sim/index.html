@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Clauiet Life | San Kala</title>
+  <meta name="description" content="What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.">
+  <meta name="author" content="San Kala">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="A Clauiet Life">
+  <meta property="og:description" content="What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.">
+  <meta property="og:site_name" content="San Kala">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A Clauiet Life">
+  <meta name="twitter:description" content="What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #f5f5f5; }
+    body { font-family: 'Instrument Serif', Georgia, serif; }
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    .title {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      text-align: center;
+      pointer-events: none;
+    }
+    .title h1 {
+      font-size: clamp(24px, 3.5vw, 42px);
+      font-weight: 400;
+      font-style: italic;
+      color: #222;
+      opacity: 0;
+      animation: fadeUp 1.5s ease 0.3s forwards;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="title"><h1>A Clauiet Life</h1></div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const PIXEL = 2;
+    let width, height, gridW, gridH;
+    let time = 0;
+    let cameraX = 0;
+    let targetCameraX = 0;
+
+    const worldWidth = 1800;
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      gridW = Math.ceil(width / PIXEL);
+      gridH = Math.ceil(height / PIXEL);
+      canvas.width = gridW;
+      canvas.height = gridH;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.imageSmoothingEnabled = false;
+    }
+
+    function gray(level) {
+      const v = Math.floor(Math.max(0, Math.min(1, level)) * 255);
+      return `rgb(${v},${v},${v})`;
+    }
+
+    // Claude's signature rust-orange color (#C15F3C "Crail")
+    function claude(level) {
+      const l = Math.max(0, Math.min(1, level));
+      const r = Math.floor(140 + l * 53);  // 140-193
+      const g = Math.floor(70 + l * 25);   // 70-95
+      const b = Math.floor(40 + l * 20);   // 40-60
+      return `rgb(${r},${g},${b})`;
+    }
+
+    function fillCircle(cx, cy, r, color) {
+      ctx.fillStyle = color;
+      const r2 = r * r;
+      for (let y = -Math.ceil(r); y <= Math.ceil(r); y++) {
+        for (let x = -Math.ceil(r); x <= Math.ceil(r); x++) {
+          if (x*x + y*y <= r2) {
+            ctx.fillRect(Math.floor(cx + x), Math.floor(cy + y), 1, 1);
+          }
+        }
+      }
+    }
+
+    function fillEllipse(cx, cy, rx, ry, color) {
+      ctx.fillStyle = color;
+      rx = Math.max(0.5, rx); ry = Math.max(0.5, ry);
+      for (let y = -Math.ceil(ry); y <= Math.ceil(ry); y++) {
+        for (let x = -Math.ceil(rx); x <= Math.ceil(rx); x++) {
+          if ((x*x)/(rx*rx) + (y*y)/(ry*ry) <= 1) {
+            ctx.fillRect(Math.floor(cx + x), Math.floor(cy + y), 1, 1);
+          }
+        }
+      }
+    }
+
+    function fillRect(x, y, w, h, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(Math.floor(x), Math.floor(y), Math.ceil(w), Math.ceil(h));
+    }
+
+    function drawLine(x0, y0, x1, y1, color) {
+      ctx.fillStyle = color;
+      x0 = Math.floor(x0); y0 = Math.floor(y0);
+      x1 = Math.floor(x1); y1 = Math.floor(y1);
+      const dx = Math.abs(x1 - x0);
+      const dy = Math.abs(y1 - y0);
+      const sx = x0 < x1 ? 1 : -1;
+      const sy = y0 < y1 ? 1 : -1;
+      let err = dx - dy;
+      while (true) {
+        ctx.fillRect(x0, y0, 1, 1);
+        if (x0 === x1 && y0 === y1) break;
+        const e2 = 2 * err;
+        if (e2 > -dy) { err -= dy; x0 += sx; }
+        if (e2 < dx) { err += dx; y0 += sy; }
+      }
+    }
+
+    function seededRandom(seed) {
+      const x = Math.sin(seed * 9999) * 10000;
+      return x - Math.floor(x);
+    }
+
+    // World objects
+    let flowers = [];
+    let grasses = [];
+    let clouds = [];
+    let hills = [];
+    let trees = [];
+    let distantTrees = [];
+    let bushes = [];
+    let rocks = [];
+    let puddles = [];
+    let holes = [];
+    let butterflies = [];
+    let mainTree = null;
+    let hive = null;
+    let farmhouse = null;
+    let stream = null;
+
+    function generateWorld() {
+      flowers = [];
+      grasses = [];
+      clouds = [];
+      hills = [];
+      trees = [];
+      distantTrees = [];
+      bushes = [];
+      rocks = [];
+      puddles = [];
+      holes = [];
+      butterflies = [];
+
+      const groundY = gridH - 1;
+
+      // Main tree with hive (center-ish)
+      mainTree = {
+        x: worldWidth * 0.5,
+        trunkWidth: 12,
+        trunkHeight: gridH * 0.6,
+        branches: []
+      };
+      // Generate branches
+      for (let i = 0; i < 4; i++) {
+        mainTree.branches.push({
+          startY: groundY - mainTree.trunkHeight * (0.4 + i * 0.15),
+          length: 25 + seededRandom(i * 77) * 30,
+          dir: i % 2 === 0 ? 1 : -1,
+          angle: 0.3 + seededRandom(i * 78) * 0.4
+        });
+      }
+
+      // Hive on a branch
+      const hiveBranch = mainTree.branches[1];
+      hive = {
+        x: mainTree.x + hiveBranch.dir * hiveBranch.length * 0.7,
+        y: hiveBranch.startY - 5,
+        hasHole: true
+      };
+
+      // Farmhouse - only roof visible on horizon
+      farmhouse = {
+        x: worldWidth * 0.15,
+        y: gridH * 0.38
+      };
+
+      // Stream
+      stream = {
+        startX: worldWidth * 0.7,
+        endX: worldWidth * 0.85,
+        baseY: gridH - 5
+      };
+
+      // Holes/tunnels in ground
+      holes.push({ x: worldWidth * 0.15, exitX: worldWidth * 0.25 });
+      holes.push({ x: worldWidth * 0.6, exitX: worldWidth * 0.72 });
+      holes.push({ x: worldWidth * 0.85, exitX: worldWidth * 0.1 });
+
+      // Hills (background) - large rolling hills covering entire background
+      // Far layer - huge gentle hills
+      for (let i = 0; i < 12; i++) {
+        hills.push({
+          x: seededRandom(i * 33) * worldWidth,
+          width: 200 + seededRandom(i * 34) * 350,
+          height: gridH * 0.25 + seededRandom(i * 35) * gridH * 0.2,
+          shade: 0.9 + seededRandom(i * 36) * 0.04,
+          layer: 0
+        });
+      }
+      // Mid layer
+      for (let i = 0; i < 15; i++) {
+        hills.push({
+          x: seededRandom(i * 43) * worldWidth,
+          width: 150 + seededRandom(i * 44) * 250,
+          height: gridH * 0.15 + seededRandom(i * 45) * gridH * 0.15,
+          shade: 0.86 + seededRandom(i * 46) * 0.05,
+          layer: 1
+        });
+      }
+      // Near layer - smaller foreground hills
+      for (let i = 0; i < 20; i++) {
+        hills.push({
+          x: seededRandom(i * 53) * worldWidth,
+          width: 80 + seededRandom(i * 54) * 180,
+          height: gridH * 0.08 + seededRandom(i * 55) * gridH * 0.1,
+          shade: 0.82 + seededRandom(i * 56) * 0.06,
+          layer: 2
+        });
+      }
+      // Sort hills by layer so far ones draw first
+      hills.sort((a, b) => a.layer - b.layer);
+
+      // Distant background trees (silhouettes on horizon)
+      for (let i = 0; i < 25; i++) {
+        distantTrees.push({
+          x: seededRandom(i * 88) * worldWidth,
+          height: 8 + seededRandom(i * 89) * 18,
+          width: 4 + seededRandom(i * 90) * 8,
+          shade: 0.75 + seededRandom(i * 91) * 0.08
+        });
+      }
+
+      // Clouds
+      for (let i = 0; i < 15; i++) {
+        clouds.push({
+          x: seededRandom(i * 50) * worldWidth,
+          y: 8 + seededRandom(i * 51) * 30,
+          size: 5 + seededRandom(i * 52) * 12,
+          speed: 0.002 + seededRandom(i * 53) * 0.003
+        });
+      }
+
+      // Other trees - more of them with bigger canopies
+      for (let i = 0; i < 14; i++) {
+        const tx = seededRandom(i * 111) * worldWidth;
+        if (Math.abs(tx - mainTree.x) > 80) {
+          trees.push({
+            x: tx,
+            height: 50 + seededRandom(i * 112) * 60,
+            width: 25 + seededRandom(i * 113) * 30,
+            type: seededRandom(i * 114) > 0.5 ? 'round' : 'pine'
+          });
+        }
+      }
+
+      // Bushes
+      for (let i = 0; i < 20; i++) {
+        bushes.push({
+          x: seededRandom(i * 222) * worldWidth,
+          size: 6 + seededRandom(i * 223) * 10,
+          shade: 0.4 + seededRandom(i * 224) * 0.15
+        });
+      }
+
+      // Rocks
+      for (let i = 0; i < 15; i++) {
+        rocks.push({
+          x: seededRandom(i * 333) * worldWidth,
+          size: 3 + seededRandom(i * 334) * 6,
+          shade: 0.5 + seededRandom(i * 335) * 0.2
+        });
+      }
+
+      // Puddles/water
+      for (let i = 0; i < 5; i++) {
+        puddles.push({
+          x: seededRandom(i * 444) * worldWidth,
+          width: 15 + seededRandom(i * 445) * 25,
+          phase: seededRandom(i * 446) * Math.PI * 2
+        });
+      }
+
+      // Flowers
+      const types = ['daisy', 'tulip', 'round', 'tall', 'small', 'bell', 'star'];
+      for (let i = 0; i < 150; i++) {
+        flowers.push({
+          x: seededRandom(i * 200) * worldWidth,
+          type: types[Math.floor(seededRandom(i * 201) * types.length)],
+          height: 8 + seededRandom(i * 202) * 20,
+          size: 1.5 + seededRandom(i * 203) * 2.5,
+          hasNectar: true,
+          swayPhase: seededRandom(i * 204) * Math.PI * 2
+        });
+      }
+
+      // Grass
+      for (let i = 0; i < 400; i++) {
+        grasses.push({
+          x: seededRandom(i * 300) * worldWidth,
+          height: 2 + seededRandom(i * 301) * 10,
+          phase: seededRandom(i * 302) * Math.PI * 2
+        });
+      }
+
+      // Butterflies
+      for (let i = 0; i < 6; i++) {
+        butterflies.push({
+          x: seededRandom(i * 555) * worldWidth,
+          y: gridH * 0.4 + seededRandom(i * 556) * gridH * 0.3,
+          phase: seededRandom(i * 557) * Math.PI * 2,
+          vx: (seededRandom(i * 558) - 0.5) * 0.03
+        });
+      }
+
+      // Start bee at hive
+      bee.x = hive.x;
+      bee.y = hive.y + 15;
+      bee.lastActionX = bee.x;
+      cameraX = bee.x - gridW/2;
+      targetCameraX = cameraX;
+    }
+
+    // Wrap a world X coordinate
+    function wrapX(x) {
+      x = x % worldWidth;
+      if (x < 0) x += worldWidth;
+      return x;
+    }
+
+    // Convert world X to screen X, handling wrap
+    function toScreen(wx) {
+      let dx = wx - cameraX;
+      // Handle wrapping - find the closest representation
+      if (dx > worldWidth / 2) dx -= worldWidth;
+      if (dx < -worldWidth / 2) dx += worldWidth;
+      return dx;
+    }
+
+    // Bee with expanded life
+    const bee = {
+      x: 300, y: 100,
+      state: 'idle',
+      target: null,
+      nectar: 0,
+      maxNectar: 5,
+      water: 100,
+      energy: 100,
+      wingPhase: 0,
+      timer: 0,
+      facingRight: true,
+      inHole: false,
+      holeProgress: 0,
+      currentHole: null,
+      resting: false,
+      drinking: false,
+      lastActionX: 0,
+      ventureDirection: 1
+    };
+
+    function pickFlower() {
+      const available = flowers.filter(f => f.hasNectar);
+      if (available.length === 0) return null;
+
+      // Sort by distance from lastActionX in venture direction (with wrapping)
+      const sorted = available.sort((a, b) => {
+        let distA = (a.x - bee.lastActionX) * bee.ventureDirection;
+        let distB = (b.x - bee.lastActionX) * bee.ventureDirection;
+        // Handle wrap
+        if (distA > worldWidth / 2) distA -= worldWidth;
+        if (distA < -worldWidth / 2) distA += worldWidth;
+        if (distB > worldWidth / 2) distB -= worldWidth;
+        if (distB < -worldWidth / 2) distB += worldWidth;
+        return distB - distA;
+      });
+
+      // Pick from top candidates with some randomness
+      const topN = Math.min(12, sorted.length);
+      const idx = Math.floor(Math.random() * topN);
+      return sorted[idx];
+    }
+
+    function findNearbyHole() {
+      for (const hole of holes) {
+        const dx = Math.abs(toScreen(hole.x) - toScreen(bee.x));
+        if (dx < 15 && bee.y > gridH - 25) {
+          return hole;
+        }
+      }
+      return null;
+    }
+
+    function findNearbyPuddle() {
+      for (const puddle of puddles) {
+        const dx = Math.abs(toScreen(puddle.x) - toScreen(bee.x));
+        if (dx < puddle.width / 2 + 10) {
+          return puddle;
+        }
+      }
+      return null;
+    }
+
+    // Get wrapped distance and direction to target
+    function getWrappedDelta(fromX, toX) {
+      let dx = toX - fromX;
+      if (dx > worldWidth / 2) dx -= worldWidth;
+      if (dx < -worldWidth / 2) dx += worldWidth;
+      return dx;
+    }
+
+    function updateBee(dt) {
+      bee.wingPhase += dt * 0.04;
+      bee.timer -= dt;
+
+      // Drain water and energy slowly
+      bee.water -= dt * 0.003;
+      bee.energy -= dt * 0.002;
+      bee.water = Math.max(0, bee.water);
+      bee.energy = Math.max(0, bee.energy);
+
+      const speed = bee.energy > 20 ? 0.15 : 0.08;
+      const groundY = gridH - 8;
+
+      // Handle being in hole
+      if (bee.inHole) {
+        bee.holeProgress += dt * 0.003;
+        if (bee.holeProgress >= 1) {
+          bee.inHole = false;
+          bee.x = bee.currentHole.exitX;
+          bee.y = groundY - 10;
+          bee.currentHole = null;
+          bee.state = 'idle';
+          bee.timer = 300;
+          bee.lastActionX = bee.x;
+        }
+        return;
+      }
+
+      switch (bee.state) {
+        case 'idle':
+          bee.x += Math.sin(time * 0.002) * 0.2;
+          bee.y += Math.cos(time * 0.003) * 0.15;
+
+          if (bee.timer <= 0) {
+            // Priority decisions
+            if (bee.water < 30) {
+              // Find water
+              const puddle = puddles.reduce((closest, p) => {
+                const d = Math.abs(getWrappedDelta(bee.x, p.x));
+                return (!closest || d < Math.abs(getWrappedDelta(bee.x, closest.x))) ? p : closest;
+              }, null);
+              if (puddle) {
+                bee.target = puddle;
+                bee.state = 'goToPuddle';
+              }
+            } else if (bee.nectar >= bee.maxNectar) {
+              bee.state = 'goHome';
+            } else if (bee.energy < 25) {
+              bee.state = 'goHome'; // Rest at hive
+              bee.resting = true;
+            } else if (Math.random() < 0.15) {
+              // Maybe explore through hole
+              const hole = findNearbyHole();
+              if (hole && Math.random() < 0.3) {
+                bee.target = hole;
+                bee.state = 'goToHole';
+              } else {
+                bee.target = pickFlower();
+                if (bee.target) bee.state = 'flyToFlower';
+                else bee.timer = 400;
+              }
+            } else if (Math.random() < 0.7) {
+              bee.target = pickFlower();
+              if (bee.target) bee.state = 'flyToFlower';
+              else bee.timer = 400;
+            } else {
+              // Wander
+              bee.state = 'wander';
+              bee.timer = 800 + Math.random() * 1200;
+            }
+          }
+          break;
+
+        case 'wander':
+          bee.x += (Math.random() - 0.5) * 0.8;
+          bee.y += (Math.random() - 0.5) * 0.5;
+          bee.y = Math.max(25, Math.min(groundY - 5, bee.y));
+
+          if (bee.timer <= 0) {
+            bee.state = 'idle';
+            bee.timer = 200;
+          }
+          break;
+
+        case 'flyToFlower':
+          if (!bee.target || !bee.target.hasNectar) {
+            bee.state = 'idle';
+            bee.timer = 150;
+            break;
+          }
+
+          const fx = bee.target.x;
+          const fy = groundY - bee.target.height - 2;
+          const dx = getWrappedDelta(bee.x, fx);
+          const dy = fy - bee.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+
+          bee.facingRight = dx > 0;
+
+          if (dist < 4) {
+            bee.state = 'collecting';
+            bee.timer = 500 + Math.random() * 400;
+          } else {
+            bee.x += (dx / dist) * speed * dt;
+            bee.y += (dy / dist) * speed * dt;
+          }
+          break;
+
+        case 'collecting':
+          bee.x += Math.sin(time * 0.02) * 0.15;
+          bee.y += Math.cos(time * 0.025) * 0.1;
+
+          if (bee.timer <= 0) {
+            if (bee.target && bee.target.hasNectar) {
+              bee.nectar++;
+              bee.target.hasNectar = false;
+              const flower = bee.target;
+              setTimeout(() => { flower.hasNectar = true; }, 4000 + Math.random() * 6000);
+            }
+            bee.lastActionX = bee.x;
+            // After action, slightly more likely to venture further
+            if (Math.random() < 0.25) {
+              bee.ventureDirection *= -1;
+            }
+            bee.target = null;
+            bee.state = 'idle';
+            bee.timer = 150;
+          }
+          break;
+
+        case 'goToPuddle':
+          if (!bee.target) {
+            bee.state = 'idle';
+            break;
+          }
+
+          const px = bee.target.x;
+          const py = groundY - 2;
+          const pdx = getWrappedDelta(bee.x, px);
+          const pdy = py - bee.y;
+          const pdist = Math.sqrt(pdx*pdx + pdy*pdy);
+
+          bee.facingRight = pdx > 0;
+
+          if (pdist < 5) {
+            bee.state = 'drinking';
+            bee.timer = 800;
+          } else {
+            bee.x += (pdx / pdist) * speed * dt;
+            bee.y += (pdy / pdist) * speed * dt;
+          }
+          break;
+
+        case 'drinking':
+          bee.y += Math.sin(time * 0.01) * 0.1;
+          bee.water = Math.min(100, bee.water + dt * 0.08);
+
+          if (bee.timer <= 0 || bee.water >= 100) {
+            bee.lastActionX = bee.x;
+            bee.target = null;
+            bee.state = 'idle';
+            bee.timer = 200;
+          }
+          break;
+
+        case 'goToHole':
+          if (!bee.target) {
+            bee.state = 'idle';
+            break;
+          }
+
+          const hox = bee.target.x;
+          const hoy = groundY - 3;
+          const hodx = getWrappedDelta(bee.x, hox);
+          const hody = hoy - bee.y;
+          const hodist = Math.sqrt(hodx*hodx + hody*hody);
+
+          bee.facingRight = hodx > 0;
+
+          if (hodist < 5) {
+            bee.inHole = true;
+            bee.holeProgress = 0;
+            bee.currentHole = bee.target;
+          } else {
+            bee.x += (hodx / hodist) * speed * dt;
+            bee.y += (hody / hodist) * speed * dt;
+          }
+          break;
+
+        case 'goHome':
+          const hx = hive.x;
+          const hy = hive.y + 10;
+          const dhx = getWrappedDelta(bee.x, hx);
+          const dhy = hy - bee.y;
+          const distH = Math.sqrt(dhx*dhx + dhy*dhy);
+
+          bee.facingRight = dhx > 0;
+
+          if (distH < 6) {
+            bee.state = bee.resting ? 'restingInHive' : 'depositing';
+            bee.timer = bee.resting ? 1500 : 600;
+          } else {
+            bee.x += (dhx / distH) * speed * dt;
+            bee.y += (dhy / distH) * speed * dt;
+          }
+          break;
+
+        case 'depositing':
+          bee.y += Math.sin(time * 0.015) * 0.1;
+          if (bee.timer <= 0) {
+            bee.nectar = 0;
+            bee.lastActionX = bee.x;
+            bee.ventureDirection = Math.random() < 0.5 ? 1 : -1;
+            bee.state = 'idle';
+            bee.timer = 300;
+          }
+          break;
+
+        case 'restingInHive':
+          bee.energy = Math.min(100, bee.energy + dt * 0.05);
+          if (bee.timer <= 0 && bee.energy > 80) {
+            bee.resting = false;
+            bee.lastActionX = bee.x;
+            bee.ventureDirection = Math.random() < 0.5 ? 1 : -1;
+            bee.state = 'idle';
+            bee.timer = 200;
+          }
+          break;
+      }
+
+      // Wrap bee position
+      bee.x = wrapX(bee.x);
+      bee.y = Math.max(20, Math.min(groundY, bee.y));
+
+      // Camera follows bee (with wrapping)
+      targetCameraX = bee.x - gridW/2;
+
+      // Smooth camera
+      let cameraDelta = getWrappedDelta(cameraX, targetCameraX);
+      cameraX += cameraDelta * 0.04;
+      cameraX = wrapX(cameraX);
+    }
+
+    function updateButterflies(dt) {
+      for (const b of butterflies) {
+        b.x += b.vx * dt;
+        b.y += Math.sin(time * 0.003 + b.phase) * 0.1;
+        b.phase += dt * 0.01;
+        b.x = wrapX(b.x);
+      }
+    }
+
+    function updateClouds(dt) {
+      for (const c of clouds) {
+        c.x += c.speed * dt;
+        c.x = wrapX(c.x);
+      }
+    }
+
+    // Drawing functions
+    function drawHill(hill) {
+      const sx = toScreen(hill.x);
+      if (sx < -hill.width/2 - 50 || sx > gridW + hill.width/2 + 50) return;
+
+      // Base Y position - far hills start higher up
+      const baseY = gridH - hill.layer * 5;
+
+      for (let x = -hill.width/2; x < hill.width/2; x++) {
+        const h = Math.sin(((x + hill.width/2) / hill.width) * Math.PI) * hill.height;
+        fillRect(sx + x, baseY - h, 1, h, gray(hill.shade));
+      }
+    }
+
+    function drawDistantTree(tree) {
+      const sx = toScreen(tree.x);
+      if (sx < -20 || sx > gridW + 20) return;
+
+      // Simple silhouette sitting on hills
+      const baseY = gridH * 0.55;
+      // Tiny trunk
+      fillRect(sx - 1, baseY - tree.height * 0.3, 2, tree.height * 0.3, gray(tree.shade - 0.05));
+      // Simple canopy blob
+      fillCircle(sx, baseY - tree.height * 0.55, tree.width * 0.7, gray(tree.shade));
+      fillCircle(sx - tree.width * 0.35, baseY - tree.height * 0.4, tree.width * 0.45, gray(tree.shade + 0.02));
+    }
+
+    function drawFarmhouse() {
+      if (!farmhouse) return;
+      const sx = toScreen(farmhouse.x);
+      if (sx < -30 || sx > gridW + 30) return;
+
+      // Only roof visible on horizon - tiny and faded
+      const y = farmhouse.y;
+      // Roof triangle
+      for (let i = 0; i < 6; i++) {
+        const roofW = 14 - i * 2;
+        fillRect(sx - roofW/2, y - i, roofW, 1, gray(0.78 + i * 0.01));
+      }
+      // Tiny chimney
+      fillRect(sx + 4, y - 8, 2, 4, gray(0.72));
+      // Smoke wisp
+      if (Math.sin(time * 0.001) > -0.5) {
+        fillCircle(sx + 5 + Math.sin(time * 0.0008) * 2, y - 10, 1.5, gray(0.85));
+      }
+    }
+
+    function drawStream() {
+      if (!stream) return;
+
+      for (let x = stream.startX; x < stream.endX; x += 8) {
+        const sx = toScreen(x);
+        if (sx < -15 || sx > gridW + 15) continue;
+
+        const wave = Math.sin(x * 0.02 + time * 0.001) * 4;
+        const y = stream.baseY + wave;
+        const shimmer = Math.sin(time * 0.002 + x * 0.05) * 0.03;
+
+        fillEllipse(sx, y, 10, 2.5, gray(0.68 + shimmer));
+        fillEllipse(sx, y - 1, 8, 1.5, gray(0.74 + shimmer));
+      }
+    }
+
+    function drawCloud(cloud) {
+      const sx = toScreen(cloud.x);
+      if (sx < -30 || sx > gridW + 30) return;
+      fillCircle(sx, cloud.y, cloud.size * 0.5, gray(0.92));
+      fillCircle(sx - cloud.size * 0.4, cloud.y + 1, cloud.size * 0.35, gray(0.9));
+      fillCircle(sx + cloud.size * 0.45, cloud.y - 1, cloud.size * 0.4, gray(0.93));
+    }
+
+    function drawTree(tree) {
+      const sx = toScreen(tree.x);
+      if (sx < -60 || sx > gridW + 60) return;
+      const baseY = gridH - 1;
+
+      // Trunk
+      const trunkH = tree.height * 0.35;
+      const trunkW = 4 + tree.width * 0.1;
+      fillRect(sx - trunkW/2, baseY - trunkH, trunkW, trunkH, gray(0.35));
+
+      // Canopy - larger and positioned to sit on trunk
+      const canopyY = baseY - trunkH;
+      if (tree.type === 'round') {
+        // Main canopy blob
+        fillCircle(sx, canopyY - tree.width * 0.4, tree.width * 0.5, gray(0.45));
+        // Side blobs
+        fillCircle(sx - tree.width * 0.35, canopyY - tree.width * 0.25, tree.width * 0.35, gray(0.5));
+        fillCircle(sx + tree.width * 0.4, canopyY - tree.width * 0.3, tree.width * 0.4, gray(0.48));
+        // Top blob
+        fillCircle(sx + tree.width * 0.1, canopyY - tree.width * 0.65, tree.width * 0.3, gray(0.52));
+      } else {
+        // Pine - layered triangular shape
+        for (let i = 0; i < 5; i++) {
+          const w = tree.width * (1 - i * 0.18);
+          const y = canopyY - i * tree.height * 0.12;
+          fillEllipse(sx, y, w * 0.5, tree.height * 0.1, gray(0.4 + i * 0.025));
+        }
+      }
+    }
+
+    function drawMainTree() {
+      const sx = toScreen(mainTree.x);
+      if (sx < -100 || sx > gridW + 100) return;
+      const baseY = gridH - 1;
+
+      // Trunk
+      const tw = mainTree.trunkWidth;
+      const th = mainTree.trunkHeight;
+      fillRect(sx - tw/2, baseY - th, tw, th, gray(0.3));
+
+      // Texture on trunk
+      for (let i = 0; i < 8; i++) {
+        const ty = baseY - th * 0.1 - i * th * 0.1;
+        drawLine(sx - tw/2 + 2, ty, sx + tw/2 - 2, ty + 2, gray(0.25));
+      }
+
+      // Crown at the top of the tree
+      const crownY = baseY - th;
+      fillCircle(sx, crownY - 20, 22, gray(0.42));
+      fillCircle(sx - 15, crownY - 12, 16, gray(0.46));
+      fillCircle(sx + 18, crownY - 15, 18, gray(0.44));
+      fillCircle(sx - 8, crownY - 32, 14, gray(0.48));
+      fillCircle(sx + 10, crownY - 28, 12, gray(0.5));
+      fillCircle(sx, crownY - 40, 10, gray(0.52));
+
+      // Branches
+      for (const branch of mainTree.branches) {
+        const bsx = sx;
+        const bsy = branch.startY;
+        const bex = sx + branch.dir * branch.length;
+        const bey = bsy - Math.sin(branch.angle) * branch.length * 0.5;
+
+        // Branch line (thick)
+        for (let t = 0; t < 3; t++) {
+          drawLine(bsx, bsy + t, bex, bey + t, gray(0.32));
+        }
+
+        // Leaves on branch
+        fillCircle(bex, bey - 5, 14, gray(0.45));
+        fillCircle(bex - branch.dir * 10, bey - 10, 10, gray(0.5));
+        fillCircle(bex + branch.dir * 6, bey - 3, 8, gray(0.48));
+      }
+
+      // Hole in trunk
+      fillCircle(sx, baseY - th * 0.3, 5, gray(0.15));
+    }
+
+    function drawHive() {
+      const sx = toScreen(hive.x);
+      if (sx < -25 || sx > gridW + 25) return;
+      const y = hive.y;
+
+      // String from branch
+      drawLine(sx, y - 12, sx, y - 5, gray(0.4));
+
+      // Hive body
+      fillEllipse(sx, y - 2, 8, 3, gray(0.38));
+      fillEllipse(sx, y + 4, 10, 4.5, gray(0.32));
+      fillEllipse(sx, y + 10, 9, 4, gray(0.36));
+      fillEllipse(sx, y + 15, 7, 3, gray(0.4));
+
+      // Entrance
+      fillCircle(sx, y + 15, 2.5, gray(0.18));
+
+      // Texture lines
+      drawLine(sx - 6, y + 2, sx + 6, y + 2, gray(0.28));
+      drawLine(sx - 7, y + 7, sx + 7, y + 7, gray(0.28));
+    }
+
+    function drawBush(bush) {
+      const sx = toScreen(bush.x);
+      if (sx < -20 || sx > gridW + 20) return;
+      const baseY = gridH - 1;
+      const s = bush.size;
+      fillCircle(sx, baseY - s * 0.5, s * 0.6, gray(bush.shade));
+      fillCircle(sx - s * 0.4, baseY - s * 0.3, s * 0.4, gray(bush.shade + 0.05));
+      fillCircle(sx + s * 0.5, baseY - s * 0.4, s * 0.45, gray(bush.shade - 0.03));
+    }
+
+    function drawRock(rock) {
+      const sx = toScreen(rock.x);
+      if (sx < -10 || sx > gridW + 10) return;
+      const baseY = gridH - 1;
+      fillEllipse(sx, baseY - rock.size * 0.4, rock.size, rock.size * 0.5, gray(rock.shade));
+      fillEllipse(sx - rock.size * 0.2, baseY - rock.size * 0.5, rock.size * 0.4, rock.size * 0.3, gray(rock.shade + 0.1));
+    }
+
+    function drawPuddle(puddle) {
+      const sx = toScreen(puddle.x);
+      if (sx < -30 || sx > gridW + 30) return;
+      const baseY = gridH - 1;
+      const shimmer = Math.sin(time * 0.002 + puddle.phase) * 0.03;
+      fillEllipse(sx, baseY - 1, puddle.width * 0.5, 3, gray(0.7 + shimmer));
+      fillEllipse(sx + 3, baseY - 1, puddle.width * 0.2, 1.5, gray(0.8 + shimmer));
+    }
+
+    function drawHole(hole) {
+      const sx = toScreen(hole.x);
+      if (sx < -10 || sx > gridW + 10) return;
+      const baseY = gridH - 1;
+      // Mound around hole
+      fillEllipse(sx, baseY - 2, 8, 3, gray(0.55));
+      // Dark hole
+      fillEllipse(sx, baseY - 2, 5, 2.5, gray(0.2));
+    }
+
+    function drawFlower(flower) {
+      const sx = toScreen(flower.x);
+      if (sx < -10 || sx > gridW + 10) return;
+
+      const baseY = gridH - 1;
+      const sway = Math.sin(time * 0.0012 + flower.swayPhase) * 1.5;
+      const topX = sx + sway;
+      const topY = baseY - flower.height;
+      const s = flower.size;
+
+      drawLine(sx, baseY, topX, topY, gray(0.6));
+
+      const hasN = flower.hasNectar;
+      const petalColor = gray(hasN ? 0.42 : 0.68);
+      const centerColor = gray(hasN ? 0.22 : 0.5);
+
+      switch (flower.type) {
+        case 'daisy':
+          for (let i = 0; i < 6; i++) {
+            const a = (i / 6) * Math.PI * 2;
+            fillEllipse(topX + Math.cos(a) * s * 1.2, topY + Math.sin(a) * s, s * 0.6, s * 0.3, petalColor);
+          }
+          fillCircle(topX, topY, s * 0.45, centerColor);
+          break;
+        case 'tulip':
+          fillEllipse(topX, topY, s * 0.7, s * 1.4, petalColor);
+          break;
+        case 'round':
+          fillCircle(topX, topY, s * 0.9, petalColor);
+          if (hasN) fillCircle(topX, topY, s * 0.35, centerColor);
+          break;
+        case 'tall':
+          for (let i = 0; i < 4; i++) {
+            fillCircle(topX + (i % 2 === 0 ? -1 : 1), topY + i * 2, s * 0.35, petalColor);
+          }
+          break;
+        case 'small':
+          fillCircle(topX, topY, s * 0.6, petalColor);
+          break;
+        case 'bell':
+          fillEllipse(topX, topY + s * 0.5, s * 0.5, s * 0.8, petalColor);
+          break;
+        case 'star':
+          for (let i = 0; i < 5; i++) {
+            const a = (i / 5) * Math.PI * 2 - Math.PI / 2;
+            drawLine(topX, topY, topX + Math.cos(a) * s * 1.5, topY + Math.sin(a) * s * 1.5, petalColor);
+          }
+          fillCircle(topX, topY, s * 0.3, centerColor);
+          break;
+      }
+    }
+
+    function drawGrass(grass) {
+      const sx = toScreen(grass.x);
+      if (sx < -5 || sx > gridW + 5) return;
+      const baseY = gridH - 1;
+      const sway = Math.sin(time * 0.0015 + grass.phase) * 1.2;
+      drawLine(sx, baseY, sx + sway, baseY - grass.height, gray(0.72));
+    }
+
+    function drawButterfly(b) {
+      const sx = toScreen(b.x);
+      if (sx < -10 || sx > gridW + 10) return;
+      const wingFlap = Math.sin(b.phase * 8) * 0.5 + 0.5;
+      fillEllipse(sx - 2, b.y - wingFlap * 2, 2, 1 + wingFlap * 1.5, gray(0.55));
+      fillEllipse(sx + 2, b.y - wingFlap * 2, 2, 1 + wingFlap * 1.5, gray(0.55));
+      fillEllipse(sx, b.y, 0.8, 2, gray(0.35));
+    }
+
+    function drawBee() {
+      if (bee.inHole) return; // Hidden in hole
+
+      const sx = toScreen(bee.x);
+      const sy = bee.y;
+      const dir = bee.facingRight ? 1 : -1;
+
+      const wingFlap = Math.sin(bee.wingPhase * 30);
+      const bob = Math.sin(time * 0.004) * 1.2;
+      const y = sy + bob;
+
+      // Shadow - softer
+      fillEllipse(sx, gridH - 3, 5, 1.5, gray(0.85));
+
+      // Wings with starburst/radiating lines pattern
+      const wingY = y - 4 + wingFlap * 2;
+      // Main wing shapes - slightly larger, rounder
+      fillEllipse(sx - dir * 0.5, wingY, 6, 2.5 + wingFlap, gray(0.78));
+      fillEllipse(sx + dir * 1.5, wingY - 0.5, 5, 2 + wingFlap * 0.7, gray(0.8));
+      // Radiating lines on wings (starburst pattern)
+      const wingCx = sx - dir * 0.5;
+      const wingCy = wingY;
+      for (let i = 0; i < 5; i++) {
+        const angle = (i / 5) * Math.PI - Math.PI / 2;
+        const len = 4 + wingFlap;
+        const ex = wingCx + Math.cos(angle) * len;
+        const ey = wingCy + Math.sin(angle) * len * 0.5;
+        drawLine(wingCx, wingCy, ex, ey, gray(0.65));
+      }
+
+      // Abdomen - rounder, softer shape
+      fillEllipse(sx - dir * 3, y, 5.5, 4, gray(0.18));
+      // Claude rust-orange stripes
+      fillEllipse(sx - dir * 5.5, y, 1.2, 3.2, claude(0.8));
+      fillEllipse(sx - dir * 3, y, 1, 3.5, claude(0.9));
+      fillEllipse(sx - dir * 0.5, y, 0.8, 3, claude(0.7));
+
+      // Thorax - rounder
+      fillCircle(sx + dir * 1, y, 3.2, gray(0.22));
+      // Starburst mark on thorax (Claude signature)
+      ctx.fillStyle = claude(1);
+      ctx.fillRect(Math.floor(sx + dir * 1), Math.floor(y), 1, 1);
+      ctx.fillRect(Math.floor(sx + dir * 1 - 1), Math.floor(y), 1, 1);
+      ctx.fillRect(Math.floor(sx + dir * 1 + 1), Math.floor(y), 1, 1);
+      ctx.fillRect(Math.floor(sx + dir * 1), Math.floor(y - 1), 1, 1);
+      ctx.fillRect(Math.floor(sx + dir * 1), Math.floor(y + 1), 1, 1);
+
+      // Head - slightly larger, friendlier
+      fillCircle(sx + dir * 4.5, y, 2.5, gray(0.15));
+
+      // Eye - larger, more curious
+      fillCircle(sx + dir * 5.5, y - 0.5, 1.2, gray(0.92));
+      // Eye highlight
+      ctx.fillStyle = gray(1);
+      ctx.fillRect(Math.floor(sx + dir * 5.8), Math.floor(y - 1), 1, 1);
+
+      // Antennae - slightly curved, listening
+      drawLine(sx + dir * 6, y - 1.5, sx + dir * 8, y - 4, gray(0.15));
+      drawLine(sx + dir * 5.5, y - 2, sx + dir * 7, y - 5, gray(0.15));
+      // Antenna tips
+      ctx.fillStyle = claude(0.6);
+      ctx.fillRect(Math.floor(sx + dir * 8), Math.floor(y - 4), 1, 1);
+      ctx.fillRect(Math.floor(sx + dir * 7), Math.floor(y - 5), 1, 1);
+
+      // Legs - softer gray
+      drawLine(sx - dir, y + 3, sx - dir * 1.5, y + 5.5, gray(0.3));
+      drawLine(sx, y + 3, sx, y + 6, gray(0.3));
+      drawLine(sx + dir, y + 3, sx + dir * 1.5, y + 5, gray(0.3));
+
+      // Nectar sac - with orange tint when full
+      if (bee.nectar > 0) {
+        fillCircle(sx - dir * 7, y + 1.5, 1.5 + bee.nectar * 0.4, claude(0.5 + bee.nectar * 0.1));
+      }
+
+      // Status sparkles - claude colored
+      if (bee.state === 'collecting') {
+        if (Math.sin(time * 0.025) > 0) {
+          ctx.fillStyle = claude(1);
+          ctx.fillRect(Math.floor(sx - 4), Math.floor(y - 8), 1, 1);
+          ctx.fillRect(Math.floor(sx + 4), Math.floor(y - 9), 1, 1);
+        }
+      }
+      if (bee.state === 'drinking') {
+        if (Math.sin(time * 0.02) > 0) {
+          ctx.fillStyle = gray(0.6);
+          ctx.fillRect(Math.floor(sx), Math.floor(y + 8), 1, 1);
+        }
+      }
+    }
+
+    resize();
+    generateWorld();
+    window.addEventListener('resize', () => { resize(); generateWorld(); });
+
+    bee.timer = 50;
+
+    let lastTime = 0;
+    function animate(timestamp) {
+      const dt = Math.min(50, timestamp - lastTime);
+      lastTime = timestamp;
+      time = timestamp;
+
+      updateBee(dt);
+      updateButterflies(dt);
+      updateClouds(dt);
+
+      // Clear
+      ctx.fillStyle = gray(0.96);
+      ctx.fillRect(0, 0, gridW, gridH);
+
+      // Sky gradient
+      for (let y = 0; y < gridH * 0.4; y++) {
+        const t = y / (gridH * 0.4);
+        ctx.fillStyle = gray(0.98 - t * 0.04);
+        ctx.fillRect(0, y, gridW, 1);
+      }
+
+      // Hills (far background)
+      for (const h of hills) drawHill(h);
+
+      // Distant trees on horizon
+      for (const dt of distantTrees) drawDistantTree(dt);
+
+      // Farmhouse on horizon
+      drawFarmhouse();
+
+      // Clouds
+      for (const c of clouds) drawCloud(c);
+
+      // Trees (background)
+      for (const t of trees) drawTree(t);
+
+      // Main tree
+      drawMainTree();
+
+      // Hive
+      drawHive();
+
+      // Bushes
+      for (const b of bushes) drawBush(b);
+
+      // Rocks
+      for (const r of rocks) drawRock(r);
+
+      // Puddles
+      for (const p of puddles) drawPuddle(p);
+
+      // Stream
+      drawStream();
+
+      // Ground gradient
+      for (let y = gridH - 12; y < gridH; y++) {
+        const t = (y - (gridH - 12)) / 12;
+        ctx.fillStyle = gray(0.92 - t * 0.08);
+        ctx.fillRect(0, y, gridW, 1);
+      }
+
+      // Holes
+      for (const h of holes) drawHole(h);
+
+      // Grass
+      for (const g of grasses) drawGrass(g);
+
+      // Flowers
+      for (const f of flowers) drawFlower(f);
+
+      // Butterflies
+      for (const b of butterflies) drawButterfly(b);
+
+      // Bee
+      drawBee();
+
+      // Tunnel animation (show bee moving underground)
+      if (bee.inHole && bee.currentHole) {
+        const progress = bee.holeProgress;
+        const startX = toScreen(bee.currentHole.x);
+        const endX = toScreen(bee.currentHole.exitX);
+        const tunnelX = startX + (endX - startX) * progress;
+        // Little bump moving underground
+        fillCircle(tunnelX, gridH - 4, 2, gray(0.5));
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate(0);
+  </script>
+</body>
+</html>

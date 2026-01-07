@@ -38,6 +38,18 @@ export const notesData = [
       essayRoute: "/essays/gpt7-will-have-arms"
     },
     {
+      id: 3,
+      type: "toy",
+      slug: "a-clauiet-life",
+      date: "Jan 2026",
+      title: "A Clauiet Life",
+      excerpt: "What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.",
+      readTime: "Interactive",
+      tags: ["Claude", "Generative Art", "Simulation"],
+      isExternalLink: true,
+      externalUrl: "/toys/bee-sim/index.html"
+    },
+    {
       id: 2,
       type: "note",
       slug: "startr-postmortem",
