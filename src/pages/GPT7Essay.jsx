@@ -1740,7 +1740,7 @@ function EssayContent({ focusMode, toc, scrollToSection, activeSection, expanded
               }}
             />
           </div>
-          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial <a href="https://iopscience.iop.org/article/10.1088/1402-4896/ac9e78" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px dotted #8A9A85' }}>Dyson swarm</a> in a sunflower field</p>
+          <p className="figure-caption" style={{ fontStyle: 'italic' }}>A chrome robot stands under a partial <a href="https://dysonswarm.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none', borderBottom: '1px dotted #8A9A85' }}>Dyson swarm</a> in a sunflower field</p>
         </div>
 
         <p>
