@@ -185,7 +185,7 @@ export default function Home() {
 
   // Slice data for preview
   const previewExperiments = experimentsData.slice(0, 3);
-  const previewNotes = notesData.slice(0, 3);
+  const previewNotes = notesData.slice(0, 6);
 
   return (
     <>
