@@ -33,6 +33,7 @@ export const notesData = [
       excerpt: "The Coming Convergence of Foundation Models and Robotics",
       readTime: "28 min read",
       tags: ["AI", "Robotics", "Economics", "Foundation Models"],
+      ogImage: "/essays/gpt7/og-image.jpg",
       // This links to the essay in essaysData - use /essays/ route
       isEssayLink: true,
       essayRoute: "/essays/gpt7-will-have-arms"
@@ -46,8 +47,22 @@ export const notesData = [
       excerpt: "What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.",
       readTime: "Interactive",
       tags: ["Claude", "Generative Art", "Simulation"],
+      ogImage: "/toys/bee-sim/og-image.png",
       isExternalLink: true,
       externalUrl: "/toys/bee-sim/index.html"
+    },
+    {
+      id: 4,
+      type: "toy",
+      slug: "dyson-swarm",
+      date: "2024",
+      title: "Dyson Swarm",
+      excerpt: "Interactive 3D visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.",
+      readTime: "Interactive",
+      tags: ["Space", "Visualization", "WebGL"],
+      ogImage: "/images/writing/dysonswarm-og.png",
+      isExternalLink: true,
+      externalUrl: "https://dysonswarm.com"
     },
     {
       id: 2,

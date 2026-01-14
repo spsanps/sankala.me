@@ -557,8 +557,17 @@ export default function Home() {
                         const isExternal = note.isExternalLink;
 
                         const cardContent = (
-                            <>
-                                <div className="flex items-center justify-between mb-4">
+                            <div className="flex flex-col h-full">
+                                {note.ogImage && (
+                                    <div className="h-36 -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-xl">
+                                        <img
+                                            src={note.ogImage}
+                                            alt={note.title}
+                                            className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                                        />
+                                    </div>
+                                )}
+                                <div className="flex items-center justify-between mb-3">
                                     <span className="text-xs text-[#8A9A85] font-mono">{note.date}</span>
                                     {note.type === "essay" && (
                                         <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Essay</span>
@@ -567,22 +576,22 @@ export default function Home() {
                                         <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Toy</span>
                                     )}
                                 </div>
-                                <h3 className="text-xl font-bold serif mb-3 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
-                                <p className="text-[#D1D9CE] text-sm leading-relaxed mb-6">
+                                <h3 className="text-lg font-bold serif mb-2 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
+                                <p className="text-[#D1D9CE] text-sm leading-relaxed flex-1 line-clamp-3">
                                     {note.excerpt}
                                 </p>
-                                <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors">
+                                <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors mt-4 pt-4 border-t border-[#8A9A85]/20">
                                     {note.readTime ? note.readTime : "Read Entry"} <ArrowUpRight size={14} />
                                 </div>
-                            </>
+                            </div>
                         );
 
                         return isExternal ? (
-                            <a href={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                            <a href={linkTo} key={note.id} className="bg-[#364930] p-6 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20 overflow-hidden">
                                 {cardContent}
                             </a>
                         ) : (
-                            <Link to={linkTo} key={note.id} className="bg-[#364930] p-8 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20">
+                            <Link to={linkTo} key={note.id} className="bg-[#364930] p-6 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20 overflow-hidden">
                                 {cardContent}
                             </Link>
                         );
