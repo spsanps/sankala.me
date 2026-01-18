@@ -145,18 +145,22 @@ export default function Resume() {
                     <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">02</span>
                     <h2 className="text-3xl font-bold serif">Education</h2>
                 </div>
-                <div className="space-y-8 reading-font">
-                    <div>
-                        <h3 className="text-xl font-bold">University of California San Diego</h3>
-                        <p className="text-[#2A3C24] font-medium">MS Computer Science & Engineering</p>
-                        <p className="text-sm text-gray-600 mt-2">Specialization: AI/ML</p>
-                        <p className="text-xs font-mono text-gray-400 mt-1">Courses: Probabilistic Reasoning, Reinforcement Learning, Deep Generative Models, Recommender Systems</p>
-                        <p className="text-sm font-mono text-gray-500 mt-2">Sept 2022 — June 2024</p>
+                <div className="space-y-6 reading-font">
+                    <div className="flex justify-between items-start group">
+                        <div>
+                            <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">University of California San Diego</h3>
+                            <p className="text-sm text-gray-600">MS Computer Science & Engineering</p>
+                            <p className="text-xs font-mono text-gray-400 mt-1">Specialization: AI/ML</p>
+                            <p className="text-xs font-mono text-gray-400 mt-1">Courses: Probabilistic Reasoning, Reinforcement Learning, Deep Generative Models, Recommender Systems</p>
+                            <p className="text-xs font-mono text-gray-400 mt-1">Sept 2022 — June 2024</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 className="text-xl font-bold">National Institute of Technology Karnataka</h3>
-                        <p className="text-[#2A3C24] font-medium">B.Tech Electrical & Electronics Engineering</p>
-                        <p className="text-sm font-mono text-gray-500 mt-2">May 2015 — May 2019</p>
+                    <div className="flex justify-between items-start group">
+                        <div>
+                            <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">National Institute of Technology Karnataka</h3>
+                            <p className="text-sm text-gray-600">B.Tech Electrical & Electronics Engineering</p>
+                            <p className="text-xs font-mono text-gray-400 mt-1">May 2015 — May 2019</p>
+                        </div>
                     </div>
                 </div>
             </section>
