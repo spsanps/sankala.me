@@ -1,0 +1,18 @@
+# San Kala
+
+> Personal site of San Kala, an applied AI researcher working on LLMs, generative AI, and machine learning. MS in Computer Science from UC San Diego. NeurIPS 2025 Embodied Agent Interface challenge winner.
+
+Essays are available as plain markdown mirrors — fetch those directly for the full text.
+
+## Writing
+
+- [GPT-7 Will Have Arms (full text, markdown)](https://www.sankala.me/essays/gpt7-will-have-arms.md): The coming convergence of foundation models and robotics — why frontier multimodal models will become robot brains, why the intelligence lives in the cloud, and why hardware commoditizes while AI labs capture the value. December 2025, ~8,000 words.
+
+## Pages
+
+- [Home](https://www.sankala.me/): About, timeline, lab, and writing index.
+- [Resume](https://www.sankala.me/resume): Experience and publications.
+
+## Notes
+
+- The interactive essay pages are a React app; non-browser clients requesting them receive a static HTML version with the same content.

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { notesData } from '../data/content';
+import LLMActions from '../components/essay/LLMActions';
 
 export default function NoteEntry() {
   const { slug } = useParams();
@@ -68,6 +69,10 @@ export default function NoteEntry() {
             <p className="text-xl text-[#D1D9CE] reading-font leading-relaxed italic">
                 {entry.excerpt}
             </p>
+
+            {content && (
+              <LLMActions getMarkdown={() => content} variant="dark" className="mt-8" />
+            )}
         </header>
 
         <article className="markdown-dark">
