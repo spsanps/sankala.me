@@ -16,5 +16,9 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    // Content-heavy site: raw quotes/apostrophes in JSX prose are fine.
+    'react/no-unescaped-entities': 'off',
+    // PropTypes aren't used in this codebase.
+    'react/prop-types': 'off',
   },
 }

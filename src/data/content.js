@@ -109,25 +109,3 @@ This was my first real attempt at entrepreneurship. It didn't work out, but I'd 
       `
     }
   ];
-
-export const essaysData = [
-  {
-    id: 1001,
-    slug: "gpt7-will-have-arms",
-    title: "GPT-7 Will Have Arms",
-    subtitle: "The Coming Convergence of Foundation Models and Robotics",
-    secondarySubtitle: "& Why the Scaling Believers Should Apply Their Own Logic to Robotics",
-    date: "December 2025",
-    author: "San Sankala",
-    readTime: "28 min read",
-    tags: ["AI", "Robotics", "Economics", "Foundation Models"],
-    category: "deep-dive",
-    color: "bg-[#F5F2EB]",
-
-    // Reference to essay content - will be imported dynamically
-    getContent: async () => {
-      const { gpt7EssayContent } = await import('./essays/gpt7-content.js');
-      return gpt7EssayContent;
-    }
-  }
-];

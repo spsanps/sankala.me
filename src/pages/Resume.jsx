@@ -1,5 +1,4 @@
-import React from 'react';
-import { Download, ArrowUpRight, Mail, Linkedin, Github, ArrowLeft } from 'lucide-react';
+import { Download, Mail, Linkedin, Github, ArrowLeft } from 'lucide-react';
 import { SiKaggle } from 'react-icons/si';
 import { Link } from 'react-router-dom';
 

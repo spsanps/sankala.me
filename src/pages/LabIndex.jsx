@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowUpRight, FlaskConical } from 'lucide-react';
 import { experimentsData } from '../data/content';

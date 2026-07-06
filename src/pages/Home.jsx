@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ArrowDown, ArrowRight, ArrowUpRight, PenTool, FlaskConical } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { publicationsData, experimentsData, notesData } from '../data/content';
+import { experimentsData, notesData } from '../data/content';
 
 // Timeline data - automatically alternates left/right based on array index
 const timelineData = [
@@ -145,7 +145,7 @@ const timelineData = [
 ];
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState('home');
+  const [, setActiveSection] = useState('home');
 
   // Smooth scroll spy
   useEffect(() => {

@@ -1,13 +1,10 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import Layout from './Layout';
 import Home from './pages/Home';
 import LabEntry from './pages/LabEntry';
 import NoteEntry from './pages/NoteEntry';
-import EssayEntry from './pages/EssayEntry';
-import InteractiveEssay from './pages/InteractiveEssay';
 import GPT7Essay from './pages/GPT7Essay';
 import Resume from './pages/Resume';
 import LabIndex from './pages/LabIndex';
@@ -39,20 +36,16 @@ const router = createBrowserRouter([
         element: <NoteEntry />,
       },
       {
-        path: "essays/:slug",
-        element: <EssayEntry />,
-      },
-      {
-        path: "essays/:slug/interactive",
-        element: <InteractiveEssay />,
-      },
-      {
         path: "essays/gpt7-will-have-arms",
         element: <GPT7Essay />,
       },
       {
         path: "resume",
         element: <Resume />,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
       },
     ],
   },
