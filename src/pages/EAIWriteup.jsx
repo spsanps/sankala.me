@@ -320,12 +320,15 @@ export default function EAIWriteup() {
         </header>
 
         <p>
-          This year's favorite dismissal of AI agents is that they are "just an LLM in
-          a while loop." It's meant as a deflation, but it points at something real: a
-          loop is a search process, and a search process is only as good as the signal
-          it climbs. At NeurIPS 2025, my brother Chin and I won the{' '}
+          Loop. Loop. Loop. If 2024 asked how big your model is and 2025 asked how
+          long it can think, 2026 asks what your loop is closed around. "An LLM in a
+          while loop" started as a dismissal and ended up a job title; there are
+          loop-engineering manifestos now. Underneath the branding, a loop is a search
+          process, and a search process is only as good as the signal it climbs. At
+          NeurIPS 2025, months before the loop had a fan club, my brother Chin and I
+          won the{' '}
           <a className="eai-body-link" href="https://neurips25-eai.github.io/" target="_blank" rel="noopener noreferrer">Embodied Agent Interface challenge</a>{' '}
-          by giving that loop the strongest signal available:{' '}
+          by closing ours around the strongest signal available:{' '}
           <strong>the benchmark's own evaluator</strong>.
         </p>
         <p>
@@ -391,14 +394,19 @@ export default function EAIWriteup() {
           rewards, without a single human label.
         </p>
         <p>
-          Our result also hints at where the bottleneck in embodied AI lives. Once the
-          data existed, 0.6-billion-parameter models were enough to saturate the
-          benchmark; the missing ingredient was data, not capacity. If frontier models
-          are going to become the robot brains, as I argue in{' '}
+          The sharper lesson is where competence has to live. The model in our loop
+          knew nothing special about robotics — it stumbled into BEHAVIOR's
+          conventions attempt by attempt, because the evaluator could always say what
+          was wrong. Machine learning has a name for the asymmetry that makes this
+          work: <strong>the generator–verifier gap</strong>. Checking a plan is far
+          easier than producing one, so a model too weak to write expert answers on
+          demand can still search its way to them, as long as the verdict is real.
+          This is the same <em>verifiable reward</em> the reasoning-model boom runs
+          on — and robotics is the field where it comes free. If frontier models are
+          going to become the robot brains, as I argue in{' '}
           <Link className="eai-body-link" to="/essays/gpt7-will-have-arms">GPT-7 Will Have Arms</Link>,
-          loops like this one are among the cheapest ways to manufacture the embodied
-          training data they will need. Whether what the loop learns survives the jump
-          from simulation to hardware is the natural next experiment.
+          they won't need to arrive knowing robotics. They need loops closed around
+          real evaluators, and robotics has more of those than any other field in AI.
         </p>
 
         <div className="eai-foot">
