@@ -3,7 +3,8 @@
     { "source": "/essays/gpt7-will-have-arms/interactive", "destination": "/essays/gpt7-will-have-arms", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/essays/gpt7-will-have-arms", "destination": "/api/og" },
+    { "source": "/essays/gpt7-will-have-arms", "destination": "/api/og?page=gpt7" },
+    { "source": "/notes/eai-challenge", "destination": "/api/og?page=eai" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

@@ -39,6 +39,19 @@ export const notesData = [
       essayRoute: "/essays/gpt7-will-have-arms"
     },
     {
+      id: 5,
+      type: "essay",
+      slug: "eai-challenge",
+      date: "Jul 2026",
+      title: "Winning by Overfitting",
+      excerpt: "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge — and why the recipe matters for robotics.",
+      readTime: "4 min read",
+      tags: ["AI", "Robotics", "NeurIPS", "LLMs"],
+      ogImage: "/notes/eai/og-image.png",
+      isEssayLink: true,
+      essayRoute: "/notes/eai-challenge"
+    },
+    {
       id: 3,
       type: "toy",
       slug: "a-clauiet-life",

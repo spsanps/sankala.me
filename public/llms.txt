@@ -7,6 +7,7 @@ Essays are available as plain markdown mirrors — fetch those directly for the 
 ## Writing
 
 - [GPT-7 Will Have Arms (full text, markdown)](https://www.sankala.me/essays/gpt7-will-have-arms.md): The coming convergence of foundation models and robotics — why frontier multimodal models will become robot brains, why the intelligence lives in the cloud, and why hardware commoditizes while AI labs capture the value. December 2025, ~8,000 words.
+- [Winning by Overfitting (full text, markdown)](https://www.sankala.me/notes/eai-challenge.md): How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 Embodied Agent Interface challenge, and why evaluator-guided data manufacturing matters for robotics. July 2026, ~700 words.
 
 ## Pages
 

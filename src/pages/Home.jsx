@@ -17,6 +17,7 @@ const timelineData = [
     image: "/images/awards/uist-2023-presentation.jpg",
     imageAlt: "EAI Challenge Presentation",
     links: [
+      { label: "Write-up", url: "/notes/eai-challenge" },
       { label: "Paper", url: "https://openreview.net/pdf?id=gABfrJI5ni" },
       { label: "Challenge Site", url: "https://foundation-models-meet-embodied-agents.github.io/eai_challenge/" }
     ]

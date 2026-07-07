@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import LabEntry from './pages/LabEntry';
 import NoteEntry from './pages/NoteEntry';
 import GPT7Essay from './pages/GPT7Essay';
+import EAIWriteup from './pages/EAIWriteup';
 import Resume from './pages/Resume';
 import LabIndex from './pages/LabIndex';
 import NotesIndex from './pages/NotesIndex';
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "essays/gpt7-will-have-arms",
         element: <GPT7Essay />,
+      },
+      {
+        path: "notes/eai-challenge",
+        element: <EAIWriteup />,
       },
       {
         path: "resume",
