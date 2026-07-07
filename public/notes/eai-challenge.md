@@ -52,4 +52,4 @@ Our result also hints at where the bottleneck in embodied AI lives. Once the dat
 
 ---
 
-Team AxisTilted2: Chin Pradeep (NYU Neuroinformatics Lab) and San Kala (independent); equal contribution. Full methods are in the [technical report](https://openreview.net/pdf?id=gABfrJI5ni) and [winners' presentation](https://foundation-models-meet-embodied-agents.github.io/eai_challenge/slides/AxisTilted2.pdf). The benchmark: [Embodied Agent Interface](https://neurips25-eai.github.io/).
+Team AxisTilted2: [Chin Pradeep](https://chin.bio) (NYU Neuroinformatics Lab) and San Kala (independent); equal contribution. Full methods are in the [technical report](https://openreview.net/pdf?id=gABfrJI5ni) and [winners' presentation](https://foundation-models-meet-embodied-agents.github.io/eai_challenge/slides/AxisTilted2.pdf). The benchmark: [Embodied Agent Interface](https://neurips25-eai.github.io/).

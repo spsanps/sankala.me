@@ -402,7 +402,9 @@ export default function EAIWriteup() {
         </p>
 
         <div className="eai-foot">
-          Team AxisTilted2: Chin Pradeep (NYU Neuroinformatics Lab) and San Kala
+          Team AxisTilted2:{' '}
+          <a href="https://chin.bio" target="_blank" rel="noopener noreferrer">Chin Pradeep</a>{' '}
+          (NYU Neuroinformatics Lab) and San Kala
           (independent); equal contribution. Full methods are in the{' '}
           <a href="https://openreview.net/pdf?id=gABfrJI5ni" target="_blank" rel="noopener noreferrer">technical report</a>{' '}
           and{' '}
