@@ -339,7 +339,7 @@ export function ChinaMultipliersChart() {
       period: '2014→2024',
       multiplier: 164,
       tooltip: 'NEV annual production',
-      sourceUrl: 'https://en.caam.org.cn/Index/show/catid/44/id/1026.html',
+      sourceUrl: 'https://en.wikipedia.org/wiki/New_energy_vehicles_in_China',
       sourceName: 'CAAM'
     },
     {

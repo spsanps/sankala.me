@@ -168,11 +168,11 @@ A frontier-scale model that's seen YouTube-scale video of everything in existenc
 
 The AI labs are now training robot brains:
 
-*   **[Google DeepMind](https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/)**: Gemini Robotics (March 2025)
+*   **[Google DeepMind](https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/)**: Gemini Robotics (March 2025)
 *   **OpenAI**: Restarted robotics team (2024), invested in [Figure](https://figure.ai/), [1X](https://www.1x.tech/), [Physical Intelligence](https://www.physicalintelligence.company/)
 *   **[Physical Intelligence](https://www.physicalintelligence.company/)**: $400M funding to build foundation models for robots
 
-_[Logan Kilpatrick](https://x.com/OfficialLoganK/status/1868753943444263104) (Google Gemini): "2026 is going to be a huge year for embodied AI."_
+_Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."_
 
 **This is why frontier labs—not robotics labs—will likely build the robot brain.** They're training trillion-parameter multimodal models on internet-scale video. The robotics teams are finetuning 7B models while the real capability is being built elsewhere.
 
@@ -297,7 +297,7 @@ Robots can work the same way. The cloud runs the "brain" at ~10Hz, streaming act
 
 **Roboticists miss something: latency optimization is what big tech is _good at_.**
 
-Google invested heavily in [Stadia](https://blog.google/products/stadia/stadia-update/). Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
+Google invested heavily in [Stadia](https://en.wikipedia.org/wiki/Google_Stadia). Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
 
 They're now applying the same expertise to AI voice agents, achieving [sub-100ms response times](https://platform.openai.com/docs/guides/realtime) for natural conversation.
 
@@ -332,7 +332,7 @@ Robotics is next. Here's what financial analysts miss:
 #### Every Major AI Lab Is Suddenly Interested
 
 *   **OpenAI**: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in [1X](https://www.1x.tech/), [Figure](https://figure.ai/), [Physical Intelligence](https://www.physicalintelligence.company/). Now hiring for robotics world models.
-*   **[Google DeepMind](https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/)**: Gemini Robotics (March 2025). Published [RT-1](https://arxiv.org/abs/2212.06817), [RT-2](https://arxiv.org/abs/2307.15818), [RT-X](https://arxiv.org/abs/2310.08864). Hassabis: robots are "the ultimate application."
+*   **[Google DeepMind](https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/)**: Gemini Robotics (March 2025). Published [RT-1](https://arxiv.org/abs/2212.06817), [RT-2](https://arxiv.org/abs/2307.15818), [RT-X](https://arxiv.org/abs/2310.08864). Hassabis: robots are "the ultimate application."
 
 _Observable pattern: investments in robotics companies, API-based business models. These are distribution plays._
 
@@ -375,7 +375,7 @@ Unitree humanoid pricing trajectory 2023-2025 (log scale)
 
 Note: these are different capability tiers, not the same robot getting cheaper. But the trend is clear—a 93% reduction in entry-point pricing in under two years.
 
-[Goldman Sachs](https://www.goldmansachs.com/insights/articles/humanoid-robots-are-coming-and-heres-what-they-could-mean-for-jobs), in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
+[Goldman Sachs](https://www.goldmansachs.com/insights/articles/humanoid-robots), in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
 
 #### Why Costs Are Collapsing
 
@@ -519,7 +519,7 @@ EVs
 
 164×
 
-78K units→12.9M units[\[CAAM\]](https://en.caam.org.cn/Index/show/catid/44/id/1026.html)
+78K units→12.9M units[\[CAAM\]](https://en.wikipedia.org/wiki/New_energy_vehicles_in_China)
 
 Solar PV
 
@@ -772,7 +772,7 @@ Check back in 2027, 2028, 2030.
 *   Google DeepMind, ["Gemini Robotics" (March 2025)](https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/)
 *   Google DeepMind, ["Gemini Robotics On-Device"](https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/)
 *   Figure AI, [Helix Architecture](https://www.figure.ai/news/helix)
-*   Figure AI, [OpenAI Partnership Split (2025)](https://www.businessinsider.com/figure-ai-ends-openai-partnership-building-own-models-2025-2)
+*   Figure AI, [OpenAI Partnership Split (2025)](https://techcrunch.com/2025/02/04/figure-drops-openai-in-favor-of-in-house-models/)
 *   1X Technologies, [Neo Gamma Introduction](https://www.1x.tech/discover/introducing-neo-gamma)
 *   1X Technologies, [OpenAI Funding](https://www.1x.tech/discover/1x-rasies-23-5m-in-series-a2-funding-led-by-open-ai)
 *   Sanctuary AI, ["AI Robotics and Teleoperation"](https://sanctuary.ai/blog/ai-robotics-and-the-case-for-teleoperation/)
@@ -786,13 +786,12 @@ Check back in 2027, 2028, 2030.
 
 *   Demis Hassabis, [Twitter on Veo 3 physics (May 2025)](https://x.com/demishassabis/status/1926057739416965438)
 *   Demis Hassabis, [Lex Fridman Interview](https://lexfridman.com/demis-hassabis-2-transcript/)
-*   Logan Kilpatrick, [Twitter on Embodied AI (2024)](https://x.com/OfficialLoganK/status/1868753943444263104)
 *   Chris Paxton, [Twitter on Hardware vs Software](https://x.com/chris_j_paxton/status/2007844962780717094)
 *   Quanta Magazine, ["When ChatGPT Broke an Entire Field" (April 2025)](https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/)
 
 **Latency & Infrastructure:**
 
-*   Google, [Stadia Shutdown Announcement](https://blog.google/products/stadia/stadia-update/)
+*   Google, [Stadia Shutdown Announcement](https://support.google.com/stadia/answer/12790109?hl=en)
 *   OpenAI, [Realtime API Documentation](https://platform.openai.com/docs/guides/realtime)
 *   Google, [Gemini Live API Documentation](https://ai.google.dev/gemini-api/docs/live)
 
@@ -806,7 +805,6 @@ Check back in 2027, 2028, 2030.
 *   Ars Technica, [LiDAR Historical Costs (Waymo)](https://arstechnica.com/cars/2017/01/googles-waymo-invests-in-lidar-technology-cuts-costs-by-90-percent/)
 *   Reuters, [Hesai LiDAR Pricing](https://www.reuters.com/technology/chinas-hesai-halve-lidar-prices-next-year-sees-wide-adoption-electric-cars-2024-11-27/)
 *   FRED, [US Employee Compensation Data](https://fred.stlouisfed.org/series/A033RC1A027NBEA)
-*   China Daily, [China EV Production (2014 baseline)](https://www.chinadaily.com.cn/business/motoring/2015-01/16/content_19330066.htm)
 *   Gasgoo/CAPBIIA, [China Li-ion Battery Data](https://autonews.gasgoo.com/70035698.html)
-*   CAAM, [China NEV Production Statistics](https://en.caam.org.cn/Index/show/catid/44/id/1026.html)
+*   CAAM data via [Wikipedia, China NEV Production Statistics](https://en.wikipedia.org/wiki/New_energy_vehicles_in_China)
 *   pv magazine, [China Solar PV Installations](https://www.pv-magazine.com/2025/01/21/china-hits-277-17-gw-of-new-pv-installations-in-2024/)

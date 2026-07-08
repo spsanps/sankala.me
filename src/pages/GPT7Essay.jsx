@@ -1378,11 +1378,11 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
             <div className="sidebar-note-title">Labs Have Started Realizing This</div>
             <p>The AI labs are now training robot brains:</p>
             <ul>
-              <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
+              <li><strong><a href="https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025)</li>
               <li><strong>OpenAI</strong>: Restarted robotics team (2024), invested in <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></li>
               <li><strong><a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a></strong>: $400M funding to build foundation models for robots</li>
             </ul>
-            <p><em><a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Logan Kilpatrick</a> (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
+            <p><em>Logan Kilpatrick (Google Gemini): "2026 is going to be a huge year for embodied AI."</em></p>
           </div>
         </div>
 
@@ -1607,7 +1607,7 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
         </p>
 
         <p>
-          Google invested heavily in <a href="https://blog.google/products/stadia/stadia-update/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia</a>. Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
+          Google invested heavily in <a href="https://en.wikipedia.org/wiki/Google_Stadia" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia</a>. Amazon optimized AWS for real-time applications. Microsoft built Xbox Cloud Gaming. Video calling handles real-time bidirectional audio/video globally with latencies humans find acceptable. Financial firms built high-frequency trading infrastructure with microsecond precision.
         </p>
 
         <p>
@@ -1669,7 +1669,7 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
             <div className="sidebar-note-title">Every Major AI Lab Is Suddenly Interested</div>
             <ul>
               <li><strong>OpenAI</strong>: Shut down robotics in 2020 ("lack of data"). Restarted 2024. Invested in <a href="https://www.1x.tech/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">1X</a>, <a href="https://figure.ai/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Figure</a>, <a href="https://www.physicalintelligence.company/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Physical Intelligence</a>. Now hiring for robotics world models.</li>
-              <li><strong><a href="https://deepmind.google/discover/blog/gemini-robotics-brings-physical-intelligence-to-google/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
+              <li><strong><a href="https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Google DeepMind</a></strong>: Gemini Robotics (March 2025). Published <a href="https://arxiv.org/abs/2212.06817" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-1</a>, <a href="https://arxiv.org/abs/2307.15818" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-2</a>, <a href="https://arxiv.org/abs/2310.08864" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">RT-X</a>. Hassabis: robots are "the ultimate application."</li>
             </ul>
             <p><em>Observable pattern: investments in robotics companies, API-based business models. These are distribution plays.</em></p>
           </div>
@@ -1735,7 +1735,7 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
         </p>
 
         <p>
-          <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots-are-coming-and-heres-what-they-could-mean-for-jobs" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Goldman Sachs</a>, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
+          <a href="https://www.goldmansachs.com/insights/articles/humanoid-robots" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Goldman Sachs</a>, in their February 2024 humanoid robot report, projected 40% annual cost declines continuing through 2030. They expect humanoids to reach "factory viability" by 2027 and "consumer viability" by 2028-2031.
         </p>
 
         <h3>Why Costs Are Collapsing</h3>
@@ -2182,7 +2182,7 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
             <li>Google DeepMind, <a href="https://deepmind.google/blog/gemini-robotics-brings-ai-into-the-physical-world/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Gemini Robotics" (March 2025)</a></li>
             <li>Google DeepMind, <a href="https://deepmind.google/blog/gemini-robotics-on-device-brings-ai-to-local-robotic-devices/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"Gemini Robotics On-Device"</a></li>
             <li>Figure AI, <a href="https://www.figure.ai/news/helix" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Helix Architecture</a></li>
-            <li>Figure AI, <a href="https://www.businessinsider.com/figure-ai-ends-openai-partnership-building-own-models-2025-2" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">OpenAI Partnership Split (2025)</a></li>
+            <li>Figure AI, <a href="https://techcrunch.com/2025/02/04/figure-drops-openai-in-favor-of-in-house-models/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">OpenAI Partnership Split (2025)</a></li>
             <li>1X Technologies, <a href="https://www.1x.tech/discover/introducing-neo-gamma" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Neo Gamma Introduction</a></li>
             <li>1X Technologies, <a href="https://www.1x.tech/discover/1x-rasies-23-5m-in-series-a2-funding-led-by-open-ai" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">OpenAI Funding</a></li>
             <li>Sanctuary AI, <a href="https://sanctuary.ai/blog/ai-robotics-and-the-case-for-teleoperation/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"AI Robotics and Teleoperation"</a></li>
@@ -2197,14 +2197,13 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
           <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
             <li>Demis Hassabis, <a href="https://x.com/demishassabis/status/1926057739416965438" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Veo 3 physics (May 2025)</a></li>
             <li>Demis Hassabis, <a href="https://lexfridman.com/demis-hassabis-2-transcript/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Lex Fridman Interview</a></li>
-            <li>Logan Kilpatrick, <a href="https://x.com/OfficialLoganK/status/1868753943444263104" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Embodied AI (2024)</a></li>
             <li>Chris Paxton, <a href="https://x.com/chris_j_paxton/status/2007844962780717094" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Twitter on Hardware vs Software</a></li>
             <li>Quanta Magazine, <a href="https://www.quantamagazine.org/when-chatgpt-broke-an-entire-field-an-oral-history-20250430/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">"When ChatGPT Broke an Entire Field" (April 2025)</a></li>
           </ul>
 
           <p className="pt-3"><strong>Latency & Infrastructure:</strong></p>
           <ul className="list-disc pl-6 space-y-1.5 text-[#4A5D42]">
-            <li>Google, <a href="https://blog.google/products/stadia/stadia-update/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia Shutdown Announcement</a></li>
+            <li>Google, <a href="https://support.google.com/stadia/answer/12790109?hl=en" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Stadia Shutdown Announcement</a></li>
             <li>OpenAI, <a href="https://platform.openai.com/docs/guides/realtime" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Realtime API Documentation</a></li>
             <li>Google, <a href="https://ai.google.dev/gemini-api/docs/live" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Gemini Live API Documentation</a></li>
           </ul>
@@ -2219,9 +2218,8 @@ function EssayContent({ focusMode, expandedSidebars, toggleSidebar }) {
             <li>Ars Technica, <a href="https://arstechnica.com/cars/2017/01/googles-waymo-invests-in-lidar-technology-cuts-costs-by-90-percent/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">LiDAR Historical Costs (Waymo)</a></li>
             <li>Reuters, <a href="https://www.reuters.com/technology/chinas-hesai-halve-lidar-prices-next-year-sees-wide-adoption-electric-cars-2024-11-27/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Hesai LiDAR Pricing</a></li>
             <li>FRED, <a href="https://fred.stlouisfed.org/series/A033RC1A027NBEA" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">US Employee Compensation Data</a></li>
-            <li>China Daily, <a href="https://www.chinadaily.com.cn/business/motoring/2015-01/16/content_19330066.htm" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China EV Production (2014 baseline)</a></li>
             <li>Gasgoo/CAPBIIA, <a href="https://autonews.gasgoo.com/70035698.html" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China Li-ion Battery Data</a></li>
-            <li>CAAM, <a href="https://en.caam.org.cn/Index/show/catid/44/id/1026.html" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China NEV Production Statistics</a></li>
+            <li>CAAM data via <a href="https://en.wikipedia.org/wiki/New_energy_vehicles_in_China" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">Wikipedia, China NEV Production Statistics</a></li>
             <li>pv magazine, <a href="https://www.pv-magazine.com/2025/01/21/china-hits-277-17-gw-of-new-pv-installations-in-2024/" target="_blank" rel="noopener noreferrer" className="text-[#2A3C24] hover:underline">China Solar PV Installations</a></li>
           </ul>
         </div>
