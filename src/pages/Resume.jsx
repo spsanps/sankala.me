@@ -27,13 +27,13 @@ export default function Resume() {
                         <span className="font-bold text-[#2A3C24]">Kala<span className="text-[#1A1A1A]">.</span></span>
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-700 leading-relaxed max-w-xl reading-font">
-                        Applied AI Researcher • Kaggle Expert • LLM Systems
+                        Information Extraction • LLM Research • Multimodal AI • ASIC Design
                     </p>
                 </div>
                 
                 <div className="flex flex-col items-start md:items-end gap-4">
                      <a
-                        href="/assets/ML_Resume_Updated___DEC25.pdf"
+                        href="/documents/resume.pdf"
                         download="Sanjayan_Sreekala_Resume.pdf"
                         className="group flex items-center gap-2 px-6 py-3 bg-[#1A1A1A] text-[#F5F2EB] rounded-full hover:bg-[#2A3C24] transition-all duration-300"
                     >
@@ -74,14 +74,14 @@ export default function Resume() {
                         <p className="text-sm font-mono text-gray-500 mt-1">Apr 2024 — Present</p>
                     </div>
                     <div className="md:col-span-8">
-                        <div className="text-xl text-[#2A3C24] mb-4 reading-font font-medium">Applied Researcher @ Knowledge Extraction</div>
+                        <div className="text-xl text-[#2A3C24] mb-4 reading-font font-medium">Applied Researcher 1 (SE3) @ Knowledge Extraction for Search</div>
                         <ul className="text-gray-600 leading-relaxed mb-6 text-base space-y-2 reading-font">
-                            <li>• Driving multimodal structured data extraction using small multimodal generative models at 100M+ monthly scale, replacing NER dictionary based information extraction</li>
-                            <li>• Built synthetic datasets with multimodal open source Large Language Models to evaluate services and train small models</li>
-                            <li>• Automated Prompt Engineering Flows with Agents/Workflows increasing iteration velocity</li>
+                            <li>• Drove adoption of small multimodal model (SLM)-based generative information extraction at scale (100M+ listings/month), designing and building pipelines that improve on legacy NER and dictionary-based methods</li>
+                            <li>• Built multimodal agents and workflow pipelines that generate synthetic training and evaluation data using open-source large language & multimodal models (LLMs, LMMs) to accelerate data and model iteration</li>
+                            <li>• Developed deep learning models (classifiers, confidence scoring, bounding-box detection) to augment the LLM/SLM information extraction pipeline, improving extraction accuracy and field coverage</li>
                         </ul>
                         <div className="flex flex-wrap gap-2">
-                            {['GenAI', 'LLMs', 'Python', 'Small Language Models', 'NER'].map(tag => (
+                            {['GenAI', 'LLMs · LMMs', 'SLMs', 'Multimodal Agents', 'Python'].map(tag => (
                                 <span key={tag} className="px-3 py-1 border border-[#2A3C24]/10 rounded-full text-xs text-[#2A3C24] uppercase tracking-wider">
                                     {tag}
                                 </span>
@@ -93,38 +93,18 @@ export default function Resume() {
                 {/* Job 2 */}
                 <div className="grid md:grid-cols-12 gap-8 group">
                     <div className="md:col-span-4">
-                        <h3 className="text-2xl font-bold text-[#1A1A1A] group-hover:text-[#2A3C24] transition-colors">eBay</h3>
-                        <p className="text-sm font-mono text-gray-500 mt-1">Jun 2023 — Sep 2023</p>
-                    </div>
-                    <div className="md:col-span-8">
-                        <div className="text-xl text-[#2A3C24] mb-4 reading-font font-medium">AI Applied Research Intern</div>
-                        <ul className="text-gray-600 leading-relaxed mb-6 text-base space-y-2 reading-font">
-                            <li>• Fine-tuned BERT models for extracting product attributes from unstructured text</li>
-                            <li>• Prototyped LLM-based extraction systems and evaluated synthetic data generation approaches</li>
-                        </ul>
-                        <div className="flex flex-wrap gap-2">
-                            {['BERT', 'PyTorch', 'Huggingface', 'NLP'].map(tag => (
-                                <span key={tag} className="px-3 py-1 border border-[#2A3C24]/10 rounded-full text-xs text-[#2A3C24] uppercase tracking-wider">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Job 3 */}
-                <div className="grid md:grid-cols-12 gap-8 group">
-                    <div className="md:col-span-4">
                         <h3 className="text-2xl font-bold text-[#1A1A1A] group-hover:text-[#2A3C24] transition-colors">Texas Instruments</h3>
                         <p className="text-sm font-mono text-gray-500 mt-1">Jul 2019 — Jul 2022</p>
                     </div>
                     <div className="md:col-span-8">
                         <div className="text-xl text-[#2A3C24] mb-4 reading-font font-medium">ASIC Digital Design Engineer</div>
                         <ul className="text-gray-600 leading-relaxed mb-6 text-base space-y-2 reading-font">
-                            <li>• ASIC design, Physical Design, and timing closure for Power Management ICs (PG-ed 4 designs)</li>
+                            <li>• Physical Design for 4 taped-out Power Management ICs: timing closure (STA), power, and EM/IR reliability signoff</li>
+                            <li>• RTL design of area-efficient custom floating-point multipliers and a System ALU achieving 40% area reduction vs. comparable Cadence IP; plus RTL for PMBus protocol and GPIO control IP</li>
+                            <li>• Automated Physical Design flows in Python/TCL, cutting tape-out time by 2x</li>
                         </ul>
                         <div className="flex flex-wrap gap-2">
-                            {['ASIC', 'Digital Design', 'Physical Design', 'Verilog'].map(tag => (
+                            {['ASIC', 'Physical Design', 'RTL', 'Verilog', 'Python/TCL'].map(tag => (
                                 <span key={tag} className="px-3 py-1 border border-[#2A3C24]/10 rounded-full text-xs text-[#2A3C24] uppercase tracking-wider">
                                     {tag}
                                 </span>
@@ -135,13 +115,40 @@ export default function Resume() {
             </div>
         </section>
 
+        {/* Section: Publications */}
+        <section className="mb-20">
+            <div className="flex items-baseline gap-4 mb-12 border-b border-[#2A3C24]/20 pb-4">
+                <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">02</span>
+                <h2 className="text-3xl font-bold serif">Publications</h2>
+            </div>
+            <div className="space-y-6 reading-font">
+                <div className="group">
+                    <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">
+                        <a href="https://openreview.net/pdf?id=gABfrJI5ni" target="_blank" rel="noreferrer" className="hover:underline">Evaluator-Guided LLM Distillation for Embodied Agent Decision-Making</a>
+                    </h3>
+                    <p className="text-sm text-gray-600">C. Pradeep and S. P. Kumar Sreekala — NeurIPS 2025 Workshop on Foundation Models Meet Embodied Agents (FMEA)</p>
+                    <p className="text-xs font-mono text-gray-400 mt-1">2025</p>
+                </div>
+                <div className="group">
+                    <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">ZINify: Transforming Research Papers into Engaging Zines with Large Language Models</h3>
+                    <p className="text-sm text-gray-600">J. Shriram and S. P. Kumar Sreekala — UIST '23 Adjunct • Honorable Mention</p>
+                    <p className="text-xs font-mono text-gray-400 mt-1">2023</p>
+                </div>
+                <div className="group">
+                    <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">Power Quality Event Classification Using Long Short-Term Memory Networks</h3>
+                    <p className="text-sm text-gray-600">S. K. G. Manikonda, J. Santhosh, S. P. Kumar Sreekala, S. Gangwani, and D. N. Gaonkar — IEEE DISCOVER 2019 • Best Paper Award</p>
+                    <p className="text-xs font-mono text-gray-400 mt-1">2019</p>
+                </div>
+            </div>
+        </section>
+
         {/* Section: Education & Awards (Grid Layout) */}
         <div className="grid md:grid-cols-2 gap-16 mb-20">
-            
+
             {/* Education */}
             <section>
                 <div className="flex items-baseline gap-4 mb-12 border-b border-[#2A3C24]/20 pb-4">
-                    <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">02</span>
+                    <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">03</span>
                     <h2 className="text-3xl font-bold serif">Education</h2>
                 </div>
                 <div className="space-y-6 reading-font">
@@ -167,22 +174,15 @@ export default function Resume() {
             {/* Awards */}
             <section>
                 <div className="flex items-baseline gap-4 mb-12 border-b border-[#2A3C24]/20 pb-4">
-                    <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">03</span>
+                    <span className="font-mono text-xs text-[#2A3C24] uppercase tracking-widest">04</span>
                     <h2 className="text-3xl font-bold serif">Honors</h2>
                 </div>
                 <div className="space-y-6 reading-font">
                     <div className="flex justify-between items-start group">
                         <div>
                             <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">1st Place | NeurIPS 2025 EAI Challenge</h3>
-                            <p className="text-sm text-gray-600">Winner of the Embodied Agent Interface Challenge (Team: Axis Tilted2) at the FMEA Workshop</p>
+                            <p className="text-sm text-gray-600">Winner of the Embodied Agent Interface Challenge (Team: AxisTilted2) at the FMEA Workshop</p>
                             <p className="text-xs font-mono text-gray-400 mt-1">Dec 2025</p>
-                        </div>
-                    </div>
-                    <div className="flex justify-between items-start group">
-                        <div>
-                            <h3 className="text-lg font-bold group-hover:text-[#2A3C24] transition-colors">Honorable Mention | UIST 2023</h3>
-                            <p className="text-sm text-gray-600">ZINify: Transforming Research Papers into Engaging Zines with LLMs</p>
-                            <p className="text-xs font-mono text-gray-400 mt-1">Oct 2023</p>
                         </div>
                     </div>
                     <div className="flex justify-between items-start group">
