@@ -5,3 +5,13 @@
 /* Global styles are handled inside App.jsx via <style> tags,
   but these directives are required for Tailwind classes to work.
 */
+
+/* The layout is designed against a ~1512px canvas with rem-based sizing.
+   Above that, scale the root font so type, spacing, and max-w-* containers
+   grow together instead of pooling whitespace on wide or zoomed-out screens.
+   Essay pages (px-based reading columns) are intentionally unaffected. */
+@media (min-width: 1536px) {
+  html {
+    font-size: min(calc(16px + (100vw - 1536px) * 0.006), 21px);
+  }
+}
