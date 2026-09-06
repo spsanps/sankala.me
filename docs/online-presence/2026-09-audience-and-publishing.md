@@ -2,6 +2,13 @@
 
 September 6, 2026. Recommendations for review, not approved platform setup.
 
+**Later September 6 revision:** San chose direction one’s style for further
+development and asked that substantial content live on Substack itself. The
+[developed journal and cross-publishing plan](2026-09-journal-content-and-cross-publishing.md)
+now recommends complete native reading editions on Substack, preserving the rich
+site editions. That supersedes the shorter adapted-letter default below. The
+first study and its reasoning remain here as the initial proposal.
+
 San’s explicit direction: audience comes first; professional opportunities should
 follow from the work and the people it reaches. San confirmed there is no existing
 Substack; no newsletter or email list has been identified. Everything must remain

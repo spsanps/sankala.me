@@ -1,0 +1,199 @@
+{
+  "checkedAt": "2026-09-06T20:22:16.593Z",
+  "pages": [
+    {
+      "name": "home",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "notebook",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "worlds",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "research",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "about",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "films",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "postmortem",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "letter",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "review",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "home",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "notebook",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "worlds",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "research",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "about",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "films",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "postmortem",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "letter",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "review",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    }
+  ],
+  "behaviors": [
+    "The conceptual illustration changes the visible bodies and accessible status for one, six, and twelve.",
+    "The sky control reaches street and overhead frames through keyboard input, with matching accessible descriptions.",
+    "All six source notes are present. Format filters, search, empty state, and reset pass; three worlds and three research entries remain discoverable.",
+    "All ten original milestones are present; the expandable history works.",
+    "The StartR reading page includes every source paragraph and heading, including the closing reflection.",
+    "The letter page clearly states that the publication does not exist and contains no collecting form.",
+    "All nine pages fit 320px; the mobile menu opens and closes with keyboard Escape.",
+    "Direct file:// opening supports local assets, interaction, and archive query filters.",
+    "All archive entries and the native timeline remain available without JavaScript."
+  ],
+  "localLinks": 43,
+  "errors": [],
+  "passed": true
+}

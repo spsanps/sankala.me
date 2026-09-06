@@ -1,0 +1,115 @@
+{
+  "sourceNotes": "src/data/site-content.js",
+  "works": [
+    {
+      "slug": "another-sky",
+      "title": "Another Sky",
+      "formats": [
+        "worlds"
+      ],
+      "url": "https://dysonswarm.com/another-sky/"
+    },
+    {
+      "slug": "gpt7-will-have-arms",
+      "title": "GPT-7 Will Have Arms",
+      "formats": [
+        "essays",
+        "films"
+      ],
+      "url": "https://sankala.me/essays/gpt7-will-have-arms"
+    },
+    {
+      "slug": "eai-challenge",
+      "title": "Winning by Overfitting",
+      "formats": [
+        "essays",
+        "research"
+      ],
+      "url": "https://sankala.me/notes/eai-challenge"
+    },
+    {
+      "slug": "a-clauiet-life",
+      "title": "A Clauiet Life",
+      "formats": [
+        "worlds"
+      ],
+      "url": "https://sankala.me/toys/bee-sim/index.html"
+    },
+    {
+      "slug": "dyson-swarm",
+      "title": "Dyson Swarm",
+      "formats": [
+        "worlds"
+      ],
+      "url": "https://dysonswarm.com/swarm/"
+    },
+    {
+      "slug": "startr-postmortem",
+      "title": "StartR Accelerator: A Post-Mortem",
+      "formats": [
+        "essays"
+      ],
+      "url": "notes/startr-postmortem/index.html"
+    },
+    {
+      "slug": "zinify",
+      "title": "ZINify: research to zines",
+      "formats": [
+        "research"
+      ],
+      "url": "https://jaidevshriram.com/zinify-uist/"
+    },
+    {
+      "slug": "power-quality",
+      "title": "Learning the shape of a power disturbance",
+      "formats": [
+        "research"
+      ],
+      "url": "research/index.html#power-quality"
+    }
+  ],
+  "timelineSource": "src/pages/home/Home.jsx",
+  "milestones": [
+    {
+      "year": "2025",
+      "title": "The embodied-agent challenge"
+    },
+    {
+      "year": "2024",
+      "title": "Research at eBay"
+    },
+    {
+      "year": "2024",
+      "title": "An MS at UC San Diego"
+    },
+    {
+      "year": "2023",
+      "title": "Research, made into zines"
+    },
+    {
+      "year": "2023",
+      "title": "A startup that didn’t make it"
+    },
+    {
+      "year": "2023",
+      "title": "An industry research internship"
+    },
+    {
+      "year": "2023",
+      "title": "First of 591 teams"
+    },
+    {
+      "year": "2022",
+      "title": "From hardware to computer science"
+    },
+    {
+      "year": "2019",
+      "title": "Learning to respect silicon"
+    },
+    {
+      "year": "2019",
+      "title": "Electrical engineering, and other interests"
+    }
+  ],
+  "note": "All existing live URLs are unchanged. The Lab currently has no published entries. Research and about pages summarize, and link to, the full existing CV. Graduation month differs between current Home and Resume; this study uses the year only."
+}

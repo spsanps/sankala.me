@@ -1,0 +1,68 @@
+[
+  {
+    "asset": "cover/robot-and-the-page-v1.png",
+    "source": "/home/san/.codex/generated_images/01a07383-91cd-7472-9e9f-c9d378115e57/exec-45e35dd2-7720-4d8a-b98f-f6f559f659f5.png",
+    "sha256": "47a720ba00e06d43ce7b1fc3832bc533c4ad07e7b39a6cbab1e04541f062cd25",
+    "method": "Built-in image_gen; custom cover derived from existing gouache and Paper Robots character references. WebP is an encoded display copy."
+  },
+  {
+    "assets": "worlds/another-sky-tilt-00.webp through -32.webp",
+    "source": "/home/san/Projects/dysonswarm/site/_social/another-sky/ground-to-overhead/source/another-sky-ground-to-overhead-v1-clean.mp4",
+    "sourceSha256": "62b87525542ef88cd4bfa6fc5be88da4a54c117b31f612d53362cf8f45476c91",
+    "method": "33 actual rendered clip frames from 0 to 16 seconds at 0.5-second intervals; proportionate 1100 px resize and WebP encoding; no image synthesis."
+  },
+  {
+    "asset": "worlds/bee-life.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/toys/bee-sim/og-image.png",
+    "sourceSha256": "e9ae6b20663b644332273fb64ac1b164abd32360598ea63234899135cc8aa4e1",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "worlds/dyson-swarm.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/writing/dysonswarm-og.png",
+    "sourceSha256": "37169da8e38022ed87555e0bc0bcfc823c0581d6a249f3cc3fcb263502092e1d",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "research/uist-award.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/awards/uist-2023-award-ceremony.jpg",
+    "sourceSha256": "8ef5597c60796bca378a85e005a4b491cc3651a1f3432219979d54136c9c96cb",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "research/research-group.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/team/ucsd-research-group-2023.jpg",
+    "sourceSha256": "0a670b84d490977fa789e53ece73fd2243a51f553d363b251be47e69cf78d7c4",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "cover/robot-and-the-page-v2-flat-paper.png",
+    "source": "/home/san/.codex/generated_images/01a07383-91cd-7472-9e9f-c9d378115e57/exec-f0af4907-85f5-444a-9191-5e4af6a4d4b1.png",
+    "sourceSha256": "3b7744c313fc9cc33d5e75dfc4d38d7bfdde99ed19047e8d63867f9c2ca09e08",
+    "method": "Built-in image_gen background-only refinement from v1. Selected for display. Not a transparent image; the attempted transparency output had a painted checkerboard and was rejected."
+  },
+  {
+    "asset": "research/ebay-headquarters.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/locations/ebay-headquarters.jpg",
+    "sourceSha256": "77fc7eac2f89213ece08d9d4f3ff8f2ed11468b805cdb1a554cbafe2b31042ee",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "research/ebay-intern.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/locations/ebay-intern.jpg",
+    "sourceSha256": "9fca5f1c7337f5a3dcd5b2d783e5ecc9b87de8a0a4a47231fb5d205627208699",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "research/ucsd-library.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/education/ucsd-start.jpg",
+    "sourceSha256": "aeaacf79b4303b4f8da5c9bdd31e6b20b290354b8693d43859f9816567672f65",
+    "method": "Proportionate resize and WebP encoding."
+  },
+  {
+    "asset": "research/nitk-lab.webp",
+    "source": "/mnt/c/Users/sanps/Desktop/Projects/sankala.me/public/images/education/nitk-lab.jpg",
+    "sourceSha256": "e6930deee1c2325a047f5ad59bcf0f256f39282730be4b336401aeb4c130f85b",
+    "method": "Proportionate resize and WebP encoding."
+  }
+]

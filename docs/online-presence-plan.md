@@ -15,9 +15,14 @@ YouTube, and X should work together. San requested concrete prototypes. He then
 clarified that audience is his first priority, with professional opportunities
 downstream, and that he has no existing Substack. No newsletter or email list has
 been identified in the available context.
-The new strategy and launch copy are in `docs/online-presence/`; reviewable
-prototypes are in `design/prototypes/2026-09-audience-site/`. All are proposals;
-no Substack account or production redesign is live.
+The strategy and launch copy are in `docs/online-presence/`. San then preferred
+direction one’s style but found it too generic, asked for fuller content coverage,
+and invited custom image generation/3D where helpful. The developed journal is in
+`design/prototypes/2026-09-illustrated-journal/`; the earlier three studies remain
+in `design/prototypes/2026-09-audience-site/`. The latest plan recommends complete
+native reading editions on Substack, preserving the rich site editions and their
+URLs. These remain proposals; no Substack account or production redesign is live.
+See [the developed design and content mapping](online-presence/2026-09-journal-content-and-cross-publishing.md).
 
 Another Sky and the Dyson Swarm collection are published and linked from the site.
 The physical repository reorganization is committed and pushed as `6990eb9`.
@@ -103,24 +108,33 @@ artwork.
 
 ## Website and newsletter — proposed
 
-September 6 recommendation: start one free **Paper Robots, by San Kala** Substack
-trial; preserve existing site essays and URLs; send useful adapted editions with
-each substantial release. Keep San visible as author, Paper Robots as the creative
-identity, and Dyson Swarm as the space collection. No new account or handle has
-been reserved. Three responsive directions, an essay excerpt treatment, and a
-newsletter draft are prepared for review. Recommend the illustrated journal (A).
-The prototype signup is explicitly inactive and sends/stores nothing.
-See [the current strategy](online-presence/2026-09-audience-and-publishing.md) and
-[prepared launch copy](online-presence/substack-launch-proposal.md).
+Latest September 6 recommendation: start one free **Paper Robots, by San Kala**
+Substack trial and publish complete reading editions there, with the film and
+references. Preserve existing rich site essays and URLs. This supersedes the first
+study’s shorter adapted-letter default following San’s question about native
+content and Substack discovery. Keep San visible as author, Paper Robots as the
+creative identity, and Dyson Swarm as the space collection. No account or handle
+has been reserved.
 
-- `/`: short introduction, latest film, two or three selected projects, subscribe.
-- `/work`: research, projects, publications, and concrete contributions.
+San chose the illustrated journal’s style for further development. The second
+study has nine responsive pages, a custom cover, two interactive figures, a
+filterable eight-piece notebook, a complete StartR reading page, three research
+publications, all ten original milestones, career photos, and education/honors.
+Its letter page has no collecting form and clearly states that the publication
+does not exist yet. See [the latest content and publishing plan](online-presence/2026-09-journal-content-and-cross-publishing.md)
+and [prepared launch copy](online-presence/substack-launch-proposal.md).
+
+- `/`: illustrated cover, latest essay/film, selected work, and author context.
+- `/notes`: complete searchable archive, with overlapping format filters.
+- Proposed `/films`, `/worlds`, `/research`, and `/about`: film adaptations,
+  interactive experiences, professional work, and the complete personal history.
 - Existing `/resume`: concise professional profile and downloadable CV.
 - Preserve existing essay URLs; bring film, readable essay, sources, and updates
   together on each essay page.
 - `/subscribe`: stable entry point to newsletter, initially potentially Substack.
-- Start with a free letter accompanying each substantial release: essay, evidence,
-  and a lesson from making it. A separate weekly commitment is not necessary.
+- Start with a complete free reading edition of GPT-7 Will Have Arms, including
+  the film, figures, and sources. Publish further substantial work at a sustainable
+  pace; a separate weekly commitment is not necessary.
 - Export the subscriber email list periodically. Substack supports list exports.
 
 ## First-film feedback — unresolved suggestions

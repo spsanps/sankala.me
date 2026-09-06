@@ -1,6 +1,21 @@
 # Website design studies
 
-## Current: audience-first website, September 2026
+## Current: developed illustrated journal, September 2026
+
+San preferred the illustrated journal’s style and asked for a substantially more
+distinctive result with the rest of his content included. [Open the developed
+journal](prototypes/2026-09-illustrated-journal/index.html), [see its design and
+content map](prototypes/2026-09-illustrated-journal/review.html), or [read the folder
+guide](prototypes/2026-09-illustrated-journal/README.md).
+
+The second study has nine pages, custom generated cover artwork, a conceptual
+robot-body control, an actual Another Sky view control, the complete source
+notebook, research, a full reading page, and all ten original milestones. No
+production redesign or newsletter account has been created. The current publishing
+recommendation is complete free reading editions on Substack with rich editions
+kept on the site.
+
+## First pass: three audience-first directions, September 2026
 
 [Open the comparison board](prototypes/2026-09-audience-site/index.html) or
 [read its folder guide](prototypes/2026-09-audience-site/README.md).

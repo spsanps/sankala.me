@@ -16,10 +16,17 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-Three reviewable prototypes are in `design/prototypes/2026-09-audience-site/`;
-the recommendation is A, an illustrated journal, plus a free Paper Robots letter
-by San Kala. These remain proposals; no production redesign or publication account
-has been created. See `docs/online-presence/2026-09-audience-and-publishing.md`.
+San preferred direction one’s style and explicitly asked for a much more
+distinctive design, full coverage of the rest of his existing content, and
+substantial native Substack posts. The developed nine-page journal is in
+`design/prototypes/2026-09-illustrated-journal/`, with a bespoke generated cover,
+interactive figures, a complete notebook, research pages, and all ten original
+milestones. The earlier three prototypes remain in
+`design/prototypes/2026-09-audience-site/` for comparison. Current recommendation:
+complete free reading editions on Substack, rich interactive editions on the
+existing site, and one master manuscript. This supersedes the earlier shorter
+adapted-letter default. No production redesign or publication account has been
+created. See `docs/online-presence/2026-09-journal-content-and-cross-publishing.md`.
 Dyson Swarm’s launch is live. The film repo records the first film as published
 September 6: https://www.youtube.com/watch?v=kzvqj4jurW0. YouTube oEmbed confirms
 the title "The Coming Robotics Revolution" and Paper Robots as author. Studio

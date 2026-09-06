@@ -4,6 +4,12 @@ September 6, 2026. Draft for San’s review. No account or publication exists ye
 This is the proposed extension of the existing Paper Robots identity, not a
 confirmed naming decision. No paid products or payment setup are part of it.
 
+Latest revision: San wants the content on Substack itself for reading and
+discovery. Use a complete reading edition as the first post, preserving the rich
+site version. See [the revised publishing plan](2026-09-journal-content-and-cross-publishing.md).
+The description, About, and welcome-email drafts below remain useful starting
+copy; they have not been sent.
+
 ## Proposed identity
 
 - Publication: **Paper Robots**
@@ -68,15 +74,21 @@ San
 
 ## First post
 
-Title: **The chatbot won’t stay in the chat window.**
+Title: **GPT-7 Will Have Arms**
 
-Subtitle: **My first animated essay: GPT-7 Will Have Arms.**
+Subtitle: **The coming convergence of foundation models and robotics. Now an animated essay, too.**
 
-The full proposed post is readable in the
-[newsletter preview](../../design/prototypes/2026-09-audience-site/letters/index.html).
-It develops one part of the argument and links the film and full essay; it is not
-only a “new post, click here” message. San should review new wording before it is
-sent as his first-person writing.
+Publish a complete reading edition of the existing essay, including the film,
+illustrations, and sources. Link to the site for its interactive charts. Clearly
+date the original argument to December 2025 and the film adaptation to September
+2026. Inspect the actual editor’s rendering before treating this as send-ready.
+No complete Substack post has been imported or sent yet.
+
+The [earlier short-letter preview](../../design/prototypes/2026-09-audience-site/letters/index.html)
+is retained as a historical copy study, not the current recommended first post.
+The [new publication concept](../../design/prototypes/2026-09-illustrated-journal/letter.html)
+shows the complete-edition relationship. San should review any new first-person
+introductory wording before it is sent.
 
 The welcome email and first post serve different moments. The welcome email
 introduces the publication to future subscribers. The first post introduces this
