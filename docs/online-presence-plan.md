@@ -9,13 +9,22 @@ professional presentation, personal style and branding, Substack, and YouTube
 films based on his essays. He welcomed the initial advice and explicitly asked to
 retain it and occasionally remind him about topics he has not revisited.
 
-Immediate priority, updated September 6: publish Another Sky and the refreshed
-Dyson Swarm collection, connected from this website. The physical repository
-reorganization is committed and pushed as `6990eb9`. Continue retaining the first
-film's launch status below.
-On 2026-09-06 San said the playback looks good and requested the final publishing
-steps, then asked whether to upload the existing film directly to X. Publication
-and the public YouTube URL are still unconfirmed. Earlier, San confirmed on
+Immediate priority, updated September 6: redesign the website around the current
+Paper Robots visual universe and decide how a possible free Substack, the site,
+YouTube, and X should work together. San requested concrete prototypes. He then
+clarified that audience is his first priority, with professional opportunities
+downstream, and that he has no existing Substack. No newsletter or email list has
+been identified in the available context.
+The new strategy and launch copy are in `docs/online-presence/`; reviewable
+prototypes are in `design/prototypes/2026-09-audience-site/`. All are proposals;
+no Substack account or production redesign is live.
+
+Another Sky and the Dyson Swarm collection are published and linked from the site.
+The physical repository reorganization is committed and pushed as `6990eb9`.
+The film repo now records publication on September 6 as **The Coming Robotics
+Revolution**: https://www.youtube.com/watch?v=kzvqj4jurW0. YouTube oEmbed was
+queried successfully and confirms that title and Paper Robots authorship; the
+actual Studio visibility/settings and A/B test remain uninspected. Earlier, San confirmed on
 2026-09-05 that nothing had been uploaded yet. San confirmed
 Paper Robots appears in his channel list despite the initial creation error, and
 then confirmed the name, handle (@paperrobotsfilms), and profile picture are set.
@@ -25,10 +34,10 @@ settings. San explicitly resumed folder cleanup on 2026-09-06 after working
 through the launch copy. The completed pass is recorded in
 [the cleanup log](organization/2026-09-06-cleanup.md).
 
-Working assumption, not a confirmed success metric: build a recognizable voice
-and an audience while creating professional opportunities. Audience scale versus
-professional reputation remains open. Creator income is explicitly out of scope:
-San requires this creator presence to remain nonmonetized.
+Confirmed priority, September 6: build an audience first, with professional
+opportunities through the ideas and work. No numerical success target or audience
+baseline has been established. Creator income is explicitly out of scope: San
+requires this creator presence to remain nonmonetized.
 
 San emphasized the deeper goal again on 2026-09-05: help the film/channel succeed,
 including reach beyond title/thumbnail testing. Evaluate choices across audience
@@ -94,6 +103,16 @@ artwork.
 
 ## Website and newsletter — proposed
 
+September 6 recommendation: start one free **Paper Robots, by San Kala** Substack
+trial; preserve existing site essays and URLs; send useful adapted editions with
+each substantial release. Keep San visible as author, Paper Robots as the creative
+identity, and Dyson Swarm as the space collection. No new account or handle has
+been reserved. Three responsive directions, an essay excerpt treatment, and a
+newsletter draft are prepared for review. Recommend the illustrated journal (A).
+The prototype signup is explicitly inactive and sends/stores nothing.
+See [the current strategy](online-presence/2026-09-audience-and-publishing.md) and
+[prepared launch copy](online-presence/substack-launch-proposal.md).
+
 - `/`: short introduction, latest film, two or three selected projects, subscribe.
 - `/work`: research, projects, publications, and concrete contributions.
 - Existing `/resume`: concise professional profile and downloadable CV.
@@ -137,12 +156,14 @@ additional prelaunch viewer-feedback round. Retain the suggestions for next time
 
 ### First release preparation — 2026-09-05
 
-**Latest update, 2026-09-06:** San said the YouTube playback looks good and asked
-how to publish. Public visibility and the public video URL remain unconfirmed;
-do not describe the video as not uploaded or as already published. Final guidance
-was English, Caption certification None, upload the SRT with timing, skip the
-quiz, and publish normally without an instant Premiere. Individual saved settings
-and A/B-test activation have not been independently observed.
+**Latest update, 2026-09-06:** The film repo records publication September 6, and
+the video URL resolves through YouTube oEmbed as **The Coming Robotics Revolution**
+by Paper Robots: https://www.youtube.com/watch?v=kzvqj4jurW0. This supersedes the
+earlier upload/publication uncertainty below. The actual Studio visibility flag,
+saved settings, captions, monetization state, and A/B-test activation have not been
+independently observed. Earlier final guidance was English, Caption certification
+None, upload the SRT with timing, skip the quiz, and publish without an instant
+Premiere. The current prototypes link to this real film, not a placeholder.
 
 San is preparing an X quote-post of his original essay with the adaptation
 attached. He says he used MiniMax H3 Max and Fable 5.1. He prefers conversational
@@ -215,7 +236,8 @@ Earlier candidates:
   starting pair; selection/upload is unconfirmed. All three are 1920 × 1080 and
   below 0.5 MB. No performance has been measured.
 
-Next: upload the MP4 in Studio as Unlisted, use candidate C and the prepared
+Historical prepublication next step (superseded by the September 6 publication
+record above): upload the MP4 in Studio as Unlisted, use candidate C and the prepared
 description as the current proposals, finish audience/language/captions/disclosure,
 review checks and the complete processed upload at 1080p, then publish when San
 chooses. Current native test recommendation: all three pairs, ordered C, A, B,

@@ -11,12 +11,19 @@ conversation cue, not a user-requested deadline. Update the record when decision
 or progress occur. Do not imply that a background reminder has been scheduled.
 
 Distinguish suggestions from decisions. Paper Robots, @paperrobotsfilms, and the
-profile picture are set according to San. Current priority: finish the space-project launch and help with sharing, while
-retaining the first film’s launch status. Dyson Swarm’s `e578079` launch has built
-successfully on GitHub Pages; see the plan for verification and proposed follow-up. On 2026-09-06 San said playback looks
-good, requested the Public publishing steps, then asked about native X uploads.
-Publication and a public URL remain unconfirmed. Broader positioning, cadence, and
-site architecture remain provisional.
+profile picture are set according to San. Current priority (2026-09-06): an
+audience-first redesign of sankala.me and a clear relationship with a possible
+free Substack and the YouTube channel. San explicitly puts audience before
+professional opportunities and has no existing Substack. No existing newsletter
+or email list has been identified.
+Three reviewable prototypes are in `design/prototypes/2026-09-audience-site/`;
+the recommendation is A, an illustrated journal, plus a free Paper Robots letter
+by San Kala. These remain proposals; no production redesign or publication account
+has been created. See `docs/online-presence/2026-09-audience-and-publishing.md`.
+Dyson Swarm’s launch is live. The film repo records the first film as published
+September 6: https://www.youtube.com/watch?v=kzvqj4jurW0. YouTube oEmbed confirms
+the title "The Coming Robotics Revolution" and Paper Robots as author. Studio
+settings, analytics, and A/B-test activation remain unverified.
 
 San's latest release instruction (2026-09-05): ship the current film cut and keep
 the editorial/opening feedback for future films. Do not reopen a recut or make an

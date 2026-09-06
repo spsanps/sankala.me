@@ -1,0 +1,135 @@
+{
+  "checkedAt": "2026-09-06T19:31:18.760Z",
+  "pages": [
+    {
+      "name": "illustrated-journal",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "paper-robots-studio",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "field-notes",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "essay",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "newsletter",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "comparison-board",
+      "device": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "illustrated-journal",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "paper-robots-studio",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "field-notes",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "essay",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "newsletter",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "comparison-board",
+      "device": "mobile",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "overflow": false,
+      "imagesLoaded": true
+    }
+  ],
+  "behaviors": [
+    "Notebook filters and live result counts work for all four categories.",
+    "Newsletter demo makes no network request, stores nothing, resets the field, and reports preview-only status.",
+    "Comparison selector, standalone link, and phone-width toggle work.",
+    "All six pages fit a 320 px viewport.",
+    "Direct file:// opening supports the notebook, comparison iframe, and newsletter demo."
+  ],
+  "localLinks": 35,
+  "errors": [],
+  "passed": true
+}

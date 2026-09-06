@@ -1,5 +1,21 @@
 # Website design studies
 
+## Current: audience-first website, September 2026
+
+[Open the comparison board](prototypes/2026-09-audience-site/index.html) or
+[read its folder guide](prototypes/2026-09-audience-site/README.md).
+Three responsive directions use the actual current Paper Robots artwork:
+an illustrated journal, a film-led publication, and a spare notebook. There are
+also essay and newsletter previews, saved desktop/phone screenshots, and a
+reproducible browser check. These work directly from `file://` with local fonts.
+The recommendation is the illustrated journal; San has not selected a direction.
+
+The proposed platform relationship and free Substack launch copy are under
+[`docs/online-presence/`](../docs/online-presence/2026-09-audience-and-publishing.md).
+No production redesign or newsletter setup is included in this prototype pass.
+
+## Earlier: August 2026 studies
+
 The August 2026 prototypes now live in
 [`prototypes/2026-08-website/`](prototypes/2026-08-website/README.md), recovered
 from `tmp/proto/` on September 6. They are exploratory designs, not the deployed

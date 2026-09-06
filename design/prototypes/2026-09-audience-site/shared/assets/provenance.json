@@ -1,0 +1,72 @@
+[
+  {
+    "asset": "robot-hand.webp",
+    "source": "/mnt/d/projects/paper-robots/films/01-gpt-7-will-have-arms/01-board/06.png",
+    "sourceSha256": "7d90b7ca7f9247cf43e9bbb6808592b1318c174c327beecfca2ba7be9cb15da2",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 49808
+  },
+  {
+    "asset": "desert-traveler.webp",
+    "source": "/mnt/d/projects/paper-robots/films/01-gpt-7-will-have-arms/01-board/01.png",
+    "sourceSha256": "988b2fa24f84ff5e4fae9015eff3a28c0827b05fdd0b80bf822eadc447f5e802",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 110568
+  },
+  {
+    "asset": "robot-workshop.webp",
+    "source": "/mnt/d/projects/paper-robots/films/01-gpt-7-will-have-arms/01-board/10.png",
+    "sourceSha256": "1509ac853d2fb0f7e6fe2776f31244e3055bd393165dcb7aa35c271b32064107",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 86788
+  },
+  {
+    "asset": "cup-and-hand.webp",
+    "source": "/mnt/d/projects/paper-robots/style-lab/runs/_gouache/s400/e2_cup__s1.png",
+    "sourceSha256": "cae7c5623fa4e708e977c76f7d96a131a1c60a2638bd91207767668a2f0ce66d",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 43780
+  },
+  {
+    "asset": "paper-robot.webp",
+    "source": "/home/san/Projects/sankala.me/branding/paper-robots/youtube/profile-picture/current/profile-picture-v3.jpg",
+    "sourceSha256": "5b0c8260f146287340ab81ee65eb7cc7309701031c305934d8914d3b3629bbcd",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 18384
+  },
+  {
+    "asset": "underground-world.webp",
+    "source": "/home/san/Projects/sankala.me/branding/paper-robots/references/painted-universe/world-beneath-the-paper.png",
+    "sourceSha256": "3ceba4c4f2b4a668c8ece5c3f6d18ee44241866c147326371e72af28dcf6348d",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 188014
+  },
+  {
+    "asset": "channel-banner.webp",
+    "source": "/home/san/Projects/sankala.me/branding/paper-robots/youtube/banner/current/channel-banner-v7-desktop-preview.jpg",
+    "sourceSha256": "e252fcc2f74eec3f5f4fc7339b5958fa5e56862f4dd7e75bf58045365a885bf7",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 87546
+  },
+  {
+    "asset": "another-sky.webp",
+    "source": "/home/san/Projects/dysonswarm/site/_social/another-sky/ground-to-overhead/source/another-sky-ground-to-overhead-v1-clean.mp4",
+    "sourceSha256": "62b87525542ef88cd4bfa6fc5be88da4a54c117b31f612d53362cf8f45476c91",
+    "conversion": "Frame at 16 seconds from the clean rendered clip; proportionate resize to 1400 px wide and WebP encoding. No image synthesis or content editing.",
+    "bytes": 110516
+  },
+  {
+    "asset": "san-kala.webp",
+    "source": "/home/san/Projects/sankala.me/public/images/profile/headshot-professional.jpg",
+    "sourceSha256": "4b88b5fc8a6e7cbc4a3459520e94e7f257472e4d8329be459e8d11e156f1d2d1",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 26928
+  },
+  {
+    "asset": "many-arms-film.webp",
+    "source": "/mnt/d/projects/paper-robots/films/01-gpt-7-will-have-arms/08-release/2026-09-05-v8-1080p/thumbnails/thumbnail-c-many-arms-v1.jpg",
+    "sourceSha256": "c070f46cedfc01bc7783a68c7c2aebc74e4f641dacc5d29ac79eb3f235b55300",
+    "conversion": "WebP encoding; proportionate resize only",
+    "bytes": 125926
+  }
+]
