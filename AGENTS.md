@@ -16,7 +16,21 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-San preferred direction one’s style and explicitly asked for a much more
+Latest correction: San explicitly wants **San Kala and Paper Robots to have
+separate sites**. The combined homepage felt like a GPT-7 campaign and obscured
+his identity and history. The latest five-page study is
+`design/prototypes/2026-09-separate-sites/`: a personal homepage with career path,
+complete subject/format work index, all ten milestones, a distinct publication
+homepage, and a comparison/content map. Subject names are proposed. Paper Robots
+curates a subset of San’s work; not every personal note becomes an issue.
+The publication domain remains undecided. San found `thepaperrobots.com` awkward;
+latest suggestion is `paperrobots.studio`, with `.world`, `.ink`, and `.art` as
+alternatives. No domain is purchased. See
+`docs/online-presence/2026-09-separate-sites-and-domain.md` for checked prices and
+their limitations. Do not reuse the earlier combined homepage as the accepted
+architecture. Complete free native Substack reading editions remain recommended.
+
+Earlier, San preferred direction one’s style and explicitly asked for a much more
 distinctive design, full coverage of the rest of his existing content, and
 substantial native Substack posts. The developed nine-page journal is in
 `design/prototypes/2026-09-illustrated-journal/`, with a bespoke generated cover,

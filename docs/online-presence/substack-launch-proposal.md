@@ -10,6 +10,11 @@ site version. See [the revised publishing plan](2026-09-journal-content-and-cros
 The description, About, and welcome-email drafts below remain useful starting
 copy; they have not been sent.
 
+San subsequently requested distinct personal and Paper Robots sites. The free
+Substack belongs to the publication; the complete work index and career history
+belong on San’s personal site. Publication-domain selection is still open. See
+[the current site relationship and domain shortlist](2026-09-separate-sites-and-domain.md).
+
 ## Proposed identity
 
 - Publication: **Paper Robots**

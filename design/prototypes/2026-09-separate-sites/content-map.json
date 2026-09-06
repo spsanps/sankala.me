@@ -1,0 +1,216 @@
+{
+  "sources": [
+    "src/data/site-content.js",
+    "src/pages/home/Home.jsx",
+    "src/pages/resume/Resume.jsx",
+    "../2026-09-illustrated-journal/content-map.json"
+  ],
+  "topics": [
+    {
+      "id": "ai",
+      "name": "AI & robotics",
+      "number": "01",
+      "description": "Learning systems, embodied agents, and what happens when models can act.",
+      "examples": "GPT-7 Will Have Arms · EAI Challenge · ZINify"
+    },
+    {
+      "id": "worlds",
+      "name": "Space & simulated worlds",
+      "number": "02",
+      "description": "Places to explore, from a bee’s little world to a civilization around a star.",
+      "examples": "Another Sky · A Clauiet Life · Dyson Swarm"
+    },
+    {
+      "id": "making",
+      "name": "Building & reflection",
+      "number": "03",
+      "description": "Projects, decisions, and what I learned by trying to make something work.",
+      "examples": "The StartR post-mortem · ZINify"
+    }
+  ],
+  "works": [
+    {
+      "slug": "another-sky",
+      "title": "Another Sky",
+      "date": "Sep 2026",
+      "description": "Walk inside an O’Neill cylinder, where the landscape curves overhead. A world to explore on foot or by air, made with Astra.",
+      "url": "https://dysonswarm.com/another-sky/",
+      "topics": [
+        "worlds"
+      ],
+      "formats": [
+        "experiment"
+      ]
+    },
+    {
+      "slug": "gpt7-will-have-arms",
+      "title": "GPT-7 Will Have Arms",
+      "date": "Dec 2025",
+      "description": "The Coming Convergence of Foundation Models and Robotics",
+      "url": "https://sankala.me/essays/gpt7-will-have-arms",
+      "topics": [
+        "ai"
+      ],
+      "formats": [
+        "writing",
+        "film"
+      ]
+    },
+    {
+      "slug": "eai-challenge",
+      "title": "Winning by Overfitting",
+      "date": "Jul 2026",
+      "description": "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge — and why the recipe matters for robotics.",
+      "url": "https://sankala.me/notes/eai-challenge",
+      "topics": [
+        "ai"
+      ],
+      "formats": [
+        "writing",
+        "research"
+      ]
+    },
+    {
+      "slug": "a-clauiet-life",
+      "title": "A Clauiet Life",
+      "date": "Jan 2026",
+      "description": "What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.",
+      "url": "https://sankala.me/toys/bee-sim/index.html",
+      "topics": [
+        "worlds"
+      ],
+      "formats": [
+        "experiment"
+      ]
+    },
+    {
+      "slug": "dyson-swarm",
+      "title": "Dyson Swarm",
+      "date": "2024",
+      "description": "Interactive visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.",
+      "url": "https://dysonswarm.com/swarm/",
+      "topics": [
+        "worlds"
+      ],
+      "formats": [
+        "experiment"
+      ]
+    },
+    {
+      "slug": "startr-postmortem",
+      "title": "StartR Accelerator: A Post-Mortem",
+      "date": "Dec 2025",
+      "description": "Lessons learned from building a writing assistant for novelists that didn't make it to market.",
+      "url": "https://sankala.me/notes/startr-postmortem",
+      "topics": [
+        "making"
+      ],
+      "formats": [
+        "writing"
+      ]
+    },
+    {
+      "slug": "zinify",
+      "title": "ZINify: research to zines",
+      "date": "2023",
+      "description": "Turning research papers into visual zines with language models. UIST 2023 Student Innovation Contest Honorable Mention.",
+      "url": "https://jaidevshriram.com/zinify-uist/",
+      "topics": [
+        "ai",
+        "making"
+      ],
+      "formats": [
+        "research"
+      ]
+    },
+    {
+      "slug": "power-quality",
+      "title": "Power quality event classification with LSTMs",
+      "date": "2019",
+      "description": "Using recurrent neural networks to classify disturbances in electrical signals. IEEE DISCOVER 2019 Best Paper Award.",
+      "url": "https://sankala.me/resume",
+      "topics": [
+        "ai"
+      ],
+      "formats": [
+        "research"
+      ]
+    }
+  ],
+  "milestones": [
+    {
+      "year": "2025",
+      "title": "The embodied-agent challenge",
+      "description": "First place in the NeurIPS 2025 EAI Challenge at the Foundation Models Meet Embodied Agents Workshop, as team AxisTilted2.",
+      "url": "https://sankala.me/notes/eai-challenge",
+      "linkLabel": "Read the account"
+    },
+    {
+      "year": "2024",
+      "title": "Research at eBay",
+      "description": "Joined eBay’s Knowledge Extraction team in April 2024. Researching and building language-model systems for information extraction. Promoted in October 2025.",
+      "url": "https://sankala.me/resume",
+      "linkLabel": "Current work"
+    },
+    {
+      "year": "2024",
+      "title": "An MS at UC San Diego",
+      "description": "Completed an MS in computer science at UC San Diego. Worked with Julian McAuley’s group on AI music and language models, and TA’d recommender systems and data mining.",
+      "url": null,
+      "linkLabel": null
+    },
+    {
+      "year": "2023",
+      "title": "Research, made into zines",
+      "description": "ZINify received an Honorable Mention at the UIST Student Innovation Contest. Experiments with language models and visual storytelling.",
+      "url": "https://jaidevshriram.com/zinify-uist/",
+      "linkLabel": "See ZINify"
+    },
+    {
+      "year": "2023",
+      "title": "A startup that didn’t make it",
+      "description": "Accepted into UCSD’s StartR Rady accelerator with Glyp, a writing assistant for novelists. The project did not make it to market; I wrote about what went wrong.",
+      "url": "https://sankala.me/notes/startr-postmortem",
+      "linkLabel": "Read the post-mortem"
+    },
+    {
+      "year": "2023",
+      "title": "An industry research internship",
+      "description": "Summer research with eBay’s Knowledge Extraction team, working on information extraction at scale.",
+      "url": null,
+      "linkLabel": null
+    },
+    {
+      "year": "2023",
+      "title": "First of 591 teams",
+      "description": "Won the eBay University Machine Learning Challenge with named-entity extraction from product titles. The challenge led to the research internship.",
+      "url": "https://innovation.ebayinc.com/stories/ebay-announces-winners-of-4th-annual-machine-learning-challenge/",
+      "linkLabel": "The announcement"
+    },
+    {
+      "year": "2022",
+      "title": "From hardware to computer science",
+      "description": "Started the MS at UC San Diego after three years in chip design.",
+      "url": null,
+      "linkLabel": null
+    },
+    {
+      "year": "2019",
+      "title": "Learning to respect silicon",
+      "description": "ASIC digital design at Texas Instruments, 2019–2022: physical design, RTL, and getting actual chips out of the door.",
+      "url": "https://sankala.me/resume",
+      "linkLabel": "Engineering background"
+    },
+    {
+      "year": "2019",
+      "title": "Electrical engineering, and other interests",
+      "description": "Graduated from NIT Karnataka in electrical and electronics engineering. Deep learning through Kaggle, a thesis on power-quality classification, and the Amateur Astronomy Club.",
+      "url": null,
+      "linkLabel": null
+    }
+  ],
+  "publicationEntries": [
+    "gpt7-will-have-arms"
+  ],
+  "status": "Design prototype. Distinct sites requested; taxonomy and publication address proposed. Existing URLs unchanged."
+}

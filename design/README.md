@@ -1,6 +1,21 @@
 # Website design studies
 
-## Current: developed illustrated journal, September 2026
+## Current: separate San Kala and Paper Robots sites, September 2026
+
+San identified the combined homepage as confusing: it felt like a GPT-7 campaign
+and obscured his history. He explicitly wants separate personal and publication
+sites. [Open the new comparison and content map](prototypes/2026-09-separate-sites/index.html),
+[the personal homepage](prototypes/2026-09-separate-sites/san-kala/index.html), or
+[Paper Robots](prototypes/2026-09-separate-sites/paper-robots/index.html).
+
+The five-page study includes a complete subject/format index and the full history.
+San’s name, current work, photographs, and career path lead his homepage. Paper
+Robots leads with its editorial purpose and presents GPT-7 as its first issue.
+See [the guide](prototypes/2026-09-separate-sites/README.md) and
+[the current architecture/domain discussion](../docs/online-presence/2026-09-separate-sites-and-domain.md).
+No production redesign or domain purchase has occurred.
+
+## Second study: developed illustrated journal, September 2026
 
 San preferred the illustrated journal’s style and asked for a substantially more
 distinctive result with the rest of his content included. [Open the developed
@@ -23,7 +38,8 @@ Three responsive directions use the actual current Paper Robots artwork:
 an illustrated journal, a film-led publication, and a spare notebook. There are
 also essay and newsletter previews, saved desktop/phone screenshots, and a
 reproducible browser check. These work directly from `file://` with local fonts.
-The recommendation is the illustrated journal; San has not selected a direction.
+San subsequently preferred the illustrated journal’s style, then requested
+distinct personal and publication sites. These first studies are retained for context.
 
 The proposed platform relationship and free Substack launch copy are under
 [`docs/online-presence/`](../docs/online-presence/2026-09-audience-and-publishing.md).

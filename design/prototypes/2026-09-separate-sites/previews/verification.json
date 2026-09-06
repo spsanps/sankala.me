@@ -1,0 +1,105 @@
+{
+  "checkedAt": "2026-09-06T21:40:04.921Z",
+  "pages": [
+    {
+      "name": "review",
+      "device": "desktop",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "san-kala",
+      "device": "desktop",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "work",
+      "device": "desktop",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "history",
+      "device": "desktop",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "paper-robots",
+      "device": "desktop",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "review",
+      "device": "mobile",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "san-kala",
+      "device": "mobile",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "work",
+      "device": "mobile",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "history",
+      "device": "mobile",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "paper-robots",
+      "device": "mobile",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "review",
+      "device": "narrow",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "san-kala",
+      "device": "narrow",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "work",
+      "device": "narrow",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "history",
+      "device": "narrow",
+      "overflow": false,
+      "imagesLoaded": true
+    },
+    {
+      "name": "paper-robots",
+      "device": "narrow",
+      "overflow": false,
+      "imagesLoaded": true
+    }
+  ],
+  "behaviors": [
+    "28 local links/assets and their HTML anchors resolve.",
+    "The personal homepage identifies San and shows his career path immediately on desktop. The publication has its own promise, one real essay/film, and reciprocal author links.",
+    "All six source notes and both additional research entries are present. Topic, format, combined filters, search, empty state, reset, and URL parameters work.",
+    "All ten original milestones remain visible, including the startup and hardware background.",
+    "Mobile navigation and Escape work. Direct file opening supports subject and format filters.",
+    "The entire work index and history remain readable without JavaScript."
+  ],
+  "errors": [],
+  "passed": true
+}

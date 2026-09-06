@@ -2,6 +2,12 @@
 
 September 6, 2026. Latest response to San’s review of the first prototypes.
 
+**Subsequent correction:** San found this combined homepage confusing and explicitly
+requested separate San Kala and Paper Robots sites. See
+[the current architecture and domain discussion](2026-09-separate-sites-and-domain.md).
+This journal remains a visual/content study. Its complete native Substack reading
+recommendation still applies to selected Paper Robots work.
+
 ## What San changed
 
 San likes direction one’s visual language and wants it developed substantially.

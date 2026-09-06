@@ -21,8 +21,15 @@ and invited custom image generation/3D where helpful. The developed journal is i
 `design/prototypes/2026-09-illustrated-journal/`; the earlier three studies remain
 in `design/prototypes/2026-09-audience-site/`. The latest plan recommends complete
 native reading editions on Substack, preserving the rich site editions and their
-URLs. These remain proposals; no Substack account or production redesign is live.
-See [the developed design and content mapping](online-presence/2026-09-journal-content-and-cross-publishing.md).
+URLs. San then identified the combined homepage as the problem: it felt like a
+GPT-7 campaign and hid his history. He explicitly wants separate San Kala and
+Paper Robots sites, with clearer subject buckets for the work. The latest study
+is `design/prototypes/2026-09-separate-sites/`: distinct homepages, a complete
+subject/format index, and all ten milestones. Domain selection is still open;
+San found `thepaperrobots.com` awkward, and the latest suggestion is
+`paperrobots.studio`, with `.world`, `.ink`, or `.art` as alternatives. No purchase,
+Substack account, or production redesign has occurred. See
+[the separate-sites plan and domain checks](online-presence/2026-09-separate-sites-and-domain.md).
 
 Another Sky and the Dyson Swarm collection are published and linked from the site.
 The physical repository reorganization is committed and pushed as `6990eb9`.
@@ -108,6 +115,14 @@ artwork.
 
 ## Website and newsletter — proposed
 
+**Latest architecture correction:** San Kala and Paper Robots need distinct sites.
+San’s homepage must introduce the person and show his history immediately. The
+complete author index uses subjects and format filters. Paper Robots introduces
+the publication and curates its own work. GPT-7 is the first issue, not the
+homepage’s whole identity. The five-page current study and domain discussion are
+in [the latest plan](online-presence/2026-09-separate-sites-and-domain.md).
+The combined nine-page journal described below is a superseded architecture study.
+
 Latest September 6 recommendation: start one free **Paper Robots, by San Kala**
 Substack trial and publish complete reading editions there, with the film and
 references. Preserve existing rich site essays and URLs. This supersedes the first
@@ -124,10 +139,12 @@ Its letter page has no collecting form and clearly states that the publication
 does not exist yet. See [the latest content and publishing plan](online-presence/2026-09-journal-content-and-cross-publishing.md)
 and [prepared launch copy](online-presence/substack-launch-proposal.md).
 
-- `/`: illustrated cover, latest essay/film, selected work, and author context.
+- `/`: personal introduction, photographs, career path, subject groups, and work.
 - `/notes`: complete searchable archive, with overlapping format filters.
-- Proposed `/films`, `/worlds`, `/research`, and `/about`: film adaptations,
-  interactive experiences, professional work, and the complete personal history.
+- Personal work index and history: complete research, essays, experiments, and
+  chronology, with CV/contact clearly accessible. Final production routes remain open.
+- Separate Paper Robots homepage: publication purpose, editorial subjects, curated
+  essays/films, author credit, and ways to follow.
 - Existing `/resume`: concise professional profile and downloadable CV.
 - Preserve existing essay URLs; bring film, readable essay, sources, and updates
   together on each essay page.
