@@ -547,7 +547,7 @@ export default function Home() {
                         Writing
                     </h2>
                     <p className="text-lg text-[#D1D9CE] max-w-2xl mx-auto">
-                        Long-form essays, technical deep dives, and shorter notes on AI, robotics, and other explorations.
+                        Essays, notes, and interactive worlds exploring AI, robotics, and possible futures.
                     </p>
                 </div>
 

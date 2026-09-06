@@ -9,9 +9,10 @@ professional presentation, personal style and branding, Substack, and YouTube
 films based on his essays. He welcomed the initial advice and explicitly asked to
 retain it and occasionally remind him about topics he has not revisited.
 
-Immediate priority, updated September 6: finish the physical repository
-reorganization, commit and push it as San authorized, then publish his Another
-Sky explorer. Continue retaining the first film's launch status below.
+Immediate priority, updated September 6: publish Another Sky and the refreshed
+Dyson Swarm collection, connected from this website. The physical repository
+reorganization is committed and pushed as `6990eb9`. Continue retaining the first
+film's launch status below.
 On 2026-09-06 San said the playback looks good and requested the final publishing
 steps, then asked whether to upload the existing film directly to X. Publication
 and the public YouTube URL are still unconfirmed. Earlier, San confirmed on
@@ -504,23 +505,48 @@ history, credentials, caches and previously ignored social exports stay local.
 The previous cleanup's statements about all prototypes remaining ignored describe
 that earlier pass, not the final Git selection.
 
-### Another Sky and the space projects — next authorized work
+### Another Sky and the space projects — September 6 launch
 
-San requested publication of
-`C:\Users\sanps\Downloads\another-sky-explorer.html`, including suitable preview
-artwork/icon and website placement. The file exists and is a self-contained
-procedural WebGL2 O'Neill-cylinder explorer titled “Another Sky”. Preserve its
-original file. He is interested both in the imagined habitat and in the model's
-ability to depict an interior-cylinder view that prior image generators failed
-to satisfy for him; describe this as his qualitative benchmark, not an external
-benchmark result.
+San authorized publishing his Downloads `another-sky-explorer.html` and then
+explicitly asked the assistant to take creative ownership of Dyson Swarm’s
+appearance, efficiency, and landing page. He accepted the relationship: Dyson
+Swarm for space interactives, Paper Robots for films, and sankala.me as the author
+and professional index.
 
-The existing website links to `https://dysonswarm.com`, a live megastructure
-visualization with a San Kala byline. `/home/san/Projects/dysonswarm/` contains
-HTML iterations and artwork, but is not itself a Git repo. Hosting/repo discovery
-is in progress. Proposed positioning: Dyson Swarm for space interactives, Paper
-Robots for films and sankala.me as the author/project index. San asked for thoughts
-on that relationship; it is not yet a confirmed redesign of the domain.
+The Git checkout is `/home/san/Projects/dysonswarm/site`, also accessible at
+`C:\Users\sanps\Desktop\Projects\dysonswarm\site`. Its remote is
+`git@github.com:spsanps/dysonswarm.git`. GitHub Pages publishes the root of `main`
+to `dysonswarm.com`. The parent folder’s older HTML iterations and artwork remain
+untouched; the parent itself is not a Git repository.
+
+The collection now leads with Another Sky. `/another-sky/` holds the explorer;
+`/swarm/` holds the original pixel simulation. The initial suggestion to keep the
+swarm at `/` was superseded when San requested a more considered landing page.
+The homepage is static and starts no rendering engine. Visual direction: warm
+paper, teal, restrained diagrams, and actual renders as previews. The swarm has
+readable controls, pause/play, reduced-motion support, and a mobile layout.
+The explorer retains its world and renderer, with publication metadata, a favicon,
+author links, and keyboard fixes. Original input is archived byte for byte.
+
+San’s O’Neill-cylinder prompt is a personal qualitative benchmark: earlier image
+generators did not satisfy him, while Astra did. Keep that personal context;
+do not present it as an independent benchmark or a comparison measured here.
+
+The personal-site card links directly to the explorer; the older Dyson Swarm card
+now links to `/swarm/`. Preview artwork is `public/images/space/another-sky.jpg`.
+The Dyson Swarm repo’s README and `_design/reviews/2026-09-06-launch/` explain its
+structure, creative choices and browser checks. Local checks passed, and the Dyson Swarm launch is committed/pushed as `e578079`.
+GitHub Pages reports that exact commit built successfully on September 6; the
+collection and explorer HTML are serving at the public URLs. The personal-site
+integration passed lint, production build, and the existing site checks (12 page
+checks, 21 public files, both crawler articles and browser shell). Browser checks
+for Dyson Swarm cover responsive layouts, navigation, previews, pause/play, touch
+controls, atlas, flight, tours, PNG export and fallback behavior. Real-device GPU
+performance has not been measured.
+
+Suggested next launch asset: a 15–20-second ground-to-overhead reveal clip and
+a short post draft. Asked September 6; not yet accepted or created. No social
+post has been sent.
 
 ## Reference links checked 2026-09-05
 

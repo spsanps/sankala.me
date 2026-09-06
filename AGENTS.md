@@ -11,8 +11,9 @@ conversation cue, not a user-requested deadline. Update the record when decision
 or progress occur. Do not imply that a background reminder has been scheduled.
 
 Distinguish suggestions from decisions. Paper Robots, @paperrobotsfilms, and the
-profile picture are set according to San. Current priority: finish publishing the
-first film and help with launch sharing. On 2026-09-06 San said playback looks
+profile picture are set according to San. Current priority: finish the space-project launch and help with sharing, while
+retaining the first film’s launch status. Dyson Swarm’s `e578079` launch has built
+successfully on GitHub Pages; see the plan for verification and proposed follow-up. On 2026-09-06 San said playback looks
 good, requested the Public publishing steps, then asked about native X uploads.
 Publication and a public URL remain unconfirmed. Broader positioning, cadence, and
 site architecture remain provisional.
@@ -35,10 +36,14 @@ public routes and asset URLs, updating imports when moving source files.
 See `docs/organization/2026-09-06-repo-structure.md` for the completed pass.
 
 San authorized committing and pushing this organization work on 2026-09-06.
-Afterward, publish his Downloads `another-sky-explorer.html`, inspect the existing
-`/home/san/Projects/dysonswarm` project and consider Dyson Swarm as the home for
-space interactives, connected to his website and Paper Robots. Publication is
-authorized; choose the concrete integration after inspecting that project.
+The organization is committed and pushed as `6990eb9`. He also authorized
+publishing his Downloads `another-sky-explorer.html` and explicitly asked for
+creative ownership of Dyson Swarm’s landing page, visual design and efficiency.
+Dyson Swarm is the space collection; Paper Robots is the film identity; sankala.me
+is the author/professional index. The Git checkout is
+`/home/san/Projects/dysonswarm/site`. Its root of `main` deploys through GitHub Pages.
+The collection is at `/`, the cylinder at `/another-sky/`, the original swarm at
+`/swarm/`. Publication, committing and pushing this work are authorized.
 
 San explicitly requires his creator presence to remain nonmonetized as of
 2026-09-05. Do not set up YouTube Partner Program enrollment, AdSense, paid

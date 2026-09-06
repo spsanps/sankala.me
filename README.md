@@ -60,6 +60,16 @@ home. `node_modules/` and `dist/` are generated directories.
 `public/` follows existing published URL paths. Keep those paths stable when
 organizing source files so old links, embeds and shared images continue to work.
 
+## Space interactives
+
+[Dyson Swarm](https://dysonswarm.com/) is the space collection, including
+[Another Sky](https://dysonswarm.com/another-sky/), the O’Neill-cylinder explorer,
+and the [original swarm](https://dysonswarm.com/swarm/). Its separate Git repo is
+`/home/san/Projects/dysonswarm/site` — Windows
+`C:\Users\sanps\Desktop\Projects\dysonswarm\site` — and deploys `main` through
+GitHub Pages. Keep the renderer source and world assets there; this website holds
+a preview image and the project links in `src/data/site-content.js`.
+
 ## Related film projects on this machine
 
 The website and film production have separate homes:

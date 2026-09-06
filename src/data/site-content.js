@@ -25,6 +25,19 @@ export const experimentsData = [
 
 export const notesData = [
     {
+      id: 6,
+      type: "toy",
+      slug: "another-sky",
+      date: "Sep 2026",
+      title: "Another Sky",
+      excerpt: "Walk inside an O’Neill cylinder, where the landscape curves overhead. A world to explore on foot or by air, made with Astra.",
+      readTime: "Interactive",
+      tags: ["Space", "O’Neill Cylinder", "Astra"],
+      ogImage: "/images/space/another-sky.jpg",
+      isExternalLink: true,
+      externalUrl: "https://dysonswarm.com/another-sky/"
+    },
+    {
       id: 1,
       type: "essay",
       slug: "gpt7-will-have-arms",
@@ -70,12 +83,12 @@ export const notesData = [
       slug: "dyson-swarm",
       date: "2024",
       title: "Dyson Swarm",
-      excerpt: "Interactive 3D visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.",
+      excerpt: "Interactive visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.",
       readTime: "Interactive",
-      tags: ["Space", "Visualization", "WebGL"],
+      tags: ["Space", "Visualization", "Megastructures"],
       ogImage: "/images/writing/dysonswarm-og.png",
       isExternalLink: true,
-      externalUrl: "https://dysonswarm.com"
+      externalUrl: "https://dysonswarm.com/swarm/"
     },
     {
       id: 2,
