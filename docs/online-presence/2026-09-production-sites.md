@@ -93,3 +93,14 @@ Vite and other development tooling still have separate maintenance advisories;
 this change does not claim a full dependency-security cleanup. Local development
 servers are bound to 127.0.0.1. Router advisory source:
 https://github.com/advisories/GHSA-337j-9hxr-rhxg.
+
+Personal release `d008e20` deployed successfully through Vercel. Live checks
+confirmed prerendered content and canonicals for the new pages, the original
+essay routes, and the public reading assets. Production-only npm audit reports
+zero vulnerabilities with React Router 7.18.3.
+
+Until the new domain is connected, personal-site links to Paper Robots use its
+working GitHub Pages address through `src/data/links.js`. After DNS and HTTPS are
+verified, switch that constant and the link in `public/llms.txt` to
+`https://paperrobots.studio/`. This keeps the new personal-site links usable
+during the account setup.

@@ -20,7 +20,7 @@
 
 ## Related homes
 
-- [Paper Robots](https://paperrobots.studio/): San’s illustrated essays and animated films.
+- [Paper Robots](https://spsanps.github.io/paper-robots-site/): San’s illustrated essays and animated films.
 - [Dyson Swarm](https://dysonswarm.com/): San’s space collection, including Another Sky.
 
 The personal pages are prerendered. Non-browser clients requesting rich essays

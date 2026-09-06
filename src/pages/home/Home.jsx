@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { paperRobotsUrl } from '../../data/links';
 import Metadata from '../../components/site/Metadata';
 import { Action, Arrow, CareerPath, TopicFolders } from '../../components/site/Elements';
 
@@ -26,7 +27,7 @@ export default function Home() {
       <article><span className="eyebrow">Personal note / December 2025</span><h3><Link to="/notes/startr-postmortem">A startup that didn’t make it. <Arrow /></Link></h3><p>The StartR post-mortem: building a writing assistant, losing focus, and learning about distribution.</p><Link className="text-link" to="/history">Where it fits in my history <Arrow /></Link></article></div>
     </section>
     <section className="section shell elsewhere" id="lab"><div className="section-heading"><div><span className="eyebrow">Projects with their own homes</span><h2>Also made by me.</h2></div><Link to="/lab">All the experiments <Arrow /></Link></div>
-      <div className="project-homes"><a className="publication-link" href="https://paperrobots.studio/"><img src="/images/identity/paper-robot.webp" alt="" loading="lazy" width="160" height="160" /><div><span className="eyebrow">The publication</span><h3>Paper Robots <Arrow /></h3><p>Animated essays about AI, robots, and possible futures.</p><small>Latest: GPT-7 Will Have Arms</small></div></a>
+      <div className="project-homes"><a className="publication-link" href={paperRobotsUrl}><img src="/images/identity/paper-robot.webp" alt="" loading="lazy" width="160" height="160" /><div><span className="eyebrow">The publication</span><h3>Paper Robots <Arrow /></h3><p>Animated essays about AI, robots, and possible futures.</p><small>Latest: GPT-7 Will Have Arms</small></div></a>
       <a className="space-link" href="https://dysonswarm.com/"><span className="orbit-mark" aria-hidden="true">☉</span><div><span className="eyebrow">The space collection</span><h3>Dyson Swarm <Arrow /></h3><p>Interactive experiments in space, scale, and places we might build.</p><small>Another Sky · Dyson Swarm simulation</small></div></a></div>
     </section>
   </main>;

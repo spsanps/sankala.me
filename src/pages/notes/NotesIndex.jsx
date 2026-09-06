@@ -1,4 +1,5 @@
 import { Link, useSearchParams } from 'react-router-dom';
+import { paperRobotsUrl } from '../../data/links';
 import Metadata from '../../components/site/Metadata';
 import { Arrow, WorkRow } from '../../components/site/Elements';
 import { works, topics, formatNames } from '../../data/work';
@@ -26,6 +27,6 @@ export default function NotesIndex() {
     <div className="library-count"><p role="status" aria-live="polite">{matching.length} {matching.length === 1 ? 'piece' : 'pieces'}</p><span>Some work belongs to more than one subject.</span></div>
     <div className="work-list">{matching.map(work => <WorkRow key={work.slug} work={work} />)}</div>
     {!matching.length && <div className="empty-state"><h2>No matches here.</h2><p>Try another subject, format, or search term.</p><button type="button" onClick={reset}>Show all work</button></div>}
-    <aside className="archive-note"><h2>One body of work, a few different homes.</h2><p>This is my complete index. Some pieces also belong to <a href="https://paperrobots.studio/">Paper Robots</a>; the space experiments live at <a href="https://dysonswarm.com/">Dyson Swarm</a>. Each entry takes you to the work itself.</p><Link to="/resume">Full publication details and CV <Arrow /></Link></aside>
+    <aside className="archive-note"><h2>One body of work, a few different homes.</h2><p>This is my complete index. Some pieces also belong to <a href={paperRobotsUrl}>Paper Robots</a>; the space experiments live at <a href="https://dysonswarm.com/">Dyson Swarm</a>. Each entry takes you to the work itself.</p><Link to="/resume">Full publication details and CV <Arrow /></Link></aside>
   </main>;
 }
