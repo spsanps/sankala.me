@@ -544,9 +544,17 @@ for Dyson Swarm cover responsive layouts, navigation, previews, pause/play, touc
 controls, atlas, flight, tours, PNG export and fallback behavior. Real-device GPU
 performance has not been measured.
 
-Suggested next launch asset: a 15–20-second ground-to-overhead reveal clip and
-a short post draft. Asked September 6; not yet accepted or created. No social
-post has been sent.
+San accepted the ground-to-overhead reveal clip on September 6. The finished
+18-second, 1920 × 1080, 30 fps H.264 clip is saved in the Dyson Swarm repo at
+`_social/another-sky/ground-to-overhead/exports/another-sky-ground-to-overhead-v1-1080p.mp4`.
+It begins on a street at Meridian Waterfront, tilts smoothly to the inhabited
+surface overhead, and ends with the explorer link. Silent, with a small title and
+“Look up.” cue. The file is 11,307,079 bytes; all 540 frames decode successfully.
+The actual WebGL2 world was captured using the RTX 4090, with no changes to the
+published renderer. `source/` holds the clean MP4, editable camera path, titles,
+capture script and provenance; `previews/` has a player, review frames and checks.
+`post-draft.txt` contains the short X copy. San’s review and uploading/sharing are
+pending. No social post has been sent.
 
 ## Reference links checked 2026-09-05
 
