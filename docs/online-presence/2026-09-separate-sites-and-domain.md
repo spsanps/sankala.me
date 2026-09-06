@@ -105,6 +105,53 @@ Price changes are listed in the registrar’s
 these as live quotes without checking. San’s pasted penny-price offers require
 multi-year terms; compare the total cost, not only the displayed first year.
 
+## Follow-up: whether to rename for a .com
+
+San then asked whether changing the publication name to obtain a .com would be
+better than keeping Paper Robots with another extension. He is considering the
+choice; no rename or domain selection is confirmed.
+
+Recommendation remains Paper Robots at `paperrobots.studio`. The name connects
+the writing, visual character, and robotics interests. A limitation is that the
+name alone can suggest papercraft; the existing descriptor “AI, robots & possible
+futures” helps explain the editorial scope. These are design judgments, not
+measured audience findings. Being early in the project makes a rename feasible
+if San prefers a different editorial identity; prior artwork is not itself a
+reason to rule it out.
+
+A third option is keeping **Paper Robots** as the displayed brand while using
+`paperrobotsfilms.com`, matching the existing YouTube handle. This preserves the
+name and uses .com, at the cost of a longer and more film-specific address.
+
+Two potential renames considered: **Paper & Silicon** (`paperandsilicon.com`),
+which feels more like a literary/technology publication, and **Painted Futures**
+(`paintedfutures.com`), which broadens toward imagined futures and visual essays.
+The assistant does not consider either an obvious improvement solely for .com.
+
+September 6 registry checks at `https://rdap.verisign.com/com/v1/domain/<name>`:
+
+| Name | Result |
+| --- | --- |
+| paperandsilicon.com | HTTP 404, no registration record |
+| paintedfutures.com | HTTP 404, no registration record |
+| paperrobotsfilms.com | HTTP 404, no registration record |
+| paperrobotsstudio.com | HTTP 404, no registration record |
+| paperfutures.com | HTTP 404, no registration record; not shortlisted |
+| possiblemachines.com | HTTP 200, registered |
+| almosttomorrow.com | HTTP 200, registered |
+
+As with the earlier checks, no-record responses do not confirm checkout
+availability or price. No purchases or account changes were made.
+Paper Futures was not shortlisted: it is already the name of a
+[Canopy campaign](https://canopyplanet.org/change-together/paper-futures) and has
+strong commodity-trading associations in search. Limited phrase searches informed
+the shortlist; they do not establish exclusive use of any name.
+
+The practical .com consideration is familiarity and remembering the address.
+Google says a generic top-level domain does not itself affect search performance:
+[Search Central FAQ](https://developers.google.com/search/help/site-position-in-search-faq).
+Do not frame .com as an automatic ranking or distribution advantage.
+
 ## Implementation boundaries
 
 Keep `/notes`, existing note/essay URLs, `/resume`, `/lab` and its routes, toy URLs,
