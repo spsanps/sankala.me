@@ -1,5 +1,5 @@
-import { essayArticleHtml } from './_essay-static.js';
-import { eaiArticleHtml } from './_eai-static.js';
+import { essayArticleHtml } from '../server/essay-previews/generated/gpt7-will-have-arms.js';
+import { eaiArticleHtml } from '../server/essay-previews/generated/eai-challenge.js';
 
 export const config = {
   runtime: 'edge',

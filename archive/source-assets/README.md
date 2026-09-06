@@ -1,6 +1,9 @@
 # Archived source assets
 
-These files are original or working copies retained for reference. The root `assets/` directory was not referenced by the application, so it was moved here to make the distinction between source files and deployed files explicit.
+These files are original or working copies retained for reference. `photos/`
+holds original photos with their import filenames; `certificates/` holds the
+original certificate PDFs. The former root `assets/` folder was archived here
+because the application did not reference it.
 
 Canonical website assets are under:
 

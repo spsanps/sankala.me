@@ -1,0 +1,833 @@
+{
+  "date": "2026-09-06",
+  "files": [
+    {
+      "from": "api/_eai-static.js",
+      "to": "server/essay-previews/generated/eai-challenge.js",
+      "sha256_before": "1ccdbd9e53902fcf72567beee76c06787ce9e9bf2bc1d4eeb382a38125378ce4",
+      "bytes_before": 5705,
+      "sha256_after": "d4e4e8b299437880fae861a36eda28f7417697c0ff9d65ccce17957ae035c7d5",
+      "bytes_after": 5725,
+      "content_changed": true
+    },
+    {
+      "from": "api/_essay-static.js",
+      "to": "server/essay-previews/generated/gpt7-will-have-arms.js",
+      "sha256_before": "ebacdbc7d7ea5294c38219014e6ea65d056c4ffb503bc441da9191c7aa6b1c4d",
+      "bytes_before": 59340,
+      "sha256_after": "4987110d456018d81d831111be15fe0d5bc59509a60ffe4afe2151d8edc83187",
+      "bytes_after": 59341,
+      "content_changed": true
+    },
+    {
+      "from": "archive/source-assets/1704265748656.jpg",
+      "to": "archive/source-assets/photos/1704265748656.jpg",
+      "sha256_before": "8ef5597c60796bca378a85e005a4b491cc3651a1f3432219979d54136c9c96cb",
+      "bytes_before": 230484,
+      "sha256_after": "8ef5597c60796bca378a85e005a4b491cc3651a1f3432219979d54136c9c96cb",
+      "bytes_after": 230484,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/1716929826546.jpg",
+      "to": "archive/source-assets/photos/1716929826546.jpg",
+      "sha256_before": "77fc7eac2f89213ece08d9d4f3ff8f2ed11468b805cdb1a554cbafe2b31042ee",
+      "bytes_before": 369453,
+      "sha256_after": "77fc7eac2f89213ece08d9d4f3ff8f2ed11468b805cdb1a554cbafe2b31042ee",
+      "bytes_after": 369453,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/NITK ossiloscope.jpg",
+      "to": "archive/source-assets/photos/NITK ossiloscope.jpg",
+      "sha256_before": "afb4ed1244ea28d9a062ca7ad0883acaf4e03c19bbe68c2acdf2c14f26451c3a",
+      "bytes_before": 190941,
+      "sha256_after": "afb4ed1244ea28d9a062ca7ad0883acaf4e03c19bbe68c2acdf2c14f26451c3a",
+      "bytes_after": 190941,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/Sanjayan Pradeep Kumar Sreekala_23-07-11_0183.jpg",
+      "to": "archive/source-assets/photos/Sanjayan Pradeep Kumar Sreekala_23-07-11_0183.jpg",
+      "sha256_before": "22673775f7bd9f228081261fc7634406c16f0d59ec1ddb672b75c1b1f69e6133",
+      "bytes_before": 89252,
+      "sha256_after": "22673775f7bd9f228081261fc7634406c16f0d59ec1ddb672b75c1b1f69e6133",
+      "bytes_after": 89252,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/Sanjayan Pradeep Kumar Sreekala_23-07-11_0193.jpg",
+      "to": "archive/source-assets/photos/Sanjayan Pradeep Kumar Sreekala_23-07-11_0193.jpg",
+      "sha256_before": "4b88b5fc8a6e7cbc4a3459520e94e7f257472e4d8329be459e8d11e156f1d2d1",
+      "bytes_before": 87688,
+      "sha256_after": "4b88b5fc8a6e7cbc4a3459520e94e7f257472e4d8329be459e8d11e156f1d2d1",
+      "bytes_after": 87688,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/Sanjayan Pradeep Kumar Sreekala_23-07-11_0194.jpg",
+      "to": "archive/source-assets/photos/Sanjayan Pradeep Kumar Sreekala_23-07-11_0194.jpg",
+      "sha256_before": "2fd3b1ed0a5a65611fdb5d3c8a81c0e731f1c1ffe9c6bbdea65345699563d7fe",
+      "bytes_before": 94788,
+      "sha256_after": "2fd3b1ed0a5a65611fdb5d3c8a81c0e731f1c1ffe9c6bbdea65345699563d7fe",
+      "bytes_after": 94788,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/TI -Image.jpg",
+      "to": "archive/source-assets/photos/TI -Image.jpg",
+      "sha256_before": "7eb71fb04a7d46438e0fc8811eb33504e618fc56baa80ddace0b448089c0e355",
+      "bytes_before": 117008,
+      "sha256_after": "7eb71fb04a7d46438e0fc8811eb33504e618fc56baa80ddace0b448089c0e355",
+      "bytes_after": 117008,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/UCSD start.jpg",
+      "to": "archive/source-assets/photos/UCSD start.jpg",
+      "sha256_before": "0e51b9111bae02f16d8fc600ae340be1cc729275b77bbb4814e8c45b27c1147c",
+      "bytes_before": 416623,
+      "sha256_after": "0e51b9111bae02f16d8fc600ae340be1cc729275b77bbb4814e8c45b27c1147c",
+      "bytes_after": 416623,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/d7cdbc6f-9d16-4b73-ac83-a7975f2f02ac.jpg",
+      "to": "archive/source-assets/photos/d7cdbc6f-9d16-4b73-ac83-a7975f2f02ac.jpg",
+      "sha256_before": "04ebb7e8433553cb2a47ce37850ceea9e2dd0898b43530d3c5c019db020efc10",
+      "bytes_before": 81521,
+      "sha256_after": "04ebb7e8433553cb2a47ce37850ceea9e2dd0898b43530d3c5c019db020efc10",
+      "bytes_after": 81521,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/ebay intern.jpg",
+      "to": "archive/source-assets/photos/ebay intern.jpg",
+      "sha256_before": "c9ff4605109d6875867b92a7271595f99024333aeb1d007f8866e5956965fe37",
+      "bytes_before": 343715,
+      "sha256_after": "c9ff4605109d6875867b92a7271595f99024333aeb1d007f8866e5956965fe37",
+      "bytes_after": 343715,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/group_photo_23_scaled - Copy.jpg",
+      "to": "archive/source-assets/photos/group_photo_23_scaled - Copy.jpg",
+      "sha256_before": "72957ad1645ae1ac2a864cf3bbebc0037464103eb4123ec483e3dccd0c3afc33",
+      "bytes_before": 578277,
+      "sha256_after": "72957ad1645ae1ac2a864cf3bbebc0037464103eb4123ec483e3dccd0c3afc33",
+      "bytes_after": 578277,
+      "content_changed": false
+    },
+    {
+      "from": "archive/source-assets/group_photo_23_scaled.jpg",
+      "to": "archive/source-assets/photos/group_photo_23_scaled.jpg",
+      "sha256_before": "0a670b84d490977fa789e53ece73fd2243a51f553d363b251be47e69cf78d7c4",
+      "bytes_before": 267268,
+      "sha256_after": "0a670b84d490977fa789e53ece73fd2243a51f553d363b251be47e69cf78d7c4",
+      "bytes_after": 267268,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-prompts.md",
+      "to": "branding/paper-robots/youtube/banner/prompts.md",
+      "sha256_before": "b464e835790f8dc4935283b935a5d5d7167b0f72e1acd9b0c2ccc63a547db2b1",
+      "bytes_before": 50868,
+      "sha256_after": "729c29ca6a3e015c2ac8864652add7ca12368894ca710ed7c87d38b58f9d0e0a",
+      "bytes_after": 51779,
+      "content_changed": true
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v1-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v1/channel-banner-v1-source.png",
+      "sha256_before": "99c3cb0876cfa04977ef9260d50f4550a6ee4a91e5d57b0dcec688b6f6a55992",
+      "bytes_before": 1921231,
+      "sha256_after": "99c3cb0876cfa04977ef9260d50f4550a6ee4a91e5d57b0dcec688b6f6a55992",
+      "bytes_after": 1921231,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v1.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v1/channel-banner-v1.png",
+      "sha256_before": "3650907d6978a19e3172fbc6ca8b54436992ff1c5028d41b82c7b3f4d637bccf",
+      "bytes_before": 5052636,
+      "sha256_after": "3650907d6978a19e3172fbc6ca8b54436992ff1c5028d41b82c7b3f4d637bccf",
+      "bytes_after": 5052636,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v2-desktop-preview.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v2/channel-banner-v2-desktop-preview.png",
+      "sha256_before": "9fa381305d28e37746e614461df0c4f4511d1c19fcdd6b8023bd6193b6bf5b1b",
+      "bytes_before": 1951323,
+      "sha256_after": "9fa381305d28e37746e614461df0c4f4511d1c19fcdd6b8023bd6193b6bf5b1b",
+      "bytes_after": 1951323,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v2-mobile-preview.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v2/channel-banner-v2-mobile-preview.png",
+      "sha256_before": "f4442a0e336a7583f4f2f8d1809c84f1e1b3cfe4c497eeb424d5485a679fbc4e",
+      "bytes_before": 1330012,
+      "sha256_after": "f4442a0e336a7583f4f2f8d1809c84f1e1b3cfe4c497eeb424d5485a679fbc4e",
+      "bytes_after": 1330012,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v2-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v2/channel-banner-v2-source.png",
+      "sha256_before": "40168b94a3ab06668abe04278347743d265b1e4bc1563226346f8438d224c3bf",
+      "bytes_before": 2000808,
+      "sha256_after": "40168b94a3ab06668abe04278347743d265b1e4bc1563226346f8438d224c3bf",
+      "bytes_after": 2000808,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v2.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v2/channel-banner-v2.png",
+      "sha256_before": "0f6028fc6b97e81780c4acd608bc721333e0dce4a31cf6916b2afa4a325148f4",
+      "bytes_before": 4809344,
+      "sha256_after": "0f6028fc6b97e81780c4acd608bc721333e0dce4a31cf6916b2afa4a325148f4",
+      "bytes_after": 4809344,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v3-mobile-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v3/channel-banner-v3-mobile-preview.jpg",
+      "sha256_before": "925a1f1d25edbc432921e54de78b86d775c0496c4148ce38df4297b47255b68b",
+      "bytes_before": 105195,
+      "sha256_after": "925a1f1d25edbc432921e54de78b86d775c0496c4148ce38df4297b47255b68b",
+      "bytes_after": 105195,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v3-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v3/channel-banner-v3-source.png",
+      "sha256_before": "6829d91917dfa54665dcfbb147e011776dc1f5e6fdeef9a60638ec4dd267c27c",
+      "bytes_before": 1326779,
+      "sha256_after": "6829d91917dfa54665dcfbb147e011776dc1f5e6fdeef9a60638ec4dd267c27c",
+      "bytes_after": 1326779,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v3-under-1mb.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v3/channel-banner-v3-under-1mb.jpg",
+      "sha256_before": "074a09a04494d28f77ed0266f986d4ce48bec0e076b808f465cd6eb6d2986f6e",
+      "bytes_before": 158844,
+      "sha256_after": "074a09a04494d28f77ed0266f986d4ce48bec0e076b808f465cd6eb6d2986f6e",
+      "bytes_after": 158844,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v4-mobile-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v4/channel-banner-v4-mobile-preview.jpg",
+      "sha256_before": "c260c8da368f5540a5136ac85ca31c0678ddcee57de074be59aea14c870f4ac3",
+      "bytes_before": 152432,
+      "sha256_after": "c260c8da368f5540a5136ac85ca31c0678ddcee57de074be59aea14c870f4ac3",
+      "bytes_after": 152432,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v4-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v4/channel-banner-v4-source.png",
+      "sha256_before": "f54844339104bccac6edee0b348677836bf352cee845f1ed7c8d762c5938b057",
+      "bytes_before": 1258934,
+      "sha256_after": "f54844339104bccac6edee0b348677836bf352cee845f1ed7c8d762c5938b057",
+      "bytes_after": 1258934,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v4-under-1mb.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v4/channel-banner-v4-under-1mb.jpg",
+      "sha256_before": "ea03fc6bb9959bf0f835c720110e74df444c7bb7ea3c1d965e9a421a323f94bc",
+      "bytes_before": 210835,
+      "sha256_after": "ea03fc6bb9959bf0f835c720110e74df444c7bb7ea3c1d965e9a421a323f94bc",
+      "bytes_after": 210835,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v5-mobile-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v5/channel-banner-v5-mobile-preview.jpg",
+      "sha256_before": "dc06ef0858372457fa38fa9d618bc3c784b7c9915a64198f5b06624f0c530a94",
+      "bytes_before": 167863,
+      "sha256_after": "dc06ef0858372457fa38fa9d618bc3c784b7c9915a64198f5b06624f0c530a94",
+      "bytes_after": 167863,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v5-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v5/channel-banner-v5-source.png",
+      "sha256_before": "f44bc1421a46507bb679eceb68049aeaa4a6860bfdb11e484039826fe968db59",
+      "bytes_before": 1562744,
+      "sha256_after": "f44bc1421a46507bb679eceb68049aeaa4a6860bfdb11e484039826fe968db59",
+      "bytes_after": 1562744,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v5-under-1mb.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v5/channel-banner-v5-under-1mb.jpg",
+      "sha256_before": "eaa1967e271bb47ba416ec631a50f7c16df9b875ff76a4e6790bfcf1acc75562",
+      "bytes_before": 247464,
+      "sha256_after": "eaa1967e271bb47ba416ec631a50f7c16df9b875ff76a4e6790bfcf1acc75562",
+      "bytes_after": 247464,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v6-mobile-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v6/channel-banner-v6-mobile-preview.jpg",
+      "sha256_before": "2cf7a211ad5518a548076972bf47f9133e824e864184d16afa6f68bc4770949b",
+      "bytes_before": 166915,
+      "sha256_after": "2cf7a211ad5518a548076972bf47f9133e824e864184d16afa6f68bc4770949b",
+      "bytes_after": 166915,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v6-source.png",
+      "to": "branding/paper-robots/youtube/banner/archive/v6/channel-banner-v6-source.png",
+      "sha256_before": "236f49debd100fde63879dcd1e6797e888f0b760223db3f62890c70e51b9f518",
+      "bytes_before": 1638108,
+      "sha256_after": "236f49debd100fde63879dcd1e6797e888f0b760223db3f62890c70e51b9f518",
+      "bytes_after": 1638108,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v6-under-1mb.jpg",
+      "to": "branding/paper-robots/youtube/banner/archive/v6/channel-banner-v6-under-1mb.jpg",
+      "sha256_before": "b502c046eec47f687b2680ef5a8ef7c8776cee759b7c08e1ac60002252596b5e",
+      "bytes_before": 262299,
+      "sha256_after": "b502c046eec47f687b2680ef5a8ef7c8776cee759b7c08e1ac60002252596b5e",
+      "bytes_after": 262299,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v7-desktop-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/current/channel-banner-v7-desktop-preview.jpg",
+      "sha256_before": "e252fcc2f74eec3f5f4fc7339b5958fa5e56862f4dd7e75bf58045365a885bf7",
+      "bytes_before": 360224,
+      "sha256_after": "e252fcc2f74eec3f5f4fc7339b5958fa5e56862f4dd7e75bf58045365a885bf7",
+      "bytes_after": 360224,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v7-mobile-preview.jpg",
+      "to": "branding/paper-robots/youtube/banner/current/channel-banner-v7-mobile-preview.jpg",
+      "sha256_before": "dd08bfc78b6ef93818e80be8f9ff9f7d407d3aa2d2d9a028956494465249409a",
+      "bytes_before": 199050,
+      "sha256_after": "dd08bfc78b6ef93818e80be8f9ff9f7d407d3aa2d2d9a028956494465249409a",
+      "bytes_after": 199050,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v7-source.png",
+      "to": "branding/paper-robots/youtube/banner/current/channel-banner-v7-source.png",
+      "sha256_before": "1bc68194030b1cc5bae7ae676e75328290bd869c985c547aa82560016dbfbc7d",
+      "bytes_before": 2641274,
+      "sha256_after": "1bc68194030b1cc5bae7ae676e75328290bd869c985c547aa82560016dbfbc7d",
+      "bytes_after": 2641274,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/channel-banner-v7-under-1mb.jpg",
+      "to": "branding/paper-robots/youtube/banner/current/channel-banner-v7-under-1mb.jpg",
+      "sha256_before": "0367c537a317ff4ee4a8b0af5b87808a34548caa678dfa9ff4e79884775bb3d8",
+      "bytes_before": 769957,
+      "sha256_after": "0367c537a317ff4ee4a8b0af5b87808a34548caa678dfa9ff4e79884775bb3d8",
+      "bytes_after": 769957,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-prompts.md",
+      "to": "branding/paper-robots/youtube/profile-picture/prompts.md",
+      "sha256_before": "2c0dac8b091698d84ef7b1bf4d34e77066a06e28c7c90ba3d9b520e149b7430e",
+      "bytes_before": 11335,
+      "sha256_after": "b982479b09350a200f63afffd1e288246c9e48b9d855e7953a48c2676f702891",
+      "bytes_after": 11600,
+      "content_changed": true
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v1.png",
+      "to": "branding/paper-robots/youtube/profile-picture/archive/v1/profile-picture-v1.png",
+      "sha256_before": "9625d377f4bd331da45ccd0150f5c0963c40651cc6f4eb462b091f1614ec9ef8",
+      "bytes_before": 2297856,
+      "sha256_after": "9625d377f4bd331da45ccd0150f5c0963c40651cc6f4eb462b091f1614ec9ef8",
+      "bytes_after": 2297856,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v2-small-preview.png",
+      "to": "branding/paper-robots/youtube/profile-picture/archive/v2/profile-picture-v2-small-preview.png",
+      "sha256_before": "5293f1bd219c20fb75b1d6e8cacb697ca1a9c8965cc608e9e30975b9d0f71aae",
+      "bytes_before": 13174,
+      "sha256_after": "5293f1bd219c20fb75b1d6e8cacb697ca1a9c8965cc608e9e30975b9d0f71aae",
+      "bytes_after": 13174,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v2-source.png",
+      "to": "branding/paper-robots/youtube/profile-picture/archive/v2/profile-picture-v2-source.png",
+      "sha256_before": "e01bb84c825fd3a07986bca0ecd65844e5f5ca7ee290bc2b909e8b478aa4c00e",
+      "bytes_before": 1859881,
+      "sha256_after": "e01bb84c825fd3a07986bca0ecd65844e5f5ca7ee290bc2b909e8b478aa4c00e",
+      "bytes_after": 1859881,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v2.jpg",
+      "to": "branding/paper-robots/youtube/profile-picture/archive/v2/profile-picture-v2.jpg",
+      "sha256_before": "3065f8d6ad92049aa1bcdfe9e851ecee01e18be23a52f1cee28433410d7c1580",
+      "bytes_before": 192028,
+      "sha256_after": "3065f8d6ad92049aa1bcdfe9e851ecee01e18be23a52f1cee28433410d7c1580",
+      "bytes_after": 192028,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v3-small-preview.png",
+      "to": "branding/paper-robots/youtube/profile-picture/current/profile-picture-v3-small-preview.png",
+      "sha256_before": "9a01ca25b71ade0cfa13e103fe75baec0cc8b1790e514c5540e97e9782d914e9",
+      "bytes_before": 19724,
+      "sha256_after": "9a01ca25b71ade0cfa13e103fe75baec0cc8b1790e514c5540e97e9782d914e9",
+      "bytes_after": 19724,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v3-source.png",
+      "to": "branding/paper-robots/youtube/profile-picture/current/profile-picture-v3-source.png",
+      "sha256_before": "ea667d63633483164dba4edbab7363c7c4bc63b0c88f51bf3e4a40f6a5cf0025",
+      "bytes_before": 2384452,
+      "sha256_after": "ea667d63633483164dba4edbab7363c7c4bc63b0c88f51bf3e4a40f6a5cf0025",
+      "bytes_after": 2384452,
+      "content_changed": false
+    },
+    {
+      "from": "branding/paper-robots/youtube/profile-picture-v3.jpg",
+      "to": "branding/paper-robots/youtube/profile-picture/current/profile-picture-v3.jpg",
+      "sha256_before": "5b0c8260f146287340ab81ee65eb7cc7309701031c305934d8914d3b3629bbcd",
+      "bytes_before": 256225,
+      "sha256_after": "5b0c8260f146287340ab81ee65eb7cc7309701031c305934d8914d3b3629bbcd",
+      "bytes_after": 256225,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/README.md",
+      "to": "content/README.md",
+      "sha256_before": "f9834ff187aed342bd04af877582b474ad1bfef7b526b9aaca41e22f0ef58003",
+      "bytes_before": 1020,
+      "sha256_after": "76507b456171961a4f8fb84e2702422224b0551d02e37c11f5ecfe61a9e88d92",
+      "bytes_after": 1291,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/LINKS_AUDIT.md",
+      "to": "archive/website-content-reviews/LINKS_AUDIT.md",
+      "sha256_before": "05539e34c290c7107e769461a40201dbb12c675b5001b82b1713fbc600561bf4",
+      "bytes_before": 3251,
+      "sha256_after": "d71a4a3e8b63441df36ee1f8cd4cdedd5dcebb79c999396536769b1f5c974481",
+      "bytes_after": 3304,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/about-text-options.txt",
+      "to": "archive/website-content-reviews/about-text-options.txt",
+      "sha256_before": "3d9b5f91aa5a85a70fd3b37e5eee0d674550f32976c55f83e16c78e17d174dd5",
+      "bytes_before": 2063,
+      "sha256_after": "3d9b5f91aa5a85a70fd3b37e5eee0d674550f32976c55f83e16c78e17d174dd5",
+      "bytes_after": 2063,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/CHANGES_MADE.md",
+      "to": "archive/website-content-reviews/content-cleanup/CHANGES_MADE.md",
+      "sha256_before": "2b79b207779821637e2ceeb5558fda27f9bf16b696eda33a1d7d96bad103832d",
+      "bytes_before": 4065,
+      "sha256_after": "71be4e4826fc3a1f59084faaba0557bce0749c15e042c39130d5b47dc5e2d58b",
+      "bytes_after": 4134,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/CLEANUP_COMPLETE.md",
+      "to": "archive/website-content-reviews/content-cleanup/CLEANUP_COMPLETE.md",
+      "sha256_before": "3e88ccbd2ae4fcbf37477c47aefb7999d55d0a4a6c356ccc6d575ba252010086",
+      "bytes_before": 6984,
+      "sha256_after": "4d5b650457d78d00d2149b85ee65bd696e1131f896151d55d303cb555800a762",
+      "bytes_after": 7096,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/PLACEHOLDER_AUDIT.md",
+      "to": "archive/website-content-reviews/content-cleanup/PLACEHOLDER_AUDIT.md",
+      "sha256_before": "71eb7b8d8215a00cb323f36906186a20dcfce84dfb5d45285d9b9e1abce102c2",
+      "bytes_before": 6294,
+      "sha256_after": "a565b53681fd0376dadca862e73cbd391f409084b6fba915021a6ed5dc9946d3",
+      "bytes_after": 6336,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/SLOP_TEXT_AUDIT.md",
+      "to": "archive/website-content-reviews/content-cleanup/SLOP_TEXT_AUDIT.md",
+      "sha256_before": "69067b4cf31320b8eb102e14baa2306fc3a53ecb3a10be474c21fc8d10e017c0",
+      "bytes_before": 8161,
+      "sha256_after": "1ed210dbe9a792174dca63d0d1e7fc4dfef47659632acc04517990c8e127e102",
+      "bytes_after": 8219,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/TIMELINE_CHANGES_APPLIED.md",
+      "to": "archive/website-content-reviews/content-cleanup/TIMELINE_CHANGES_APPLIED.md",
+      "sha256_before": "e40452ce0f1553f7186f0fc8fea82f6844a904123838a83875dabb7d6f9748b5",
+      "bytes_before": 4386,
+      "sha256_after": "e40452ce0f1553f7186f0fc8fea82f6844a904123838a83875dabb7d6f9748b5",
+      "bytes_after": 4386,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/TIMELINE_DATA_REVIEW.md",
+      "to": "archive/website-content-reviews/content-cleanup/TIMELINE_DATA_REVIEW.md",
+      "sha256_before": "6dae19330b6e0de9cc3876aacdfa0002ac1eea5de2ede2462bb103ac40f2436b",
+      "bytes_before": 8566,
+      "sha256_after": "6dae19330b6e0de9cc3876aacdfa0002ac1eea5de2ede2462bb103ac40f2436b",
+      "bytes_after": 8566,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/TIMELINE_DATA_UPDATED.md",
+      "to": "archive/website-content-reviews/content-cleanup/TIMELINE_DATA_UPDATED.md",
+      "sha256_before": "7723aa4bc98fa6af2df61bcc55ee629fc1a1389fa10bdeaa5711354c7c482769",
+      "bytes_before": 6859,
+      "sha256_after": "7723aa4bc98fa6af2df61bcc55ee629fc1a1389fa10bdeaa5711354c7c482769",
+      "bytes_after": 6859,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/archive/content-cleanup/TIMELINE_FINAL_REVIEW.md",
+      "to": "archive/website-content-reviews/content-cleanup/TIMELINE_FINAL_REVIEW.md",
+      "sha256_before": "4668ec88a06e7ebb2fd1f596d56c775021cb32abd8eb23cad2a0efd6e8160d04",
+      "bytes_before": 6956,
+      "sha256_after": "4668ec88a06e7ebb2fd1f596d56c775021cb32abd8eb23cad2a0efd6e8160d04",
+      "bytes_after": 6956,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/assets/VIKI.png",
+      "to": "content/essays/gpt7-will-have-arms/assets/VIKI.png",
+      "sha256_before": "6badd9778b9e6bc739d5286193d46293e6103913d3ce760ebbfdff8dc319c395",
+      "bytes_before": 1239493,
+      "sha256_after": "6badd9778b9e6bc739d5286193d46293e6103913d3ce760ebbfdff8dc319c395",
+      "bytes_after": 1239493,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/assets/wine-video-sora-CONVERT-TO-GIF-FOR_SITE.mp4",
+      "to": "content/essays/gpt7-will-have-arms/assets/wine-video-sora-CONVERT-TO-GIF-FOR_SITE.mp4",
+      "sha256_before": "eebf238f9aa4513223581437209f5965c11472a2d90b19b4cf8225de2f3d7d5e",
+      "bytes_before": 4747401,
+      "sha256_after": "eebf238f9aa4513223581437209f5965c11472a2d90b19b4cf8225de2f3d7d5e",
+      "bytes_after": 4747401,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/COMMENTS.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/comments.md",
+      "sha256_before": "ca9365c2e6c556ab52b9e758f5f2a8b5d0393868578c566a589ff6898c3c3bd5",
+      "bytes_before": 4014,
+      "sha256_after": "ca9365c2e6c556ab52b9e758f5f2a8b5d0393868578c566a589ff6898c3c3bd5",
+      "bytes_after": 4014,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/GPT7_Will_Have_Arms.md",
+      "to": "content/essays/gpt7-will-have-arms/draft.md",
+      "sha256_before": "c7dec01169c61de44427004c0afdf2a7129a7ac791f63966150df7aadda837a7",
+      "bytes_before": 66109,
+      "sha256_after": "c7dec01169c61de44427004c0afdf2a7129a7ac791f63966150df7aadda837a7",
+      "bytes_after": 66109,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_ITERATION_2.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/round-02.md",
+      "sha256_before": "cec19967f7dbdff2e6ef2eee6f53c6c729989db1e057400a3869b2210d8604f4",
+      "bytes_before": 11780,
+      "sha256_after": "af24b403e551cda19c98b17ae75185c262d42051fbbf9ec9c221ca9629cef597",
+      "bytes_after": 11765,
+      "content_changed": true
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_ITERATION_3.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/round-03.md",
+      "sha256_before": "dbe45e8efe1b952f3f6e43aaa925d20b14e36608c98ce797f5475167853a3511",
+      "bytes_before": 8213,
+      "sha256_after": "dbe45e8efe1b952f3f6e43aaa925d20b14e36608c98ce797f5475167853a3511",
+      "bytes_after": 8213,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_ITERATION_4.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/round-04.md",
+      "sha256_before": "9f9953286a58f1bbfeb8b9881efca6b1af353f8ee9dbedfeb240a42b0b2a467a",
+      "bytes_before": 9866,
+      "sha256_after": "9f9953286a58f1bbfeb8b9881efca6b1af353f8ee9dbedfeb240a42b0b2a467a",
+      "bytes_after": 9866,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_ITERATION_5.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/round-05.md",
+      "sha256_before": "5a5fc49ce1323364eda43a26d68fc9f631d6ad8c96bb1eb9021d83f396cb4eaf",
+      "bytes_before": 7285,
+      "sha256_after": "5a5fc49ce1323364eda43a26d68fc9f631d6ad8c96bb1eb9021d83f396cb4eaf",
+      "bytes_after": 7285,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_ITERATION_6.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/round-06.md",
+      "sha256_before": "3d6c123861a1a79719f325552053c18f141b995fb3f7de7585e0ab81b50dc513",
+      "bytes_before": 3852,
+      "sha256_after": "3d6c123861a1a79719f325552053c18f141b995fb3f7de7585e0ab81b50dc513",
+      "bytes_after": 3852,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/REVIEW_TRACKER.md",
+      "to": "content/essays/gpt7-will-have-arms/reviews/tracker.md",
+      "sha256_before": "d5c0aa91d16d053ed2117b620ccfab9ada03f602f1be62b2f4afc4371b907101",
+      "bytes_before": 17938,
+      "sha256_after": "d5c0aa91d16d053ed2117b620ccfab9ada03f602f1be62b2f4afc4371b907101",
+      "bytes_after": 17938,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/GPT7_Will_Have_Arms_v17 (2).docx",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/GPT7_Will_Have_Arms_v17 (2).docx",
+      "sha256_before": "fd8830a922f95e1e266a7791d078c4f780443422ac6d37c7f86a3a01118df8c8",
+      "bytes_before": 57260,
+      "sha256_after": "fd8830a922f95e1e266a7791d078c4f780443422ac6d37c7f86a3a01118df8c8",
+      "bytes_after": 57260,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/GPT7_Will_Have_Arms_v7.docx",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/GPT7_Will_Have_Arms_v7.docx",
+      "sha256_before": "9eff7e53051d0f84607e79bf83abef8ff0d3504f0c2b6d844aa8325076d32a19",
+      "bytes_before": 38103,
+      "sha256_after": "9eff7e53051d0f84607e79bf83abef8ff0d3504f0c2b6d844aa8325076d32a19",
+      "bytes_after": 38103,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/essay_revisions.md",
+      "to": "content/essays/gpt7-will-have-arms/archive/reviews/essay_revisions.md",
+      "sha256_before": "ffc5d9c2579be76c4877e3ecb624b3f8646ce46502a3fa61ff58365388bc81c9",
+      "bytes_before": 27377,
+      "sha256_after": "ffc5d9c2579be76c4877e3ecb624b3f8646ce46502a3fa61ff58365388bc81c9",
+      "bytes_after": 27377,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/essay_v17_raw.md",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/essay_v17_raw.md",
+      "sha256_before": "25d121d2d2db08105c9f03da81277b433ab036fad8555b576c37e33e1d43b873",
+      "bytes_before": 60826,
+      "sha256_after": "25d121d2d2db08105c9f03da81277b433ab036fad8555b576c37e33e1d43b873",
+      "bytes_after": 60826,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt7_final_essay_plan (1).md",
+      "to": "content/essays/gpt7-will-have-arms/archive/planning/gpt7_final_essay_plan (1).md",
+      "sha256_before": "308670249e065de711cd475246c3864f7fe3ec76540b7fb68b508d0b3ca0a2ea",
+      "bytes_before": 33159,
+      "sha256_after": "308670249e065de711cd475246c3864f7fe3ec76540b7fb68b508d0b3ca0a2ea",
+      "bytes_after": 33159,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt7_master_references (1).md",
+      "to": "content/essays/gpt7-will-have-arms/archive/references/gpt7_master_references (1).md",
+      "sha256_before": "b5b8f3ba3aa52c740f3942a4fff7d1a7e2653ee0e2bde0663cf16622059f5be3",
+      "bytes_before": 20762,
+      "sha256_after": "b5b8f3ba3aa52c740f3942a4fff7d1a7e2653ee0e2bde0663cf16622059f5be3",
+      "bytes_after": 20762,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt7_master_references (2).md",
+      "to": "content/essays/gpt7-will-have-arms/archive/references/gpt7_master_references (2).md",
+      "sha256_before": "b5b8f3ba3aa52c740f3942a4fff7d1a7e2653ee0e2bde0663cf16622059f5be3",
+      "bytes_before": 20762,
+      "sha256_after": "b5b8f3ba3aa52c740f3942a4fff7d1a7e2653ee0e2bde0663cf16622059f5be3",
+      "bytes_after": 20762,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt7_will_have_arms_full_essay.md",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/gpt7_will_have_arms_full_essay.md",
+      "sha256_before": "46506be22dcc547af5c5746c91469e376f834ed12c9f9d23df5bad8037c61143",
+      "bytes_before": 80860,
+      "sha256_after": "46506be22dcc547af5c5746c91469e376f834ed12c9f9d23df5bad8037c61143",
+      "bytes_after": 80860,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt7_will_have_arms_full_essay_old.md",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/gpt7_will_have_arms_full_essay_old.md",
+      "sha256_before": "9a1c854322f731423053a0cba9c031ec652753fdb42be126288231529cdc22d4",
+      "bytes_before": 74705,
+      "sha256_after": "9a1c854322f731423053a0cba9c031ec652753fdb42be126288231529cdc22d4",
+      "bytes_after": 74705,
+      "content_changed": false
+    },
+    {
+      "from": "content_drafts/gpt7-will-have-arms/archived/gpt_essay1.md",
+      "to": "content/essays/gpt7-will-have-arms/archive/manuscripts/gpt_essay1.md",
+      "sha256_before": "6ebd48fc668162956c6f3a5b0654dbf4c4ca38d33859850bd9bc216812ee1624",
+      "bytes_before": 127494,
+      "sha256_after": "6ebd48fc668162956c6f3a5b0654dbf4c4ca38d33859850bd9bc216812ee1624",
+      "bytes_after": 127494,
+      "content_changed": false
+    },
+    {
+      "from": "scripts/generate-essay-static.mjs",
+      "to": "scripts/essays/generate-static.mjs",
+      "sha256_before": "ca02b5ae8aa486b6b62f59eedafd8bbc47509581b3a31ff86c978e7ef3470fb4",
+      "bytes_before": 6316,
+      "sha256_after": "cb98828f7b8cabf1a44804fe364f7c13a8d2c7cdbb7d64d3492c7da29ece83e9",
+      "bytes_after": 6440,
+      "content_changed": true
+    },
+    {
+      "from": "src/App.jsx",
+      "to": "src/app/App.jsx",
+      "sha256_before": "77d1b0d61f371f973c786aa4d477b6e752f735ed00f4d1570ea01ade5c2a4097",
+      "bytes_before": 1578,
+      "sha256_after": "70af13b78a51c896ebab7a09257000268f42e4b09157b706392d9cf24a2f21a7",
+      "bytes_after": 1598,
+      "content_changed": true
+    },
+    {
+      "from": "src/Layout.jsx",
+      "to": "src/app/Layout.jsx",
+      "sha256_before": "8960e0d0e4021783907dba6d35cf3d456f518b9eedc9bc432b389358b589c103",
+      "bytes_before": 5900,
+      "sha256_after": "8960e0d0e4021783907dba6d35cf3d456f518b9eedc9bc432b389358b589c103",
+      "bytes_after": 5900,
+      "content_changed": false
+    },
+    {
+      "from": "src/components/essay/GPT7Visualizations.jsx",
+      "to": "src/pages/essays/gpt7-will-have-arms/components/GPT7Visualizations.jsx",
+      "sha256_before": "c91d1301b78c2f42207320fd1bed346a40b50a90756dd7f0826506a8d9054dec",
+      "bytes_before": 27067,
+      "sha256_after": "c91d1301b78c2f42207320fd1bed346a40b50a90756dd7f0826506a8d9054dec",
+      "bytes_after": 27067,
+      "content_changed": false
+    },
+    {
+      "from": "src/components/essay/LLMActions.jsx",
+      "to": "src/components/writing/LLMActions.jsx",
+      "sha256_before": "17f205d5e6faa88aad7620d525f66f2560338dd70460aa55fdb0f3e6e377981b",
+      "bytes_before": 2080,
+      "sha256_after": "17f205d5e6faa88aad7620d525f66f2560338dd70460aa55fdb0f3e6e377981b",
+      "bytes_after": 2080,
+      "content_changed": false
+    },
+    {
+      "from": "src/data/content.js",
+      "to": "src/data/site-content.js",
+      "sha256_before": "c4d17d01e937bc79ee3307523d6ddf6996b1553e88abdc4d9025e87d049f0eae",
+      "bytes_before": 6967,
+      "sha256_after": "c4d17d01e937bc79ee3307523d6ddf6996b1553e88abdc4d9025e87d049f0eae",
+      "bytes_after": 6967,
+      "content_changed": false
+    },
+    {
+      "from": "src/data/essays/gpt7-arms-data.js",
+      "to": "src/pages/essays/gpt7-will-have-arms/data.js",
+      "sha256_before": "c0e1af9d425ae34d4b9530d1d1b0ac0db1fb1c511a5656d21d710e133ae39f27",
+      "bytes_before": 9844,
+      "sha256_after": "c0e1af9d425ae34d4b9530d1d1b0ac0db1fb1c511a5656d21d710e133ae39f27",
+      "bytes_after": 9844,
+      "content_changed": false
+    },
+    {
+      "from": "src/index.css",
+      "to": "src/styles/site.css",
+      "sha256_before": "b3d20fcd1211b95da7b62201cdca48a9697e41d756b671afedcf682e4683600a",
+      "bytes_before": 604,
+      "sha256_after": "b3d20fcd1211b95da7b62201cdca48a9697e41d756b671afedcf682e4683600a",
+      "bytes_after": 604,
+      "content_changed": false
+    },
+    {
+      "from": "src/pages/EAIWriteup.jsx",
+      "to": "src/pages/notes/eai-challenge/EAIWriteup.jsx",
+      "sha256_before": "cd2d6bd707e296b0dd96ee864bac45c46690296117d8332873a36ecfe442cf7b",
+      "bytes_before": 20141,
+      "sha256_after": "ae1491cee67fa9ea2f2a79ee1053f7278cdbe136659ad961509379ed7ced40b4",
+      "bytes_after": 20149,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/GPT7Essay.jsx",
+      "to": "src/pages/essays/gpt7-will-have-arms/GPT7Essay.jsx",
+      "sha256_before": "6d8d3bba74d08f2d69147fb097329313cddd2f012d849e4b30c7ae838992edde",
+      "bytes_before": 106639,
+      "sha256_after": "e05afae5aa6510990f97227f247120bc1498ca45fdba1d8a49e802187f9c16cf",
+      "bytes_after": 106640,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/Home.jsx",
+      "to": "src/pages/home/Home.jsx",
+      "sha256_before": "0ec719335acf62b80ea0655b99acbe589c9143acad027d461c394e0491b73391",
+      "bytes_before": 39156,
+      "sha256_after": "a8cbe8eacaf3b1331d23ab32a64ec9cb57950fff0a0065d849ecf634ca45ec08",
+      "bytes_after": 39164,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/LabEntry.jsx",
+      "to": "src/pages/lab/LabEntry.jsx",
+      "sha256_before": "a74024611870c7b9f8c4217972f0663e75961ca766aaa76ef4b97980a81a8800",
+      "bytes_before": 2221,
+      "sha256_after": "b1420919ffe42b172a53d90cd9cacbd1b44a34ba41357dea92fd40a7c6d6b164",
+      "bytes_after": 2229,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/LabIndex.jsx",
+      "to": "src/pages/lab/LabIndex.jsx",
+      "sha256_before": "cf1a3d51bc9d1aa4fa02cf82b0d09a28f5ab26724f67a09b345bc3fbae727297",
+      "bytes_before": 2538,
+      "sha256_after": "b4afb18f9fe2442ebd9c787be6bf3245c2482540e47f6277200fadd0b536a039",
+      "bytes_after": 2546,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/NoteEntry.jsx",
+      "to": "src/pages/notes/NoteEntry.jsx",
+      "sha256_before": "8d2102871127a655b871442791118e2c7c91908fc5b424a13334d0552cb0fa56",
+      "bytes_before": 7057,
+      "sha256_after": "c157101151a11f64c44084e292fe89688bf046cf219f0b55a8fac023b1e750bd",
+      "bytes_after": 7070,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/NotesIndex.jsx",
+      "to": "src/pages/notes/NotesIndex.jsx",
+      "sha256_before": "542f4ed19466894e13893590e6c4abae5d6949a80a7da59c7db09ff59feef94a",
+      "bytes_before": 4078,
+      "sha256_after": "80403d50b6fca8fa0df8aa1218302670eb905528f5c4333f9439dcee78d9b834",
+      "bytes_after": 4086,
+      "content_changed": true
+    },
+    {
+      "from": "src/pages/Resume.jsx",
+      "to": "src/pages/resume/Resume.jsx",
+      "sha256_before": "a9a2e2bbb032de72536a655f58cbf2f6d5c5b3cea5f0848d265c4229775b22f0",
+      "bytes_before": 14592,
+      "sha256_after": "a9a2e2bbb032de72536a655f58cbf2f6d5c5b3cea5f0848d265c4229775b22f0",
+      "bytes_after": 14592,
+      "content_changed": false
+    }
+  ]
+}

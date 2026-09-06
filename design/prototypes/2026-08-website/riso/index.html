@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>San Kala — riso sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F2EBDC;
+    --paper-2: #EAE1CD;
+    --ink: #231F20;      /* riso black */
+    --blue: #0078BF;     /* riso blue */
+    --orange: #FF6C2F;   /* riso fluorescent orange */
+    --blue-tint: #C9DFF0;
+    --display: "Instrument Serif", "Times New Roman", serif;
+    --sans: "Instrument Sans", system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, monospace;
+    --gutter: clamp(20px, 5vw, 64px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.55; }
+  /* paper grain over everything */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: .22; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25  0 0 0 0 .2  0 0 0 0 .15  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1; letter-spacing: -.015em; }
+  .mono { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+  .blue { color: var(--blue); }
+  .orange { color: var(--orange); }
+  /* misregistered headline: blue with an orange ghost, overprinted */
+  .misreg { position: relative; color: var(--blue); display: inline-block; }
+  .misreg::before { content: attr(data-text); position: absolute; left: 3px; top: 2px; white-space: nowrap; color: var(--orange); mix-blend-mode: multiply; z-index: -1; }
+  .rule { height: 1.5px; background: var(--ink); }
+  .rule.blue { background: var(--blue); }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ---------- masthead ---------- */
+  .proto { background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; text-align: center; padding: 6px; }
+  .proto b { color: var(--orange); font-weight: 400; }
+  .masthead { border-bottom: 1.5px solid var(--ink); }
+  .masthead .row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 20px; }
+  .masthead .issue { display: flex; gap: 18px; flex-wrap: wrap; }
+  .masthead .issue span + span::before { content: "·"; margin-right: 18px; color: var(--orange); }
+  nav { display: flex; align-items: center; gap: 30px; padding: 16px 0; border-top: 1.5px solid var(--ink); }
+  .brand { font-family: var(--display); font-size: 34px; letter-spacing: -.02em; display: flex; align-items: center; gap: 12px; }
+  .brand img { width: 34px; height: 34px; object-fit: cover; border-radius: 50%; }
+  nav .links { display: flex; gap: 24px; margin-left: 20px; }
+  nav .links a { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1.5px solid transparent; padding-bottom: 2px; }
+  nav .links a:hover { border-color: var(--orange); }
+  .btn { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; padding: 10px 18px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn.fill { background: var(--blue); border-color: var(--blue); color: var(--paper); }
+  .btn.fill:hover { background: var(--ink); border-color: var(--ink); }
+  nav .btn { margin-left: auto; }
+
+  /* ---------- cover ---------- */
+  .cover { padding: 28px 0 0; }
+  .cover figure { margin: 0; position: relative; }
+  .cover img { width: 100%; height: min(72vh, 680px); object-fit: cover; object-position: center 45%; }
+  .cover .plate { position: absolute; left: 0; bottom: 0; right: 0; height: 26%; background: linear-gradient(transparent, rgba(242,235,220,.0)); }
+  .cover .caption { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1.5px solid var(--ink); }
+  .cover .title { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; padding: 34px 0 44px; align-items: end; }
+  .cover h1 { font-size: clamp(56px, 8.4vw, 124px); line-height: .9; }
+  .cover h1 em { font-style: italic; }
+  .cover .dek { font-family: var(--display); font-size: clamp(22px, 2.2vw, 30px); line-height: 1.2; font-style: italic; margin: 0 0 22px; }
+  .cover .actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .cover .note { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--orange); }
+
+  /* ---------- statement ---------- */
+  .statement { border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 64px 0; }
+  .statement .in { display: grid; grid-template-columns: 220px 1fr; gap: 40px; }
+  .statement h2 { font-size: clamp(36px, 5vw, 74px); line-height: .98; max-width: 16ch; }
+  .statement h2 em { font-style: italic; color: var(--blue); }
+  .statement p { max-width: 56ch; font-size: 18px; margin: 22px 0 0; }
+  .statement .side { padding-top: 8px; }
+  .statement .side .big { font-family: var(--display); font-size: 60px; line-height: 1; color: var(--orange); }
+
+  /* ---------- section heads ---------- */
+  .sec { padding: 60px 0 0; }
+  .sec-head { display: grid; grid-template-columns: 220px 1fr auto; gap: 40px; align-items: baseline; border-bottom: 1.5px solid var(--ink); padding-bottom: 10px; margin-bottom: 30px; }
+  .sec-head h2 { font-size: clamp(30px, 3.6vw, 44px); }
+  .sec-head .more { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+
+  /* ---------- latest ---------- */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding-bottom: 20px; }
+  .card { display: block; }
+  .card figure { margin: 0 0 14px; border: 1.5px solid var(--ink); }
+  .card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; transition: transform .2s; }
+  .card .kind { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .card .kind b { color: var(--blue); font-weight: 700; }
+  .card h3 { font-size: 30px; line-height: 1.02; }
+  .card p { margin: 8px 0 0; font-size: 15.5px; color: #3b3536; }
+  .card:hover h3 { color: var(--blue); }
+
+  /* ---------- ink sets ---------- */
+  .inks { background: var(--paper-2); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); margin-top: 48px; padding: 52px 0 60px; }
+  .inks .lede { max-width: 58ch; font-size: 17px; margin: -10px 0 30px; }
+  .ink-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .ink-row figure { margin: 0; }
+  .ink-row img { border: 1.5px solid var(--ink); }
+  .ink-row figcaption { display: flex; align-items: center; gap: 10px; padding-top: 10px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+  .ink-row .dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--ink); display: inline-block; }
+
+  /* ---------- start here ---------- */
+  .start .row { display: grid; grid-template-columns: 220px 120px 1fr auto; gap: 40px; align-items: center; padding: 20px 0; border-bottom: 1.5px solid var(--ink); }
+  .start .num { font-family: var(--display); font-size: 48px; color: var(--orange); line-height: 1; }
+  .start img { width: 120px; aspect-ratio: 1; object-fit: cover; border: 1.5px solid var(--ink); }
+  .start h3 { font-size: 30px; }
+  .start p { margin: 6px 0 0; font-size: 15.5px; color: #3b3536; }
+  .start .go { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--blue); }
+
+  /* ---------- subscribe: a solid orange print ---------- */
+  .subscribe { background: #EBA582; color: var(--ink); margin-top: 72px; border-top: 1.5px solid var(--ink); }
+  .subscribe .in { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding: 56px 0; }
+  .subscribe h2 { font-size: clamp(44px, 6vw, 84px); line-height: .92; }
+  .subscribe h2 em { font-style: italic; color: var(--paper); }
+  .subscribe p { font-size: 18px; max-width: 44ch; margin: 18px 0 24px; }
+  .subscribe form { display: flex; gap: 10px; max-width: 460px; }
+  .subscribe input { flex: 1; font: 15px var(--mono); padding: 12px 14px; border: 1.5px solid var(--ink); background: var(--paper); color: var(--ink); }
+  .subscribe .btn { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .subscribe .blob { justify-self: end; width: min(100%, 460px); }
+  .subscribe .blob img { width: 100%; }
+  .subscribe .hint { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; margin-top: 12px; }
+
+  /* ---------- final + colophon ---------- */
+  .final { padding: 0; border-top: 1.5px solid var(--ink); }
+  .final img { width: 100%; height: min(60vh, 560px); object-fit: cover; object-position: center 60%; }
+  .colophon { border-top: 1.5px solid var(--ink); padding: 26px 0 40px; display: grid; grid-template-columns: 220px 1fr auto; gap: 40px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .05em; text-transform: uppercase; line-height: 1.7; }
+  .colophon .links { display: flex; gap: 20px; }
+  .colophon .links a:hover { color: var(--blue); }
+  .swatch { display: inline-block; width: 10px; height: 10px; border: 1px solid var(--ink); vertical-align: -1px; margin-right: 4px; }
+
+  @media (max-width: 900px) {
+    .cover .title, .statement .in, .sec-head, .colophon { grid-template-columns: 1fr; gap: 16px; }
+    .cards, .ink-row { grid-template-columns: 1fr; }
+    .start .row { grid-template-columns: 48px 1fr; }
+    .start img, .start .go { display: none; }
+    .subscribe .in { grid-template-columns: 1fr; }
+    nav .links { display: none; }
+    .cover img { height: 52vh; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto">Style sample · <b>Risograph</b> · two inks, blue + fluorescent orange, on paper · existing renders, no new generation</div>
+
+<header class="masthead">
+  <div class="wrap">
+    <div class="row mono">
+      <div class="issue"><span>San Kala</span><span>Issue 01</span><span>August 2026</span></div>
+      <div class="issue"><span><i class="swatch" style="background:var(--blue)"></i>Blue</span><span><i class="swatch" style="background:var(--orange)"></i>Fluorescent orange</span><span>Printed in two colours</span></div>
+    </div>
+    <nav>
+      <a class="brand" href="./"><img src="img/blob-logo.jpg" alt="">San Kala</a>
+      <div class="links">
+        <a href="#">Writing</a><a href="#">Watch</a><a href="#">Lab</a><a href="../about/">About</a>
+      </div>
+      <a class="btn fill" href="#subscribe">Subscribe</a>
+    </nav>
+  </div>
+</header>
+
+<section class="cover">
+  <div class="wrap">
+    <figure>
+      <img src="img/hero.jpg" alt="A colossal robot hand descends toward a man standing small at the shore, printed in blue and orange.">
+    </figure>
+    <div class="caption mono"><span>Fig. 1 — The reveal</span><span>Frame 01 · Flagship</span></div>
+    <div class="title">
+      <h1><span class="misreg" data-text="GPT-7">GPT-7</span> will<br>have <em>arms.</em></h1>
+      <div>
+        <p class="dek">Intelligence is about to get a body.</p>
+        <div class="actions">
+          <a class="btn" href="#">Read the essay</a>
+          <span class="note">Film — in production</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="statement">
+  <div class="wrap in">
+    <div class="side">
+      <div class="mono">Frame 02<br>The worldview</div>
+      <div class="big">§</div>
+    </div>
+    <div>
+      <h2>The future is <em>physically enormous,</em> and nearer than it looks.</h2>
+      <p>Essays, films, and experiments about frontier technology becoming real — from someone who builds it. The right response isn't panic or hype. It's walking up close.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Frame 03</span>
+      <h2>Latest</h2>
+      <a class="more" href="#">All writing →</a>
+    </div>
+    <div class="cards">
+      <a class="card" href="#">
+        <figure><img src="img/card-eai.jpg" alt=""></figure>
+        <div class="kind"><b>Essay</b><span>Aug 2026</span></div>
+        <h3>Winning by Overfitting</h3>
+        <p>How closing a loop around the benchmark's own evaluator won a NeurIPS 2025 challenge.</p>
+      </a>
+      <a class="card" href="#">
+        <figure><img src="img/card-film.jpg" alt=""></figure>
+        <div class="kind"><b>Film</b><span>In production</span></div>
+        <h3>GPT-7 Will Have Arms — the film</h3>
+        <p>The essay's argument, retold as a visual story. Keyframes are being drawn now.</p>
+      </a>
+      <a class="card" href="#">
+        <figure><img src="img/base-lab.jpg" alt=""></figure>
+        <div class="kind"><b>Lab</b><span>Ongoing</span></div>
+        <h3>The Style Lab</h3>
+        <p>Teaching a model to draw everything on this site — one LoRA, one world, printed in whatever inks are in the drum.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="inks">
+  <div class="wrap">
+    <div class="sec-head" style="border-bottom-color:var(--ink)">
+      <span class="mono">Frame 04</span>
+      <h2>One drawing, three ink sets</h2>
+      <span class="mono">Same master, different drums</span>
+    </div>
+    <p class="lede">Every section of the site is the same world run through a different pair of inks — writing in blue and orange, the Lab in green and pink, notes in black and orange.</p>
+    <div class="ink-row">
+      <figure><img src="img/ink-blue-orange.jpg" alt=""><figcaption><i class="dot" style="background:var(--blue)"></i><i class="dot" style="background:var(--orange)"></i>Writing · blue + orange</figcaption></figure>
+      <figure><img src="img/ink-green-pink.jpg" alt=""><figcaption><i class="dot" style="background:#00A95C"></i><i class="dot" style="background:#FF48B0"></i>Lab · green + pink</figcaption></figure>
+      <figure><img src="img/ink-black-orange.jpg" alt=""><figcaption><i class="dot" style="background:var(--ink)"></i><i class="dot" style="background:var(--orange)"></i>Notes · black + orange</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec start">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Frame 05</span>
+      <h2>Start here</h2>
+      <span class="mono">Two pieces, in order</span>
+    </div>
+    <a class="row" href="#">
+      <span class="num">01</span>
+      <img src="img/witness-child.jpg" alt="">
+      <span><h3>GPT-7 Will Have Arms</h3><p>The thesis — why the next AI revolution happens in the physical world.</p></span>
+      <span class="go">Read →</span>
+    </a>
+    <a class="row" href="#">
+      <span class="num">02</span>
+      <img src="img/witness-engineer.jpg" alt="">
+      <span><h3>Winning by Overfitting</h3><p>The evidence — a weaker model with a real evaluator beats a stronger one without.</p></span>
+      <span class="go">Read →</span>
+    </a>
+  </div>
+</section>
+
+<section class="subscribe" id="subscribe">
+  <div class="wrap in">
+    <div>
+      <div class="mono">Frame 06 · The ask</div>
+      <h2 style="margin-top:14px">Get the <em>next one.</em></h2>
+      <p>One flagship every few weeks. No feed, no roundups — only things worth remembering.</p>
+      <form onsubmit="return false">
+        <input type="email" placeholder="you@example.com" aria-label="Email address">
+        <button class="btn" type="submit">Join</button>
+      </form>
+      <div class="hint">Delivered by Substack · unsubscribe any time</div>
+    </div>
+    <div class="blob"><img src="img/blob-wave.jpg" alt="The blob waves hello, printed in orange."></div>
+  </div>
+</section>
+
+<div class="final">
+  <img src="img/base-final.jpg" alt="The blob, hill-sized, on a plain while a tiny person looks up — printed in blue and orange.">
+</div>
+
+<footer class="colophon">
+  <div class="wrap" style="display:contents">
+    <span>© 2026 San Kala<br>Sanjayan Sreekala</span>
+    <span>Set in Instrument Serif &amp; Space Mono · Drawn by the style lab, two plates by the base model · Separated into <i class="swatch" style="background:var(--blue)"></i>Blue and <i class="swatch" style="background:var(--orange)"></i>Fluorescent orange · Registration is intentionally imperfect</span>
+    <div class="links"><a href="#">X</a><a href="#">YouTube</a><a href="#">GitHub</a><a href="#">Email</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

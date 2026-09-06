@@ -25,3 +25,15 @@ dist-ssr
 
 *.claude*
 social-assets/
+tmp/
+
+# Local historical planning and command/session history
+docs/archive/2026-08-15-media-brand-playbook.md
+design/prototypes/*/history/
+
+# Runtime caches and credentials
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example

@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>San Kala — retro style sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cobalt: #0173CB;
+    --cobalt-deep: #0B69A7;
+    --ink: #0A305B;
+    --cream: #FAEAC3;
+    --cream-deep: #F8DFAB;
+    --paper: #F3E2B8;
+    --red: #EF5930;
+    --line: 2.5px;
+    --display: "Archivo Black", Impact, system-ui, sans-serif;
+    --body: "Newsreader", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--cream); color: var(--ink);
+    font-family: var(--body); font-size: 18px; line-height: 1.5;
+    position: relative;
+  }
+  /* aged paper grain over everything */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .14;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .05  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: multiply;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ---------- shared vocabulary ---------- */
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+  .stencil { font-family: var(--mono); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--red); }
+  .cel { border: var(--line) solid var(--ink); box-shadow: 8px 8px 0 var(--ink); background: var(--cream); }
+  .tone { position: relative; }
+  .tone::after {  /* screen-tone halftone */
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle, var(--ink) 1px, transparent 1.35px);
+    background-size: 6px 6px; opacity: .16; mix-blend-mode: multiply;
+  }
+  .hazard {
+    height: 14px; border-top: var(--line) solid var(--ink); border-bottom: var(--line) solid var(--ink);
+    background: repeating-linear-gradient(-45deg, var(--red) 0 16px, var(--cream) 16px 32px);
+  }
+  .btn {
+    display: inline-block; font-family: var(--mono); font-weight: 600; font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
+    padding: 12px 20px; border: var(--line) solid var(--ink); background: var(--red); color: var(--cream);
+    box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn.ghost { background: var(--cream); color: var(--ink); }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; line-height: .95; letter-spacing: -.01em; margin: 0; text-transform: uppercase; }
+  .shell { max-width: 1180px; margin: 0 auto; padding: 72px clamp(20px, 5vw, 56px); }
+  .shell-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 36px; }
+  .shell-head h2 { font-size: clamp(30px, 4vw, 48px); }
+  .shell-head .rule { flex: 1; height: var(--line); background: var(--ink); align-self: center; }
+  .shell-head .rule::after { content: ""; display: block; width: 10px; height: 10px; background: var(--red); border: var(--line) solid var(--ink); margin-left: auto; transform: translateY(-5px) rotate(45deg); }
+
+  /* ---------- banner ---------- */
+  .proto { background: var(--ink); color: var(--cream); font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; text-align: center; padding: 6px; }
+  .proto b { color: var(--red); }
+
+  /* ---------- nav ---------- */
+  nav {
+    display: flex; align-items: center; gap: 28px; padding: 14px clamp(20px, 5vw, 56px);
+    border-bottom: var(--line) solid var(--ink); background: var(--cream); position: sticky; top: 0; z-index: 20;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: var(--display); font-size: 22px; letter-spacing: .02em; }
+  .brand .mark { width: 30px; height: 30px; background: var(--red); border: var(--line) solid var(--ink); display: grid; place-items: center; color: var(--cream); font-size: 14px; box-shadow: 3px 3px 0 var(--ink); }
+  nav .links { display: flex; gap: 22px; margin-left: 12px; }
+  nav .links a { font-family: var(--mono); font-size: 13px; letter-spacing: .14em; text-transform: uppercase; padding: 4px 0; border-bottom: 2px solid transparent; }
+  nav .links a:hover, nav .links a.here { border-color: var(--red); }
+  nav .btn { margin-left: auto; padding: 9px 16px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; background: var(--cobalt); border-bottom: var(--line) solid var(--ink); }
+  .hero .bg { width: 100%; height: min(78vh, 700px); object-fit: cover; object-position: center 40%; }
+  .hero .plate {
+    position: absolute; right: clamp(20px, 5vw, 56px); bottom: -40px; max-width: 560px; padding: 28px 30px 30px;
+  }
+  .hero .plate .tag { display: flex; justify-content: space-between; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(38px, 5.6vw, 72px); color: var(--cobalt); text-shadow: 3px 3px 0 var(--ink); }
+  .hero .dek { font-style: italic; font-size: 22px; margin: 14px 0 22px; }
+  .hero .actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .hero .code { position: absolute; left: clamp(20px, 5vw, 56px); top: 24px; font-size: clamp(28px, 4vw, 54px); font-family: var(--display); color: var(--cream); text-shadow: 3px 3px 0 var(--ink); letter-spacing: .04em; }
+  .hero .portholes { position: absolute; left: clamp(20px, 5vw, 56px); bottom: 22px; display: flex; gap: 10px; }
+  .hero .portholes i { width: 14px; height: 14px; border-radius: 50%; background: var(--cream); border: var(--line) solid var(--ink); }
+
+  /* ---------- worldview ---------- */
+  .worldview { background: var(--cobalt); color: var(--cream); padding: 120px clamp(20px, 5vw, 56px) 80px; border-bottom: var(--line) solid var(--ink); }
+  .worldview .inner { max-width: 1180px; margin: 0 auto; position: relative; z-index: 1; }
+  .worldview h2 { font-size: clamp(34px, 5vw, 66px); max-width: 15ch; }
+  .worldview h2 em { font-style: normal; color: var(--cream); background: var(--red); padding: 0 .12em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .worldview p { font-size: 20px; max-width: 58ch; margin: 24px 0 0; }
+  .worldview .stencil { color: var(--cream-deep); margin-bottom: 18px; display: block; }
+  .worldview .star { position: absolute; right: 0; top: -20px; font-size: clamp(60px, 10vw, 140px); color: var(--red); -webkit-text-stroke: 3px var(--ink); line-height: 1; }
+
+  /* ---------- cards ---------- */
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .card-item { display: flex; flex-direction: column; background: var(--cream); border: var(--line) solid var(--ink); box-shadow: 8px 8px 0 var(--ink); transition: transform .15s, box-shadow .15s; }
+  .card-item:hover { transform: translate(-3px,-3px); box-shadow: 11px 11px 0 var(--ink); }
+  .card-item .fig { aspect-ratio: 16 / 10; border-bottom: var(--line) solid var(--ink); position: relative; overflow: hidden; }
+  .card-item .fig.cobalt { background: var(--cobalt); }
+  .card-item .fig.red { background: var(--red); }
+  .card-item .fig.paper { background: var(--cream-deep); }
+  .card-item .fig .cloud { position: absolute; background: var(--cream); border: var(--line) solid var(--ink); border-radius: 60px; }
+  .card-item .fig .stripe { position: absolute; left: -10%; right: -10%; height: 18px; background: var(--red); border-top: var(--line) solid var(--ink); border-bottom: var(--line) solid var(--ink); transform: rotate(-8deg); }
+  .card-item .fig .code { position: absolute; left: 16px; bottom: 12px; z-index: 2; color: var(--cream); font-size: 24px; font-family: var(--display); text-shadow: 2px 2px 0 var(--ink); }
+  .card-item .fig .tbd { position: absolute; right: 14px; top: 12px; z-index: 2; font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--ink); background: var(--cream); border: var(--line) solid var(--ink); padding: 3px 8px; }
+  .card-item .body { padding: 18px 20px 24px; }
+  .card-item .kind { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
+  .card-item .kind b { color: var(--red); font-weight: 600; }
+  .card-item h3 { font-size: 22px; line-height: 1.1; }
+  .card-item p { margin: 10px 0 0; font-size: 16px; line-height: 1.45; }
+
+  /* ---------- modes ---------- */
+  .modes { background: var(--ink); color: var(--cream); border-top: var(--line) solid var(--ink); border-bottom: var(--line) solid var(--ink); }
+  .modes .shell-head .rule { background: var(--cream); }
+  .modes .lede { max-width: 60ch; font-size: 19px; margin: -10px 0 34px; color: var(--cream-deep); }
+  .mode-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+  .mode-row figure { margin: 0; border: var(--line) solid var(--cream); box-shadow: 5px 5px 0 var(--red); }
+  .mode-row .sw { aspect-ratio: 4/3; display: grid; grid-template-rows: 2fr 1fr 1fr; }
+  .mode-row .sw i { display: block; }
+  .mode-row figcaption { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; padding: 6px 8px; border-top: var(--line) solid var(--cream); }
+
+  /* ---------- start here ---------- */
+  .start .row { display: grid; grid-template-columns: 64px 1fr auto; gap: 26px; align-items: center; padding: 22px 0; border-bottom: var(--line) solid var(--ink); }
+  .start .row:first-of-type { border-top: var(--line) solid var(--ink); }
+  .start .num { width: 52px; height: 52px; border-radius: 50%; background: var(--red); color: var(--cream); border: var(--line) solid var(--ink); box-shadow: 3px 3px 0 var(--ink); display: grid; place-items: center; font-family: var(--display); font-size: 20px; }
+  .start h3 { font-size: 26px; }
+  .start p { margin: 6px 0 0; font-size: 17px; }
+  .start .go { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--red); white-space: nowrap; }
+  .start .row:hover .go { text-decoration: underline; }
+
+  /* ---------- subscribe ---------- */
+  .subscribe { background: var(--cream-deep); }
+  .subscribe .inner { max-width: 1180px; margin: 0 auto; padding: 72px clamp(20px, 5vw, 56px); display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .subscribe h2 { font-size: clamp(36px, 5vw, 64px); color: var(--cobalt); text-shadow: 3px 3px 0 var(--ink); }
+  .subscribe p { font-size: 20px; max-width: 46ch; margin: 18px 0 26px; }
+  .subscribe form { display: flex; gap: 12px; max-width: 460px; }
+  .subscribe input { flex: 1; font: 16px var(--mono); padding: 12px 14px; border: var(--line) solid var(--ink); background: var(--cream); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+  .subscribe input::placeholder { color: #7f8aa0; }
+  .subscribe .badge { justify-self: center; width: min(100%, 360px); aspect-ratio: 1; border-radius: 50%; background: var(--cobalt); border: var(--line) solid var(--ink); box-shadow: 10px 10px 0 var(--ink); display: grid; place-items: center; position: relative; overflow: hidden; }
+  .subscribe .badge .ring { position: absolute; inset: 22px; border-radius: 50%; border: var(--line) dashed var(--cream); }
+  .subscribe .badge .c { font-family: var(--display); font-size: 84px; color: var(--cream); text-shadow: 4px 4px 0 var(--ink); z-index: 1; }
+  .subscribe .badge .s { position: absolute; bottom: 44px; font-family: var(--mono); font-size: 11px; letter-spacing: .2em; color: var(--cream-deep); z-index: 1; }
+  .subscribe .badge .band { position: absolute; left: -20%; right: -20%; top: 50%; height: 44px; background: var(--red); border-top: var(--line) solid var(--ink); border-bottom: var(--line) solid var(--ink); transform: translateY(-30px) rotate(-12deg); }
+
+  footer { background: var(--ink); color: var(--cream); padding: 28px clamp(20px, 5vw, 56px); display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
+  footer .links { display: flex; gap: 22px; }
+  footer .links a:hover { color: var(--red); }
+
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; }
+    .mode-row { grid-template-columns: repeat(3, 1fr); }
+    .subscribe .inner { grid-template-columns: 1fr; }
+    .hero .bg { height: 60vh; }
+    .hero .plate { position: static; margin: -60px clamp(20px, 5vw, 56px) 40px; }
+    .hero .code { top: 12px; font-size: 26px; }
+    .worldview { padding-top: 60px; }
+    nav .links { display: none; }
+    .start .row { grid-template-columns: 52px 1fr; }
+    .start .go { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto">Style sample · <b>Retro cel</b> · no generated art — hero is the reference image as a placeholder</div>
+
+<nav>
+  <a class="brand" href="./"><span class="mark">★</span>SAN KALA</a>
+  <div class="links">
+    <a href="#">Writing</a>
+    <a href="#">Watch</a>
+    <a href="#">Lab</a>
+    <a href="../about/">About</a>
+  </div>
+  <a class="btn" href="#subscribe">Subscribe</a>
+</nav>
+
+<header class="hero">
+  <img class="bg" src="img/ref.jpg" alt="Reference: a boy and a small robot on a rooftop watch a huge aircraft pass over a retro-futurist city.">
+  <div class="code">C-22</div>
+  <div class="portholes"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="plate cel">
+    <div class="tag"><span class="stencil">Frame 01 · Flagship</span><span class="mono">Essay · 2026</span></div>
+    <h1>GPT-7 Will Have Arms</h1>
+    <p class="dek">Intelligence is about to get a body.</p>
+    <div class="actions">
+      <a class="btn" href="#">Read the essay</a>
+      <span class="stencil" style="font-size:12px">Film — in production</span>
+    </div>
+  </div>
+</header>
+
+<section class="worldview tone">
+  <div class="inner">
+    <span class="stencil">Frame 02 · The worldview</span>
+    <h2>The future is <em>physically enormous,</em> and nearer than it looks.</h2>
+    <p>Essays, films, and experiments about frontier technology becoming real — from someone who builds it. The right response isn't panic or hype. It's walking up close.</p>
+    <div class="star">★</div>
+  </div>
+</section>
+
+<section class="shell">
+  <div class="shell-head">
+    <span class="stencil">Frame 03</span>
+    <h2>Latest</h2>
+    <div class="rule"></div>
+  </div>
+  <div class="cards">
+    <a class="card-item" href="#">
+      <div class="fig cobalt tone">
+        <span class="tbd">Art slot</span>
+        <span class="cloud" style="width:46%;height:30%;left:-6%;top:12%"></span>
+        <span class="cloud" style="width:34%;height:22%;right:-4%;top:38%"></span>
+        <span class="stripe" style="bottom:28%"></span>
+        <span class="code">FIG 01</span>
+      </div>
+      <div class="body">
+        <div class="kind"><b>Essay</b>&ensp;Aug 2026</div>
+        <h3>Winning by Overfitting</h3>
+        <p>How closing a loop around the benchmark's own evaluator won a NeurIPS 2025 challenge.</p>
+      </div>
+    </a>
+    <a class="card-item" href="#">
+      <div class="fig red tone">
+        <span class="tbd">Art slot</span>
+        <span class="cloud" style="width:52%;height:34%;left:24%;top:-10%"></span>
+        <span class="code">FIG 02</span>
+      </div>
+      <div class="body">
+        <div class="kind"><b>Film</b>&ensp;In production</div>
+        <h3>GPT-7 Will Have Arms — the film</h3>
+        <p>The essay's argument, retold as a visual story. Keyframes are being drawn now.</p>
+      </div>
+    </a>
+    <a class="card-item" href="#">
+      <div class="fig paper tone">
+        <span class="tbd">Art slot</span>
+        <span class="cloud" style="width:40%;height:26%;right:8%;top:16%;background:var(--cobalt)"></span>
+        <span class="stripe" style="bottom:22%;transform:rotate(6deg)"></span>
+        <span class="code" style="color:var(--cobalt)">FIG 03</span>
+      </div>
+      <div class="body">
+        <div class="kind"><b>Lab</b>&ensp;Ongoing</div>
+        <h3>The Style Lab</h3>
+        <p>Teaching a model to draw everything on this site — one LoRA, one world, six weathers.</p>
+      </div>
+    </a>
+  </div>
+</section>
+
+<div class="hazard"></div>
+
+<section class="modes">
+  <div class="shell">
+    <div class="shell-head">
+      <span class="stencil">Frame 04</span>
+      <h2>One world, six weathers</h2>
+      <div class="rule"></div>
+    </div>
+    <p class="lede">The same scene, re-rendered. Each part of the site gets its own weather — the Lab lives in blueprint, notes in nocturne, launches in poster.</p>
+    <div class="mode-row">
+      <figure><div class="sw"><i style="background:#0173CB"></i><i style="background:#FAEAC3"></i><i style="background:#EF5930"></i></div><figcaption>base</figcaption></figure>
+      <figure><div class="sw"><i style="background:#0A305B"></i><i style="background:#0173CB"></i><i style="background:#FAEAC3"></i></div><figcaption>blueprint</figcaption></figure>
+      <figure><div class="sw"><i style="background:#0A305B"></i><i style="background:#0B69A7"></i><i style="background:#EF5930"></i></div><figcaption>nocturne</figcaption></figure>
+      <figure><div class="sw"><i style="background:#EF5930"></i><i style="background:#FAEAC3"></i><i style="background:#0A305B"></i></div><figcaption>poster</figcaption></figure>
+      <figure><div class="sw"><i style="background:#F8DFAB"></i><i style="background:#EF5930"></i><i style="background:#0173CB"></i></div><figcaption>riso</figcaption></figure>
+      <figure><div class="sw"><i style="background:#FAEAC3"></i><i style="background:#0B69A7"></i><i style="background:#F8DFAB"></i></div><figcaption>soft</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="shell start">
+  <div class="shell-head">
+    <span class="stencil">Frame 05</span>
+    <h2>Start here</h2>
+    <div class="rule"></div>
+  </div>
+  <a class="row" href="#">
+    <span class="num">01</span>
+    <span>
+      <h3>GPT-7 Will Have Arms</h3>
+      <p>The thesis — why the next AI revolution happens in the physical world.</p>
+    </span>
+    <span class="go">Read →</span>
+  </a>
+  <a class="row" href="#">
+    <span class="num">02</span>
+    <span>
+      <h3>Winning by Overfitting</h3>
+      <p>The evidence — a weaker model with a real evaluator beats a stronger one without.</p>
+    </span>
+    <span class="go">Read →</span>
+  </a>
+</section>
+
+<div class="hazard"></div>
+
+<section class="subscribe" id="subscribe">
+  <div class="inner">
+    <div class="copy">
+      <span class="stencil">Frame 06 · The ask</span>
+      <h2>Get the<br>next one.</h2>
+      <p>One flagship every few weeks. No feed, no roundups — only things worth remembering.</p>
+      <form onsubmit="return false">
+        <input type="email" placeholder="you@example.com" aria-label="Email address">
+        <button class="btn" type="submit">Join</button>
+      </form>
+    </div>
+    <div class="badge tone">
+      <div class="ring"></div>
+      <div class="band"></div>
+      <div class="c">SK</div>
+      <div class="s">SANKALA · SNKL-7 · EST. 2026</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 SAN KALA · SANJAYAN SREEKALA</span>
+  <div class="links">
+    <a href="#">X</a><a href="#">YouTube</a><a href="#">GitHub</a><a href="#">Email</a>
+  </div>
+</footer>
+
+</body>
+</html>

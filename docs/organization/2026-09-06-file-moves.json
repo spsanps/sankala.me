@@ -1,0 +1,606 @@
+{
+  "date": "2026-09-06",
+  "root": "/home/san/Projects/sankala.me",
+  "status": "moved-and-checksums-verified",
+  "files": [
+    {
+      "from": "tmp/sankala_media_brand_website_substack_playbook.md",
+      "to": "docs/archive/2026-08-15-media-brand-playbook.md",
+      "bytes": 37864,
+      "sha256": "13562201597eaefedf5d6b47fcd00933b879c264ef89b7b2fdae06d8e94b5bdc"
+    },
+    {
+      "from": "tmp/proto/__pycache__/riso.cpython-312.pyc",
+      "to": "design/prototypes/2026-08-website/history/__pycache__/riso.cpython-312.pyc",
+      "bytes": 5408,
+      "sha256": "cca79d5cdae67f3ae29354e60e0dfea3da6c410e08be930f51262a34a3158481"
+    },
+    {
+      "from": "tmp/proto/_asset_cmds.txt",
+      "to": "design/prototypes/2026-08-website/history/asset-generation-commands.txt",
+      "bytes": 8949,
+      "sha256": "1702e6159e10100a92a579083d1c2791803f730e05628eb53bf08ed64714dd04"
+    },
+    {
+      "from": "tmp/proto/about/img/about-shore.webp",
+      "to": "design/prototypes/2026-08-website/about/img/about-shore.webp",
+      "bytes": 22220,
+      "sha256": "a8f30db5ca1400a7e95761060b4ff1213e740a2c4de09d5c664ab74d39b7ac5e"
+    },
+    {
+      "from": "tmp/proto/about/img/blob-logo.webp",
+      "to": "design/prototypes/2026-08-website/about/img/blob-logo.webp",
+      "bytes": 3692,
+      "sha256": "e8438e92469cb75f3db2bace699a6817487631c1dd45883f162fb923e2d24d87"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-ebay-intern.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-ebay-intern.webp",
+      "bytes": 279012,
+      "sha256": "d941f0ec9a5767a1eda6609518e2ca98091d3c8aecd8145345a06663997333f7"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-ebay.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-ebay.webp",
+      "bytes": 116682,
+      "sha256": "53a1c2310acea8a32dc4a60bb3fbd9039e1c228b43adfdd432e316886916cf27"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-headshot.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-headshot.webp",
+      "bytes": 35392,
+      "sha256": "c015faf84c3f4ffc9db7073907953b67e0544293711b51a5f08c67f7c561f43f"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-nitk.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-nitk.webp",
+      "bytes": 45350,
+      "sha256": "1be17a89a0ed7fc097032a62bc45f6519d424341afc03ff6584645263f9983c3"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-ucsd-start.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-ucsd-start.webp",
+      "bytes": 56620,
+      "sha256": "37fefd01f303d750f3d24155a5aa0110952b0a554e2cf5188582b124cb226678"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-ucsd.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-ucsd.webp",
+      "bytes": 71776,
+      "sha256": "9527683e5bf802118ee35fe65506bc396bfba5b1724c3690086d6af7fa2b19f4"
+    },
+    {
+      "from": "tmp/proto/about/img/photo-uist.webp",
+      "to": "design/prototypes/2026-08-website/about/img/photo-uist.webp",
+      "bytes": 85680,
+      "sha256": "8025ee9ff980d295f240c01e446933b05ed8938cc7e26fb36d4872949a928469"
+    },
+    {
+      "from": "tmp/proto/about/index.html",
+      "to": "design/prototypes/2026-08-website/about/index.html",
+      "bytes": 18653,
+      "sha256": "1676b0436575490a881a57365f9ee97528e5f92ce65f727ee98aa308e9f5876d"
+    },
+    {
+      "from": "tmp/proto/img/about-shore.webp",
+      "to": "design/prototypes/2026-08-website/img/about-shore.webp",
+      "bytes": 22220,
+      "sha256": "a8f30db5ca1400a7e95761060b4ff1213e740a2c4de09d5c664ab74d39b7ac5e"
+    },
+    {
+      "from": "tmp/proto/img/blob-colossal.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-colossal.webp",
+      "bytes": 18602,
+      "sha256": "0708efed3bdfa7cf5987b7774f39cac9984d7d102f0e18a4c870bd2956061f2e"
+    },
+    {
+      "from": "tmp/proto/img/blob-colossal2.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-colossal2.webp",
+      "bytes": 43804,
+      "sha256": "eb4ba462e172a39d3254e960a4f0dc6c4a177df0d650583eaa3c060a05581e03"
+    },
+    {
+      "from": "tmp/proto/img/blob-lab.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-lab.webp",
+      "bytes": 11550,
+      "sha256": "f701535bf20a97ddfc96bf352a2e46be8ada63f67f99111260293ab9679da785"
+    },
+    {
+      "from": "tmp/proto/img/blob-logo.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-logo.webp",
+      "bytes": 3692,
+      "sha256": "e8438e92469cb75f3db2bace699a6817487631c1dd45883f162fb923e2d24d87"
+    },
+    {
+      "from": "tmp/proto/img/blob-read.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-read.webp",
+      "bytes": 13308,
+      "sha256": "d54c1bc34f69b2cee5382559fe561bc01e7ad457cf5b25f590c694b78c72a13b"
+    },
+    {
+      "from": "tmp/proto/img/blob-sleep.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-sleep.webp",
+      "bytes": 12604,
+      "sha256": "37bf7f9257ffc9ce25185937bd47dac3ace0cca632fb525b51d45e54abd9b576"
+    },
+    {
+      "from": "tmp/proto/img/blob-wave.webp",
+      "to": "design/prototypes/2026-08-website/img/blob-wave.webp",
+      "bytes": 11460,
+      "sha256": "ed5e0cbe9fc64bff2ac04e262185429a8b437db7054d5109f0f848e6b50b636e"
+    },
+    {
+      "from": "tmp/proto/img/card-eai.webp",
+      "to": "design/prototypes/2026-08-website/img/card-eai.webp",
+      "bytes": 17020,
+      "sha256": "b50b130e658aa842c58fcd9a552b6fed9892898507b7f6abf4b8c03c8090a27b"
+    },
+    {
+      "from": "tmp/proto/img/card-eai2.webp",
+      "to": "design/prototypes/2026-08-website/img/card-eai2.webp",
+      "bytes": 29840,
+      "sha256": "e128697ad1dcec0a2cf8e3cb59acf042ad6d67fc4db2f44b0c1b703ceb74cc46"
+    },
+    {
+      "from": "tmp/proto/img/card-film.webp",
+      "to": "design/prototypes/2026-08-website/img/card-film.webp",
+      "bytes": 25144,
+      "sha256": "2b0d3bceeb7fe29e8c178b92b5217c867c3d510455e29b7e94fdc9ac1c5d45d4"
+    },
+    {
+      "from": "tmp/proto/img/card-lab.webp",
+      "to": "design/prototypes/2026-08-website/img/card-lab.webp",
+      "bytes": 29974,
+      "sha256": "8b1d8a0bcdb793421e36b63808b435cc8c62e0bdcc1097d8e297ad1e3264d3e9"
+    },
+    {
+      "from": "tmp/proto/img/handshake.webp",
+      "to": "design/prototypes/2026-08-website/img/handshake.webp",
+      "bytes": 23486,
+      "sha256": "56fe61b4de712a130f8771cfc6a1058b3ea98af9f34b9196b57df7030b9cf9fd"
+    },
+    {
+      "from": "tmp/proto/img/hero-arms.webp",
+      "to": "design/prototypes/2026-08-website/img/hero-arms.webp",
+      "bytes": 29768,
+      "sha256": "337fd31989c98a342992f896af227aef933af9d1b0565ff4aa6caee843f154b3"
+    },
+    {
+      "from": "tmp/proto/img/hero2.webp",
+      "to": "design/prototypes/2026-08-website/img/hero2.webp",
+      "bytes": 52020,
+      "sha256": "089475f12fa6b8576e6241f86c2c0ab2ca52bf37084288ef1f9a7e61df1e0133"
+    },
+    {
+      "from": "tmp/proto/img/mode-base.webp",
+      "to": "design/prototypes/2026-08-website/img/mode-base.webp",
+      "bytes": 16540,
+      "sha256": "f7d30e71537d6f931f701f689153fbadfee730fbfcca11aed860c58314d281a3"
+    },
+    {
+      "from": "tmp/proto/img/mode-nocturne.webp",
+      "to": "design/prototypes/2026-08-website/img/mode-nocturne.webp",
+      "bytes": 16550,
+      "sha256": "a93d8f610f0656d554b401e2c5ed3147a762f3521c129763d0312579b1322ba3"
+    },
+    {
+      "from": "tmp/proto/img/mode-poster.webp",
+      "to": "design/prototypes/2026-08-website/img/mode-poster.webp",
+      "bytes": 15294,
+      "sha256": "707193a78e0f4fbf4a3c627ae70067b8d1e50d83ed6c9de7494047d138135f0b"
+    },
+    {
+      "from": "tmp/proto/img/mode-riso.webp",
+      "to": "design/prototypes/2026-08-website/img/mode-riso.webp",
+      "bytes": 19594,
+      "sha256": "474b105da4b2a1e9aaae569455dc66fcf2469f07add3ad93602451f8837a6370"
+    },
+    {
+      "from": "tmp/proto/img/mode-soft.webp",
+      "to": "design/prototypes/2026-08-website/img/mode-soft.webp",
+      "bytes": 12774,
+      "sha256": "109f2f56f7c28696f47db45f672f1a83c98a7e85fc3dab254a555054f94d7633"
+    },
+    {
+      "from": "tmp/proto/img/witness-child.webp",
+      "to": "design/prototypes/2026-08-website/img/witness-child.webp",
+      "bytes": 12564,
+      "sha256": "cbdf98a6b042697aa3966246c7b4eafe815a37f8046fab70ea5af72744e6f7dc"
+    },
+    {
+      "from": "tmp/proto/img/witness-engineer.webp",
+      "to": "design/prototypes/2026-08-website/img/witness-engineer.webp",
+      "bytes": 10744,
+      "sha256": "a0eea08f05ab5d6ce437422ec665ba5f50c81af2ec083ce87162b7cdd06c155c"
+    },
+    {
+      "from": "tmp/proto/index.html",
+      "to": "design/prototypes/2026-08-website/index.html",
+      "bytes": 16413,
+      "sha256": "57166e7196d199fb814b0bf77a40e8f8b84f90c63cfb8f5d55d06ca63913f37a"
+    },
+    {
+      "from": "tmp/proto/retro/img/ref.jpg",
+      "to": "design/prototypes/2026-08-website/retro/img/ref.jpg",
+      "bytes": 338020,
+      "sha256": "1106fd3aa9cc93bc12df2de8108aea77361b51b3435b362a273b2d252bd4593d"
+    },
+    {
+      "from": "tmp/proto/retro/index.html",
+      "to": "design/prototypes/2026-08-website/retro/index.html",
+      "bytes": 19866,
+      "sha256": "55b7cbbf481fc65f1d4519bbdf5e35e71a6d9fdfd91f88ab12fdb9c1cc25915a"
+    },
+    {
+      "from": "tmp/proto/retro-full-sm.jpg",
+      "to": "design/prototypes/2026-08-website/previews/retro-full-sm.jpg",
+      "bytes": 327766,
+      "sha256": "faa6e6a2c8ddf9ef33ae53d873640607c497f984818f61e5ef75e757e79ccb1e"
+    },
+    {
+      "from": "tmp/proto/retro-full.png",
+      "to": "design/prototypes/2026-08-website/previews/retro-full.png",
+      "bytes": 1812249,
+      "sha256": "ef6ea9273864ce1874e5d8231b67f1d9ec1d08315545b31ccc59da882b42f744"
+    },
+    {
+      "from": "tmp/proto/retro-top.png",
+      "to": "design/prototypes/2026-08-website/previews/retro-top.png",
+      "bytes": 1579336,
+      "sha256": "2a5d1206f9c033db0212d0fc8743e0d1f05c6686e99853e159706fb98682f0e6"
+    },
+    {
+      "from": "tmp/proto/retro_a_hero.jpg",
+      "to": "design/prototypes/2026-08-website/previews/retro_a_hero.jpg",
+      "bytes": 86047,
+      "sha256": "20f92d753871378db802b0d39e793670177fb83d78cf6e5e74d44e0c85c10afb"
+    },
+    {
+      "from": "tmp/proto/riso/img/about-shore.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/about-shore.jpg",
+      "bytes": 380579,
+      "sha256": "724b2ac8c247033062cb9b73eb6ff5ac2f6b8840d209932ceea8373a9bc1347c"
+    },
+    {
+      "from": "tmp/proto/riso/img/base-final.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/base-final.jpg",
+      "bytes": 509375,
+      "sha256": "a6daaa89fa89a7095e49302803d7589c755559fd0324fb9dda75550e51959c22"
+    },
+    {
+      "from": "tmp/proto/riso/img/base-hero.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/base-hero.jpg",
+      "bytes": 506638,
+      "sha256": "0757fb423cb432d4fdb30f6e47dc25d93f6b2624732dd431f0b15bb21828629c"
+    },
+    {
+      "from": "tmp/proto/riso/img/base-lab.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/base-lab.jpg",
+      "bytes": 194725,
+      "sha256": "ed54c62fbd9794d3d8874cfd0a2e3d8fa72469f88e9bfe1e05b362ff1ae7b50e"
+    },
+    {
+      "from": "tmp/proto/riso/img/base-shore.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/base-shore.jpg",
+      "bytes": 369125,
+      "sha256": "0c51d67424342709814dcc2e8c1fae37d64deb581fa20811dfaeabde4ecb2344"
+    },
+    {
+      "from": "tmp/proto/riso/img/blob-logo.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/blob-logo.jpg",
+      "bytes": 21012,
+      "sha256": "75cb457f8fb13808e48cf67feeda18249f38ed9c5bfddf951e17e05321bcc76f"
+    },
+    {
+      "from": "tmp/proto/riso/img/blob-wave.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/blob-wave.jpg",
+      "bytes": 164837,
+      "sha256": "0e51d7ded91b8059eb6cdc5fb7eaf21c0cfaa00f43b93b3d7ec0b1f9e9b75ad7"
+    },
+    {
+      "from": "tmp/proto/riso/img/card-eai.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/card-eai.jpg",
+      "bytes": 173664,
+      "sha256": "6f1704b880c5421a6bd3ac0a3f1f694a515b18a8f9201fb887d38e65c521f48c"
+    },
+    {
+      "from": "tmp/proto/riso/img/card-film.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/card-film.jpg",
+      "bytes": 186414,
+      "sha256": "37e5b66bda24155c783d31eabbffeacf917ccf88c1dafe56d61e1cdfb3bc6cfe"
+    },
+    {
+      "from": "tmp/proto/riso/img/card-lab.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/card-lab.jpg",
+      "bytes": 146649,
+      "sha256": "6ad440ef2a3e56dc53e42e5c1299bd803060ccf600c06861a7f2231cdeed95c2"
+    },
+    {
+      "from": "tmp/proto/riso/img/final.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/final.jpg",
+      "bytes": 734154,
+      "sha256": "347def840c4a8379ce00970ff55b07a6e808e003aec9610f5da77c48e73a447c"
+    },
+    {
+      "from": "tmp/proto/riso/img/hero.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/hero.jpg",
+      "bytes": 760571,
+      "sha256": "2fc8b8b1c087b9564dde1eefe478cc5d7824288c1b30be4f7f3bd75ef4151509"
+    },
+    {
+      "from": "tmp/proto/riso/img/ink-black-orange.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/ink-black-orange.jpg",
+      "bytes": 81156,
+      "sha256": "5988b439dcf17e4d0448518b5a4af8833309859bd9864426c062642387bb2cbb"
+    },
+    {
+      "from": "tmp/proto/riso/img/ink-blue-orange.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/ink-blue-orange.jpg",
+      "bytes": 84307,
+      "sha256": "69e9981ef099c5c2712bf66eefee10370c2c3456158fc68f1baf95c508a67f29"
+    },
+    {
+      "from": "tmp/proto/riso/img/ink-green-pink.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/ink-green-pink.jpg",
+      "bytes": 81122,
+      "sha256": "326b22dcf346b57c145a2db5818114c85992ab0645b9306b54e9bca51cdf0848"
+    },
+    {
+      "from": "tmp/proto/riso/img/witness-child.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/witness-child.jpg",
+      "bytes": 41858,
+      "sha256": "fe039950f715a21026a415525605af66230837eb2f179f7ab752d069b3a49eed"
+    },
+    {
+      "from": "tmp/proto/riso/img/witness-engineer.jpg",
+      "to": "design/prototypes/2026-08-website/riso/img/witness-engineer.jpg",
+      "bytes": 47797,
+      "sha256": "14fe4d13498568050444ba836316135499a5321fd11d27c9b356da230e464918"
+    },
+    {
+      "from": "tmp/proto/riso/index.html",
+      "to": "design/prototypes/2026-08-website/riso/index.html",
+      "bytes": 17360,
+      "sha256": "e3bedaeefac3d02a50d208733c6dacd400da772ff98df7a85cf43c3220a20258"
+    },
+    {
+      "from": "tmp/proto/riso/t1.jpg",
+      "to": "design/prototypes/2026-08-website/riso/t1.jpg",
+      "bytes": 545721,
+      "sha256": "2e25954c1526dc5c2088b91c1d9a85968b15ef5d11c7b8839803df0aaba9a5b5"
+    },
+    {
+      "from": "tmp/proto/riso/t2.jpg",
+      "to": "design/prototypes/2026-08-website/riso/t2.jpg",
+      "bytes": 193156,
+      "sha256": "864c7832507b1a308e6017308b0a94a780adbb00fed4a932264fbc5d2a1a1ef8"
+    },
+    {
+      "from": "tmp/proto/riso/t3.jpg",
+      "to": "design/prototypes/2026-08-website/riso/t3.jpg",
+      "bytes": 188116,
+      "sha256": "70ed8392cb6da1ad25142da282cca2fd15d92bec56d8c2bf351aea50598509b3"
+    },
+    {
+      "from": "tmp/proto/riso/t4.jpg",
+      "to": "design/prototypes/2026-08-website/riso/t4.jpg",
+      "bytes": 332485,
+      "sha256": "724146297ca3c6356357861259bec378fa969a8a6f2f646f31ce70d93adb73bc"
+    },
+    {
+      "from": "tmp/proto/riso/test-hero-k.jpg",
+      "to": "design/prototypes/2026-08-website/riso/test-hero-k.jpg",
+      "bytes": 497004,
+      "sha256": "fbc61cc262df3e8944d14115d691027bf85fb212dbd00f83989096a20632526c"
+    },
+    {
+      "from": "tmp/proto/riso/test-hero.jpg",
+      "to": "design/prototypes/2026-08-website/riso/test-hero.jpg",
+      "bytes": 497004,
+      "sha256": "fbc61cc262df3e8944d14115d691027bf85fb212dbd00f83989096a20632526c"
+    },
+    {
+      "from": "tmp/proto/riso/test-sheet.jpg",
+      "to": "design/prototypes/2026-08-website/riso/test-sheet.jpg",
+      "bytes": 463121,
+      "sha256": "f917251af2de3e255db80937b095aa9145e57d4b6b806a40adf393376cb92c66"
+    },
+    {
+      "from": "tmp/proto/riso-base-gen.log",
+      "to": "design/prototypes/2026-08-website/history/riso-base-generation.log",
+      "bytes": 1981,
+      "sha256": "0a2415a90d66d63f75d9701f6d097ecaf005da984c8bc5a90242dc522c5fd771"
+    },
+    {
+      "from": "tmp/proto/riso-compare.jpg",
+      "to": "design/prototypes/2026-08-website/previews/riso-compare.jpg",
+      "bytes": 759412,
+      "sha256": "37e3d1c4dac6fcfb53f0b5bf58b041738612f1649deb2aa3f1dbce3f14f8f20d"
+    },
+    {
+      "from": "tmp/proto/riso-full-sm.jpg",
+      "to": "design/prototypes/2026-08-website/previews/riso-full-sm.jpg",
+      "bytes": 407281,
+      "sha256": "d898ea6892bbc4a84a52f9154f6837dad9df41abe3e831c5c1997c8f6c59f3fa"
+    },
+    {
+      "from": "tmp/proto/riso-full.png",
+      "to": "design/prototypes/2026-08-website/previews/riso-full.png",
+      "bytes": 4818900,
+      "sha256": "2244cbff68163bdbcd030400f14eb8146fb3d11bbf447acb9b4d6581c1df2e81"
+    },
+    {
+      "from": "tmp/proto/riso-sub.png",
+      "to": "design/prototypes/2026-08-website/previews/riso-sub.png",
+      "bytes": 337449,
+      "sha256": "4e5f241409ffc5ed7cf107464e6463017a43e40764f09a6d3070cd858c5e0a63"
+    },
+    {
+      "from": "tmp/proto/riso-title.png",
+      "to": "design/prototypes/2026-08-website/previews/riso-title.png",
+      "bytes": 53211,
+      "sha256": "1118adb607d661508b3acf9ad7e0b66c032a1dc2410ed1bbfb85331cca5f6e23"
+    },
+    {
+      "from": "tmp/proto/riso-top.png",
+      "to": "design/prototypes/2026-08-website/previews/riso-top.png",
+      "bytes": 1913004,
+      "sha256": "1af61e4eba077d592a1f24022b9013490ac566db922b88b5b67f376911cbf6d2"
+    },
+    {
+      "from": "tmp/proto/riso.py",
+      "to": "design/prototypes/2026-08-website/scripts/risograph-preview.py",
+      "bytes": 2346,
+      "sha256": "818498dfb82d72a7a32c4db6ce2b1779d723bede040d38f6c37934aed94edfe9"
+    },
+    {
+      "from": "tmp/proto/shot.mjs",
+      "to": "design/prototypes/2026-08-website/scripts/capture-preview.mjs",
+      "bytes": 470,
+      "sha256": "bb23976ac73de0bbc79048bf25648509f7dc53cfc092231997dca543bac7af2a",
+      "after_edit_sha256": "d200f4363c761c97d5e28e7f2bd48b3f0dc18d29d74e4a43b13b6623e8682c82",
+      "after_edit_bytes": 400,
+      "edit": "Replaced absolute Playwright import with the installed playwright package; remaining text unchanged."
+    },
+    {
+      "from": "tmp/proto/v3/img/art-boat.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-boat.webp",
+      "bytes": 9300,
+      "sha256": "c31a518e290122b84bd43af3accf8a9790e9bd6412cf7e5522d75001fd2f2015"
+    },
+    {
+      "from": "tmp/proto/v3/img/art-hero.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-hero.webp",
+      "bytes": 53954,
+      "sha256": "d9760dc1b53cd0e105ca2b58bd952ffe398ccee4f4aeb23d364bec625cec7a3c"
+    },
+    {
+      "from": "tmp/proto/v3/img/art-neurips.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-neurips.webp",
+      "bytes": 13566,
+      "sha256": "87b20bd0aab070f1f9407a100c2309d0e02d67cd93fb564a0e144b7d341089f4"
+    },
+    {
+      "from": "tmp/proto/v3/img/art-shore.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-shore.webp",
+      "bytes": 7712,
+      "sha256": "1f3f1cba3a4f29e9cf611693763211d1cb7f2394997d29a69add5ae49f378bff"
+    },
+    {
+      "from": "tmp/proto/v3/img/art-thread.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-thread.webp",
+      "bytes": 24496,
+      "sha256": "71c8558b07c893cd6892d3ff57e945ef7f72900be9160ffdec0384cafa94f6ea"
+    },
+    {
+      "from": "tmp/proto/v3/img/art-ti.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/art-ti.webp",
+      "bytes": 36388,
+      "sha256": "2820219988eaa745be80fd2b6eed90826afb3da2155701923a7b300eee8db4ed"
+    },
+    {
+      "from": "tmp/proto/v3/img/blob-lab.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/blob-lab.webp",
+      "bytes": 7602,
+      "sha256": "6e2b2034a9d1770ba04eaf7b3e550f64ca8ddab457b30da234df8eeb7fa89001"
+    },
+    {
+      "from": "tmp/proto/v3/img/blob-sleep.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/blob-sleep.webp",
+      "bytes": 5068,
+      "sha256": "4c0680a9efdb82c3e76d8c8cfb8863b2611febfec3882401fdae1cd4b8fbd65a"
+    },
+    {
+      "from": "tmp/proto/v3/img/cover-eai.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/cover-eai.webp",
+      "bytes": 18096,
+      "sha256": "dbcc30e2f914923313d0074d3f3604a8aa30504c246a0d7729009fc2957f19f6"
+    },
+    {
+      "from": "tmp/proto/v3/img/cover-gpt7.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/cover-gpt7.webp",
+      "bytes": 13014,
+      "sha256": "5cf52a7a5a50668c8fbc1c654ffc760a1cc99a1040884f0c833e481041e3e3ce"
+    },
+    {
+      "from": "tmp/proto/v3/img/og-bee.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/og-bee.webp",
+      "bytes": 9022,
+      "sha256": "2f22871587b9bd2c9b92682586ae98eef631c1f59f957715549069e3991e66f5"
+    },
+    {
+      "from": "tmp/proto/v3/img/og-dyson.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/og-dyson.webp",
+      "bytes": 28252,
+      "sha256": "9818a4c6c815e8bccf274b8b70bfcad57a593b07d04370a32bb99563fe74d62e"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-ebay-intern.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-ebay-intern.webp",
+      "bytes": 279012,
+      "sha256": "d941f0ec9a5767a1eda6609518e2ca98091d3c8aecd8145345a06663997333f7"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-ebay.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-ebay.webp",
+      "bytes": 116682,
+      "sha256": "53a1c2310acea8a32dc4a60bb3fbd9039e1c228b43adfdd432e316886916cf27"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-headshot.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-headshot.webp",
+      "bytes": 35392,
+      "sha256": "c015faf84c3f4ffc9db7073907953b67e0544293711b51a5f08c67f7c561f43f"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-nitk.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-nitk.webp",
+      "bytes": 45350,
+      "sha256": "1be17a89a0ed7fc097032a62bc45f6519d424341afc03ff6584645263f9983c3"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-ucsd-start.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-ucsd-start.webp",
+      "bytes": 56620,
+      "sha256": "37fefd01f303d750f3d24155a5aa0110952b0a554e2cf5188582b124cb226678"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-ucsd.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-ucsd.webp",
+      "bytes": 71776,
+      "sha256": "9527683e5bf802118ee35fe65506bc396bfba5b1724c3690086d6af7fa2b19f4"
+    },
+    {
+      "from": "tmp/proto/v3/img/photo-uist.webp",
+      "to": "design/prototypes/2026-08-website/v3/img/photo-uist.webp",
+      "bytes": 85680,
+      "sha256": "8025ee9ff980d295f240c01e446933b05ed8938cc7e26fb36d4872949a928469"
+    },
+    {
+      "from": "tmp/proto/v3/index.html",
+      "to": "design/prototypes/2026-08-website/v3/index.html",
+      "bytes": 29926,
+      "sha256": "71c06b29ee525245a1a36977308d9c083a738f2430999f97643693973b66b7e6"
+    },
+    {
+      "from": "social-assets/bee-sim-social.mp4",
+      "to": "social-assets/bee-simulation/bee-sim-social.mp4",
+      "bytes": 193842,
+      "sha256": "6e999c507ec61ab374e01270f9c7589720e9454c48f1e717bc7bdd882e8eb3ba"
+    },
+    {
+      "from": "social-assets/bee-sim-social.webm",
+      "to": "social-assets/bee-simulation/bee-sim-social.webm",
+      "bytes": 229415,
+      "sha256": "03928db523106af517a5b19e8f85439f69f50d9d67f66f6c896c38aceb4f0f41"
+    }
+  ],
+  "verification": {
+    "file_count": 98,
+    "original_content_preserved": 97,
+    "documented_edits": [
+      "design/prototypes/2026-08-website/scripts/capture-preview.mjs"
+    ],
+    "all_destinations_ignored": true
+  }
+}

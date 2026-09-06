@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — San Kala</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16304E;
+    --teal: #0C7073;
+    --bone: #F3EAD6;
+    --acid: #B3C365;
+    --apricot: #F0A868;
+    --night: #072736;
+    --display: "Bricolage Grotesque", system-ui, sans-serif;
+    --body: "Newsreader", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bone); color: var(--ink); font-family: var(--body); font-size: 19px; line-height: 1.55; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  ::selection { background: var(--apricot); color: var(--ink); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+  .tag { font-family: var(--mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+  .tag::before { content: "▸ "; color: var(--apricot); opacity: 1; }
+
+  .proto-note {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+    background: var(--ink); color: var(--bone); text-align: center; padding: 6px 12px; text-transform: uppercase;
+  }
+  .proto-note span { color: var(--apricot); }
+
+  /* nav — identical chrome to the magazine */
+  nav {
+    display: flex; align-items: center; gap: 28px;
+    padding: 18px 40px; border-bottom: 2px solid var(--ink);
+    background: var(--bone); position: sticky; top: 0; z-index: 50;
+  }
+  .wordmark { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 20px; text-decoration: none; margin-right: auto; }
+  .wordmark img { width: 42px; }
+  nav .links { display: flex; gap: 24px; }
+  nav .links a { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; padding-bottom: 2px; border-bottom: 2px solid transparent; }
+  nav .links a:hover { border-bottom-color: var(--apricot); }
+  nav .links a.here { border-bottom-color: var(--ink); }
+  .btn { font-family: var(--mono); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; background: var(--ink); color: var(--bone); border: 2px solid var(--ink); padding: 10px 18px; text-decoration: none; box-shadow: 4px 4px 0 var(--apricot); }
+  .btn:hover { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--apricot); }
+
+  /* hero — the witness painting, title in its sky */
+  .hero { position: relative; border-bottom: 2px solid var(--ink); }
+  .hero img { width: 100%; height: min(64vh, 560px); object-fit: cover; object-position: center 65%; }
+  .hero .over { position: absolute; left: clamp(20px, 5vw, 72px); top: clamp(24px, 6vh, 60px); max-width: 520px; }
+  .hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(36px, 4.6vw, 60px); line-height: 1.02; letter-spacing: -.01em; margin: 10px 0 12px; color: var(--ink); }
+  .hero p { font-size: 20px; font-style: italic; color: var(--ink); opacity: .85; }
+  .hero .tag { color: var(--ink); }
+
+  /* intro: ID card + statement */
+  .intro { padding: clamp(56px, 9vh, 100px) 0; }
+  .intro .wrap { display: grid; grid-template-columns: 260px 1fr; gap: clamp(30px, 5vw, 70px); align-items: start; }
+  .idcard { border: 2px solid var(--ink); background: #fff; box-shadow: 6px 6px 0 var(--ink); padding: 10px 10px 12px; }
+  .idcard img { filter: sepia(.14) saturate(.9) contrast(.96); border: 1px solid rgba(22,48,78,.25); }
+  .idcard figcaption { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; margin-top: 9px; display: flex; justify-content: space-between; }
+  .idcard figcaption b { font-weight: 500; color: var(--teal); }
+  .intro h2 { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 3vw, 38px); line-height: 1.15; margin-bottom: 20px; }
+  .intro h2 em { font-style: normal; box-shadow: inset 0 -0.4em var(--apricot); }
+  .intro .prose { display: grid; gap: 14px; max-width: 620px; }
+  .intro .prose a { color: var(--teal); text-underline-offset: 3px; }
+  .intro .facts { display: flex; gap: 34px; flex-wrap: wrap; margin-top: 28px; padding-top: 22px; border-top: 2px solid var(--ink); }
+  .intro .facts div p:first-child { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; opacity: .6; margin-bottom: 3px; }
+  .intro .facts div p:last-child { font-family: var(--display); font-weight: 600; font-size: 18px; }
+
+  /* the log */
+  .log { border-top: 2px solid var(--ink); padding: clamp(56px, 9vh, 96px) 0; }
+  .log .head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 14px; }
+  .log .head h2 { font-family: var(--display); font-weight: 800; font-size: clamp(26px, 3vw, 38px); }
+  .log .head .rule { flex: 1; border-bottom: 2px solid var(--ink); opacity: .25; }
+  .log .lede { max-width: 600px; opacity: .8; margin-bottom: 44px; }
+  .entry { display: grid; grid-template-columns: 150px 1fr 132px; gap: 26px; padding: 20px 0; border-bottom: 1px solid rgba(22,48,78,.22); align-items: start; }
+  .entry:first-of-type { border-top: 2px solid var(--ink); }
+  .entry .when { font-family: var(--mono); font-size: 12px; line-height: 1.7; padding-top: 4px; }
+  .entry .when .loc { display: block; opacity: .55; font-size: 11px; }
+  .entry h3 { font-family: var(--display); font-weight: 600; font-size: 21px; line-height: 1.2; margin-bottom: 4px; }
+  .entry.win h3::after { content: " ★"; color: var(--apricot); }
+  .entry p { font-size: 16px; opacity: .85; max-width: 560px; }
+  .entry .links { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; font-family: var(--mono); font-size: 12px; }
+  .entry .links a { color: var(--teal); text-decoration: none; border-bottom: 1px solid rgba(12,112,115,.4); }
+  .entry .links a:hover { border-bottom-color: var(--teal); }
+  .fig { border: 2px solid var(--ink); background: #fff; padding: 5px 5px 6px; }
+  .fig img { filter: sepia(.14) saturate(.9) contrast(.96); aspect-ratio: 4/3; object-fit: cover; width: 100%; }
+  .fig figcaption { font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; opacity: .65; }
+  .log .cv { margin-top: 40px; }
+
+  /* papers */
+  .papers { background: var(--night); color: #C8D6B2; border-top: 2px solid var(--ink); padding: clamp(50px, 8vh, 84px) 0; }
+  .papers h2 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.6vw, 32px); color: #fff; margin: 8px 0 26px; }
+  .paper { display: grid; grid-template-columns: 1fr auto; gap: 20px; padding: 16px 0; border-bottom: 1px solid rgba(200,214,178,.25); align-items: baseline; }
+  .paper:first-of-type { border-top: 2px solid rgba(200,214,178,.5); }
+  .paper h3 { font-family: var(--body); font-weight: 500; font-size: 19px; color: #fff; }
+  .paper p { font-size: 15px; opacity: .8; }
+  .paper .venue { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; text-align: right; white-space: nowrap; }
+  .paper .venue b { color: var(--apricot); font-weight: 500; display: block; }
+
+  /* now + contact */
+  .now { padding: clamp(56px, 9vh, 96px) 0; }
+  .now .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 5vw, 80px); }
+  .now h2 { font-family: var(--display); font-weight: 800; font-size: clamp(24px, 2.6vw, 32px); margin: 8px 0 18px; }
+  .now ul { list-style: none; display: grid; gap: 12px; }
+  .now li { padding-left: 22px; position: relative; font-size: 17px; }
+  .now li::before { content: "▸"; position: absolute; left: 0; color: var(--apricot); }
+  .contact .row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+  .contact .row a { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; border: 2px solid var(--ink); padding: 9px 15px; box-shadow: 3px 3px 0 var(--ink); background: #fff; }
+  .contact .row a:hover { transform: translate(1px,1px); box-shadow: 2px 2px 0 var(--apricot); }
+  .contact p.note { font-size: 16px; opacity: .8; max-width: 380px; margin-bottom: 16px; }
+
+  footer { background: var(--night); color: #C8D6B2; display: flex; flex-wrap: wrap; gap: 18px; align-items: center; padding: 26px clamp(20px, 5vw, 72px); font-family: var(--mono); font-size: 12px; letter-spacing: .05em; border-top: 2px solid var(--ink); }
+  footer .links { display: flex; gap: 18px; margin-left: auto; }
+  footer a { text-decoration: none; } footer a:hover { color: var(--apricot); }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 20px; gap: 16px; } nav .links { display: none; }
+    .intro .wrap { grid-template-columns: 1fr; }
+    .idcard { max-width: 280px; }
+    .entry { grid-template-columns: 1fr; gap: 8px; }
+    .entry .when { display: flex; gap: 12px; align-items: baseline; }
+    .fig { max-width: 260px; }
+    .now .wrap { grid-template-columns: 1fr; }
+    .paper { grid-template-columns: 1fr; gap: 6px; } .paper .venue { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-note">Prototype <span>·</span> about page, rebuilt in the magazine's design language</div>
+
+<nav>
+  <a class="wordmark" href="/"><img src="img/blob-logo.webp" alt=""> SAN&nbsp;KALA</a>
+  <div class="links">
+    <a href="/">Writing</a>
+    <a href="/">Watch</a>
+    <a href="/">Lab</a>
+    <a href="#" class="here">About</a>
+  </div>
+  <a class="btn" href="/#subscribe">Subscribe</a>
+</nav>
+
+<!-- the witness painting; the page's thesis in its sky -->
+<header class="hero">
+  <img src="img/about-shore.webp" alt="A lone figure stands at the edge of a vast calm sea under a huge pale sky.">
+  <div class="over">
+    <span class="tag">About</span>
+    <h1>The small figure in the paintings is me.</h1>
+    <p>I'm San — I build AI systems by day and this world in the evenings.</p>
+  </div>
+</header>
+
+<!-- id card + statement -->
+<section class="intro">
+  <div class="wrap">
+    <figure class="idcard">
+      <img src="img/photo-headshot.webp" alt="Photograph of San">
+      <figcaption><span>SANJAYAN P. SREEKALA</span><b>FIG. 01</b></figcaption>
+    </figure>
+    <div>
+      <h2>Follow the <em>reward signal</em>.</h2>
+      <div class="prose">
+        <p>Pick hard things you want to understand, and build until they're real. I started in electrical engineering, found machine learning through Kaggle, and designed ASICs at <a href="#">Texas Instruments</a> — which left me with a permanent respect for silicon.</p>
+        <p>After DALL·E 3, the singularity looked underway, so I switched lanes: a CS master's at <a href="#">UCSD</a>, then research at <a href="#">eBay</a>, where I build production LLM extraction systems. In December 2025, my brother <a href="#">Chin</a> and I won the NeurIPS Embodied Agent Interface challenge — the work behind <a href="#">Winning by Overfitting</a>.</p>
+        <p>This site is where I follow the argument of <a href="#">GPT-7 Will Have Arms</a> wherever it leads: essays, films, and experiments about frontier technology becoming physically real.</p>
+      </div>
+      <div class="facts">
+        <div><p>Currently</p><p>GenAI research @ eBay</p></div>
+        <div><p>Based in</p><p>SF Bay Area</p></div>
+        <div><p>Latest win</p><p>NeurIPS '25 EAI Challenge</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- the log -->
+<section class="log">
+  <div class="wrap">
+    <div class="head"><span class="tag">The record</span><h2>Log</h2><div class="rule"></div></div>
+    <p class="lede">The whole path, kept honest: wins marked, failures included, photographs filed as evidence.</p>
+
+    <div class="entry win">
+      <div class="when">2025.12 <span class="loc">San Diego, CA</span></div>
+      <div>
+        <h3>1st place, NeurIPS EAI Challenge</h3>
+        <p>First globally in the Embodied Agent Interface challenge — LLM-driven embodied agents for goal interpretation, subgoal decomposition, and action sequencing. With Chin, as Team AxisTilted2.</p>
+        <div class="links"><a href="#">write-up</a><a href="#">paper</a><a href="#">challenge site</a></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="when">2024.04 <span class="loc">San Jose, CA</span></div>
+      <div>
+        <h3>Applied Researcher, eBay</h3>
+        <p>Knowledge Extraction team — production LLM systems for information extraction at scale. Promoted October 2025.</p>
+      </div>
+      <figure class="fig"><img src="img/photo-ebay.webp" alt="eBay headquarters"><figcaption>FIG. 02 — SAN JOSE</figcaption></figure>
+    </div>
+
+    <div class="entry">
+      <div class="when">2024.03 <span class="loc">San Diego, CA</span></div>
+      <div>
+        <h3>MS in Computer Science, UCSD</h3>
+        <p>Worked with Prof. Julian McAuley's group on AI music and LLMs. TA'd the graduate recommender-systems course.</p>
+      </div>
+      <figure class="fig"><img src="img/photo-ucsd.webp" alt="UCSD research group"><figcaption>FIG. 03 — RESEARCH GROUP</figcaption></figure>
+    </div>
+
+    <div class="entry win">
+      <div class="when">2023.10 <span class="loc">San Francisco, CA</span></div>
+      <div>
+        <h3>ZINify — Honorable Mention, UIST '23</h3>
+        <p>Early agentic system (before agents were mainstream) turning research papers into visual zines with Claude 2. People's Choice, Student Innovation Contest.</p>
+        <div class="links"><a href="#">paper</a><a href="#">demo</a></div>
+      </div>
+      <figure class="fig"><img src="img/photo-uist.webp" alt="UIST 2023 award ceremony"><figcaption>FIG. 04 — AWARD CEREMONY</figcaption></figure>
+    </div>
+
+    <div class="entry">
+      <div class="when">2023.10 <span class="loc">San Diego, CA</span></div>
+      <div>
+        <h3>StartR Rady accelerator — didn't pan out</h3>
+        <p>A writing assistant for novelists. My first shot at entrepreneurship; the product failed, the lessons stuck.</p>
+        <div class="links"><a href="#">post-mortem</a></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="when">2023.06 <span class="loc">San Jose, CA</span></div>
+      <div>
+        <h3>Research intern, eBay</h3>
+        <p>First exposure to industry research — information extraction at scale on the Knowledge Extraction team.</p>
+      </div>
+      <figure class="fig"><img src="img/photo-ebay-intern.webp" alt="eBay internship"><figcaption>FIG. 05 — SUMMER '23</figcaption></figure>
+    </div>
+
+    <div class="entry win">
+      <div class="when">2023.01 <span class="loc">San Diego, CA</span></div>
+      <div>
+        <h3>1st of 591 teams, eBay ML Challenge</h3>
+        <p>Named-entity extraction from product titles — DeBERTa V3 with K-fold ensembling. The win led to the internship.</p>
+        <div class="links"><a href="#">announcement</a></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="when">2022.09 <span class="loc">San Diego, CA</span></div>
+      <div>
+        <h3>Started the MS at UCSD</h3>
+        <p>The deliberate turn from hardware engineering to machine learning research.</p>
+      </div>
+      <figure class="fig"><img src="img/photo-ucsd-start.webp" alt="UCSD Geisel Library"><figcaption>FIG. 06 — GEISEL</figcaption></figure>
+    </div>
+
+    <div class="entry">
+      <div class="when">2019.07 <span class="loc">Bangalore, India</span></div>
+      <div>
+        <h3>ASIC design engineer, Texas Instruments</h3>
+        <p>Digital design through the COVID era. Physical design, RTL, and a newfound respect for what silicon actually costs.</p>
+      </div>
+    </div>
+
+    <div class="entry">
+      <div class="when">2019.05 <span class="loc">Karnataka, India</span></div>
+      <div>
+        <h3>B.Tech in Electrical Engineering, NITK</h3>
+        <p>Found deep learning through Kaggle — Silver and Bronze medals. Thesis on LSTM power-quality classification won an IEEE best-paper award. Spent the clear nights with the astronomy club.</p>
+      </div>
+      <figure class="fig"><img src="img/photo-nitk.webp" alt="NITK lab"><figcaption>FIG. 07 — NITK</figcaption></figure>
+    </div>
+
+    <div class="cv"><a class="btn" href="/resume">Full resume &amp; CV</a></div>
+  </div>
+</section>
+
+<!-- papers -->
+<section class="papers">
+  <div class="wrap">
+    <span class="tag" style="color:#C8D6B2">Selected work</span>
+    <h2>Papers &amp; reports</h2>
+    <div class="paper">
+      <div>
+        <h3>Evaluator-Guided LLM Distillation for Embodied Agent Decision-Making</h3>
+        <p>The technical report behind the EAI Challenge win. With Chin Pradeep.</p>
+      </div>
+      <div class="venue"><b>NeurIPS '25 workshop</b>arXiv soon</div>
+    </div>
+    <div class="paper">
+      <div>
+        <h3>ZINify: Transforming Research Papers into Engaging Zines</h3>
+        <p>LLM + text-to-image pipeline for visual research communication.</p>
+      </div>
+      <div class="venue"><b>UIST '23 Adjunct</b>Honorable Mention</div>
+    </div>
+    <div class="paper">
+      <div>
+        <h3>LSTM-based classification of power quality events</h3>
+        <p>Undergraduate thesis work.</p>
+      </div>
+      <div class="venue"><b>IEEE DISCOVER</b>Best Paper</div>
+    </div>
+  </div>
+</section>
+
+<!-- now + contact -->
+<section class="now">
+  <div class="wrap">
+    <div>
+      <span class="tag">Now</span>
+      <h2>What I'm making</h2>
+      <ul>
+        <li>GenAI research at eBay — LLM extraction systems in production</li>
+        <li>The <b>GPT-7 Will Have Arms</b> film — keyframes in progress</li>
+        <li>The style lab — the model that draws everything on this site</li>
+        <li>Putting the EAI technical report on arXiv with Chin</li>
+      </ul>
+    </div>
+    <div class="contact">
+      <span class="tag">Contact</span>
+      <h2>Say hello</h2>
+      <p class="note">Ideas, collaborations, corrections, interesting problems — all welcome.</p>
+      <div class="row">
+        <a href="mailto:san@sankala.me">Email</a>
+        <a href="#">GitHub</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Kaggle</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 SAN KALA · SANJAYAN SREEKALA</span>
+  <div class="links"><a href="/">HOME</a><a href="#">X</a><a href="#">YOUTUBE</a><a href="#">GITHUB</a></div>
+</footer>
+
+</body>
+</html>

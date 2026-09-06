@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>San Kala — v3 prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F2EB;
+    --cream2: #E8E6DE;
+    --mist: #F0F4EF;
+    --forest: #2A3C24;
+    --forest2: #364930;
+    --sage: #8A9A85;
+    --sage-lt: #D1D9CE;
+    --ink: #1A1A1A;
+    --orange: #C97B3D;
+    --serif: "Fraunces", Georgia, serif;
+    --body: "Newsreader", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.6; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--forest); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+  .proto-note {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+    background: var(--forest); color: var(--cream); text-align: center; padding: 6px 12px; text-transform: uppercase;
+  }
+  .proto-note b { color: #E8B583; font-weight: 500; }
+
+  /* nav — same items as the live site */
+  nav { position: sticky; top: 0; z-index: 40; background: rgba(245,242,235,.92); backdrop-filter: blur(8px); border-bottom: 1px solid rgba(42,60,36,.1); }
+  nav .wrap { display: flex; align-items: center; gap: 28px; padding-top: 16px; padding-bottom: 16px; }
+  .brand { margin-right: auto; }
+  .brand h1 { font-family: var(--serif); font-weight: 700; font-size: 22px; letter-spacing: -.01em; }
+  .brand p { font-family: var(--mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: #8a8a82; margin-top: 2px; }
+  nav .links { display: flex; gap: 22px; align-items: center; }
+  nav .links a { font-size: 14px; font-weight: 500; text-decoration: none; }
+  nav .links a:hover { color: var(--forest); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(42,60,36,.35); }
+  nav .socials { display: flex; gap: 14px; padding-left: 22px; border-left: 1px solid rgba(42,60,36,.12); font-family: var(--mono); font-size: 11px; letter-spacing: .06em; }
+  nav .socials a { text-decoration: none; } nav .socials a:hover { color: var(--forest); }
+
+  /* hero — same content as live site, the world as backdrop */
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid rgba(42,60,36,.1); }
+  .hero .art { position: absolute; inset: 0; }
+  .hero .art img { width: 100%; height: 100%; object-fit: cover; object-position: right center; }
+  .hero .art::after { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--cream) 0%, rgba(245,242,235,.94) 34%, rgba(245,242,235,.55) 52%, rgba(245,242,235,0) 72%); }
+  .hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: end; min-height: 86vh; padding-top: 60px; padding-bottom: 70px; }
+  .badge { display: inline-flex; align-items: center; gap: 9px; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--forest);
+    border: 1px solid rgba(42,60,36,.25); border-radius: 999px; padding: 6px 14px; background: rgba(245,242,235,.6); margin-bottom: 30px; }
+  .badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--forest); }
+  .hero h2 { font-size: clamp(64px, 9.5vw, 128px); line-height: .88; letter-spacing: -.035em; margin-bottom: 30px; font-family: var(--serif); }
+  .hero h2 .thin { display: block; font-style: italic; font-weight: 300; color: var(--forest); }
+  .hero h2 .bold { display: block; font-weight: 700; }
+  .hero h2 .dot { color: var(--forest); }
+  .hero .tag { max-width: 440px; font-size: 21px; font-weight: 400; color: #4c4c46; border-left: 2px solid var(--forest); padding-left: 20px; }
+  .hero .tag b { color: var(--forest); font-weight: 500; }
+  .hero .side { display: flex; flex-direction: column; align-items: flex-end; gap: 22px; text-align: right; }
+  .hero .side .fact p:first-child { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: #9a9a92; margin-bottom: 4px; }
+  .hero .side .fact p:last-child, .hero .side .fact a { font-family: var(--serif); font-style: italic; font-size: 21px; color: var(--forest); }
+  .cta { display: inline-flex; align-items: center; gap: 12px; background: var(--ink); color: var(--cream); font-family: var(--body); font-weight: 500;
+    padding: 15px 30px; border-radius: 8px; text-decoration: none; margin-top: 8px; }
+  .cta:hover { background: var(--forest); }
+
+  /* about — kept whole */
+  .about { background: var(--cream2); padding: 110px 0; }
+  .about .wrap { display: grid; grid-template-columns: 5fr 7fr; gap: 60px; align-items: start; }
+  .collage { position: relative; height: 620px; }
+  .polaroid { position: absolute; background: #fff; padding: 12px 12px 30px; box-shadow: 0 14px 34px rgba(26,26,26,.18); }
+  .polaroid figcaption { font-family: var(--serif); font-style: italic; font-size: 12px; color: #9a9a92; text-align: center; margin-top: 9px; }
+  .polaroid.p1 { top: 0; left: 0; width: 250px; transform: rotate(-3deg); z-index: 2; }
+  .polaroid.p2 { bottom: 130px; right: 0; width: 290px; transform: rotate(5deg); z-index: 3; }
+  .polaroid.p3 { bottom: -20px; left: 30px; width: 265px; transform: rotate(-2deg); z-index: 1; }
+  .polaroid .tape { position: absolute; top: -10px; left: 50%; width: 74px; height: 22px; transform: translateX(-50%) rotate(-2deg);
+    background: rgba(214,205,175,.65); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .about h3 { font-family: var(--serif); font-size: clamp(38px, 4.6vw, 58px); line-height: 1.08; font-weight: 700; margin: 14px 0 28px; }
+  .about h3 em { font-weight: 300; color: var(--forest); }
+  .about .prose { max-width: 620px; display: grid; gap: 16px; font-size: 19px; color: #3f3f39; }
+  .about .prose a { color: var(--forest); }
+  .minitl { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; border-top: 1px solid rgba(42,60,36,.2); margin-top: 44px; padding-top: 30px; }
+  .minitl h4 { font-family: var(--serif); font-size: 21px; color: var(--forest); margin-bottom: 3px; }
+  .minitl p:nth-child(2) { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8a8a82; margin-bottom: 6px; }
+  .minitl p:nth-child(3) { font-size: 14px; color: #6c6c64; }
+
+  /* the one NEW band: worldview + subscribe */
+  .worldband { background: var(--forest); color: var(--cream); padding: 78px 0; }
+  .worldband .wrap { display: grid; grid-template-columns: 1.4fr 1fr; gap: 50px; align-items: center; }
+  .worldband .eyebrow { color: var(--sage); }
+  .worldband h3 { font-family: var(--serif); font-size: clamp(28px, 3.4vw, 42px); line-height: 1.16; font-weight: 300; margin-top: 12px; }
+  .worldband h3 em { font-style: italic; color: #E8B583; }
+  .worldband form { display: flex; max-width: 430px; }
+  .worldband input { flex: 1; font-family: var(--mono); font-size: 13px; padding: 14px 16px; border: 1px solid var(--sage); border-right: none;
+    border-radius: 8px 0 0 8px; background: rgba(245,242,235,.08); color: var(--cream); }
+  .worldband input::placeholder { color: var(--sage); }
+  .worldband button { font-family: var(--body); font-weight: 500; font-size: 15px; padding: 14px 26px; border: 1px solid var(--sage);
+    border-radius: 0 8px 8px 0; background: var(--cream); color: var(--forest); cursor: pointer; }
+  .worldband .sub-note { font-family: var(--mono); font-size: 11px; color: var(--sage); margin-top: 12px; }
+
+  /* timeline — all ten entries kept */
+  .timeline { padding: 120px 0; }
+  .timeline .head { text-align: center; margin-bottom: 90px; }
+  .timeline .head h3 { font-family: var(--serif); font-size: clamp(38px, 4.6vw, 56px); font-weight: 700; margin-bottom: 12px; }
+  .timeline .head p { color: #6c6c64; }
+  .tl { position: relative; max-width: 1020px; margin: 0 auto; }
+  .tl::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(rgba(42,60,36,.25), rgba(42,60,36,.08), transparent); }
+  .tl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; padding: 46px 0; position: relative; border-bottom: 1px solid rgba(42,60,36,.06); }
+  .tl-row::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--sage); transform: translate(-50%,-50%); }
+  .tl-row.win::after { background: var(--forest); box-shadow: 0 0 0 4px rgba(42,60,36,.15); }
+  .tl-date { display: flex; flex-direction: column; justify-content: center; }
+  .tl-row.right .tl-date { text-align: right; align-items: flex-end; }
+  .tl-row.left  .tl-date { order: 2; text-align: left; }
+  .tl-row.left  .tl-body { order: 1; text-align: right; }
+  .tl-row.left  .tl-body .links { justify-content: flex-end; }
+  .tl-row.left  .tl-body figure { margin-left: auto; }
+  .tl-date .year { font-family: var(--serif); font-weight: 700; font-size: 52px; color: rgba(42,60,36,.14); }
+  .tl-date .meta { font-family: var(--mono); font-size: 11px; color: var(--forest); margin-top: 4px; }
+  .tl-date .loc { font-size: 12px; color: #9a9a92; }
+  .tl-body .cat { font-family: var(--mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; font-weight: 500; color: var(--forest); }
+  .tl-body h4 { font-family: var(--serif); font-size: clamp(24px, 2.6vw, 34px); font-weight: 700; line-height: 1.12; margin: 10px 0 12px; }
+  .tl-body p { font-size: 16px; color: #55554e; margin-bottom: 16px; }
+  .tl-body figure { width: min(320px, 100%); border-radius: 10px; overflow: hidden; border: 2px solid rgba(42,60,36,.12); margin-bottom: 8px; }
+  .tl-body figure.art { border-color: rgba(42,60,36,.3); }
+  .tl-body figcaption { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: #9a9a92; padding: 6px 2px 8px; }
+  .tl-body .links { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; font-weight: 500; }
+  .tl-body .links a { color: var(--forest); text-decoration: none; }
+  .tl-body .links a:hover { text-decoration: underline; }
+  .tl-more { text-align: center; margin-top: 70px; padding-top: 44px; border-top: 1px solid rgba(42,60,36,.1); }
+  .tl-more a { color: var(--forest); font-weight: 600; text-decoration: none; }
+  .tl-more a:hover { text-decoration: underline; }
+
+  /* lab — coming soon, now with a resident */
+  .lab { background: var(--mist); padding: 110px 0; text-align: center; }
+  .lab h3 { font-family: var(--serif); font-size: clamp(34px, 4vw, 48px); font-weight: 700; margin: 10px 0 14px; }
+  .lab > .wrap > p { max-width: 640px; margin: 0 auto; color: #55554e; }
+  .lab .soon { max-width: 560px; margin: 44px auto 0; }
+  .lab .soon img { border-radius: 12px; border: 2px solid rgba(42,60,36,.15); }
+  .lab .soon p { font-family: var(--serif); font-style: italic; font-size: 19px; color: #7a7a72; margin-top: 18px; }
+
+  /* writing — dark green, all five entries */
+  .writing { background: var(--forest); color: var(--cream); padding: 110px 0; }
+  .writing .head { text-align: center; margin-bottom: 60px; }
+  .writing .head h3 { font-family: var(--serif); font-size: clamp(34px, 4vw, 48px); font-weight: 700; margin-bottom: 10px; }
+  .writing .head p { color: var(--sage-lt); max-width: 620px; margin: 0 auto; }
+  .wgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .wcard { background: var(--forest2); border: 1px solid rgba(138,154,133,.22); border-radius: 12px; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; }
+  .wcard:hover { background: #42583C; }
+  .wcard figure { height: 150px; overflow: hidden; }
+  .wcard figure img { width: 100%; height: 100%; object-fit: cover; }
+  .wcard .pad { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .wcard .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .wcard .date { font-family: var(--mono); font-size: 11px; color: var(--sage); }
+  .wcard .kind { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--sage); border: 1px solid rgba(138,154,133,.35); border-radius: 4px; padding: 2px 7px; }
+  .wcard h4 { font-family: var(--serif); font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+  .wcard p { font-size: 14px; color: var(--sage-lt); flex: 1; }
+  .wcard .foot { font-size: 13px; font-weight: 500; color: var(--sage); border-top: 1px solid rgba(138,154,133,.2); margin-top: 16px; padding-top: 14px; }
+  .wcard.archive { align-items: center; justify-content: center; text-align: center; border-style: dashed; background: transparent; padding: 30px; opacity: .8; }
+  .wcard.archive:hover { opacity: 1; background: #223019; }
+  .wcard.archive h4 { font-weight: 400; }
+
+  footer { background: var(--ink); color: var(--sage); padding: 70px 0; }
+  footer .wrap { display: flex; align-items: center; gap: 30px; flex-wrap: wrap; }
+  footer h4 { font-family: var(--serif); font-size: 28px; color: var(--cream); }
+  footer h4 span { color: var(--sage); }
+  footer .made { font-family: var(--mono); font-size: 12px; opacity: .6; }
+  footer .links { margin-left: auto; display: flex; gap: 26px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+  footer .links a { text-decoration: none; } footer .links a:hover { color: var(--cream); }
+  footer .snooze { display: flex; align-items: center; gap: 12px; margin-left: 30px; }
+  footer .snooze img { width: 84px; border-radius: 8px; opacity: .85; }
+  footer .snooze span { font-family: var(--mono); font-size: 10px; opacity: .5; max-width: 110px; }
+
+  @media (max-width: 980px) {
+    .hero .wrap { grid-template-columns: 1fr; min-height: auto; }
+    .hero .side { align-items: flex-start; text-align: left; }
+    .about .wrap { grid-template-columns: 1fr; }
+    .collage { height: auto; display: flex; gap: 16px; flex-wrap: wrap; }
+    .polaroid { position: static; transform: none !important; width: 46% !important; }
+    .worldband .wrap { grid-template-columns: 1fr; }
+    .tl::before { left: 8px; }
+    .tl-row { grid-template-columns: 1fr; gap: 8px; padding-left: 30px; }
+    .tl-row::after { left: 8px; }
+    .tl-row.left .tl-body { order: 2; text-align: left; }
+    .tl-row.left .tl-body .links { justify-content: flex-start; }
+    .tl-row.left .tl-body figure { margin-left: 0; }
+    .tl-row .tl-date { text-align: left !important; align-items: flex-start !important; order: 1 !important; }
+    .tl-date .year { font-size: 34px; }
+    .wgrid { grid-template-columns: 1fr; }
+    nav .links, nav .socials { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-note">Prototype v3 · <b>keeps every section of the live site</b> · art drawn by the style lab in the site's own palette</div>
+
+<nav>
+  <div class="wrap">
+    <div class="brand"><a href="/" style="text-decoration:none"><h1>San Kala</h1><p>S.P.K.S. — About / The Journey</p></a></div>
+    <div class="links">
+      <a href="#about">About</a><a href="#timeline">News</a><a href="#lab">Lab</a><a href="#notes">Writing</a><a href="#">Resume</a>
+    </div>
+    <div class="socials"><a href="#">GH</a><a href="#">IN</a><a href="#">@</a></div>
+  </div>
+</nav>
+
+<!-- HERO: identical content to the live site; the decorative gradient becomes the world -->
+<header class="hero">
+  <div class="art"><img src="img/art-hero.webp" alt="A colossal robot hand descends gently over a green meadow while a small figure looks up."></div>
+  <div class="wrap">
+    <div>
+      <span class="badge"><i></i> San Francisco Bay Area</span>
+      <h2><span class="thin">San</span><span class="bold">Kala<span class="dot">.</span></span></h2>
+      <p class="tag">AI researcher working on <b>intelligent agents</b> and <b>generative information extraction</b>.</p>
+    </div>
+    <div class="side">
+      <div class="fact"><p>Current Focus</p><p>GenAI @ eBay</p></div>
+      <div class="fact"><p>Latest Win</p><a href="#timeline">NeurIPS '25 EAI</a></div>
+      <a class="cta" href="#timeline">Explore Work ↓</a>
+    </div>
+  </div>
+</header>
+
+<!-- ABOUT: kept whole — real photos plus one drawn print in the collage -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="collage">
+      <figure class="polaroid p1"><span class="tape"></span><img src="img/photo-headshot.webp" alt="San Kala"><figcaption>San Jose, 2024</figcaption></figure>
+      <figure class="polaroid p2"><span class="tape"></span><img src="img/photo-uist.webp" alt="UIST 2023 award ceremony"><figcaption>UIST, 2023</figcaption></figure>
+      <figure class="polaroid p3"><span class="tape"></span><img src="img/art-shore.webp" alt="A drawn figure stands at the edge of a vast sea."><figcaption>from the style lab</figcaption></figure>
+    </div>
+    <div>
+      <span class="eyebrow">About</span>
+      <h3>Follow the <br><em>reward signal</em></h3>
+      <div class="prose">
+        <p>Pick hard things you want to understand, build until they're real. Started in Electrical Engineering, found ML through Kaggle, designed ASICs at <a href="#">Texas Instruments</a>.</p>
+        <p>After DALL·E 3, singularity looked underway—shifted to CS at <a href="#">UCSD</a>. Now building LLM extraction systems at <a href="#">eBay</a>.</p>
+      </div>
+      <div class="minitl">
+        <div><h4>eBay</h4><p>Applied Researcher</p><p>San Jose • Present</p></div>
+        <div><h4>UCSD</h4><p>MS CS (AI/ML)</p><p>San Diego • 2024</p></div>
+        <div><h4>TI</h4><p>ASIC Engineer</p><p>Bangalore • 2022</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE ONLY NEW SECTION: worldview + subscribe -->
+<section class="worldband">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Why this site exists</span>
+      <h3>The future is <em>physically enormous</em>, and nearer than it looks. Essays, films, and experiments about walking up close.</h3>
+    </div>
+    <div>
+      <form onsubmit="return false">
+        <input type="email" placeholder="you@example.com" aria-label="Email address"><button type="submit">Get the next one</button>
+      </form>
+      <p class="sub-note">One flagship every few weeks. No roundups.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE: all ten milestones, real photos kept, drawn art where there was none -->
+<section class="timeline" id="timeline">
+  <div class="wrap">
+    <div class="head">
+      <h3>News &amp; Milestones</h3>
+      <p>Recent publications, projects, and career highlights.</p>
+    </div>
+    <div class="tl">
+
+      <div class="tl-row right win">
+        <div class="tl-date"><span class="year">2025</span><span class="meta">December</span><span class="loc">San Diego, CA</span></div>
+        <div class="tl-body">
+          <span class="cat">Competition Win</span>
+          <h4>1st Place at NeurIPS EAI Challenge</h4>
+          <p>Won first place globally in the Embodied Agent Interface (EAI) Challenge at NeurIPS 2025 Foundation Models Meet Embodied Agents Workshop. Built systems that use LLMs to power embodied agents (robots) to reason about physical tasks.</p>
+          <figure class="art"><img src="img/art-neurips.webp" alt="Two small figures raise a trophy beneath a colossal robotic arm arched over them."><figcaption>drawn by the style lab</figcaption></figure>
+          <div class="links"><a href="#">Write-up ↗</a><a href="#">Paper ↗</a><a href="#">Challenge Site ↗</a></div>
+        </div>
+      </div>
+
+      <div class="tl-row left">
+        <div class="tl-body">
+          <span class="cat">Career</span>
+          <h4>Joined eBay</h4>
+          <p>Applied Researcher on the Knowledge Extraction team, building and researching production-grade LLM systems for information extraction at scale. Promoted in Oct 2025.</p>
+          <figure><img src="img/photo-ebay.webp" alt="eBay headquarters"></figure>
+        </div>
+        <div class="tl-date"><span class="year">2024</span><span class="meta">April</span><span class="loc">San Jose, CA</span></div>
+      </div>
+
+      <div class="tl-row right">
+        <div class="tl-date"><span class="year">2024</span><span class="meta">March</span><span class="loc">San Diego, CA</span></div>
+        <div class="tl-body">
+          <span class="cat">Education</span>
+          <h4>Graduated from UCSD</h4>
+          <p>Master of Science in Computer Science at UC San Diego. Worked with Prof. Julian McAuley's group on AI music and LLMs. Teaching Assistant for graduate course on Recommender Systems and Data Mining.</p>
+          <figure><img src="img/photo-ucsd.webp" alt="UCSD research group"></figure>
+        </div>
+      </div>
+
+      <div class="tl-row left">
+        <div class="tl-body">
+          <span class="cat">Publication</span>
+          <h4>ZINify: Research to Zines</h4>
+          <p>Honorable Mention at UIST 2023 Student Innovation Contest. Early agentic systems (before agents were mainstream) using Claude 2 to transform research papers into visual zines.</p>
+          <figure><img src="img/photo-uist.webp" alt="UIST 2023 award ceremony"></figure>
+          <div class="links"><a href="#">Paper ↗</a><a href="#">Demo ↗</a></div>
+        </div>
+        <div class="tl-date"><span class="year">2023</span><span class="meta">October</span><span class="loc">San Francisco, CA</span></div>
+      </div>
+
+      <div class="tl-row right">
+        <div class="tl-date"><span class="year">2023</span><span class="meta">October</span><span class="loc">San Diego, CA</span></div>
+        <div class="tl-body">
+          <span class="cat">Entrepreneurship</span>
+          <h4>UCSD StartR Rady Accelerator</h4>
+          <p>Accepted into UCSD StartR Rady FAWI23 accelerator program. My foray into entrepreneurship—learned a lot about startups and building products. Worked on a writing assistant for novelists, but it didn't pan out.</p>
+          <figure class="art"><img src="img/art-boat.webp" alt="A small paper boat drifts alone on a vast calm sea."><figcaption>drawn by the style lab</figcaption></figure>
+          <div class="links"><a href="#">Post-mortem ↗</a></div>
+        </div>
+      </div>
+
+      <div class="tl-row left">
+        <div class="tl-body">
+          <span class="cat">Career</span>
+          <h4>eBay Research Intern</h4>
+          <p>AI Applied Research Intern on the Knowledge Extraction team. First exposure to industry research and information extraction at scale.</p>
+          <figure><img src="img/photo-ebay-intern.webp" alt="eBay internship"></figure>
+        </div>
+        <div class="tl-date"><span class="year">2023</span><span class="meta">June</span><span class="loc">San Jose, CA</span></div>
+      </div>
+
+      <div class="tl-row right">
+        <div class="tl-date"><span class="year">2023</span><span class="meta">January</span><span class="loc">San Diego, CA</span></div>
+        <div class="tl-body">
+          <span class="cat">Competition Win</span>
+          <h4>1st Place: eBay ML Challenge</h4>
+          <p>Placed first out of 591 teams in named entity extraction from product titles using DeBERTa V3 with K-fold ensembling. This win led to a summer 2023 research internship at eBay.</p>
+          <figure class="art"><img src="img/art-thread.webp" alt="A tiny figure pulls a glowing thread from an immense tangled mountain of objects."><figcaption>drawn by the style lab</figcaption></figure>
+          <div class="links"><a href="#">Winner Announcement ↗</a></div>
+        </div>
+      </div>
+
+      <div class="tl-row left">
+        <div class="tl-body">
+          <span class="cat">Education</span>
+          <h4>Started MS at UC San Diego</h4>
+          <p>Started Master of Science in Computer Science at UC San Diego. Transitioned from hardware engineering to machine learning research.</p>
+          <figure><img src="img/photo-ucsd-start.webp" alt="UCSD Geisel Library"></figure>
+        </div>
+        <div class="tl-date"><span class="year">2022</span><span class="meta">September</span><span class="loc">San Diego, CA</span></div>
+      </div>
+
+      <div class="tl-row right">
+        <div class="tl-date"><span class="year">2019</span><span class="meta">July</span><span class="loc">Bangalore, India</span></div>
+        <div class="tl-body">
+          <span class="cat">Career</span>
+          <h4>Texas Instruments</h4>
+          <p>ASIC Digital Design Engineer. Spent COVID era here exploring chip design and finding a newfound respect for silicon.</p>
+          <figure class="art"><img src="img/art-ti.webp" alt="A tiny engineer stands on a trace of a vast microchip landscape seen from above."><figcaption>drawn by the style lab</figcaption></figure>
+        </div>
+      </div>
+
+      <div class="tl-row left">
+        <div class="tl-body">
+          <span class="cat">Education</span>
+          <h4>Undergrad in Electrical Engineering</h4>
+          <p>National Institute of Technology Karnataka, Electrical Engineering. Got into deep learning through Kaggle—Silver and Bronze medals. Major thesis on LSTM-based power quality event classification won best paper at IEEE conference. Explored my interest in astronomy and space through the Amateur Astronomy Club.</p>
+          <figure><img src="img/photo-nitk.webp" alt="NITK lab"></figure>
+        </div>
+        <div class="tl-date"><span class="year">2019</span><span class="meta">May</span><span class="loc">Karnataka, India</span></div>
+      </div>
+
+    </div>
+    <div class="tl-more"><a href="#">View Full Resume &amp; CV →</a></div>
+  </div>
+</section>
+
+<!-- LAB: same coming-soon state, now inhabited -->
+<section class="lab" id="lab">
+  <div class="wrap">
+    <span class="eyebrow">⚗ The Lab</span>
+    <h3>The Lab</h3>
+    <p>A space for personal experiments, unfinished ideas, and technical explorations. This is where I write about what I'm building right now, outside of formal publications.</p>
+    <div class="soon">
+      <img src="img/blob-lab.webp" alt="A small blob creature leans curiously toward a stack of wooden blocks.">
+      <p>Coming soon — new experiments and technical explorations will be shared here.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WRITING: all five entries kept; essays wear their drawn covers -->
+<section class="writing" id="notes">
+  <div class="wrap">
+    <div class="head">
+      <h3>Writing</h3>
+      <p>Long-form essays, technical deep dives, and shorter notes on AI, robotics, and other explorations.</p>
+    </div>
+    <div class="wgrid">
+      <a class="wcard" href="#">
+        <figure><img src="img/cover-gpt7.webp" alt=""></figure>
+        <div class="pad">
+          <div class="row"><span class="date">Dec 2025</span><span class="kind">Essay</span></div>
+          <h4>GPT-7 Will Have Arms</h4>
+          <p>The Coming Convergence of Foundation Models and Robotics</p>
+          <div class="foot">28 min read ↗</div>
+        </div>
+      </a>
+      <a class="wcard" href="#">
+        <figure><img src="img/cover-eai.webp" alt=""></figure>
+        <div class="pad">
+          <div class="row"><span class="date">Jul 2026</span><span class="kind">Essay</span></div>
+          <h4>Winning by Overfitting</h4>
+          <p>How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge — and why the recipe matters for robotics.</p>
+          <div class="foot">4 min read ↗</div>
+        </div>
+      </a>
+      <a class="wcard" href="#">
+        <figure><img src="img/og-bee.webp" alt=""></figure>
+        <div class="pad">
+          <div class="row"><span class="date">Jan 2026</span><span class="kind">Toy</span></div>
+          <h4>A Clauiet Life</h4>
+          <p>What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.</p>
+          <div class="foot">Interactive ↗</div>
+        </div>
+      </a>
+      <a class="wcard" href="#">
+        <figure><img src="img/og-dyson.webp" alt=""></figure>
+        <div class="pad">
+          <div class="row"><span class="date">2024</span><span class="kind">Toy</span></div>
+          <h4>Dyson Swarm</h4>
+          <p>Interactive 3D visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.</p>
+          <div class="foot">Interactive ↗</div>
+        </div>
+      </a>
+      <a class="wcard" href="#">
+        <figure><img src="img/art-boat.webp" alt=""></figure>
+        <div class="pad">
+          <div class="row"><span class="date">Dec 2025</span><span class="kind">Note</span></div>
+          <h4>StartR Accelerator: A Post-Mortem</h4>
+          <p>Lessons learned from building a writing assistant for novelists that didn't make it to market.</p>
+          <div class="foot">5 min read ↗</div>
+        </div>
+      </a>
+      <a class="wcard archive" href="#">
+        <h4>View Archive</h4>
+        <p style="font-family:var(--mono);font-size:11px;margin-top:8px">Read all writing</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <h4>San Kala<span>.</span></h4>
+      <p class="made">Engineered in California.</p>
+    </div>
+    <div class="snooze">
+      <img src="img/blob-sleep.webp" alt="The blob sleeps under a crescent moon.">
+      <span>asleep between releases</span>
+    </div>
+    <div class="links"><a href="#">LinkedIn</a><a href="#">GitHub</a><a href="#">Kaggle</a><a href="#">Contact</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
