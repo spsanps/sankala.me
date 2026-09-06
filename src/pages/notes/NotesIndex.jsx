@@ -1,71 +1,31 @@
-import { Link } from 'react-router-dom';
-import { ArrowLeft, ArrowUpRight, PenTool } from 'lucide-react';
-import { notesData } from '../../data/site-content';
+import { Link, useSearchParams } from 'react-router-dom';
+import Metadata from '../../components/site/Metadata';
+import { Arrow, WorkRow } from '../../components/site/Elements';
+import { works, topics, formatNames } from '../../data/work';
 
 export default function NotesIndex() {
-  return (
-    <div className="min-h-screen bg-[#2A3C24] text-[#F5F2EB] pt-24 pb-20 px-6">
-      <div className="max-w-7xl mx-auto">
-        <Link to="/#notes" className="inline-flex items-center gap-2 text-[#8A9A85] hover:text-white hover:underline mb-12 transition-colors">
-          <ArrowLeft size={16} /> Back to Home
-        </Link>
-
-        <div className="mb-16 text-center max-w-3xl mx-auto">
-            <PenTool className="mx-auto mb-4 text-[#8A9A85]" size={32} />
-            <h1 className="text-4xl md:text-6xl font-bold serif mb-6">Writing Archive</h1>
-            <p className="text-lg text-[#D1D9CE]">
-                Long-form essays, technical deep dives, and shorter notes on AI, robotics, and other explorations.
-            </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-            {notesData.map((note) => {
-                // Use essay route if it's a link to an essay, external URL if external, otherwise use note route
-                const linkTo = note.isEssayLink ? note.essayRoute : (note.isExternalLink ? note.externalUrl : (note.type === "essay" ? `/notes/${note.slug}` : `/notes/${note.id}`));
-                const isExternal = note.isExternalLink;
-
-                const cardContent = (
-                    <div className="flex flex-col h-full">
-                        {note.ogImage && (
-                            <div className="h-36 -mx-6 -mt-6 mb-5 overflow-hidden rounded-t-xl">
-                                <img
-                                    src={note.ogImage}
-                                    alt={note.title}
-                                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
-                                />
-                            </div>
-                        )}
-                        <div className="flex items-center justify-between mb-3">
-                            <span className="text-xs text-[#8A9A85] font-mono">{note.date}</span>
-                            {note.type === "essay" && (
-                                <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Essay</span>
-                            )}
-                            {note.type === "toy" && (
-                                <span className="text-[10px] text-[#8A9A85] uppercase tracking-widest px-2 py-0.5 border border-[#8A9A85]/30 rounded">Toy</span>
-                            )}
-                        </div>
-                        <h3 className="text-lg font-bold serif mb-2 group-hover:underline decoration-[#8A9A85] underline-offset-4">{note.title}</h3>
-                        <p className="text-[#D1D9CE] text-sm leading-relaxed flex-1 line-clamp-3">
-                            {note.excerpt}
-                        </p>
-                        <div className="flex items-center gap-2 text-sm font-medium text-[#8A9A85] group-hover:text-white transition-colors mt-4 pt-4 border-t border-[#8A9A85]/20">
-                            {note.readTime ? note.readTime : "Read Entry"} <ArrowUpRight size={14} />
-                        </div>
-                    </div>
-                );
-
-                return isExternal ? (
-                    <a href={linkTo} key={note.id} className="bg-[#364930] p-6 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20 overflow-hidden">
-                        {cardContent}
-                    </a>
-                ) : (
-                    <Link to={linkTo} key={note.id} className="bg-[#364930] p-6 rounded-xl hover:bg-[#42583C] transition-all cursor-pointer group border border-[#8A9A85]/20 overflow-hidden">
-                        {cardContent}
-                    </Link>
-                );
-            })}
-        </div>
-      </div>
-    </div>
-  );
+  const [params, setParams] = useSearchParams();
+  const topic = topics.some(t => t.id === params.get('topic')) ? params.get('topic') : 'all';
+  const format = formatNames[params.get('format')] ? params.get('format') : 'all';
+  const query = params.get('q') || '';
+  const matching = works.filter(w => (topic === 'all' || w.topics.includes(topic)) && (format === 'all' || w.formats.includes(format)) && [w.title, w.description, ...w.topics.map(id => topics.find(t => t.id === id).name)].join(' ').toLowerCase().includes(query.trim().toLowerCase()));
+  function change(key, value) {
+    const next = new URLSearchParams(params);
+    if(value === 'all' || !value) next.delete(key); else next.set(key, value);
+    setParams(next, { replace: true, preventScrollReset: true });
+  }
+  function reset() { setParams({}, { replace: true, preventScrollReset: true }); }
+  return <main id="main" className="shell">
+    <Metadata title="Work & ideas — San Kala" description="The complete index of San Kala’s research, essays, films, and interactive experiments. Browse AI and robotics, simulated worlds, and reflections on building." path="/notes" />
+    <header className="page-heading"><span className="eyebrow">San Kala / Work & ideas</span><h1>A place for<br /><em>all the threads.</em></h1><p>Research, essays, films, and small worlds. Browse by what they’re about, or choose the kind of work you want to see.</p></header>
+    <div className="library-tools"><form id="library-filters" role="search" onSubmit={e => e.preventDefault()} onReset={reset}>
+      <label>Subject<select name="topic" value={topic} onChange={e => change('topic', e.target.value)}><option value="all">All subjects</option>{topics.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select></label>
+      <label>Format<select name="format" value={format} onChange={e => change('format', e.target.value)}><option value="all">All formats</option>{Object.entries(formatNames).map(([id,name]) => <option key={id} value={id}>{name}</option>)}</select></label>
+      <label className="search-field">Search<input type="search" name="q" value={query} onChange={e => change('q', e.target.value)} placeholder="A title, a question, a project…" /></label><button type="reset">Reset</button>
+    </form></div>
+    <div className="library-count"><p role="status" aria-live="polite">{matching.length} {matching.length === 1 ? 'piece' : 'pieces'}</p><span>Some work belongs to more than one subject.</span></div>
+    <div className="work-list">{matching.map(work => <WorkRow key={work.slug} work={work} />)}</div>
+    {!matching.length && <div className="empty-state"><h2>No matches here.</h2><p>Try another subject, format, or search term.</p><button type="button" onClick={reset}>Show all work</button></div>}
+    <aside className="archive-note"><h2>One body of work, a few different homes.</h2><p>This is my complete index. Some pieces also belong to <a href="https://paperrobots.studio/">Paper Robots</a>; the space experiments live at <a href="https://dysonswarm.com/">Dyson Swarm</a>. Each entry takes you to the work itself.</p><Link to="/resume">Full publication details and CV <Arrow /></Link></aside>
+  </main>;
 }

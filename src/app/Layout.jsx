@@ -11,7 +11,6 @@ export default function Layout() {
 
       {/* Inject Styles & Fonts */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
 
         :root {
           --bg-cream: #F5F2EB;
@@ -21,15 +20,15 @@ export default function Layout() {
         }
 
         body {
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
         }
 
         .serif {
-          font-family: 'Playfair Display', serif;
+          font-family: 'Fraunces', serif;
         }
 
         .reading-font {
-          font-family: 'Crimson Pro', serif;
+          font-family: Georgia, serif;
           font-size: 1.125rem;
           line-height: 1.75;
         }
@@ -96,10 +95,10 @@ export default function Layout() {
 
         /* Markdown Styles with Crimson Pro */
         .markdown {
-          font-family: 'Crimson Pro', serif;
+          font-family: Georgia, serif;
         }
         .markdown h1 {
-          font-family: 'Playfair Display', serif;
+          font-family: 'Fraunces', serif;
           font-size: 2.5rem;
           font-weight: 700;
           margin-bottom: 1.5rem;
@@ -107,7 +106,7 @@ export default function Layout() {
           line-height: 1.2;
         }
         .markdown h2 {
-          font-family: 'Playfair Display', serif;
+          font-family: 'Fraunces', serif;
           font-size: 2rem;
           font-weight: 600;
           margin-bottom: 1rem;
@@ -115,7 +114,7 @@ export default function Layout() {
           line-height: 1.3;
         }
         .markdown h3 {
-          font-family: 'Playfair Display', serif;
+          font-family: 'Fraunces', serif;
           font-size: 1.5rem;
           font-weight: 600;
           margin-bottom: 0.75rem;

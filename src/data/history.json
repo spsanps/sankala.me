@@ -1,0 +1,72 @@
+[
+  {
+    "year": "2025",
+    "title": "The embodied-agent challenge",
+    "description": "First place in the NeurIPS 2025 EAI Challenge at the Foundation Models Meet Embodied Agents Workshop, as team AxisTilted2.",
+    "url": "/notes/eai-challenge",
+    "linkLabel": "Read the account"
+  },
+  {
+    "year": "2024",
+    "title": "Research at eBay",
+    "description": "Joined eBay’s Knowledge Extraction team in April 2024. Researching and building language-model systems for information extraction. Promoted in October 2025.",
+    "url": "/resume",
+    "linkLabel": "Current work"
+  },
+  {
+    "year": "2024",
+    "title": "An MS at UC San Diego",
+    "description": "Completed an MS in computer science at UC San Diego. Worked with Julian McAuley’s group on AI music and language models, and TA’d recommender systems and data mining.",
+    "url": null,
+    "linkLabel": null
+  },
+  {
+    "year": "2023",
+    "title": "Research, made into zines",
+    "description": "ZINify received an Honorable Mention at the UIST Student Innovation Contest. Experiments with language models and visual storytelling.",
+    "url": "https://jaidevshriram.com/zinify-uist/",
+    "linkLabel": "See ZINify"
+  },
+  {
+    "year": "2023",
+    "title": "A startup that didn’t make it",
+    "description": "Accepted into UCSD’s StartR Rady accelerator with Glyp, a writing assistant for novelists. The project did not make it to market; I wrote about what went wrong.",
+    "url": "/notes/startr-postmortem",
+    "linkLabel": "Read the post-mortem"
+  },
+  {
+    "year": "2023",
+    "title": "An industry research internship",
+    "description": "Summer research with eBay’s Knowledge Extraction team, working on information extraction at scale.",
+    "url": null,
+    "linkLabel": null
+  },
+  {
+    "year": "2023",
+    "title": "First of 591 teams",
+    "description": "Won the eBay University Machine Learning Challenge with named-entity extraction from product titles. The challenge led to the research internship.",
+    "url": "https://innovation.ebayinc.com/stories/ebay-announces-winners-of-4th-annual-machine-learning-challenge/",
+    "linkLabel": "The announcement"
+  },
+  {
+    "year": "2022",
+    "title": "From hardware to computer science",
+    "description": "Started the MS at UC San Diego after three years in chip design.",
+    "url": null,
+    "linkLabel": null
+  },
+  {
+    "year": "2019",
+    "title": "Learning to respect silicon",
+    "description": "ASIC digital design at Texas Instruments, 2019–2022: physical design, RTL, and getting actual chips out of the door.",
+    "url": "/resume",
+    "linkLabel": "Engineering background"
+  },
+  {
+    "year": "2019",
+    "title": "Electrical engineering, and other interests",
+    "description": "Graduated from NIT Karnataka in electrical and electronics engineering. Deep learning through Kaggle, a thesis on power-quality classification, and the Amateur Astronomy Club.",
+    "url": null,
+    "linkLabel": null
+  }
+]

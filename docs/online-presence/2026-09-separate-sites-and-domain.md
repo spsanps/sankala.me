@@ -1,5 +1,10 @@
 # Separate personal and publication sites
 
+**Confirmed later on September 6:** San bought **paperrobots.studio** and
+authorized implementation and publication. The naming discussion and prototype
+boundaries below are historical. Production details are in
+[the launch handoff](2026-09-production-sites.md).
+
 September 6, 2026. Supersedes the combined homepage architecture in the previous
 illustrated-journal study. The free native Substack reading-edition recommendation
 still applies to appropriate Paper Robots work.

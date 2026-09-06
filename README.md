@@ -13,9 +13,19 @@ and Vite, with Vercel functions for social previews and crawler-facing essay pag
 - [Repository structure record](docs/organization/2026-09-06-repo-structure.md):
   the folder reorganization, preserved URLs and verification.
 
-Latest confirmed film status, September 6: San reviewed the YouTube playback and
-said it looks good. Publication and the public video URL remain unconfirmed.
-The next launch step is to record that URL and use it in the sharing copy.
+The first Paper Robots film is published: [The Coming Robotics Revolution](https://www.youtube.com/watch?v=kzvqj4jurW0),
+September 6, 2026. The separate publication website is in
+`C:\Users\sanps\Desktop\Projects\paper-robots\site` (WSL:
+`/home/san/Projects/paper-robots/site`), GitHub `spsanps/paper-robots-site`.
+San owns `paperrobots.studio`; its DNS connection and the Substack publication
+URL remain pending. See [the production-site handoff](docs/online-presence/2026-09-production-sites.md).
+
+The personal site now has a full work index, history, research, About page,
+experiments, and CV. Existing essays and URLs remain intact. The build prerenders
+the personal pages and generates RSS and the sitemap; rich essays load separately
+and retain their full crawler editions. Run `npm run build`, `npm run lint`, and
+`npm run check:site` before publishing. Pushing `main` deploys through the existing
+Vercel GitHub integration.
 
 ## Where things belong
 

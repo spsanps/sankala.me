@@ -109,23 +109,24 @@ export default function GPT7Essay() {
     <>
       <Helmet>
         <title>GPT-7 Will Have Arms — San Kala</title>
+        <link rel="canonical" href="https://www.sankala.me/essays/gpt7-will-have-arms" />
         <meta name="description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
 
         {/* Open Graph */}
         <meta property="og:type" content="article" />
         <meta property="og:title" content="GPT-7 Will Have Arms" />
         <meta property="og:description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
-        <meta property="og:image" content="https://sankala.me/essays/gpt7/og-image.jpg" />
-        <meta property="og:url" content="https://sankala.me/essays/gpt7-will-have-arms" />
+        <meta property="og:image" content="https://www.sankala.me/essays/gpt7/og-image.jpg" />
+        <meta property="og:url" content="https://www.sankala.me/essays/gpt7-will-have-arms" />
         <meta property="og:site_name" content="San Kala" />
         <meta property="article:author" content="San Kala" />
-        <meta property="article:published_time" content="2026-01-06" />
+        <meta property="article:published_time" content="2025-12" />
 
         {/* Twitter Card */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="GPT-7 Will Have Arms" />
         <meta name="twitter:description" content="A mini Situational Awareness for robotics. We'll likely have fully capable humanoid robots during the software-singularity, not after." />
-        <meta name="twitter:image" content="https://sankala.me/essays/gpt7/og-image.jpg" />
+        <meta name="twitter:image" content="https://www.sankala.me/essays/gpt7/og-image.jpg" />
       </Helmet>
 
     <div className={`gpt7-essay min-h-screen bg-[#F5F2EB] text-[#1A1A1A] ${focusMode ? 'focus-mode-active' : ''}`}>
@@ -305,19 +306,18 @@ export default function GPT7Essay() {
 
       {/* Styles */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@400;500;600&display=swap');
 
         .gpt7-essay {
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
         .font-serif {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
         }
 
         /* Essay Typography */
         .essay-prose {
-          font-family: 'Crimson Pro', Georgia, serif;
+          font-family: Georgia, serif;
           font-size: 1.125rem;
           line-height: 1.85;
           color: #1A1A1A;
@@ -349,7 +349,7 @@ export default function GPT7Essay() {
             top: 0.25rem;
             width: 150px;
             text-align: right;
-            font-family: 'Playfair Display', Georgia, serif;
+            font-family: 'Fraunces', Georgia, serif;
             font-size: 3.5rem;
             font-weight: 900;
             color: #2A3C24;
@@ -377,7 +377,7 @@ export default function GPT7Essay() {
 
         /* Headings with decorative lines */
         .essay-prose h1 {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
           font-size: 1.75rem;
           font-weight: 700;
           color: #2A3C24;
@@ -419,7 +419,7 @@ export default function GPT7Essay() {
         }
 
         .essay-prose h2 {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
           font-size: 1.4rem;
           font-weight: 600;
           color: #1A1A1A;
@@ -451,7 +451,7 @@ export default function GPT7Essay() {
         }
 
         .essay-prose h3 {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
           font-size: 1.15rem;
           font-weight: 600;
           color: #2A3C24;
@@ -608,7 +608,7 @@ export default function GPT7Essay() {
           gap: 0.25rem;
           color: #8A9A85;
           font-size: 0.65rem;
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           text-transform: uppercase;
           letter-spacing: 0.05em;
         }
@@ -721,7 +721,7 @@ export default function GPT7Essay() {
         }
 
         .sidebar-note-title {
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           font-size: 0.7rem;
           font-weight: 600;
           text-transform: uppercase;
@@ -746,7 +746,7 @@ export default function GPT7Essay() {
         }
 
         .callout-title {
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           font-size: 0.7rem;
           font-weight: 600;
           text-transform: uppercase;
@@ -793,7 +793,7 @@ export default function GPT7Essay() {
         }
 
         .stat-value {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
           font-size: 2.25rem;
           font-weight: 700;
           color: #2A3C24;
@@ -802,7 +802,7 @@ export default function GPT7Essay() {
         }
 
         .stat-label {
-          font-family: 'Crimson Pro', Georgia, serif;
+          font-family: Georgia, Georgia, serif;
           font-size: 1rem;
           color: #8A9A85;
           line-height: 1.4;
@@ -819,7 +819,7 @@ export default function GPT7Essay() {
         }
 
         .quote-text {
-          font-family: 'Crimson Pro', Georgia, serif;
+          font-family: Georgia, Georgia, serif;
           font-size: 1.2rem;
           font-style: italic;
           line-height: 1.6;
@@ -828,7 +828,7 @@ export default function GPT7Essay() {
         }
 
         .quote-attribution {
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           font-size: 0.8rem;
           color: #8A9A85;
         }
@@ -866,7 +866,7 @@ export default function GPT7Essay() {
           max-width: 280px;
           z-index: 100;
           font-style: normal;
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           box-shadow: 0 4px 16px rgba(0,0,0,0.12);
         }
 
@@ -887,7 +887,7 @@ export default function GPT7Essay() {
         }
 
         .figure-caption {
-          font-family: 'Inter', sans-serif;
+          font-family: 'DM Sans', sans-serif;
           font-size: 0.8rem;
           color: #8A9A85;
           text-align: center;
@@ -1032,7 +1032,7 @@ export default function GPT7Essay() {
           width: 100%;
           padding: 0.45rem 0.5rem;
           text-align: left;
-          font-family: 'Crimson Pro', Georgia, serif;
+          font-family: Georgia, Georgia, serif;
           font-size: 0.95rem;
           color: #8A9A85;
           transition: color 0.1s;
@@ -1075,7 +1075,7 @@ export default function GPT7Essay() {
         }
 
         .left-toc-code {
-          font-family: 'Playfair Display', Georgia, serif;
+          font-family: 'Fraunces', Georgia, serif;
           font-size: 0.85rem;
           font-weight: 700;
           color: #8A9A85;

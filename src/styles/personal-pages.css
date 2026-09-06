@@ -1,0 +1,43 @@
+@import url('/fonts/fraunces.css');
+@import url('/fonts/dm-sans.css');
+
+.personal-site { min-height: 100vh; }
+.personal-site .profile-section { margin: 40px 0 88px; }
+.personal-site .profile-row { display: grid; grid-template-columns: 190px minmax(0,1fr); gap: 40px; padding: 32px 0; border-top: 1px solid var(--line); scroll-margin-top: 32px; }
+.personal-site .profile-row h3 { font-size: clamp(24px,2.2vw,32px); line-height: 1.2; }
+.personal-site .profile-row p { margin-top: 12px; color: var(--muted); }
+.personal-site .profile-row .venue { color: var(--ink); font-weight: 500; }
+.personal-site .profile-row ul { list-style: disc; padding-left: 20px; color: var(--muted); }
+.personal-site .profile-row li { margin-top: 14px; }
+.personal-site .profile-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 20px; }
+.personal-site .profile-links a { text-decoration: underline; text-underline-offset: 4px; }
+.personal-site .about-portrait { width: 100%; max-height: 440px; object-fit: cover; object-position: center 30%; }
+.personal-site .about-copy { margin: 80px auto 110px; }
+.personal-site .prose { max-width: 740px; font-family: Georgia, serif; font-size: 20px; line-height: 1.85; }
+.personal-site .prose h2 { margin: 52px 0 20px; font-size: 36px; }
+.personal-site .prose h3 { margin: 36px 0 16px; font-size: 28px; }
+.personal-site .prose p, .personal-site .prose ul, .personal-site .prose ol { margin: 0 0 24px; }
+.personal-site .prose a { text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.personal-site .prose ul, .personal-site .prose ol { padding-left: 26px; list-style: disc; }
+.personal-site .prose ol { list-style: decimal; }
+.personal-site .prose blockquote { border-left: 3px solid var(--accent); padding: 8px 24px; margin: 32px 0; font-style: italic; }
+.personal-site .prose hr { border: 0; border-top: 1px solid var(--line); margin: 44px 0; }
+.personal-site .note-heading { max-width: 880px; }
+.personal-site .note-heading h1 { font-size: clamp(48px,6vw,80px); }
+.personal-site .note-body { margin: 0 auto 100px; }
+.personal-site .experiment-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px; margin-bottom: 100px; }
+.personal-site .experiment-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; margin-bottom: 24px; }
+.personal-site .experiment-grid h2 { font-size: 32px; margin: 14px 0; }
+.personal-site .experiment-grid p { color: var(--muted); margin-bottom: 20px; }
+.personal-site .work-row .text-link { display: inline-block; margin-top: 16px; font-size: 14px; }
+.personal-site .site-footer small { line-height: 1.8; }
+@media(max-width: 760px) {
+  .personal-site .profile-row { grid-template-columns: 1fr; gap: 16px; }
+  .personal-site .experiment-grid { grid-template-columns: 1fr; gap: 48px; }
+  .personal-site .prose { font-size: 18px; }
+}
+@media(max-width: 380px) {
+  .personal-site .page-heading h1 { font-size: 42px; overflow-wrap: break-word; }
+  .personal-site .profile-row h3 { overflow-wrap: anywhere; }
+}
+@media(prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }

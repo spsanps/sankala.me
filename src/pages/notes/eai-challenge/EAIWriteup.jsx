@@ -137,6 +137,16 @@ export default function EAIWriteup() {
     <div className="eai-page">
       <Helmet>
         <title>Winning by Overfitting — San Kala</title>
+        <link rel="canonical" href="https://www.sankala.me/notes/eai-challenge" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content="Winning by Overfitting — San Kala" />
+        <meta property="og:description" content="How an LLM in a loop with a benchmark’s own evaluator won the NeurIPS 2025 EAI Challenge." />
+        <meta property="og:url" content="https://www.sankala.me/notes/eai-challenge" />
+        <meta property="og:image" content="https://www.sankala.me/notes/eai/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Winning by Overfitting — San Kala" />
+        <meta name="twitter:description" content="How an LLM in a loop with a benchmark’s own evaluator won the NeurIPS 2025 EAI Challenge." />
+        <meta name="twitter:image" content="https://www.sankala.me/notes/eai/og-image.png" />
         <meta name="description" content="We won the NeurIPS 2025 Embodied Agent Interface challenge by putting an LLM in a loop with the benchmark's own evaluator. The loop manufactures its own training data — and the recipe matters for robotics." />
       </Helmet>
 
@@ -151,7 +161,7 @@ export default function EAIWriteup() {
 
         .eai-back {
           display: inline-flex; align-items: center; gap: 8px;
-          font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
           color: #1A1A1A; opacity: 0.55; text-decoration: none; margin-bottom: 56px;
         }
         .eai-back:hover { opacity: 1; text-decoration: underline; }
@@ -166,12 +176,12 @@ export default function EAIWriteup() {
           margin-left: 6px; white-space: nowrap;
         }
         .eai-title {
-          font-family: 'Playfair Display', serif;
+          font-family: 'Fraunces', serif;
           font-size: clamp(40px, 7vw, 58px); line-height: 1.05; font-weight: 700;
           letter-spacing: -0.01em; margin: 0 0 20px;
         }
         .eai-deck {
-          font-family: 'Crimson Pro', serif; font-size: 21px; line-height: 1.5;
+          font-family: Georgia, serif; font-size: 21px; line-height: 1.5;
           color: #1A1A1A; opacity: 0.85; font-style: italic; margin: 0 0 28px;
         }
         .eai-byline {
@@ -184,11 +194,11 @@ export default function EAIWriteup() {
         .eai-byline a:hover { background: #FBD45B; }
 
         .eai-page p {
-          font-family: 'Crimson Pro', serif; font-size: 19px; line-height: 1.65;
+          font-family: Georgia, serif; font-size: 19px; line-height: 1.65;
           margin: 0 0 24px;
         }
         .eai-page h2 {
-          font-family: 'Playfair Display', serif; font-size: 27px; font-weight: 600;
+          font-family: 'Fraunces', serif; font-size: 27px; font-weight: 600;
           margin: 60px 0 20px;
         }
         .eai-page mark {
@@ -235,7 +245,7 @@ export default function EAIWriteup() {
           fill: #1A1A1A; text-anchor: middle;
         }
         .eai-loop-figure figcaption {
-          font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5;
+          font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.5;
           color: rgba(26,26,26,0.6); text-align: center; max-width: 440px;
           margin: 12px auto 0; padding: 0 20px;
         }
@@ -264,7 +274,7 @@ export default function EAIWriteup() {
           align-items: center; gap: 12px; margin-bottom: 14px;
         }
         @media (max-width: 560px) { .eai-pair { grid-template-columns: 126px 1fr; } }
-        .eai-bar-label { font-family: 'Inter', sans-serif; font-size: 13px; }
+        .eai-bar-label { font-family: 'DM Sans', sans-serif; font-size: 13px; }
         .eai-minibar {
           display: grid; grid-template-columns: 1fr 52px;
           align-items: center; gap: 12px; margin-bottom: 3px;
@@ -277,12 +287,12 @@ export default function EAIWriteup() {
           font-family: 'Monaco', 'Menlo', monospace; font-size: 12px; text-align: right;
         }
         .eai-chart-caption {
-          font-family: 'Inter', sans-serif; font-size: 13px; line-height: 1.5;
+          font-family: 'DM Sans', sans-serif; font-size: 13px; line-height: 1.5;
           color: rgba(26,26,26,0.6); margin-top: 16px;
         }
 
         .eai-foot {
-          font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6;
+          font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.6;
           color: rgba(26,26,26,0.6); border-top: 1px solid rgba(26,26,26,0.15);
           padding-top: 24px; margin-top: 64px;
         }

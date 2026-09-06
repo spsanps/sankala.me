@@ -23,12 +23,18 @@ his identity and history. The latest five-page study is
 complete subject/format work index, all ten milestones, a distinct publication
 homepage, and a comparison/content map. Subject names are proposed. Paper Robots
 curates a subset of San’s work; not every personal note becomes an issue.
-The publication domain remains undecided. San found `thepaperrobots.com` awkward;
-latest suggestion is `paperrobots.studio`, with `.world`, `.ink`, and `.art` as
-alternatives. No domain is purchased. See
-`docs/online-presence/2026-09-separate-sites-and-domain.md` for checked prices and
-their limitations. Do not reuse the earlier combined homepage as the accepted
-architecture. Complete free native Substack reading editions remain recommended.
+San has now bought **paperrobots.studio** and explicitly authorized making the
+separate sites real, including publication and managing setup where access allows.
+The implementation is in this repo and the separate public website repo
+`/home/san/Projects/paper-robots/site` (GitHub: spsanps/paper-robots-site).
+The personal site keeps Vercel; Paper Robots uses GitHub Pages. DNS/registrar
+access and the public Substack publication URL remain pending. San is editing
+his Substack author profile: use San Kala there and Paper Robots for the publication.
+Do not reuse the earlier combined homepage as the accepted architecture.
+Complete free native Substack reading editions remain recommended; the first
+complete edition, figures, and author/publication images are prepared in the
+Paper Robots site’s `publishing/substack/` folder. See
+`docs/online-presence/2026-09-production-sites.md` for implementation and launch state.
 
 Earlier, San preferred direction one’s style and explicitly asked for a much more
 distinctive design, full coverage of the rest of his existing content, and
@@ -39,8 +45,8 @@ milestones. The earlier three prototypes remain in
 `design/prototypes/2026-09-audience-site/` for comparison. Current recommendation:
 complete free reading editions on Substack, rich interactive editions on the
 existing site, and one master manuscript. This supersedes the earlier shorter
-adapted-letter default. No production redesign or publication account has been
-created. See `docs/online-presence/2026-09-journal-content-and-cross-publishing.md`.
+adapted-letter default. The production implementation now follows the separate-site correction above;
+Substack publication creation is underway on San’s side. See `docs/online-presence/2026-09-journal-content-and-cross-publishing.md`.
 Dyson Swarm’s launch is live. The film repo records the first film as published
 September 6: https://www.youtube.com/watch?v=kzvqj4jurW0. YouTube oEmbed confirms
 the title "The Coming Robotics Revolution" and Paper Robots as author. Studio

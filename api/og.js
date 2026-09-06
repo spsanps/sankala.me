@@ -117,9 +117,8 @@ ${page.article}
     });
   }
 
-  // For regular users, fetch and return index.html (SPA shell)
-  // Use the origin to fetch the static index.html
-  const indexUrl = new URL('/index.html', url.origin);
+  // Rich essay routes use the clean shell, rather than the prerendered homepage.
+  const indexUrl = new URL('/app.html', url.origin);
   const indexResponse = await fetch(indexUrl.toString(), {
     headers: { 'x-skip-og': 'true' }
   });

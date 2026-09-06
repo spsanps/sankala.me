@@ -1,10 +1,23 @@
 {
   "redirects": [
-    { "source": "/essays/gpt7-will-have-arms/interactive", "destination": "/essays/gpt7-will-have-arms", "permanent": true }
+    { "source": "/essays/gpt7-will-have-arms/interactive", "destination": "/essays/gpt7-will-have-arms", "permanent": true },
+    { "source": "/work", "destination": "/notes", "permanent": true },
+    { "source": "/worlds", "destination": "/lab", "permanent": true },
+    { "source": "/notes/2", "destination": "/notes/startr-postmortem", "permanent": true },
+    { "source": "/notes/1", "destination": "/essays/gpt7-will-have-arms", "permanent": true },
+    { "source": "/notes/5", "destination": "/notes/eai-challenge", "permanent": true }
   ],
   "rewrites": [
     { "source": "/essays/gpt7-will-have-arms", "destination": "/api/og?page=gpt7" },
     { "source": "/notes/eai-challenge", "destination": "/api/og?page=eai" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/notes", "destination": "/notes/index.html" },
+    { "source": "/history", "destination": "/history/index.html" },
+    { "source": "/research", "destination": "/research/index.html" },
+    { "source": "/about", "destination": "/about/index.html" },
+    { "source": "/resume", "destination": "/resume/index.html" },
+    { "source": "/lab", "destination": "/lab/index.html" },
+    { "source": "/notes/startr-postmortem", "destination": "/notes/startr-postmortem/index.html" },
+    { "source": "/notes/:slug", "destination": "/app.html" },
+    { "source": "/lab/:id", "destination": "/app.html" }
   ]
 }

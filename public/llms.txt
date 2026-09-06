@@ -1,19 +1,27 @@
 # San Kala
 
-> Personal site of San Kala, an applied AI researcher working on LLMs, generative AI, and machine learning. MS in Computer Science from UC San Diego. NeurIPS 2025 Embodied Agent Interface challenge winner.
+> AI researcher at eBay. Research, writing, films, and interactive experiments.
 
-Essays are available as plain markdown mirrors — fetch those directly for the full text.
+## Work and background
 
-## Writing
+- [Complete work index](https://www.sankala.me/notes): Eight works, grouped by subject and format.
+- [Research](https://www.sankala.me/research): Three publications with authors, venues and project links.
+- [History](https://www.sankala.me/history): Ten milestones from NIT Karnataka through current AI research.
+- [About](https://www.sankala.me/about)
+- [CV](https://www.sankala.me/resume)
+- [Experiments](https://www.sankala.me/lab)
+- [RSS](https://www.sankala.me/feed.xml)
 
-- [GPT-7 Will Have Arms (full text, markdown)](https://www.sankala.me/essays/gpt7-will-have-arms.md): The coming convergence of foundation models and robotics — why frontier multimodal models will become robot brains, why the intelligence lives in the cloud, and why hardware commoditizes while AI labs capture the value. December 2025, ~8,000 words.
-- [Winning by Overfitting (full text, markdown)](https://www.sankala.me/notes/eai-challenge.md): How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 Embodied Agent Interface challenge, and why evaluator-guided data manufacturing matters for robotics. July 2026, ~700 words.
+## Complete writing
 
-## Pages
+- [GPT-7 Will Have Arms](https://www.sankala.me/essays/gpt7-will-have-arms.md): Complete Markdown mirror. Original forecast: December 2025. Film adaptation: September 2026.
+- [Winning by Overfitting](https://www.sankala.me/notes/eai-challenge.md): Complete account of the NeurIPS 2025 EAI Challenge at the FMEA Workshop, written July 2026.
+- [StartR post-mortem](https://www.sankala.me/notes/startr-postmortem): Personal note, December 2025; original accelerator pitch October 2023.
 
-- [Home](https://www.sankala.me/): About, timeline, lab, and writing index.
-- [Resume](https://www.sankala.me/resume): Experience and publications.
+## Related homes
 
-## Notes
+- [Paper Robots](https://paperrobots.studio/): San’s illustrated essays and animated films.
+- [Dyson Swarm](https://dysonswarm.com/): San’s space collection, including Another Sky.
 
-- The interactive essay pages are a React app; non-browser clients requesting them receive a static HTML version with the same content.
+The personal pages are prerendered. Non-browser clients requesting rich essays
+receive full static HTML editions; Markdown mirrors are also available above.

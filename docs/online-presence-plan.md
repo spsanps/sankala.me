@@ -25,11 +25,17 @@ URLs. San then identified the combined homepage as the problem: it felt like a
 GPT-7 campaign and hid his history. He explicitly wants separate San Kala and
 Paper Robots sites, with clearer subject buckets for the work. The latest study
 is `design/prototypes/2026-09-separate-sites/`: distinct homepages, a complete
-subject/format index, and all ten milestones. Domain selection is still open;
-San found `thepaperrobots.com` awkward, and the latest suggestion is
-`paperrobots.studio`, with `.world`, `.ink`, or `.art` as alternatives. No purchase,
-Substack account, or production redesign has occurred. See
-[the separate-sites plan and domain checks](online-presence/2026-09-separate-sites-and-domain.md).
+subject/format index, and all ten milestones. San subsequently bought
+**paperrobots.studio** and authorized implementation/publication. The personal
+site is implemented in this repo; Paper Robots has a separate public website repo
+at `/home/san/Projects/paper-robots/site` (spsanps/paper-robots-site) using GitHub
+Pages. San is now creating his Substack author profile: San Kala is the author,
+Paper Robots is the publication. The public publication URL and registrar/DNS
+access remain pending. The complete first Substack reading edition, original
+figures, author photo and publication logo are prepared in the new site repo.
+See [the production handoff](online-presence/2026-09-production-sites.md).
+The prior [domain discussion](online-presence/2026-09-separate-sites-and-domain.md)
+is retained as historical context.
 
 Another Sky and the Dyson Swarm collection are published and linked from the site.
 The physical repository reorganization is committed and pushed as `6990eb9`.
@@ -511,8 +517,8 @@ progresses. Open means unresolved, not a commitment to implement every suggestio
 | Script credibility and first-minute review | Deferred by San; ship current cut | Apply feedback to the next film |
 | Thumbnail/title comparison | Three candidates prepared; San's many-arms concept C is current direction | Review/upload C with The Coming Robotics Revolution; A/B if eligible |
 | Captions, description, resolution note | Guide/copy prepared; San approved playback Sep 6; individual saved settings unverified | Record final publication details |
-| Newsletter and subscribe destination | Open | Before promotion |
-| Homepage and professional route | Open | First website revision |
+| Newsletter and subscribe destination | Full first edition prepared; San is creating Paper Robots on Substack | Obtain verified publication URL; connect Follow links |
+| Homepage and professional route | Separate personal and publication sites implemented; Paper Robots review address deployed | Finish personal deployment, then connect GoDaddy DNS |
 | Two follow-up film outlines and production budget | Open | Around first release |
 | Analytics and viewer feedback | Open | After publication and meaningful data |
 | Primary success metric | Open | When prioritizing growth versus opportunities |

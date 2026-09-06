@@ -13,7 +13,10 @@ San’s name, current work, photographs, and career path lead his homepage. Pape
 Robots leads with its editorial purpose and presents GPT-7 as its first issue.
 See [the guide](prototypes/2026-09-separate-sites/README.md) and
 [the current architecture/domain discussion](../docs/online-presence/2026-09-separate-sites-and-domain.md).
-No production redesign or domain purchase has occurred.
+San subsequently bought **paperrobots.studio** and authorized implementation.
+Production pages are in `src/`; the Paper Robots site is in its own repository.
+See [the production handoff](../docs/online-presence/2026-09-production-sites.md)
+and current captures in `reviews/2026-09-launch/`. The studies remain as history.
 
 ## Second study: developed illustrated journal, September 2026
 
