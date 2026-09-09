@@ -1,0 +1,50 @@
+{
+  "personal": [
+    {
+      "width": 1440,
+      "status": 200,
+      "collectionLinks": 5,
+      "milestones": 10,
+      "historyPhotos": 8,
+      "grid": true,
+      "videoPlayback": true,
+      "photoToMilestone": true,
+      "photoDialog": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "collectionLinks": 5,
+      "milestones": 10,
+      "historyPhotos": 8,
+      "grid": true,
+      "videoPlayback": true,
+      "photoToMilestone": true,
+      "photoDialog": true,
+      "errors": []
+    }
+  ],
+  "paperRobots": [
+    {
+      "width": 1440,
+      "status": 200,
+      "title": "Paper Robots \u2014 AI, robots & possible futures",
+      "bothPreviewsPlay": true,
+      "screeningTarget": true,
+      "escape": true
+    },
+    {
+      "width": 390,
+      "status": 200,
+      "title": "Paper Robots \u2014 AI, robots & possible futures",
+      "bothPreviewsPlay": true,
+      "screeningTarget": true,
+      "escape": true
+    }
+  ],
+  "runtimeCommits": {
+    "personal": "96a2504",
+    "paperRobots": "ee64c05"
+  }
+}

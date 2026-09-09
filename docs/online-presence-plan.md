@@ -14,7 +14,10 @@ masthead and an interactive collection of real photos/projects, a grid alternati
 and a dark photographic career section. All ten milestones, eight career photos,
 clear navigation, original routes and complete writing remain. See
 [the September 9 implementation](design/2026-09-09-cinema-and-personal-collection.md).
-This is a new design response awaiting San's assessment, not an award claim.
+Runtime revisions `96a2504` (personal) and `ee64c05` (Paper Robots) are deployed
+on Vercel; both public domains passed desktop/phone interaction checks. Paper
+Robots also deployed to its Pages fallback. This is a new design response awaiting
+San's assessment, not an award claim.
 Substack stays paused; no monetization or account settings have changed.
 
 **September 8 — Paper Robots illustration correction:** San asked to redo the

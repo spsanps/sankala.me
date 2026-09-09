@@ -55,5 +55,19 @@ checks and 24 route/viewport checks, plus scene switching, preview pause, the
 correct screening target, Escape teardown, no-JS reading/links and reduced motion.
 The GitHub Pages base path was built and both preview paths checked.
 
-The review folders contain screenshots and machine-readable checks. Publication
-is already authorized; deployment evidence will follow the push.
+The review folders contain screenshots and machine-readable checks.
+
+Published September 9:
+- Personal runtime: `96a2504`, Vercel successful.
+- Paper Robots runtime: `ee64c05`, Vercel and GitHub Pages successful.
+
+Public-domain checks at 1440 and 390 px confirmed the new personal collection,
+grid, habitat playback/pause, photograph-to-milestone links, ten milestones, eight
+career photos and photo-dialog Escape behavior, with no browser exceptions. On
+Paper Robots both local film previews played, scene selection targeted the correct
+full film, Escape removed the external player, and the apex redirected to www.
+Both domains resolved through normal DNS; the prior parking-page cache issue was
+not present in these checks. Vercel checks passed for the runtime commits above.
+
+San has not yet assessed this revision. Awards, visitor approval, audience growth
+and external account/settings changes are not claimed.
