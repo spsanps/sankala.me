@@ -225,3 +225,6 @@
   .personal-site .section-heading > a { font-size: 12px; }
 }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto !important; } }
+/* Contextual names keep original titles searchable and recognizable. */
+.personal-site .original-work-title { display: block; font-size: 13px; color: var(--accent); margin: 12px 0; }
+@media(max-width:600px) { .personal-site .desktop-nav { flex-wrap: wrap; gap: 0; } .personal-site .desktop-nav a { flex: 0 0 33.333%; } }

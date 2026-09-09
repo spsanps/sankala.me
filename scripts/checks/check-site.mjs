@@ -47,7 +47,7 @@ try {
       report.push({ route, width, title: await page.title(), heading, text: await page.locator('body').innerText() });
     }
     await page.goto(origin + '/notes');
-    assert.equal(await page.locator('[data-work]').count(), 8, 'Complete archive');
+    assert.equal(await page.locator('[data-work]').count(), 9, 'Complete archive');
     await page.getByLabel('Subject').selectOption('ai');
     await page.getByRole('combobox', { name: /^Format/ }).selectOption('research');
     assert.equal(await page.locator('[data-work]').count(), 3, 'Combined research and AI filters');
@@ -58,8 +58,8 @@ try {
     await page.getByRole('searchbox').fill('no-such-project');
     assert.equal(await page.locator('[data-work]').count(), 0, 'Empty state');
     await page.getByRole('button', { name: 'Show all work' }).click();
-    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 8, null, { timeout: 5000 });
-    assert.equal(await page.locator('[data-work]').count(), 8, 'Reset clears all filters');
+    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 9, null, { timeout: 5000 });
+    assert.equal(await page.locator('[data-work]').count(), 9, 'Reset clears all filters');
     await page.goto(origin + '/notes/2', { waitUntil: 'networkidle' });
     assert.ok(page.url().endsWith('/notes/startr-postmortem'), 'Preserve numeric StartR URL');
     await page.goto(origin + '/history', { waitUntil: 'networkidle' });
@@ -68,14 +68,25 @@ try {
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
     await page.goto(origin + '/');
+    await page.getByRole('button',{name:'Show UCSD · 2023'}).click();
+    assert.equal(await page.locator('.album-image img').getAttribute('src'),'/images/history/research-group.webp','Career album changes photograph');
+    await page.locator('[data-milestone]').first().waitFor();
+    assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
+    assert.equal(await page.locator('.history-photo-link').count(),8,'Career photos restored');
+    await page.locator('.history-photo-link').first().click();
+    assert.ok(await page.getByRole('dialog',{name:'Career photograph'}).isVisible(),'Photo enlarges');
+    await page.keyboard.press('Escape');
+    assert.equal(await page.locator('dialog[open]').count(),0,'Photo closes with Escape');
+    await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'03 Writing'}).click();
+    assert.ok(page.url().endsWith('#writing'),'Jump to writing');
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
-    for (const label of ['Writing', 'Projects', 'Research', 'About', 'CV']) {
+    for (const label of ['Writing', 'Projects', 'Research', 'History', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
     await nav.getByRole('link', { name: 'Writing', exact: true }).click();
     await page.locator('[data-writing]').first().waitFor();
     assert.equal(await page.locator('[data-writing]').count(), 3, 'Writing has every essay and note');
-    await page.getByRole('link', { name: 'Winning by Overfitting', exact: true }).click();
+    await page.getByRole('link', { name: 'How we won an AI-agent competition', exact: true }).click();
     await page.waitForURL('**/notes/eai-challenge');
     assert.ok(page.url().endsWith('/notes/eai-challenge'), 'Writing opens the original rich article');
     await page.getByRole('link', { name: 'Back to Writing' }).click();
@@ -84,7 +95,7 @@ try {
     await nav.getByRole('link', { name: 'Projects', exact: true }).click();
     await page.locator('[data-project]').first().waitFor();
     assert.equal(await page.locator('[data-project]').count(), 3, 'All interactive projects remain discoverable');
-    assert.equal(await page.getByRole('link', { name: 'Explore Another Sky', exact: true }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
+    assert.equal(await page.getByRole('link', { name: 'Explore the space habitat', exact: false }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
     await nav.getByRole('link', { name: 'About', exact: true }).click();
     await page.getByRole('link', { name: 'Career & history', exact: true }).first().click();
     await page.locator('[data-milestone]').first().waitFor();

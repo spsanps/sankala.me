@@ -4,6 +4,25 @@ Created: 2026-09-05. Last discussed: 2026-09-08. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**Current priority, September 8 — both sites, history restored and latest film:**
+San explicitly requested ambitious, Awwwards-level design for both sites and the
+latest Paper Robots content. He liked the styling but rejected the loss of photos,
+personal history and ease of browsing. The current work restores all ten milestones
+and eight career photos directly on the personal homepage, with clear jump links,
+contextual work titles, and a photographic album. Paper Robots has a separate
+cinematic homepage and individual pages for both films. San supplied the new film:
+https://youtu.be/wswbqJNMFBw; oEmbed confirms Paper Robots and “Animated Film:
+OpenAI’s Agents Hacked Hugging Face.” The personal archive now includes nine works.
+See [the implementation record](design/2026-09-personal-history-and-studio.md).
+The target is award-worthy craft; no award, submission or user validation is claimed.
+
+Both sites now use **Vercel**. San imported Paper Robots and saved the exact GoDaddy
+records Vercel supplied. The verified backend serves https://www.paperrobots.studio/
+and redirects the apex to www; stale local DNS still reached GoDaddy parking at
+20:23 PDT. Canonical and cross-site links now use www. Cloudflare has not been
+configured; the Vercel plan is unknown. Substack remains paused and all creator
+work stays nonmonetized. Earlier GitHub Pages/domain-pending notes below are history.
+
 **Current priority, September 8 — website usability:** San returned to website
 work with feedback from other people: unclear navigation and purpose, work that
 is hard to find, an AI-made appearance, and nothing that catches their attention.

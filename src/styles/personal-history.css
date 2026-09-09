@@ -1,0 +1,33 @@
+.personal-site .photo-timeline { margin-block: 45px 70px; }
+.personal-site .photo-milestone { display: grid; grid-template-columns: 100px 1fr 1fr; gap: 45px; padding-block: 55px; border-top: 1px solid var(--line); align-items: center; scroll-margin-top: 90px; }
+.personal-site .milestone-date { align-self: start; padding-top: 3px; }
+.personal-site .milestone-date time { font: 500 34px/1.1 'Fraunces',serif; color: var(--accent); letter-spacing: -.04em; }
+.personal-site .milestone-date time span { display: block; margin-top: 9px; font: 12px/1.5 'DM Sans',sans-serif; letter-spacing: 0; color: var(--muted); }
+.personal-site .milestone-index { display: block; font-size: 10px; letter-spacing: .1em; color: var(--muted); margin-top: 22px; }
+.personal-site .milestone-story h2,.personal-site .milestone-story h3 { font-size: clamp(28px,2.8vw,39px); margin-top: 16px; }
+.personal-site .milestone-story p { color: var(--muted); margin-block: 20px; max-width: 620px; font-size: 15px; }
+.personal-site .photo-milestone:not(.has-photo) .milestone-story { grid-column: 2/-1; max-width: 720px; }
+.personal-site .milestone-photos figure { margin: 0; }
+.personal-site .history-photo-link { display: block; position: relative; overflow: hidden; background: var(--pale); }
+.personal-site .history-photo-link img { width: 100%; height: auto; max-height: 340px; object-fit: contain; transition: transform .55s ease; }
+.personal-site .history-photo-link:hover img { transform: scale(1.035); }
+.personal-site .history-photo-link > span { position: absolute; right: 12px; bottom: 12px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--paper); color: var(--ink); font-size: 20px; }
+.personal-site .milestone-photos figcaption { font-size: 11px; margin-top: 10px; }
+.personal-site .photo-milestone.has-photo:nth-child(3n + 2) .milestone-photos { grid-column: 2; grid-row: 1; }
+.personal-site .photo-milestone.has-photo:nth-child(3n + 2) .milestone-story { grid-column: 3; grid-row: 1; }
+.personal-site .history-lightbox { max-width: min(1100px,94vw); max-height: 94dvh; border: 0; padding: 22px; background: var(--paper); color: var(--ink); }
+.personal-site .history-lightbox::backdrop { background: #111c2be8; }
+.personal-site .history-lightbox img { max-height: 75dvh; width: auto; max-width: 100%; margin: auto; object-fit: contain; }
+.personal-site .lightbox-close { display: block; margin: 0 0 18px auto; font-size: 13px; }
+.personal-site .history-lightbox figcaption { text-align: center; }
+@media(max-width:900px) { .personal-site .photo-milestone { grid-template-columns: 70px 1fr 1fr; gap: 25px; } }
+@media(max-width:650px) {
+ .personal-site .photo-milestone { grid-template-columns: 1fr; gap: 22px; padding-block: 32px; }
+ .personal-site .milestone-date { display: flex; align-items: center; justify-content: space-between; }
+ .personal-site .milestone-date time { display: flex; align-items: baseline; gap: 12px; font-size: 30px; }
+ .personal-site .milestone-index { margin-top: 0; }
+ .personal-site .photo-milestone .milestone-story,.personal-site .photo-milestone:not(.has-photo) .milestone-story,.personal-site .photo-milestone.has-photo:nth-child(3n + 2) .milestone-story,.personal-site .photo-milestone.has-photo:nth-child(3n + 2) .milestone-photos { grid-column: auto; grid-row: auto; }
+ .personal-site .milestone-story p { font-size: 16px; }
+ .personal-site .milestone-story h2,.personal-site .milestone-story h3 { margin-top: 10px; }
+}
+@media(prefers-reduced-motion:reduce) { .personal-site .history-photo-link img { transition: none; } }

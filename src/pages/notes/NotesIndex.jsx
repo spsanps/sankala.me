@@ -9,7 +9,7 @@ export default function NotesIndex() {
   const topic = topics.some(t => t.id === params.get('topic')) ? params.get('topic') : 'all';
   const format = formatNames[params.get('format')] ? params.get('format') : 'all';
   const query = params.get('q') || '';
-  const matching = works.filter(w => (topic === 'all' || w.topics.includes(topic)) && (format === 'all' || w.formats.includes(format)) && [w.title, w.description, ...w.topics.map(id => topics.find(t => t.id === id).name)].join(' ').toLowerCase().includes(query.trim().toLowerCase()));
+  const matching = works.filter(w => (topic === 'all' || w.topics.includes(topic)) && (format === 'all' || w.formats.includes(format)) && [w.title, w.displayTitle, w.description, ...w.topics.map(id => topics.find(t => t.id === id).name)].join(' ').toLowerCase().includes(query.trim().toLowerCase()));
   function change(key, value) {
     const next = new URLSearchParams(params);
     if(value === 'all' || !value) next.delete(key); else next.set(key, value);

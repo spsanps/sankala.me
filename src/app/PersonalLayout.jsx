@@ -4,7 +4,7 @@ import { paperRobotsUrl } from '../data/links';
 import '../styles/personal.css';
 import '../styles/personal-pages.css';
 
-const links = [['/writing', 'Writing'], ['/projects', 'Projects'], ['/research', 'Research'], ['/about', 'About'], ['/resume', 'CV']];
+const links = [['/writing', 'Writing'], ['/projects', 'Projects'], ['/research', 'Research'], ['/history', 'History'], ['/about', 'About'], ['/resume', 'CV']];
 export default function PersonalLayout() {
   return <div className="personal-site">
     <a className="skip" href="#main">Skip to content</a>

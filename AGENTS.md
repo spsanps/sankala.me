@@ -16,7 +16,13 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-Latest feedback, September 8: visitors find the personal site confusing, too
+Latest design instruction, September 8: both sites should have ambitious,
+Awwwards-level craft. Restore all ten personal milestones and eight photographs
+directly on the homepage; preserve clear navigation and descriptive work titles.
+The second film is https://youtu.be/wswbqJNMFBw, confirmed by San and oEmbed.
+See docs/design/2026-09-personal-history-and-studio.md. No award is claimed.
+
+Earlier feedback, September 8: visitors find the personal site confusing, too
 AI-made, and unclear about what to read or open. The implementation now uses
 plain Writing / Projects / Research / About / CV navigation, visible on phones,
 and actual work near the top. Keep full coverage and the separate-site decision;
@@ -35,8 +41,9 @@ San has now bought **paperrobots.studio** and explicitly authorized making the
 separate sites real, including publication and managing setup where access allows.
 The implementation is in this repo and the separate public website repo
 `/home/san/Projects/paper-robots/site` (GitHub: spsanps/paper-robots-site).
-The personal site keeps Vercel; Paper Robots uses GitHub Pages. DNS/registrar
-access and the public Substack publication URL remain pending. San is editing
+Both sites now use Vercel. San completed Paper Robots import and GoDaddy DNS;
+www.paperrobots.studio is primary, with an apex redirect. GitHub Pages remains a
+fallback without a custom domain. Substack remains paused and has no confirmed URL. San is editing
 his Substack author profile: use San Kala there and Paper Robots for the publication.
 Do not reuse the earlier combined homepage as the accepted architecture.
 Complete free native Substack reading editions remain recommended; the first

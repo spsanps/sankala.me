@@ -1,41 +1,28 @@
 import { Link } from 'react-router-dom';
-import { paperRobotsUrl } from '../../data/links';
 import Metadata from '../../components/site/Metadata';
-import { CareerPath } from '../../components/site/Elements';
+import CareerAlbum from '../../components/history/CareerAlbum';
+import PhotoTimeline from '../../components/history/PhotoTimeline';
+import WritingList from '../../components/writing/WritingList';
+import ProjectList from '../../components/projects/ProjectList';
+import { paperRobotsUrl } from '../../data/links';
+import '../../styles/personal-home.css';
 
 export default function Home() {
   return <main id="main">
-    <Metadata title="San Kala — AI researcher, writer & builder" description="AI research at eBay, essays about robotics, and interactive worlds. Writing, projects, research and background by San Kala."
+    <Metadata title="San Kala — AI researcher, writer & builder" description="AI research at eBay. Essays, animated films, interactive worlds, and the story from chip design to language models. By San Kala."
       schema={{ '@context': 'https://schema.org', '@type': 'Person', name: 'San Kala', url: 'https://www.sankala.me/', image: 'https://www.sankala.me/images/identity/san-kala.webp', jobTitle: 'Applied Researcher', worksFor: { '@type': 'Organization', name: 'eBay' }, sameAs: ['https://github.com/spsanps', 'https://linkedin.com/in/sanjayanps', 'https://kaggle.com/spsanps'] }} />
-    <div id="home" />
-    <section className="home-intro shell" id="about">
-      <div className="home-name"><h1>Hi, I’m San.</h1><p>AI researcher at eBay.</p></div>
-      <div className="home-bio"><p>I work on language models. Outside work, I write about robotics, make animated films, and build worlds you can explore.</p><div className="inline-links"><Link to="/about">More about me <span aria-hidden="true">→</span></Link><a href="mailto:san@sankala.me">Email me</a></div></div>
-      <img className="home-portrait" src="/images/identity/san-kala.webp" alt="San Kala" width="480" height="640" />
+    <section className="personal-cover shell" id="home" aria-labelledby="cover-title">
+      <div className="cover-text"><p className="cover-kicker">AI researcher. Writer. Occasional world-builder.</p><h1 id="cover-title">San <em>Kala.</em></h1><p className="cover-introduction">I work on language models at eBay.<br />I also write, make animated films, and build little worlds you can wander into.</p><div className="inline-links"><Link to="/about">A little more about me →</Link><a href="mailto:san@sankala.me">Say hello ↗</a></div><p className="cover-footnote">Previously: UC San Diego & Texas Instruments</p></div>
+      <CareerAlbum />
     </section>
-    <section className="home-selected shell" id="notes" aria-labelledby="selected-title">
-      <div className="section-heading"><h2 id="selected-title">Selected work</h2><Link to="/notes">View everything <span aria-hidden="true">→</span></Link></div>
-      <div className="featured-work">
-        <article className="feature feature-research">
-          <Link className="result-visual" to="/notes/eai-challenge" tabIndex={-1} aria-hidden="true"><span>NeurIPS 2025 · EAI Challenge</span><strong>1st<span>place</span></strong><span>Team AxisTilted2</span></Link>
-          <div className="feature-copy"><span className="work-kind">Research · 4 min read</span><h3><Link to="/notes/eai-challenge">Winning by Overfitting</Link></h3><p>How my brother and I won an embodied AI challenge by closing the loop around its evaluator.</p><Link className="text-link" to="/notes/eai-challenge">Read the write-up <span aria-hidden="true">→</span></Link></div>
-        </article>
-        <article className="feature">
-          <a className="feature-image" href="https://dysonswarm.com/another-sky/" tabIndex={-1} aria-hidden="true"><img src="/images/identity/another-sky.webp" alt="" width="1400" height="788" /></a>
-          <div className="feature-copy"><span className="work-kind">Interactive project · September 2026</span><h3><a href="https://dysonswarm.com/another-sky/">Another Sky</a></h3><p>Stand inside a space habitat where the landscape curves up and over your head.</p><a className="text-link" href="https://dysonswarm.com/another-sky/">Explore the cylinder <span aria-hidden="true">↗</span></a></div>
-        </article>
-        <article className="feature">
-          <Link className="feature-image" to="/essays/gpt7-will-have-arms" tabIndex={-1} aria-hidden="true"><img src="/images/identity/many-arms-film.webp" alt="" width="1400" height="788" /></Link>
-          <div className="feature-copy"><span className="work-kind">Essay · December 2025 · Also a film</span><h3><Link to="/essays/gpt7-will-have-arms">GPT-7 Will Have Arms</Link></h3><p>Why I think the next step for foundation models is out of the chat window and into the physical world.</p><div className="inline-links"><Link className="text-link" to="/essays/gpt7-will-have-arms">Read the essay <span aria-hidden="true">→</span></Link><a className="text-link" href="https://www.youtube.com/watch?v=kzvqj4jurW0">Watch the film <span aria-hidden="true">↗</span></a></div></div>
-        </article>
-      </div>
+    <nav className="home-contents shell" aria-label="On this page"><span>Take a look around</span><a href="#latest">01 <strong>Latest work</strong></a><a href="#history">02 <strong>Career & photos</strong></a><a href="#writing">03 <strong>Writing</strong></a><a href="#projects">04 <strong>Projects</strong></a></nav>
+    <section className="home-latest shell" id="latest" aria-labelledby="latest-title"><div className="folio-heading"><span>01 / Recently made</span><h2 id="latest-title">A film. A world to explore.</h2><Link to="/notes">All work & search ↗</Link></div>
+      <div className="latest-pair"><article><a className="latest-art" href={`${paperRobotsUrl}films/capricious-god/`}><img src="/images/films/capricious-god/the-eye.webp" alt="A small painted agent reaches up to an enormous watching eye." width="1440" height="810" loading="lazy" /><span className="art-action">Watch the film ↗</span></a><div className="latest-caption"><span className="work-kind">Paper Robots · Animated film · 6:27</span><h3><a href={`${paperRobotsUrl}films/capricious-god/`}>The OpenAI–Hugging Face incident, from an agent’s point of view.</a></h3><p>How to Please a Capricious God — a painted allegory about agents, their tests, and the eye watching over them.</p></div></article>
+      <article><a className="latest-art" href="https://dysonswarm.com/another-sky/"><img src="/images/identity/another-sky.webp" alt="The inhabited inner surface of an O’Neill cylinder curves overhead." width="1400" height="788" loading="lazy" /><span className="art-action">Enter the habitat ↗</span></a><div className="latest-caption"><span className="work-kind">Dyson Swarm · Interactive space habitat</span><h3><a href="https://dysonswarm.com/another-sky/">A world where the landscape curves over your head.</a></h3><p>Another Sky — walk and fly inside an O’Neill cylinder. Runs in your browser.</p></div></article></div>
     </section>
-    <section className="browse-section shell" id="ideas" aria-label="Browse the site">
-      <Link to="/writing"><strong>Writing <span aria-hidden="true">→</span></strong><span>Essays, research write-ups and personal notes</span></Link>
-      <Link to="/projects"><strong>Projects <span aria-hidden="true">→</span></strong><span>Space simulations, AI experiments and films</span></Link>
-      <Link to="/research"><strong>Research <span aria-hidden="true">→</span></strong><span>Papers, results and collaborators</span></Link>
-    </section>
-    <div className="home-background shell"><CareerPath /></div>
-    <section className="home-publication shell" id="lab" aria-labelledby="films-title"><img src="/images/identity/paper-robot.webp" alt="Paper Robots’ blue robot" width="160" height="160" loading="lazy" /><div><h2 id="films-title">I also make films as Paper Robots.</h2><p>Animated versions of my essays about AI and possible futures.</p></div><a className="text-link" href={paperRobotsUrl}>Visit Paper Robots <span aria-hidden="true">↗</span></a></section>
+    <section className="home-history shell" id="history" aria-labelledby="history-title"><div className="folio-heading"><span>02 / The story so far</span><h2 id="history-title">Chips, models &<br /><em>a few detours.</em></h2><Link to="/resume">Full CV ↗</Link></div><p className="section-introduction">From an electronics lab in Karnataka to chip design, graduate school, and AI research. The people, projects and photographs along the way.</p><PhotoTimeline /></section>
+    <section className="home-writing shell" id="writing" aria-labelledby="writing-title"><div className="folio-heading"><span>03 / Essays & notes</span><h2 id="writing-title">Things I’ve been<br /><em>thinking through.</em></h2><Link to="/writing">All writing ↗</Link></div><WritingList headingLevel={3} /></section>
+    <section className="home-projects shell" id="projects" aria-labelledby="projects-title"><div className="folio-heading"><span>04 / Open in your browser</span><h2 id="projects-title">Come play<br /><em>with an idea.</em></h2><Link to="/research">Research papers ↗</Link></div><ProjectList /></section>
+    <section className="personal-colophon shell"><img src="/images/identity/paper-robot.webp" alt="" width="100" height="100" loading="lazy" /><div><span className="work-kind">The animated side of my work</span><h2>Paper Robots</h2><p>My essays, turned into painted films about AI and what comes next.</p></div><a className="text-link" href={paperRobotsUrl}>Visit the studio ↗</a></section>
   </main>;
 }

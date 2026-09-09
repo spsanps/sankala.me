@@ -13,9 +13,9 @@ export function Action({ href, children, quiet = false }) {
 export function WorkRow({ work }) {
   return <article className="work-row" data-work data-slug={work.slug}>
     <div className="work-date">{work.date}</div><div><div className="work-meta">{work.topics.map(id => topics.find(t => t.id === id).name).join(' · ')}</div>
-    <h3><SiteLink href={work.url}>{work.title} <Arrow /></SiteLink></h3><p>{work.description}</p>
+    <h3><SiteLink href={work.url}>{work.displayTitle} <Arrow /></SiteLink></h3><span className="original-work-title">{work.title}</span><p>{work.description}</p>
     <div className="formats">{work.formats.map(f => <span key={f}>{formatNames[f]}</span>)}</div>
-    {work.formats.includes('film') && <a className="text-link" href="https://www.youtube.com/watch?v=kzvqj4jurW0">Watch the Paper Robots film <Arrow /></a>}
+    {work.formats.includes('film') && <a className="text-link" href={work.filmUrl || "https://www.youtube.com/watch?v=kzvqj4jurW0"}>Watch the Paper Robots film <Arrow /></a>}
     </div></article>;
 }
 export function CareerPath() {
