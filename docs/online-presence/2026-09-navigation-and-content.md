@@ -72,8 +72,14 @@ preview, avoiding stale development transforms.
 
 ## Publication and next feedback
 
-Publication status is recorded below after the deployment is verified. The next
-useful review is whether a newcomer can find an essay, open a simulation, and
+Implementation commit `d866ef9` was pushed to `main`; Vercel deployment
+`7QW1yDjHQAB5eUpwi3saRtgGRY35` completed successfully. Live verification confirmed
+that nine personal routes serve the expected current JavaScript asset and
+prerendered HTML, including /writing and /projects. Phone navigation, all content
+counts, the rich essay’s return link and the numeric StartR redirect passed.
+See `production-checks.json` and `after/live-home-390.png` in the review folder.
+
+The next useful review is whether a newcomer can find an essay, open a simulation, and
 locate San’s background without explanation. Visual preference remains for San
 and his visitors to assess. This is not a prerequisite for publishing the change.
 

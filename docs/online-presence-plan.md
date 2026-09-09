@@ -23,6 +23,9 @@ reading links say what opens. This is an implementation in response to feedback,
 not a claim that San or his visitors have validated the new design. See
 [the navigation revision](online-presence/2026-09-navigation-and-content.md) and
 [the visual comparison](../design/reviews/2026-09-navigation/index.html).
+Implementation `d866ef9` is deployed successfully on www.sankala.me. Live checks
+confirmed the current build on all nine personal routes, the new indexes, phone
+navigation, archive/history counts, rich essay return and the old note redirect.
 
 **Earlier priority, September 8:** San explicitly paused Substack setup to upload
 a new YouTube video. Resume the newsletter only when he returns to it. The
