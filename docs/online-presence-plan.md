@@ -4,6 +4,16 @@ Created: 2026-09-05. Last discussed: 2026-09-09. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**September 9 follow-up — recent work must not define San:** San said that the
+large eye and cylinder on the personal cover made two days of work look like his
+whole identity. The personal cover now uses photographs from his longer history:
+himself, NeurIPS with his brother, UCSD, Texas Instruments, and eBay. The eye and
+cylinder move to compact, dated recent additions after the wider history, writing
+and projects. Preserve the ambition of the design without treating the latest
+creative output as the identity of the author. An optional question about missing
+life/interests is pending; do not invent those details. Paper Robots remains the
+appropriate prominent home for the film artwork.
+
 **September 9 — the previous design did not meet the brief:** San explicitly
 rejected both sites as ordinary, boring blogs and challenged the claim of
 Awwwards-level design. Do not describe the September 8 work as accepted or imply

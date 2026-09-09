@@ -16,7 +16,15 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-Latest feedback, September 9: San rejected both September 8 designs as ordinary,
+Latest correction, September 9: San said the eye and cylinder on the new personal
+cover made two days of work look like his entire identity. The cover should reflect
+his longer life/history; those recent pieces belong in a smaller, dated section.
+The revised cover uses real photographs from UCSD, TI, eBay, NeurIPS and his portrait.
+The full history, writing and projects precede the compact recent additions.
+Do not make the newest films or space experiments the identity of sankala.me.
+Paper Robots is where film artwork should be prominent.
+
+Earlier feedback, September 9: San rejected both September 8 designs as ordinary,
 boring blogs. The new homepages use an actual moving film setting for Paper Robots
 and a spatial collection of real photographs/projects for San, with a grid option.
 Preserve the complete history and plain navigation. These revisions are not yet

@@ -81,7 +81,7 @@ try {
     assert.ok(await page.getByRole('dialog',{name:'Career photograph'}).isVisible(),'Photo enlarges');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('dialog[open]').count(),0,'Photo closes with Escape');
-    await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'03 Writing'}).click();
+    await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'02 Writing'}).click();
     assert.ok(page.url().endsWith('#writing'),'Jump to writing');
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     for (const label of ['Writing', 'Projects', 'Research', 'History', 'About', 'CV']) {

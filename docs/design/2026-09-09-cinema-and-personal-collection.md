@@ -4,7 +4,22 @@ San rejected the September 8 websites as ordinary blogs. The previous work did
 not meet his request for distinctive, ambitious craft. No award is claimed, and
 the new designs await his assessment.
 
-## Personal site
+## Follow-up: the author's identity is broader than the latest work
+
+San rejected the eye and cylinder as dominant personal-cover images: they represent
+a day or two of recent work, not his whole life. The current cover replaces those
+two objects with photographs from Texas Instruments and eBay. Together with the
+portrait, UCSD group and NeurIPS award, it presents a longer personal history.
+Every photograph links to About or its own milestone. The grid and depth interaction
+remain; the habitat preview was removed from the personal cover.
+
+Full history, writing and projects now precede a compact, dated Recent additions
+section for the film and cylinder. They remain discoverable without receiving the
+visual weight of the author identity. The public preview asset is preserved, but
+is not downloaded by this cover. The studio keeps its film-led design.
+Current personal review: `design/reviews/2026-09-09-personal-balance/`.
+
+## First personal revision (superseded by the feedback above)
 
 A large, dark-green personal masthead and a collection of five real photographs
 and projects replace the editorial cover. Each object is a normal link: About,
