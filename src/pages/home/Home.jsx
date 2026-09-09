@@ -1,34 +1,41 @@
 import { Link } from 'react-router-dom';
 import { paperRobotsUrl } from '../../data/links';
 import Metadata from '../../components/site/Metadata';
-import { Action, Arrow, CareerPath, TopicFolders } from '../../components/site/Elements';
+import { CareerPath } from '../../components/site/Elements';
 
 export default function Home() {
   return <main id="main">
-    <Metadata title="San Kala — research, writing, experiments" description="AI researcher at eBay. Research, essays, films, and small worlds by San Kala. Previously UC San Diego, Texas Instruments, and NIT Karnataka."
+    <Metadata title="San Kala — AI researcher, writer & builder" description="AI research at eBay, essays about robotics, and interactive worlds. Writing, projects, research and background by San Kala."
       schema={{ '@context': 'https://schema.org', '@type': 'Person', name: 'San Kala', url: 'https://www.sankala.me/', image: 'https://www.sankala.me/images/identity/san-kala.webp', jobTitle: 'Applied Researcher', worksFor: { '@type': 'Organization', name: 'eBay' }, sameAs: ['https://github.com/spsanps', 'https://linkedin.com/in/sanjayanps', 'https://kaggle.com/spsanps'] }} />
     <div id="home" />
-    <section className="personal-intro shell" id="about"><div className="intro-copy">
-      <span className="eyebrow">Researcher · writer · curious about things</span>
-      <h1>Hi, I’m<br /><em>San Kala.</em></h1>
-      <p className="intro-lead">I’m an AI researcher at eBay. I write about AI and robotics, build small experiments, and keep notes on what I learn.</p>
-      <p className="intro-detail">Before this: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka.</p>
-      <div className="actions"><Action href="/notes">Explore my work</Action><Action href="mailto:san@sankala.me" quiet>Say hello</Action></div>
-    </div><div className="portrait-composition">
-      <figure className="portrait"><img src="/images/identity/san-kala.webp" alt="San Kala" width="480" height="640" /><figcaption>San Kala / a face to the name</figcaption></figure>
-      <figure className="research-snapshot"><img src="/images/history/uist-award.webp" alt="San and his collaborator at the UIST 2023 award ceremony." width="640" height="480" /><figcaption>UIST ’23 · ZINify</figcaption></figure>
-      <span className="portrait-note">Making, thinking,<br />occasionally getting it right.</span>
-    </div></section>
-    <div className="shell"><CareerPath /></div>
-    <section className="section shell" id="ideas"><div className="section-heading"><div><span className="eyebrow">A map of the work</span><h2>Things I keep coming back to.</h2></div><Link to="/notes">Everything <Arrow /></Link></div><TopicFolders /></section>
-    <section className="section shell selected" id="notes"><div className="section-heading"><div><span className="eyebrow">From the notebook</span><h2>A few starting points.</h2></div><span className="section-aside">Research, a place to explore,<br />and a lesson from trying.</span></div>
-      <div className="selected-grid"><article><span className="eyebrow">Research / 2025 challenge · 2026 account</span><h3><Link to="/notes/eai-challenge">Winning by Overfitting <Arrow /></Link></h3><p>How we won the EAI Challenge, and what the result says about embodied AI.</p><a className="text-link" href="https://openreview.net/pdf?id=gABfrJI5ni">Read the research paper <Arrow /></a></article>
-      <article><a href="https://dysonswarm.com/another-sky/"><img src="/images/identity/another-sky.webp" alt="A landscape curving overhead inside Another Sky." loading="lazy" width="640" height="360" /><h3>Another Sky <Arrow /></h3></a><p>A walk inside an O’Neill cylinder. Part of my space collection, Dyson Swarm.</p></article>
-      <article><span className="eyebrow">Personal note / December 2025</span><h3><Link to="/notes/startr-postmortem">A startup that didn’t make it. <Arrow /></Link></h3><p>The StartR post-mortem: building a writing assistant, losing focus, and learning about distribution.</p><Link className="text-link" to="/history">Where it fits in my history <Arrow /></Link></article></div>
+    <section className="home-intro shell" id="about">
+      <div className="home-name"><h1>Hi, I’m San.</h1><p>AI researcher at eBay.</p></div>
+      <div className="home-bio"><p>I work on language models. Outside work, I write about robotics, make animated films, and build worlds you can explore.</p><div className="inline-links"><Link to="/about">More about me <span aria-hidden="true">→</span></Link><a href="mailto:san@sankala.me">Email me</a></div></div>
+      <img className="home-portrait" src="/images/identity/san-kala.webp" alt="San Kala" width="480" height="640" />
     </section>
-    <section className="section shell elsewhere" id="lab"><div className="section-heading"><div><span className="eyebrow">Projects with their own homes</span><h2>Also made by me.</h2></div><Link to="/lab">All the experiments <Arrow /></Link></div>
-      <div className="project-homes"><a className="publication-link" href={paperRobotsUrl}><img src="/images/identity/paper-robot.webp" alt="" loading="lazy" width="160" height="160" /><div><span className="eyebrow">The publication</span><h3>Paper Robots <Arrow /></h3><p>Animated essays about AI, robots, and possible futures.</p><small>Latest: GPT-7 Will Have Arms</small></div></a>
-      <a className="space-link" href="https://dysonswarm.com/"><span className="orbit-mark" aria-hidden="true">☉</span><div><span className="eyebrow">The space collection</span><h3>Dyson Swarm <Arrow /></h3><p>Interactive experiments in space, scale, and places we might build.</p><small>Another Sky · Dyson Swarm simulation</small></div></a></div>
+    <section className="home-selected shell" id="notes" aria-labelledby="selected-title">
+      <div className="section-heading"><h2 id="selected-title">Selected work</h2><Link to="/notes">View everything <span aria-hidden="true">→</span></Link></div>
+      <div className="featured-work">
+        <article className="feature feature-research">
+          <Link className="result-visual" to="/notes/eai-challenge" tabIndex={-1} aria-hidden="true"><span>NeurIPS 2025 · EAI Challenge</span><strong>1st<span>place</span></strong><span>Team AxisTilted2</span></Link>
+          <div className="feature-copy"><span className="work-kind">Research · 4 min read</span><h3><Link to="/notes/eai-challenge">Winning by Overfitting</Link></h3><p>How my brother and I won an embodied AI challenge by closing the loop around its evaluator.</p><Link className="text-link" to="/notes/eai-challenge">Read the write-up <span aria-hidden="true">→</span></Link></div>
+        </article>
+        <article className="feature">
+          <a className="feature-image" href="https://dysonswarm.com/another-sky/" tabIndex={-1} aria-hidden="true"><img src="/images/identity/another-sky.webp" alt="" width="1400" height="788" /></a>
+          <div className="feature-copy"><span className="work-kind">Interactive project · September 2026</span><h3><a href="https://dysonswarm.com/another-sky/">Another Sky</a></h3><p>Stand inside a space habitat where the landscape curves up and over your head.</p><a className="text-link" href="https://dysonswarm.com/another-sky/">Explore the cylinder <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article className="feature">
+          <Link className="feature-image" to="/essays/gpt7-will-have-arms" tabIndex={-1} aria-hidden="true"><img src="/images/identity/many-arms-film.webp" alt="" width="1400" height="788" /></Link>
+          <div className="feature-copy"><span className="work-kind">Essay · December 2025 · Also a film</span><h3><Link to="/essays/gpt7-will-have-arms">GPT-7 Will Have Arms</Link></h3><p>Why I think the next step for foundation models is out of the chat window and into the physical world.</p><div className="inline-links"><Link className="text-link" to="/essays/gpt7-will-have-arms">Read the essay <span aria-hidden="true">→</span></Link><a className="text-link" href="https://www.youtube.com/watch?v=kzvqj4jurW0">Watch the film <span aria-hidden="true">↗</span></a></div></div>
+        </article>
+      </div>
     </section>
+    <section className="browse-section shell" id="ideas" aria-label="Browse the site">
+      <Link to="/writing"><strong>Writing <span aria-hidden="true">→</span></strong><span>Essays, research write-ups and personal notes</span></Link>
+      <Link to="/projects"><strong>Projects <span aria-hidden="true">→</span></strong><span>Space simulations, AI experiments and films</span></Link>
+      <Link to="/research"><strong>Research <span aria-hidden="true">→</span></strong><span>Papers, results and collaborators</span></Link>
+    </section>
+    <div className="home-background shell"><CareerPath /></div>
+    <section className="home-publication shell" id="lab" aria-labelledby="films-title"><img src="/images/identity/paper-robot.webp" alt="Paper Robots’ blue robot" width="160" height="160" loading="lazy" /><div><h2 id="films-title">I also make films as Paper Robots.</h2><p>Animated versions of my essays about AI and possible futures.</p></div><a className="text-link" href={paperRobotsUrl}>Visit Paper Robots <span aria-hidden="true">↗</span></a></section>
   </main>;
 }

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { Copy, Check, FileText } from 'lucide-react';
 
 /**
- * "Copy for LLMs" actions for essay/note pages.
+ * Optional text formats, placed after essay/note content.
  *
  * Pass either:
  *  - `markdownUrl`: a plain-text markdown mirror (also linked as "Markdown"), or
@@ -22,7 +22,7 @@ export default function LLMActions({ markdownUrl, getMarkdown, variant = 'light'
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Copy for LLMs failed:', err);
+      console.error('Copy text failed:', err);
     }
   }, [markdownUrl, getMarkdown]);
 
@@ -35,11 +35,11 @@ export default function LLMActions({ markdownUrl, getMarkdown, variant = 'light'
       <button
         type="button"
         onClick={handleCopy}
-        title="Copy the full text as markdown — paste it into Claude, ChatGPT, or any LLM"
+        title="Copy the full article as Markdown"
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 border rounded transition-colors ${tone}`}
       >
         {copied ? <Check size={12} /> : <Copy size={12} />}
-        {copied ? 'Copied' : 'Copy for LLMs'}
+        {copied ? 'Copied' : 'Copy article text'}
       </button>
       {markdownUrl && (
         <a

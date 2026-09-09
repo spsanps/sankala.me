@@ -17,16 +17,16 @@ export default function NotesIndex() {
   }
   function reset() { setParams({}, { replace: true, preventScrollReset: true }); }
   return <main id="main" className="shell">
-    <Metadata title="Work & ideas — San Kala" description="The complete index of San Kala’s research, essays, films, and interactive experiments. Browse AI and robotics, simulated worlds, and reflections on building." path="/notes" />
-    <header className="page-heading"><span className="eyebrow">San Kala / Work & ideas</span><h1>A place for<br /><em>all the threads.</em></h1><p>Research, essays, films, and small worlds. Browse by what they’re about, or choose the kind of work you want to see.</p></header>
+    <Metadata title="All work — San Kala" description="The complete index of San Kala’s research, essays, films, and interactive experiments. Browse AI and robotics, simulated worlds, and reflections on building." path="/notes" />
+    <header className="page-heading"><span className="eyebrow">Complete archive</span><h1>All work</h1><p>Every essay, research project and interactive experiment. Search by title, or filter by subject and format.</p></header>
     <div className="library-tools"><form id="library-filters" role="search" onSubmit={e => e.preventDefault()} onReset={reset}>
       <label>Subject<select name="topic" value={topic} onChange={e => change('topic', e.target.value)}><option value="all">All subjects</option>{topics.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select></label>
       <label>Format<select name="format" value={format} onChange={e => change('format', e.target.value)}><option value="all">All formats</option>{Object.entries(formatNames).map(([id,name]) => <option key={id} value={id}>{name}</option>)}</select></label>
       <label className="search-field">Search<input type="search" name="q" value={query} onChange={e => change('q', e.target.value)} placeholder="A title, a question, a project…" /></label><button type="reset">Reset</button>
     </form></div>
-    <div className="library-count"><p role="status" aria-live="polite">{matching.length} {matching.length === 1 ? 'piece' : 'pieces'}</p><span>Some work belongs to more than one subject.</span></div>
+    <div className="library-count"><p role="status" aria-live="polite">{matching.length} {matching.length === 1 ? 'piece' : 'pieces'}</p><span>Newest first</span></div>
     <div className="work-list">{matching.map(work => <WorkRow key={work.slug} work={work} />)}</div>
     {!matching.length && <div className="empty-state"><h2>No matches here.</h2><p>Try another subject, format, or search term.</p><button type="button" onClick={reset}>Show all work</button></div>}
-    <aside className="archive-note"><h2>One body of work, a few different homes.</h2><p>This is my complete index. Some pieces also belong to <a href={paperRobotsUrl}>Paper Robots</a>; the space experiments live at <a href="https://dysonswarm.com/">Dyson Swarm</a>. Each entry takes you to the work itself.</p><Link to="/resume">Full publication details and CV <Arrow /></Link></aside>
+    <aside className="archive-note"><h2>Where the links go</h2><p>This is my complete index. Some pieces also belong to <a href={paperRobotsUrl}>Paper Robots</a>; the space experiments live at <a href="https://dysonswarm.com/">Dyson Swarm</a>. Each entry takes you to the work itself.</p><Link to="/resume">Full publication details and CV <Arrow /></Link></aside>
   </main>;
 }

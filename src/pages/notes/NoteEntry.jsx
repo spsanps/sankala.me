@@ -17,7 +17,7 @@ export default function NoteEntry() {
   const content = (entry.content || '').replace(/^\s*# [^\n]+\n/, '');
   return <main id="main" className="shell">
     <Metadata title={entry.title + ' — San Kala'} description={entry.excerpt} path={'/notes/' + entry.slug} type="article" />
-    <header className="page-heading note-heading"><span className="eyebrow">Personal note / {entry.date} · {entry.readTime}</span><h1>{entry.title}</h1><p>{entry.excerpt}</p><LLMActions getMarkdown={() => entry.content} className="mt-8" /></header>
-    <article className="prose note-body"><ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown><div className="actions"><Action href="/notes">Back to the notebook</Action></div></article>
+    <header className="page-heading note-heading"><span className="eyebrow">Personal note / {entry.date} · {entry.readTime}</span><h1>{entry.title}</h1><p>{entry.excerpt}</p></header>
+    <article className="prose note-body"><ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown><div className="actions"><Action href="/writing">More writing</Action></div><LLMActions getMarkdown={() => entry.content} className="mt-8" /></article>
   </main>;
 }

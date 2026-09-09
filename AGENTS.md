@@ -16,6 +16,14 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
+Latest feedback, September 8: visitors find the personal site confusing, too
+AI-made, and unclear about what to read or open. The implementation now uses
+plain Writing / Projects / Research / About / CV navigation, visible on phones,
+and actual work near the top. Keep full coverage and the separate-site decision;
+do not restore the abstract topic-folder homepage or generic branding slogans.
+The new design has not yet received visitor validation. See
+`docs/online-presence/2026-09-navigation-and-content.md`. Substack stays paused.
+
 Latest correction: San explicitly wants **San Kala and Paper Robots to have
 separate sites**. The combined homepage felt like a GPT-7 campaign and obscured
 his identity and history. The latest five-page study is

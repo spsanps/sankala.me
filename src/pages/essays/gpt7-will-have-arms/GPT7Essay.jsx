@@ -143,11 +143,11 @@ export default function GPT7Essay() {
       <header className="fixed top-0 left-0 right-0 z-40 bg-[#F5F2EB]/95 backdrop-blur-sm border-b border-[#2A3C24]/10">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
           <Link
-            to="/"
+            to="/writing"
             className="group inline-flex items-center gap-2 text-[#2A3C24]/60 hover:text-[#2A3C24] transition-colors"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-medium hidden sm:inline font-serif">San Kala</span>
+            <span className="text-sm font-medium font-serif">San Kala / Writing</span>
           </Link>
 
           <div className="flex items-center gap-3">
@@ -263,8 +263,6 @@ export default function GPT7Essay() {
               ))}
             </div>
 
-            {/* LLM-friendly formats */}
-            <LLMActions markdownUrl="/essays/gpt7-will-have-arms.md" className="mt-6" />
           </header>
 
           {/* Essay Content */}
@@ -276,11 +274,11 @@ export default function GPT7Essay() {
           <footer className="mt-24 pt-10 border-t border-[#2A3C24]/10">
             <div className="flex items-center justify-between">
               <Link
-                to="/"
+                to="/writing"
                 className="group inline-flex items-center gap-2 text-[#2A3C24] hover:underline font-medium text-sm transition-colors"
               >
                 <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-                Back to Home
+                More writing
               </Link>
               <a
                 href="#"
@@ -290,6 +288,7 @@ export default function GPT7Essay() {
                 Back to top
               </a>
             </div>
+            <LLMActions markdownUrl="/essays/gpt7-will-have-arms.md" className="mt-8" />
           </footer>
         </main>
       </div>

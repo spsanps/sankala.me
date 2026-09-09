@@ -8,6 +8,8 @@
     { "source": "/notes/5", "destination": "/notes/eai-challenge", "permanent": true }
   ],
   "rewrites": [
+    { "source": "/writing", "destination": "/writing/index.html" },
+    { "source": "/projects", "destination": "/projects/index.html" },
     { "source": "/essays/gpt7-will-have-arms", "destination": "/api/og?page=gpt7" },
     { "source": "/notes/eai-challenge", "destination": "/api/og?page=eai" },
     { "source": "/notes", "destination": "/notes/index.html" },

@@ -1,6 +1,15 @@
 # Website design studies
 
-## Current: separate San Kala and Paper Robots sites, September 2026
+## Current: clearer personal-site navigation, September 8
+
+Visitors found the production site hard to navigate and its content hard to
+identify. The personal revision brings actual work forward, uses plain section
+names, and keeps navigation visible on phones. [Compare before and after](reviews/2026-09-navigation/index.html), or read
+[the revision record](../docs/online-presence/2026-09-navigation-and-content.md).
+Production source is in `src/`. These captures document the implementation;
+visitor validation remains outstanding.
+
+## Separate San Kala and Paper Robots sites, September 6
 
 San identified the combined homepage as confusing: it felt like a GPT-7 campaign
 and obscured his history. He explicitly wants separate personal and publication

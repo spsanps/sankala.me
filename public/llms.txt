@@ -4,12 +4,13 @@
 
 ## Work and background
 
+- [Writing](https://www.sankala.me/writing): Essays, research write-ups and personal notes.
+- [Projects](https://www.sankala.me/projects): Interactive worlds and animated films.
 - [Complete work index](https://www.sankala.me/notes): Eight works, grouped by subject and format.
 - [Research](https://www.sankala.me/research): Three publications with authors, venues and project links.
 - [History](https://www.sankala.me/history): Ten milestones from NIT Karnataka through current AI research.
 - [About](https://www.sankala.me/about)
 - [CV](https://www.sankala.me/resume)
-- [Experiments](https://www.sankala.me/lab)
 - [RSS](https://www.sankala.me/feed.xml)
 
 ## Complete writing

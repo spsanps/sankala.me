@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { topics, works, formatNames } from '../../data/work';
+import { topics, formatNames } from '../../data/work';
 
 export function Arrow() { return <span aria-hidden="true">↗</span>; }
 export function SiteLink({ href, children, ...props }) {
@@ -8,13 +8,7 @@ export function SiteLink({ href, children, ...props }) {
     : <a href={href} {...props}>{children}</a>;
 }
 export function Action({ href, children, quiet = false }) {
-  return <SiteLink className={`action${quiet ? ' quiet' : ''}`} href={href}>{children} <Arrow /></SiteLink>;
-}
-export function TopicFolders() {
-  return <div className="topic-folders">{topics.map(t => <Link key={t.id} className={`topic-folder topic-${t.id}`} to={`/notes?topic=${t.id}`}>
-    <span className="tab">{t.number} / {works.filter(w => w.topics.includes(t.id)).length} pieces</span>
-    <h3>{t.name}</h3><p>{t.description}</p><span className="examples">{t.examples}</span><span className="folder-arrow" aria-hidden="true">↗</span>
-  </Link>)}</div>;
+  return <SiteLink className={`action${quiet ? ' quiet' : ''}`} href={href}>{children} <span aria-hidden="true">{href.startsWith('/') && !href.endsWith('.pdf') ? '→' : '↗'}</span></SiteLink>;
 }
 export function WorkRow({ work }) {
   return <article className="work-row" data-work data-slug={work.slug}>
@@ -25,7 +19,7 @@ export function WorkRow({ work }) {
     </div></article>;
 }
 export function CareerPath() {
-  return <section className="journey" id="timeline" aria-labelledby="journey-title"><div className="journey-label"><span className="eyebrow">The short version</span><h2 id="journey-title">How I got here</h2><Link to="/history">The full history <Arrow /></Link></div><ol>
+  return <section className="journey" id="timeline" aria-labelledby="journey-title"><div className="journey-label"><h2 id="journey-title">Background</h2><Link to="/history">Career & history →</Link></div><ol>
     <li><span>2019</span><strong>NIT Karnataka</strong><small>Electrical engineering</small></li>
     <li><span>2019–22</span><strong>Texas Instruments</strong><small>Chip design</small></li>
     <li><span>2022–24</span><strong>UC San Diego</strong><small>MS, computer science</small></li>

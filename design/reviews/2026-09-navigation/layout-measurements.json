@@ -1,0 +1,64 @@
+[
+  {
+    "name": "home",
+    "width": 1440,
+    "overflow": false,
+    "height": 1495,
+    "firstWorkTitle": 646.09375
+  },
+  {
+    "name": "writing",
+    "width": 1440,
+    "overflow": false,
+    "height": 1286
+  },
+  {
+    "name": "projects",
+    "width": 1440,
+    "overflow": false,
+    "height": 2248
+  },
+  {
+    "name": "about",
+    "width": 1440,
+    "overflow": false,
+    "height": 2018
+  },
+  {
+    "name": "research",
+    "width": 1440,
+    "overflow": false,
+    "height": 1944
+  },
+  {
+    "name": "home",
+    "width": 390,
+    "overflow": false,
+    "height": 2947,
+    "firstWorkTitle": 737.484375
+  },
+  {
+    "name": "writing",
+    "width": 390,
+    "overflow": false,
+    "height": 1639
+  },
+  {
+    "name": "projects",
+    "width": 390,
+    "overflow": false,
+    "height": 2782
+  },
+  {
+    "name": "about",
+    "width": 390,
+    "overflow": false,
+    "height": 2886
+  },
+  {
+    "name": "research",
+    "width": 390,
+    "overflow": false,
+    "height": 2310
+  }
+]

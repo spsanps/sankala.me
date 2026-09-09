@@ -1,8 +1,101 @@
 # Online presence plan
 
-Created: 2026-09-05. Last discussed: 2026-09-06. Time zone: America/Los_Angeles.
+Created: 2026-09-05. Last discussed: 2026-09-08. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
+
+**Current priority, September 8 — website usability:** San returned to website
+work with feedback from other people: unclear navigation and purpose, work that
+is hard to find, an AI-made appearance, and nothing that catches their attention.
+The assistant asked whether this referred to sankala.me, Paper Robots, or both;
+no answer was received during this implementation, so the stated working scope
+is **sankala.me first**. Paper Robots was audited but not changed in this pass.
+This supersedes the earlier ornate personal-homepage treatment, while preserving
+the decision to give San Kala and Paper Robots separate sites. Substack stays paused.
+
+The personal revision uses visible Writing / Projects / Research / About / CV
+navigation on desktop and phones, dedicated /writing and /projects indexes,
+a compact personal introduction, and three specific featured works. Abstract
+topic folders and generic slogans no longer lead the homepage. The full eight-work
+archive at /notes, all ten history milestones, original articles, public assets,
+and legacy routes remain available. Article text utilities move after the text;
+reading links say what opens. This is an implementation in response to feedback,
+not a claim that San or his visitors have validated the new design. See
+[the navigation revision](online-presence/2026-09-navigation-and-content.md) and
+[the visual comparison](../design/reviews/2026-09-navigation/index.html).
+
+**Earlier priority, September 8:** San explicitly paused Substack setup to upload
+a new YouTube video. Resume the newsletter only when he returns to it. The
+profile/publication naming discussion was confusing; no rename or final public
+Substack URL has been confirmed, and San reported that the `sankala` handle is
+taken. Preserve San Kala as the intended author and Paper Robots as the intended
+publication; do not record either setup step as completed.
+
+The studio contains today's prepared release of **How to Please a Capricious God**:
+`/mnt/d/projects/paper-robots/films/02-capricious-god/08-release/2026-09-08-v22-1080p/`.
+This is the likely new film; San has not separately confirmed the export path.
+Its `youtube/capricious-god_1080p.mp4` was inspected with ffprobe: 1920 x 1080,
+24 fps, H.264/AAC stereo, 387.292 seconds, 622,141,287 bytes. The package includes
+title, description, chapters, SRT captions and four PNG thumbnail candidates.
+The release record says prepared/not uploaded. No upload or channel action has
+been performed by the assistant, and no new audiovisual playback review was done.
+The existing UPLOAD.md has copied guidance that must not be repeated: it asks
+for 2160p on this 1080p export, implies a guaranteed VP9/AV1 encode, and says the
+first 24 hours decide reach. Its audio/disclosure and rights assertions also need
+to be checked against the actual new film before giving setting-specific advice.
+Begin with the correct MP4 in Studio and keep visibility Private during setup.
+
+**Film 02 packaging, September 8:** San requested three new thumbnails and
+explanatory titles that identify the Hugging Face/OpenAI incident. He then
+explicitly clarified that the titles must say this is an **animated film** so
+viewers do not expect a news report. The three finished pairs lead with
+“Animated Film”: (1) OpenAI’s Agents Hacked Hugging Face; (2) OpenAI’s Agents
+Team Up to Hack Hugging Face; (3) The OpenAI–Hugging Face Incident. Their image
+headlines are respectively “JUST TO PASS A TEST”, “IS ANYONE ELSE STUCK?” and
+“PASS AT ANY COST”. The first pair is the assistant’s recommendation, not San’s
+selection or a measured winner. Earlier titles without the format label are
+superseded. Keep How to Please a Capricious God as the film’s artistic name.
+
+The new artwork, native source PNGs, exact generation prompts, paired title text
+and phone-size comparison page are in the release’s
+`thumbnails/title-test-v1/`; `youtube/title-thumbnail-test.txt` is the upload
+handoff. All three JPEGs are 1600 x 900 and under 0.5 MB. Existing stills, MP4,
+captions and original title/description were preserved. These use the built-in
+image-generation tool and the film’s actual gouache/one-eyed-creature references.
+The script and incident notes were read; OpenAI’s August 26 incident report is
+now accessible and supports the escape, coordination and evaluation-cheating
+framing: https://openai.com/index/hugging-face-incident-and-the-road-ahead/.
+This was not a complete re-audit of every event depicted in the film.
+No Studio upload, title/thumbnail selection or test activation has been observed.
+
+**Upload walkthrough prepared, September 8:** The release's UPLOAD.md now uses
+the final animated-film title/thumbnail pairs, 1080p playback checks and current
+Studio guidance. The copied 2160p/guaranteed-codec/first-24-hours assertions were
+removed; the original guide is preserved in archive/. New
+`youtube/description-ready-to-paste.txt` identifies the film as an allegory, adds
+San's credit, AI animation/ElevenLabs narration disclosure and primary incident
+source links, and preserves all chapter lines. New `youtube/captions-proofread.srt`
+corrects cue 9 against the manuscript (past cells → past selves; adds the missing
+“the” before question), retaining all 91 cue times. San should confirm the spoken
+line around 00:35 during preview; the assistant did not listen to that passage.
+The recommended sequence is Private during initial setup, Unlisted for preview
+and A/B configuration, then Public when San is satisfied. YouTube's current
+documentation explicitly excludes Private videos from testing. The assistant
+recommends Yes for AI disclosure to transparently label the synthesized narrator;
+this is not a claim that stylized animation alone requires it. All account actions,
+the upload link and publication remain unverified. Substack stays paused.
+
+**Category clarification, September 8:** San asked which people the category
+would cause the film to be recommended to; his concern is audience discovery.
+The assistant now recommends Science & Technology to describe the subject,
+superseding the earlier format-based Film & Animation recommendation. The
+intended audience is people interested in AI agents, AI safety, OpenAI/Hugging
+Face and related cybersecurity stories. This is a positioning recommendation,
+not an observed audience or a claim that the category selects a fixed group of
+viewers. YouTube describes personalized recommendations using viewing history,
+viewer response and satisfaction; these sources do not establish a specific
+recommendation weight for the category field. Keep Animated Film in the title.
+No category selection or saved Studio setting has been confirmed.
 
 San wants to rethink his personal website and online presence for the AI era:
 professional presentation, personal style and branding, Substack, and YouTube

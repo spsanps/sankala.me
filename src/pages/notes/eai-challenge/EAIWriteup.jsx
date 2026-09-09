@@ -305,7 +305,7 @@ export default function EAIWriteup() {
       `}</style>
 
       <div className="eai-column">
-        <Link to="/#notes" className="eai-back">
+        <Link to="/writing" className="eai-back">
           <ArrowLeft size={16} /> Back to Writing
         </Link>
 
@@ -326,7 +326,6 @@ export default function EAIWriteup() {
             <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/slides/AxisTilted2.pdf" target="_blank" rel="noopener noreferrer">Slides</a>{' · '}
             <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/" target="_blank" rel="noopener noreferrer">Challenge</a>
           </div>
-          <LLMActions markdownUrl="/notes/eai-challenge.md" className="-mt-8 mb-14" />
         </header>
 
         <p>
@@ -429,6 +428,8 @@ export default function EAIWriteup() {
           <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/slides/AxisTilted2.pdf" target="_blank" rel="noopener noreferrer">winners' presentation</a>.
           The benchmark: <a href="https://neurips25-eai.github.io/" target="_blank" rel="noopener noreferrer">Embodied Agent Interface</a>.
         </div>
+        <div className="mt-8"><Link to="/writing" className="eai-body-link">More writing by San Kala →</Link></div>
+        <LLMActions markdownUrl="/notes/eai-challenge.md" className="mt-6" />
       </div>
     </div>
   );

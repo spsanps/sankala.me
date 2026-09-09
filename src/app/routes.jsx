@@ -8,19 +8,22 @@ import History from '../pages/history/History';
 import Research from '../pages/research/Research';
 import About from '../pages/about/About';
 import Resume from '../pages/resume/Resume';
-import LabIndex from '../pages/lab/LabIndex';
+import Projects from '../pages/projects/Projects';
+import Writing from '../pages/writing/Writing';
 import NotFound from '../pages/not-found/NotFound';
 
 export const routes = [
   { element: <PersonalLayout />, children: [
     { path: '/', element: <Home /> },
     { path: '/notes', element: <NotesIndex /> },
+    { path: '/writing', element: <Writing /> },
+    { path: '/projects', element: <Projects /> },
     { path: '/notes/:slug', element: <NoteEntry /> },
     { path: '/history', element: <History /> },
     { path: '/research', element: <Research /> },
     { path: '/about', element: <About /> },
     { path: '/resume', element: <Resume /> },
-    { path: '/lab', element: <LabIndex /> },
+    { path: '/lab', element: <Projects /> },
     { path: '/work', element: <Navigate to="/notes" replace /> },
     { path: '/worlds', element: <Navigate to="/lab" replace /> },
     { path: '*', element: <NotFound /> },

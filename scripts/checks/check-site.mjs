@@ -15,7 +15,7 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const routes = ['/', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
 const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
@@ -66,11 +66,29 @@ try {
     assert.equal(await page.locator('[data-milestone]').count(), 10, 'Complete history');
     await page.goto(origin + '/this-route-does-not-exist', { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
-    if(width < 700) {
-      await page.getByText('Menu +', { exact: true }).click();
-      await page.getByText('Menu +', { exact: true }).press('Escape');
-      assert.equal(await page.locator('.mobile-menu').getAttribute('open'), null, 'Escape closes mobile navigation');
+    // A new visitor can reach actual work and return without decoding a menu.
+    await page.goto(origin + '/');
+    const nav = page.getByRole('navigation', { name: 'Main', exact: true });
+    for (const label of ['Writing', 'Projects', 'Research', 'About', 'CV']) {
+      assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
+    await nav.getByRole('link', { name: 'Writing', exact: true }).click();
+    await page.locator('[data-writing]').first().waitFor();
+    assert.equal(await page.locator('[data-writing]').count(), 3, 'Writing has every essay and note');
+    await page.getByRole('link', { name: 'Winning by Overfitting', exact: true }).click();
+    await page.waitForURL('**/notes/eai-challenge');
+    assert.ok(page.url().endsWith('/notes/eai-challenge'), 'Writing opens the original rich article');
+    await page.getByRole('link', { name: 'Back to Writing' }).click();
+    await page.locator('[data-writing]').first().waitFor();
+    assert.equal(await page.locator('[data-writing]').count(), 3, 'Article returns to the writing index');
+    await nav.getByRole('link', { name: 'Projects', exact: true }).click();
+    await page.locator('[data-project]').first().waitFor();
+    assert.equal(await page.locator('[data-project]').count(), 3, 'All interactive projects remain discoverable');
+    assert.equal(await page.getByRole('link', { name: 'Explore Another Sky', exact: true }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
+    await nav.getByRole('link', { name: 'About', exact: true }).click();
+    await page.getByRole('link', { name: 'Career & history', exact: true }).first().click();
+    await page.locator('[data-milestone]').first().waitFor();
+    assert.equal(await page.locator('[data-milestone]').count(), 10, 'History remains easy to reach from About');
     await page.close();
   }
 

@@ -20,8 +20,9 @@ September 6, 2026. The separate publication website is in
 San owns `paperrobots.studio`; its DNS connection and the Substack publication
 URL remain pending. See [the production-site handoff](docs/online-presence/2026-09-production-sites.md).
 
-The personal site now has a full work index, history, research, About page,
-experiments, and CV. Existing essays and URLs remain intact. The build prerenders
+The personal site has direct Writing, Projects, Research, About and CV
+navigation, with a complete searchable archive and history behind it. See the
+[September 8 usability revision](docs/online-presence/2026-09-navigation-and-content.md). Existing essays and URLs remain intact. The build prerenders
 the personal pages and generates RSS and the sitemap; rich essays load separately
 and retain their full crawler editions. Run `npm run build`, `npm run lint`, and
 `npm run check:site` before publishing. Pushing `main` deploys through the existing

@@ -11,7 +11,9 @@ src/
     history/                       complete ten-milestone history
     research/                      full publication details
     resume/                        resume page
-    lab/                           experiment listing and entry page
+    projects/                      interactive projects and film channel
+    writing/                       essay and personal-note index
+    lab/                           legacy experiment entry route
     notes/                         note listing and generic note page
       eai-challenge/               Winning by Overfitting write-up
     essays/

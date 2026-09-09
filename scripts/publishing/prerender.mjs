@@ -9,7 +9,7 @@ const dist = resolve(root, 'dist');
 const shell = await readFile(resolve(dist, 'index.html'), 'utf8');
 await writeFile(resolve(dist, 'app.html'), shell);
 const template = shell.replace(/<title\b[^>]*>[\s\S]*?<\/title>/g, '').replace(/<meta[^>]+(?:name="(?:description|twitter:[^"]+)"|property="og:[^"]+")[^>]*>/g, '');
-const paths = ['/', '/notes', '/history', '/research', '/about', '/resume', '/lab', '/notes/startr-postmortem', '/404'];
+const paths = ['/', '/writing', '/projects', '/notes', '/history', '/research', '/about', '/resume', '/lab', '/notes/startr-postmortem', '/404'];
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', ssr: { noExternal: ['react-helmet-async'], resolve: { externalConditions: ['module-sync'] } } });
 try {
   const { render } = await server.ssrLoadModule('/src/entry-server.jsx');
