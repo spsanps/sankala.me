@@ -16,7 +16,13 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-Latest design instruction, September 8: both sites should have ambitious,
+Latest feedback, September 9: San rejected both September 8 designs as ordinary,
+boring blogs. The new homepages use an actual moving film setting for Paper Robots
+and a spatial collection of real photographs/projects for San, with a grid option.
+Preserve the complete history and plain navigation. These revisions are not yet
+validated by San. See docs/design/2026-09-09-cinema-and-personal-collection.md.
+
+Earlier design instruction, September 8: both sites should have ambitious,
 Awwwards-level craft. Restore all ten personal milestones and eight photographs
 directly on the homepage; preserve clear navigation and descriptive work titles.
 The second film is https://youtu.be/wswbqJNMFBw, confirmed by San and oEmbed.

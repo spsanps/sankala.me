@@ -1,0 +1,59 @@
+# September 9: two different homepage experiences
+
+San rejected the September 8 websites as ordinary blogs. The previous work did
+not meet his request for distinctive, ambitious craft. No award is claimed, and
+the new designs await his assessment.
+
+## Personal site
+
+A large, dark-green personal masthead and a collection of five real photographs
+and projects replace the editorial cover. Each object is a normal link: About,
+two specific career milestones, the Hugging Face film, and the space habitat.
+Pointer movement gives the spread slight depth; hover and keyboard focus raise
+an object. “Arrange as a grid” offers a straightforward alternative. The space
+preview plays only when requested, silently, and pauses outside the viewport.
+
+The ten career milestones and eight photographs remain directly on the homepage,
+in a dark-green section with cream photo frames. Each photo still enlarges in a
+native dialog. Clear section navigation, descriptive work titles, the nine-work
+archive and original articles/routes remain. The author site and studio stay
+separate. Source: `src/components/home/PersonalAtlas.jsx`, `src/pages/home/Home.jsx`,
+`src/styles/personal-atlas.css`; visual checks: `design/reviews/2026-09-09-personal-collection/`.
+
+## Paper Robots
+
+The homepage opens on actual moving film artwork. A two-film selector changes
+the background and featured story; Watch opens the selected full film in a native
+dialog, with Escape and a visible close control. YouTube is not loaded before the
+viewer asks. The film collection uses large painted stills; the complete essay
+has a separate illustrated invitation. Film details, sources, chapters, script,
+caption download and full reading edition remain available.
+
+Silent, eight-second previews are about 624 KB and 632 KB, rather than embedding
+full release files. Only the selected preview loads. Motion has a pause button,
+pauses offscreen/in background tabs/during the screening, and starts disabled for
+reduced-motion and Save-Data preferences. Normal links and stills work without JS.
+
+Paper source: `src/templates/cinema.mjs`, `src/scripts/cinema.js`,
+`src/styles/cinema.css`, `src/pages/home.html`. Both canonical URLs remain unchanged.
+
+## Media provenance
+
+The personal habitat preview is a nine-second excerpt, starting at 2 seconds, of
+Dyson Swarm's existing `another-sky-ground-to-overhead-v1-1080p.mp4`. It is encoded
+at 800×450 / 24 fps, H.264 CRF 27, silent, faststart; about 316 KB. No photographs
+were generated or retouched. Film excerpt provenance is recorded in the Paper
+Robots repository at `design/film-previews/README.md`.
+
+## Validation and release
+
+Passed: personal lint/build and 36 route/viewport checks with archive, history,
+photographs, grid arrangement, photograph-to-milestone links and the original
+article/crawler checks. The habitat video was separately played, paused and
+checked for no initial download with reduced motion. Paper passed build/content
+checks and 24 route/viewport checks, plus scene switching, preview pause, the
+correct screening target, Escape teardown, no-JS reading/links and reduced motion.
+The GitHub Pages base path was built and both preview paths checked.
+
+The review folders contain screenshots and machine-readable checks. Publication
+is already authorized; deployment evidence will follow the push.

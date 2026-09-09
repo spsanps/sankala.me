@@ -68,8 +68,12 @@ try {
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
     await page.goto(origin + '/');
-    await page.getByRole('button',{name:'Show UCSD · 2023'}).click();
-    assert.equal(await page.locator('.album-image img').getAttribute('src'),'/images/history/research-group.webp','Career album changes photograph');
+    assert.equal(await page.locator('.atlas-object').count(),5,'Five real photographs and projects on the cover');
+    await page.getByRole('button',{name:'Arrange as a grid',exact:false}).click();
+    assert.ok(await page.locator('.personal-atlas.is-ordered').isVisible(),'Collection can be arranged for scanning');
+    await page.getByRole('button',{name:'Spread the collection',exact:false}).click();
+    await page.locator('.atlas-people').click();
+    assert.ok(page.url().endsWith('#history-ucsd-graduation'),'Cover photograph leads to its history');
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
     assert.equal(await page.locator('.history-photo-link').count(),8,'Career photos restored');

@@ -1,8 +1,21 @@
 # Online presence plan
 
-Created: 2026-09-05. Last discussed: 2026-09-08. Time zone: America/Los_Angeles.
+Created: 2026-09-05. Last discussed: 2026-09-09. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
+
+**September 9 — the previous design did not meet the brief:** San explicitly
+rejected both sites as ordinary, boring blogs and challenged the claim of
+Awwwards-level design. Do not describe the September 8 work as accepted or imply
+that typography and hover effects alone satisfied the request. The new revision
+makes Paper Robots a full-screen film setting with real local previews, a film
+switcher and an in-page screening player. San's homepage uses a large personal
+masthead and an interactive collection of real photos/projects, a grid alternative,
+and a dark photographic career section. All ten milestones, eight career photos,
+clear navigation, original routes and complete writing remain. See
+[the September 9 implementation](design/2026-09-09-cinema-and-personal-collection.md).
+This is a new design response awaiting San's assessment, not an award claim.
+Substack stays paused; no monetization or account settings have changed.
 
 **September 8 — Paper Robots illustration correction:** San asked to redo the
 robot-and-page website illustration. The assistant replaced the folded-paper slab,

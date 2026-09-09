@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, ScrollRestoration } from 'react-router-dom';
+import { Link, NavLink, Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
 import { Arrow } from '../components/site/Elements';
 import { paperRobotsUrl } from '../data/links';
 import '../styles/personal.css';
@@ -6,7 +6,8 @@ import '../styles/personal-pages.css';
 
 const links = [['/writing', 'Writing'], ['/projects', 'Projects'], ['/research', 'Research'], ['/history', 'History'], ['/about', 'About'], ['/resume', 'CV']];
 export default function PersonalLayout() {
-  return <div className="personal-site">
+  const { pathname } = useLocation();
+  return <div className={`personal-site${pathname === "/" ? " atlas-page" : ""}`}>
     <a className="skip" href="#main">Skip to content</a>
     <header className="site-header shell"><Link className="wordmark" to="/">San Kala<span className="wordmark-dot">.</span></Link>
       <nav className="desktop-nav" aria-label="Main">{links.map(([to,label]) => <NavLink key={to} to={to}>{label}</NavLink>)}</nav>
