@@ -4,6 +4,16 @@ Created: 2026-09-05. Last discussed: 2026-09-09. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**September 9 — simplify the personal cover:** San said the two replacement
+images looked weird and were not good images (the TI selfie and eBay headquarters
+photo in the immediately preceding cover). Implementation decision: remove those
+two cover objects and compose the portrait, NeurIPS award and UCSD group as a
+three-photo spread. Keep the original TI/eBay photographs in the full timeline.
+The group photo now uses its complete landscape composition. The cover is shorter;
+the grid alternative and direct history links remain. Recent films and space
+experiments stay in the smaller, dated section. This revision awaits San's verdict.
+See `design/reviews/2026-09-09-three-photo-cover/`.
+
 **September 9 follow-up — recent work must not define San:** San said that the
 large eye and cylinder on the personal cover made two days of work look like his
 whole identity. The personal cover now uses photographs from his longer history:

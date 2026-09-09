@@ -16,7 +16,14 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
-Latest correction, September 9: San said the eye and cylinder on the new personal
+Latest feedback, September 9: San rejected the TI/eBay replacement cover photos
+as visually poor. The implementation now uses three cover photos: the portrait,
+NeurIPS award with his brother, and the complete UCSD group photograph. The TI/eBay
+photos remain in the full timeline. Do not fill the cover with weak images just
+to maintain five objects. This revision is not yet approved by San.
+See design/reviews/2026-09-09-three-photo-cover/.
+
+Earlier correction, September 9: San said the eye and cylinder on the new personal
 cover made two days of work look like his entire identity. The cover should reflect
 his longer life/history; those recent pieces belong in a smaller, dated section.
 The revised cover uses real photographs from UCSD, TI, eBay, NeurIPS and his portrait.

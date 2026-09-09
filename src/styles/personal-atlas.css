@@ -7,7 +7,7 @@
 .atlas-page .atlas-topline { display:flex; justify-content:space-between; font-size:10px; text-transform:uppercase; letter-spacing:.09em; padding:0 5px; }
 .atlas-page .personal-atlas h1 { position:relative; font:650 clamp(130px,20.5vw,295px)/1.04 'DM Sans',sans-serif; letter-spacing:-.095em; text-align:center; white-space:nowrap; margin:12px 0 0; }
 .atlas-page .personal-atlas h1 > span { display:inline-block; font-size:45px; vertical-align:top; line-height:2.5; letter-spacing:0; margin-left:14px; color:var(--accent); }
-.atlas-page .atlas-board { --pointer-x:0px; --pointer-y:0px; height:490px; position:relative; margin-top:-60px; isolation:isolate; }
+.atlas-page .atlas-board { --pointer-x:0px; --pointer-y:0px; height:470px; position:relative; margin-top:-45px; isolation:isolate; }
 .atlas-page .atlas-object { position:absolute; display:block; background:#fffdf4; padding:9px 9px 0; box-shadow:2px 5px 9px #17352c0d,5px 15px 35px #17352c21; transform:translate(calc(var(--pointer-x)*var(--depth)),calc(var(--pointer-y)*var(--depth))) rotate(var(--angle)); transition:transform .55s cubic-bezier(.2,.75,.2,1),box-shadow .4s; color:#19382f; }
 .atlas-page .atlas-object:hover,.atlas-page .atlas-object:focus-visible { z-index:9; transform:translateY(-15px) rotate(0deg) scale(1.06); box-shadow:4px 22px 45px #17352c30; text-decoration:none; }
 .atlas-page .atlas-object > img { width:100%; aspect-ratio:4/3; object-fit:cover; }
@@ -16,14 +16,11 @@
 .atlas-page .atlas-object strong { display:flex; justify-content:space-between; gap:5px; font-size:11px; font-weight:500; line-height:1.5; margin-top:3px; }
 .atlas-page .atlas-object b { font-size:14px; font-weight:400; }
 @media(min-width:701px) { .atlas-page .atlas-object { display:flex; flex-direction:column-reverse; padding:0 9px 9px; } .atlas-page .atlas-object > span { padding:10px 4px; } }
-.atlas-page .atlas-person { --angle:-4deg; --depth:.35; width:18%; left:41%; top:0; z-index:4; }
+.atlas-page .atlas-person { --angle:-4deg; --depth:.35; width:23%; left:38%; top:0; z-index:4; }
 .atlas-page .atlas-person > img { aspect-ratio:4/5; object-position:top; }
-.atlas-page .atlas-award { --angle:-10deg; --depth:.65; width:24%; left:6%; top:65px; z-index:2; }
-.atlas-page .atlas-people { --angle:8deg; --depth:.5; width:25%; right:4%; top:40px; z-index:3; }
-.atlas-page .atlas-engineering { --angle:-6deg; --depth:1; width:24%; left:24%; top:240px; z-index:5; }
-.atlas-page .atlas-engineering > img { aspect-ratio:4/3; object-position:center 75%; }
-.atlas-page .atlas-research { --angle:7deg; --depth:1.25; width:29%; right:16%; top:260px; z-index:6; }
-.atlas-page .atlas-research > img { aspect-ratio:1.65; object-fit:contain; background:#e5eade; }
+.atlas-page .atlas-award { --angle:-10deg; --depth:.65; width:30%; left:3%; top:85px; z-index:2; }
+.atlas-page .atlas-people { --angle:8deg; --depth:.5; width:34%; right:1%; top:130px; z-index:3; }
+.atlas-page .atlas-people > img { aspect-ratio:auto; }
 .atlas-page .atlas-controls { display:flex; justify-content:space-between; gap:20px; max-width:1160px; margin:auto; padding-block:20px; font-size:10px; border-bottom:1px solid var(--line); align-items:center; }
 .atlas-page .atlas-controls > div { display:flex; gap:25px; }
 .atlas-page .atlas-controls button { font-size:10px; padding:10px 0; border:0; border-bottom:1px solid currentColor; }
@@ -34,10 +31,11 @@
 .atlas-page .atlas-introduction > div { font-size:11px; }
 .atlas-page .atlas-introduction > div a { display:block; margin:5px 0 10px; text-decoration:underline; }
 .atlas-page .atlas-introduction small { display:block; color:var(--muted); font-size:10px; margin-top:24px; }
-.atlas-page .is-ordered .atlas-board { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:20px; height:auto; margin-top:35px; padding-bottom:30px; align-items:start; }
+.atlas-page .is-ordered .atlas-board { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; height:auto; margin-top:35px; padding-bottom:30px; align-items:start; }
 .atlas-page .is-ordered .atlas-object { position:relative; inset:auto; width:auto; transform:none; }
 .atlas-page .is-ordered .atlas-object:hover,.atlas-page .is-ordered .atlas-object:focus-visible { transform:translateY(-10px); }
-.atlas-page .is-ordered .atlas-object > img { aspect-ratio:4/5; }
+.atlas-page .is-ordered .atlas-object > img { aspect-ratio:4/3; }
+.atlas-page .is-ordered .atlas-people > img { aspect-ratio:auto; }
 .atlas-page .home-contents { background:#19382f; color:#edf0e6; width:100%; padding:19px max(40px,calc((100vw - 1160px)/2)); border:0; font-size:11px; }
 .atlas-page .home-contents > span { color:#c0cbb9; }
 .atlas-page .folio-heading h2 { font:550 clamp(48px,6.3vw,88px)/1.04 'DM Sans',sans-serif; letter-spacing:-.065em; }
@@ -68,16 +66,15 @@
 .atlas-page .project-entry h3 { font:500 38px/1.1 'DM Sans',sans-serif; letter-spacing:-.05em; }
 .atlas-page .personal-colophon { background:#dce4d3; padding:30px; border:0; }
 .atlas-page .personal-colophon h2 { font:550 45px/1.1 'DM Sans',sans-serif; letter-spacing:-.05em; }
-@media(min-width:1440px) { .atlas-page .atlas-board { height:540px; } }
 @media(max-width:1050px) {
  .atlas-page .personal-atlas { padding-inline:25px; }
  .atlas-page .personal-atlas h1 { font-size:20vw; }
  .atlas-page .personal-atlas h1 > span { font-size:30px; }
- .atlas-page .atlas-board { height:410px; margin-top:-25px; }
+ .atlas-page .atlas-board { height:370px; margin-top:-25px; }
+ .atlas-page .atlas-award { top:65px; }
+ .atlas-page .atlas-people { top:100px; }
  .atlas-page .atlas-object strong { font-size:9px; }
  .atlas-page .atlas-object small { font-size:7px; }
- .atlas-page .atlas-engineering { top:210px; left:19%; width:28%; }
- .atlas-page .atlas-research { top:230px; width:33%; right:13%; }
  .atlas-page .atlas-introduction { grid-template-columns:90px 1fr 150px; gap:25px; }
  .atlas-page .atlas-introduction > p { font-size:21px; }
  .atlas-page .is-ordered .atlas-board { gap:10px; }
@@ -92,16 +89,14 @@
  .atlas-page .atlas-topline > span:last-child { display:none; }
  .atlas-page .personal-atlas h1 { font-size:21vw; text-align:left; margin:12px 0 0; }
  .atlas-page .personal-atlas h1 > span { font-size:17px; margin-left:7px; line-height:2; }
- .atlas-page .atlas-board { height:650px; margin-top:8px; }
+ .atlas-page .atlas-board { height:calc(112vw + 60px); margin-top:8px; }
  .atlas-page .atlas-object { padding:6px 6px 0; }
  .atlas-page .atlas-object > span { padding:7px 3px 9px; }
  .atlas-page .atlas-object small { font-size:7px; letter-spacing:0; }
  .atlas-page .atlas-object strong { font-size:9px; }
- .atlas-page .atlas-person { width:42%; left:5%; top:20px; }
- .atlas-page .atlas-award { width:47%; left:auto; right:2%; top:55px; --angle:8deg; }
- .atlas-page .atlas-people { width:54%; left:2%; right:auto; top:260px; --angle:-6deg; }
- .atlas-page .atlas-engineering { width:48%; left:auto; right:-1%; top:240px; --angle:7deg; }
- .atlas-page .atlas-research { width:67%; right:7%; top:440px; --angle:-5deg; }
+ .atlas-page .atlas-person { width:46%; left:2%; top:20px; }
+ .atlas-page .atlas-award { width:51%; left:auto; right:0; top:calc(16vw + 10px); --angle:8deg; }
+ .atlas-page .atlas-people { width:88%; left:6%; right:auto; top:calc(70vw + 5px); --angle:-5deg; }
  .atlas-page .atlas-controls { gap:5px; align-items:stretch; flex-direction:column; padding-block:10px 20px; }
  .atlas-page .atlas-controls > span { font-size:9px; }
  .atlas-page .atlas-controls > div { justify-content:space-between; gap:10px; }
@@ -114,6 +109,8 @@
  .atlas-page .atlas-introduction small br { display:none; }
  .atlas-page .is-ordered .atlas-board { grid-template-columns:1fr 1fr; gap:18px 10px; margin-top:20px; }
  .atlas-page .is-ordered .atlas-object > img { aspect-ratio:1; }
+ .atlas-page .is-ordered .atlas-people { grid-column:1/-1; }
+ .atlas-page .is-ordered .atlas-people > img { aspect-ratio:auto; }
  .atlas-page .home-contents { padding:15px 20px; }
  .atlas-page .home-contents > span { display:none; }
  .atlas-page .folio-heading h2 { font-size:48px; }
@@ -141,10 +138,6 @@
  .atlas-page .personal-colophon h2 { font-size:32px; }
 }
 @media(max-width:380px) {
- .atlas-page .atlas-board { height:575px; }
- .atlas-page .atlas-people { top:230px; }
- .atlas-page .atlas-engineering { top:205px; }
- .atlas-page .atlas-research { top:380px; }
  .atlas-page .atlas-object strong { font-size:8px; }
  .atlas-page .atlas-object small { font-size:6px; }
  .atlas-page .personal-atlas h1 { font-size:20.5vw; }

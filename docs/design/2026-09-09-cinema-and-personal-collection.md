@@ -4,6 +4,19 @@ San rejected the September 8 websites as ordinary blogs. The previous work did
 not meet his request for distinctive, ambitious craft. No award is claimed, and
 the new designs await his assessment.
 
+## Current cover: three photographs
+
+San found the replacement TI and eBay images visually poor. The cover is now a
+three-photo composition: portrait, NeurIPS award and UCSD research group. The group
+keeps its full landscape shape, and the unused lower row of the spread is removed.
+There is still a grid arrangement and direct links to About and the relevant
+history milestones. Original TI/eBay photographs remain in the ten-entry timeline;
+no history image, route or public asset was removed. The film and cylinder remain
+in the compact Recent additions section. This is an implementation choice in
+response to feedback, awaiting San's assessment.
+
+Current review: `design/reviews/2026-09-09-three-photo-cover/`.
+
 ## Follow-up: the author's identity is broader than the latest work
 
 San rejected the eye and cylinder as dominant personal-cover images: they represent
@@ -17,7 +30,7 @@ Full history, writing and projects now precede a compact, dated Recent additions
 section for the film and cylinder. They remain discoverable without receiving the
 visual weight of the author identity. The public preview asset is preserved, but
 is not downloaded by this cover. The studio keeps its film-led design.
-Current personal review: `design/reviews/2026-09-09-personal-balance/`.
+Review of that intermediate version: `design/reviews/2026-09-09-personal-balance/`.
 
 ## First personal revision (superseded by the feedback above)
 

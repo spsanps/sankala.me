@@ -68,7 +68,7 @@ try {
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
     await page.goto(origin + '/');
-    assert.equal(await page.locator('.atlas-object').count(),5,'Five real photographs and projects on the cover');
+    assert.equal(await page.locator('.atlas-object').count(),3,'Three photographs on the personal cover');
     await page.getByRole('button',{name:'Arrange as a grid',exact:false}).click();
     assert.ok(await page.locator('.personal-atlas.is-ordered').isVisible(),'Collection can be arranged for scanning');
     await page.getByRole('button',{name:'Spread the collection',exact:false}).click();
