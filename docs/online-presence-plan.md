@@ -4,6 +4,19 @@ Created: 2026-09-05. Last discussed: 2026-09-09. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**September 9 — Web Analytics verified on both sites:** San requested Vercel
+Analytics and pasted the Next.js import. The personal site is Vite/React and
+already uses `@vercel/analytics/react` in `src/app/App.jsx`; no duplicate component
+or Next.js dependency was added. Its homepage and a client-side navigation to
+Writing both produced pageview requests accepted with HTTP 200. Paper Robots is
+static HTML; its shared layout now includes Vercel's HTML integration on Vercel
+builds (runtime commit `4040d84`). Its homepage and Films page both produced
+accepted HTTP 200 pageviews after deployment. The GitHub Pages fallback and local
+builds omit the Vercel-only endpoint. No custom events, identity tracking, paid
+upgrade or revenue features were added. Dashboard graphs were not accessed, but
+the live collection endpoints work; San has no remaining setup step for this task.
+See [the analytics record](online-presence/2026-09-web-analytics.md).
+
 **September 9 — simplify the personal cover:** San said the two replacement
 images looked weird and were not good images (the TI selfie and eBay headquarters
 photo in the immediately preceding cover). Implementation decision: remove those
