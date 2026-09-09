@@ -4,6 +4,16 @@ Created: 2026-09-05. Last discussed: 2026-09-08. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**September 8 — Paper Robots illustration correction:** San asked to redo the
+robot-and-page website illustration. The assistant replaced the folded-paper slab,
+hidden body and confusing scale with a painted scene of the familiar blue robot
+lifting a red mug beside an open book. This uses the built-in image tool with the
+current profile picture/banner as style references. The public asset URL is
+preserved; source, exact prompt and responsive reviews are in the Paper Robots
+repo at `design/illustrations/robot-and-the-page/current/`, with v2 preserved in
+`archive/v2/`. The staging diagnosis is the assistant's interpretation of San's
+“doesn't look right” feedback; the replacement has not yet received his verdict.
+
 **Current priority, September 8 — both sites, history restored and latest film:**
 San explicitly requested ambitious, Awwwards-level design for both sites and the
 latest Paper Robots content. He liked the styling but rejected the loss of photos,
