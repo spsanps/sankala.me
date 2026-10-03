@@ -1,6 +1,6 @@
-// The site's main navigation. San is still choosing the name of the history page
-// (History, News or Timeline); change historyLabel here and the menu follows.
-export const historyLabel = 'History';
+// The site's main navigation. The history page is called Timeline (its URL stays /history);
+// change historyLabel here and the menu follows.
+export const historyLabel = 'Timeline';
 
 export const mainNav = [
   { to: '/work', label: 'Work' },

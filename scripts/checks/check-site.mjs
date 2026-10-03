@@ -92,7 +92,7 @@ try {
     for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     assert.equal(await nav.getByRole('link').count(), 4, `Four destinations in the menu at ${width}`);
-    for (const label of ['Work', 'History', 'About', 'CV']) {
+    for (const label of ['Work', 'Timeline', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
     await nav.getByRole('link', { name: 'Work', exact: true }).click();
@@ -109,7 +109,7 @@ try {
     await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
     assert.equal(await page.getByRole('link', { name: 'Explore the space habitat', exact: false }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
     await nav.getByRole('link', { name: 'About', exact: true }).click();
-    await page.getByRole('link', { name: 'Career & history', exact: true }).first().click();
+    await page.getByRole('link', { name: 'Timeline', exact: true }).first().click();
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-milestone]').count(), 10, 'History remains easy to reach from About');
     await page.close();

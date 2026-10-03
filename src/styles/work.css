@@ -14,21 +14,34 @@
 .personal-site .work-search input:focus-visible { outline: none; border-bottom-color: var(--ink); }
 .personal-site .work-count { padding-block: 18px 30px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 
-.personal-site .work-shelf { padding-top: 0; }
-.personal-site .work-piece { position: relative; scroll-margin-top: 32px; }
+/* Small posters in a strict grid, as on the first covers shelf: the covers carry the page,
+   the captions stay short. Paper details fold away under a plain toggle. */
+.personal-site .work-shelf { padding-top: 0; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 52px 36px; }
+.personal-site .work-piece { position: relative; scroll-margin-top: 32px; gap: 16px; }
+.personal-site .work-piece .shelf-cover { max-width: 210px; }
+.personal-site .work-piece .shelf-text { max-width: 230px; }
 .personal-site .work-anchor { position: absolute; top: -32px; }
+.personal-site .work-piece .shelf-meta { font-size: 12.5px; }
+.personal-site .work-piece .shelf-text h2 { font-size: 17px; line-height: 1.3; margin-top: 6px; }
 .personal-site .work-piece .shelf-text h2 a { text-decoration: none; }
 .personal-site .work-piece .shelf-text h2 a:hover { text-decoration: underline; }
-.personal-site .work-piece .inline-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
-.personal-site .work-piece .text-link { font-size: 14px; text-decoration: underline; text-decoration-color: var(--line); }
+.personal-site .work-piece .original-work-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.personal-site .work-piece .shelf-text > p:not(.shelf-meta) { font-size: 13.5px; line-height: 1.5; margin: 8px 0 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.personal-site .work-piece .inline-links { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.personal-site .work-piece .text-link { font-size: 13px; text-decoration: underline; text-decoration-color: var(--line); }
 .personal-site .work-piece .text-link:hover { text-decoration-color: currentColor; }
-.personal-site .work-paper { margin: 0 0 16px; padding-left: 14px; border-left: 1px solid var(--line); color: var(--muted); font-size: 13.5px; line-height: 1.5; }
-.personal-site .work-paper p + p { margin-top: 4px; }
+.personal-site .work-paper { margin: 0 0 10px; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.personal-site .work-paper summary { cursor: pointer; width: max-content; color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; list-style: none; }
+.personal-site .work-paper summary::-webkit-details-marker { display: none; }
+.personal-site .work-paper summary::after { content: " +"; color: var(--muted); }
+.personal-site .work-paper[open] summary::after { content: " −"; }
+.personal-site .work-paper summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.personal-site .work-paper p { margin-top: 6px; }
 .personal-site .work-paper .work-paper-title { color: var(--ink); }
 .personal-site .work-empty { padding: 20px 0 60px; }
 .personal-site .work-empty p { margin-block: 12px 18px; color: var(--muted); }
 
-/* Phones: a list, each cover small beside its text. */
+/* Phones: two small posters per row. */
 @media (max-width: 600px) {
   .personal-site .work-tools { padding-block: 6px 12px; }
   .personal-site .work-chips { gap: 0 14px; }
@@ -37,11 +50,9 @@
   .personal-site .work-search { width: 100%; }
   .personal-site .work-search input { width: 100%; }
   .personal-site .work-count { padding-block: 14px 20px; }
-  .personal-site .work-shelf { grid-template-columns: 1fr; gap: 0; }
-  .personal-site .work-piece { grid-template-columns: 30% minmax(0, 1fr); gap: 0 18px; padding-block: 22px; border-top: 1px solid var(--line); }
-  .personal-site .work-piece .shelf-cover { max-width: none; }
-  .personal-site .work-piece .shelf-text h2 { margin-top: 4px; }
-  .personal-site .work-piece .shelf-text > p:not(.shelf-meta) { margin-bottom: 12px; }
+  .personal-site .work-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 18px; }
+  .personal-site .work-piece .shelf-cover, .personal-site .work-piece .shelf-text { max-width: none; }
+  .personal-site .work-piece .shelf-text h2 { font-size: 16px; }
 }
 @media (max-width: 380px) {
   .personal-site .work-chips { gap: 0 11px; }

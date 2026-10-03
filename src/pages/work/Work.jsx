@@ -95,18 +95,19 @@ export default function Work({ preset = 'all' }) {
     {visible.length > 0 && <ol className="cover-shelf work-shelf">{visible.map((item, index) => <li className="shelf-piece work-piece" key={item.slug} id={item.slug} data-work data-slug={item.slug}>
       {item.paper && item.paper.id !== item.slug && <span id={item.paper.id} className="work-anchor" aria-hidden="true" />}
       {item.href
-        ? <SiteLink className="shelf-cover" href={item.href} tabIndex={-1} aria-hidden="true"><Cover slug={item.slug} title={item.title} priority={index < 3} sizes="(max-width: 600px) 30vw, (max-width: 900px) 40vw, 300px" /></SiteLink>
-        : <div className="shelf-cover"><Cover slug={item.slug} title={item.title} priority={index < 3} sizes="(max-width: 600px) 30vw, (max-width: 900px) 40vw, 300px" /></div>}
+        ? <SiteLink className="shelf-cover" href={item.href} tabIndex={-1} aria-hidden="true"><Cover slug={item.slug} title={item.title} priority={index < 5} sizes="(max-width: 600px) 45vw, 200px" /></SiteLink>
+        : <div className="shelf-cover"><Cover slug={item.slug} title={item.title} priority={index < 5} sizes="(max-width: 600px) 45vw, 200px" /></div>}
       <div className="shelf-text">
         <p className="shelf-meta">{item.kinds} · {item.date}{item.readTime && <> · {item.readTime}</>}</p>
         <h2>{item.href ? <SiteLink href={item.href}>{item.displayTitle}</SiteLink> : item.displayTitle}</h2>
         <span className="original-work-title">{item.title}</span>
         <p>{item.description}</p>
-        {item.paper && <div className="work-paper">
+        {item.paper && <details className="work-paper">
+          <summary>Paper details</summary>
           <p className="work-paper-title">{item.paper.title}</p>
           <p>{item.paper.authors}</p>
           <p>{item.paper.venue}{item.paper.note && <> · {item.paper.note}</>}</p>
-        </div>}
+        </details>}
         <div className="inline-links">{item.actions.map(([href, label]) => <SiteLink key={href} className="text-link" href={href}>{label} <span aria-hidden="true">{href.startsWith('/') && !href.endsWith('.pdf') ? '→' : '↗'}</span></SiteLink>)}</div>
       </div>
     </li>)}</ol>}
