@@ -23,19 +23,12 @@ function light() {
   return { pal: P, sun: [232, 236], caption: 'San Diego · a clear morning', label: 'a clear morning', night: 0, stars: 0 };
 }
 
-/* The Geisel Library, from the plaza: a small two-storey podium; big tapered concrete piers that
-   splay outward from it; and the upper mass, six floors that step outward to the widest at the
-   middle levels and narrow again to the roof, each floor a white concrete ledge over dark glass,
-   its corners cut into facets. A giant lantern, or hands holding up a stack of books.
-   FLOORS from the bottom up: [top y, bottom y, width]. */
-const LX = 520, GROUND = 862, POD = { top: 808, w: 224 };
-const FLOORS = [[680, 716, 290], [644, 680, 358], [608, 644, 412], [574, 608, 420], [541, 574, 378], [510, 541, 326]];
-const ROOF = [497, 510, 278];
-const LEDGE = 12;                                                     // the concrete slab edge at the foot of each floor
-/* piers, each side: [x at the podium, x at the top, y at the top, width at the top] (offsets from LX);
-   the outer pair passes just outside the lowest floor to carry the wider floors above it */
-const PIERS = [[22, 52, 716, 26], [58, 110, 716, 27], [96, 180, 680, 27]].flatMap(p => [[-1, ...p], [1, ...p]]);
-const floorAt = y => { for (const f of [...FLOORS, ROOF]) if (y >= f[0] && y < f[1] + .5) return f; return null; };
+/* the Geisel Library: tiers from the bottom up [top y, width]; each has a concrete slab under its glass */
+const LX = 522, GROUND = 902;
+const TIERS = [[862, 160], [822, 172], [778, 254], [734, 318], [690, 374], [646, 414], [604, 394], [564, 350]];
+const ROOF = [550, 362];
+const tierAt = y => { for (let i = 0; i < TIERS.length; i++) { const top = TIERS[i][0], bot = i ? TIERS[i - 1][0] : GROUND; if (y >= top && y < bot) return { i, top, bot, w: TIERS[i][1] }; } return null; };
+const PIERS = [[46, 88], [60, 140], [76, 188]].flatMap(([b, t]) => [[-1, b, t], [1, b, t]]);
 const HORIZON = 652, LAND = x => 726 + 8 * Math.sin(x / 70);
 
 /* eucalyptus: a pale forked trunk and hanging crowns */
@@ -62,46 +55,26 @@ function regions(L) {
   R('sun', 'view', disc(...L.sun, 50), (x, y) => mix(P.sunIn, P.sunOut, smooth(6, 48, Math.hypot(x - L.sun[0], y - L.sun[1]))), { live: 'sun', fine: .9 });
   R('sea', 'view', below(() => HORIZON), (x, y) => mix(P.seaFar, P.sea, smooth(HORIZON, HORIZON + 60, y)), { src: 'courses', live: 'sea' });
   R('land', 'view', below(LAND), (x, y) => mix(P.scrub, P.scrubDark, smooth(0, 140, y - LAND(x)) * .6 + .25 * vnoise(x / 40, y / 30, 5)), { src: ['sea'] });
-  R('lawn', 'view', below(x => GROUND - 1 + 2 * Math.sin(x / 50)), (x, y) => {
-    if (Math.abs(x - LX - (y - GROUND) * .7) < 22 + (y - GROUND) * .25 && y > GROUND) return P.path;     // a path leading up to the library
+  R('lawn', 'view', below(x => GROUND - 2 + 3 * Math.sin(x / 50)), (x, y) => {
+    if (Math.abs(x - LX - (y - GROUND) * .9) < 26 && y > GROUND) return P.path;     // a path leading up to the library
     return mix(P.lawn, P.lawnDark, smooth(GROUND, SILL, y) * .7);
   }, { src: 'courses' });
   /* the library */
-  const facet = (x, f) => { const u = (x - LX) / (f[2] / 2); return u < -.8 ? -1 : u > .8 ? 1 : 0; };   // -1 left corner facet, 1 right, 0 front
-  R('libCore', 'lib', c => c.rect(LX - 112, FLOORS[0][1] - 2, 224, POD.top - FLOORS[0][1] + 4), (x, y) => {
-    // the recessed third floor in the shade of the overhang, its glass faintly lit low down
-    return mix(P.glassDeep, P.glass, smooth(FLOORS[0][1], POD.top, y) * .5);
-  }, { fine: .66, src: 'courses' });
-  R('podium', 'lib', c => c.rect(LX - POD.w / 2, POD.top, POD.w, GROUND - POD.top + 1), (x, y) => {
-    if (y < POD.top + 9) return x > LX + POD.w * .3 ? P.concreteShade : P.concrete;            // its roof slab
-    if (y > GROUND - 8) return P.concreteShade;
-    const mull = Math.abs(((x - LX) / 22) % 1) < .18;
-    return mix(mull ? P.concreteShade : P.glassLit, P.glass, smooth(POD.top + 9, GROUND, y) * .7);
-  }, { fine: .64, src: 'courses' });
-  R('piers', 'lib', union(...PIERS.map(([sd, b, t, yt, w]) => {
-    const x0 = LX + sd * b, x1 = LX + sd * t, a = Math.atan2(yt - POD.top, x1 - x0), nx = -Math.sin(a), ny = Math.cos(a);
-    return poly([[x0 + nx * 8, POD.top + 4 + ny * 8], [x1 + nx * w / 2, yt + ny * w / 2], [x1 - nx * w / 2, yt - ny * w / 2], [x0 - nx * 8, POD.top + 4 - ny * 8]]);
-  })), (x, y) => {
-    const lit = x < LX ? 1 : 0;                                                                // the morning sun is on the left faces
-    return mix(P.concrete, P.concreteShade, lit ? .08 + .2 * smooth(POD.top, 700, y) : .55);
-  }, { fine: .64 });
   R('library', 'lib', c => {
-    for (const f of [...FLOORS, ROOF]) {
-      // each floor is cut at its corners: a front face and two angled facets
-      const hw = f[2] / 2, ch = Math.min(26, hw * .14);
-      c.moveTo(LX - hw + ch, f[0]); c.lineTo(LX + hw - ch, f[0]); c.lineTo(LX + hw, f[0] + 3); c.lineTo(LX + hw, f[1] + .8); c.lineTo(LX - hw, f[1] + .8); c.lineTo(LX - hw, f[0] + 3); c.closePath();
-    }
+    TIERS.forEach(([top, w], i) => { const bot = i ? TIERS[i - 1][0] : GROUND; c.rect(LX - w / 2, top, w, bot - top + 1); });
+    c.rect(LX - ROOF[1] / 2, ROOF[0], ROOF[1], TIERS[TIERS.length - 1][0] - ROOF[0] + 1);
   }, (x, y) => {
-    const f = floorAt(y); if (!f) return P.concrete;
-    const side = facet(x, f), ledge = y > f[1] - LEDGE || f === ROOF;
-    if (ledge) return side > 0 ? P.concreteShade : side < 0 ? mix(P.concrete, [255, 255, 255], .3) : mix(P.concrete, P.concreteShade, .18);
-    const g = (y - f[0]) / (f[1] - LEDGE - f[0]);
-    let c = mix(P.glassLit, P.glass, smooth(.05, .85, g));                                    // the sky reflected in the top of each band
-    if (side > 0) c = mix(c, P.glassDeep, .55);
-    else if (side < 0) c = mix(c, P.glassLit, .35);
-    else if (Math.abs(((x - LX) / 30) % 1) < .1) c = mix(c, P.glassDeep, .35);               // mullions
+    if (y < TIERS[TIERS.length - 1][0]) return P.concrete;                   // the roof slab
+    const T = tierAt(y); if (!T) return P.concrete;
+    const slab = y > T.bot - 11;
+    const shade = x > LX + T.w * .2;
+    if (slab) return shade ? P.concreteShade : P.concrete;
+    const g = (y - T.top) / (T.bot - 11 - T.top);
+    let c = mix(P.glassLit, P.glass, smooth(0, .7, g));
+    if (shade) c = mix(c, P.glassDeep, .45);
     return c;
-  }, { fine: .64, src: 'courses' });
+  }, { fine: .72, src: 'courses' });
+  R('piers', 'lib', union(...PIERS.map(([side, b, t]) => bar(LX + side * b, GROUND - 80, LX + side * t, 648, 26))), x => x > LX ? P.concreteShade : P.concrete, { fine: .68 });
   /* eucalyptus */
   for (const [n, T] of TREES.entries()) {
     const [a, m, b] = T.trunk;
@@ -151,7 +124,7 @@ function regions(L) {
 
 const outlines = [
   { inside: ['still'], against: ['view', 'lib', 'tree'] },
-  { inside: ['lib'], against: ['sky', 'sea', 'land', 'lawn', 'tree'] },
+  { inside: ['lib'], against: ['sky', 'sea', 'land', 'lawn'] },
 ];
 
 function liveKind(t, r) { return r.live === 'sky' ? 'sky' : r.live === 'sun' ? 'sun' : r.live === 'sea' ? 'sea' : null; }

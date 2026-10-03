@@ -6,10 +6,8 @@
      Marble #efe7d2 → #ddd0b3, sill #ebe2cb / front #cfc2a3, outline #2b2925, grout #ddd6c6.
      One row of gold glass tesserae (#d6aa48 / #e9c66c / #b8892f) runs round the arch, a little
      way in from the window: the one rich line in the frame.
-     The outer edge is not a hard line but a broad band (v3, wider and more gradual): the outer
-     third of the marble thins out, loose stones lie on a pale setting bed washed on in three soft
-     layers, and they scatter ever more sparsely onto the plaster, up to ~120 units out (less on
-     phones), like a panel still being laid. The gold row is never eaten.
+     The outer edge is not a hard line: its outermost stones thin out, a few lie loose on a pale
+     setting bed, and a handful are scattered on the plaster, like a panel still being laid.
      Dark outline rows only along the window's inner edge and the sill's top. */
 import { mix, clamp, smooth, fbm, rgb } from './core.js';
 import { CX, CY, R_OUT, SILL, PANEL, outerPath, innerPath, sillPath, outerDepth, innerDepth, frameParam } from './geom.js';
@@ -35,19 +33,11 @@ export const FRAME_OUTLINES = [
   { inside: ['sill'], against: ['window', 'frame'] },
 ];
 
-/* The dissolving outer edge, a broad band rather than a rim. Along the frame (f, 0–1) it varies:
-   how deep the thinning eats into the marble (never as far as the gold row), and how far loose
-   stones reach onto the wall. Both taper toward the sill and ease off a little at the crown. */
+/* the ragged outer edge: how deep the dissolve eats into the frame, and how far loose stones
+   reach onto the wall, both varying along the frame */
 const ragged = f => smooth(.25, .75, fbm(f * 15, 3.1, 41, 3));
-const reach = f => smooth(.2, .8, fbm(f * 9, 7.7, 57, 3));
-const fade = f => .3 + .7 * smooth(0, .13, f) * smooth(1, .87, f);    // narrower where the frame meets the sill
-const crown = f => 1 - .22 * Math.exp(-(((f - .5) / .1) ** 2));
-/** how far (units) the thinning eats into the frame, at f; `su` is the stone size in units */
-export const eatDepth = (f, su) => Math.max(0, Math.min(24, 70 - 3.9 * su)) * (.4 + .6 * ragged(f)) * fade(f);
-/** how far (units) loose stones reach onto the wall, at f; phones (setReach(.62)) keep it closer */
-let REACH = 1;
-export const setReach = s => { REACH = s; };
-export const reachOut = f => (58 + 62 * reach(f)) * fade(f) * crown(f) * REACH;
+const reach = f => .35 + .65 * smooth(.2, .8, fbm(f * 9, 7.7, 57, 3));
+const fade = f => smooth(0, .07, f) * smooth(1, .93, f);           // calm where the frame meets the sill
 
 /** A point at `depth` units in from the frame's outer edge, at position f (0–1) along the frame. */
 export function edgePoint(f, depth) {
@@ -57,7 +47,7 @@ export function edgePoint(f, depth) {
   return [1000 - depth, CY + (s - side - arcLen)];
 }
 
-/** Colour the frame stones, thin out the outer ones over the dissolving band, and mark the gold row.
+/** Colour the frame stones, drop the outermost ones where the edge dissolves, and mark the gold row.
     `su` is the stone size in units. Returns the stones that stay. */
 export function finishFrame(stones, regions, q, su, rnd) {
   const P = FRAME_PAL, out = [];
@@ -67,43 +57,41 @@ export function finishFrame(stones, regions, q, su, rnd) {
     if (t.k === 0) { t.col = P.outline; out.push(t); continue; }
     const r = regions[t.reg];
     if (r.name === 'frame') {
-      const od = outerDepth(ux, uy), f = frameParam(ux, uy), E = eatDepth(f, su);
-      if (od < E && rnd() > .16 + .8 * Math.pow(Math.max(0, od) / E, 1.1)) continue;   // thinning toward the edge
+      const od = outerDepth(ux, uy), f = frameParam(ux, uy), eat = su * (.15 + 1.75 * ragged(f)) * fade(f);
+      if (od < eat && rnd() > .18) continue;                       // the dissolving edge
       const id = innerDepth(ux, uy);
       if (id > su * 2.05 && id < su * 3.05) { t.gold = true; t.col = P.gold[t.h < .45 ? 0 : t.h < .8 ? 1 : 2]; out.push(t); continue; }
       t.col = r.fill(ux, uy);
-      const age = 1 - clamp(od / (E + su * 1.5));                                       // the edge stones are a little older and paler
-      if (age > 0) t.col = mix(t.col, t.h2 > .5 ? P.marbleWarm : P.bed, age * (.25 + .4 * t.h2));
+      if (od < su * 2.2 && t.h2 > .7) t.col = mix(t.col, P.marbleWarm, .6);   // the edge stones are a little older
     } else t.col = r.fill(ux, uy);
     out.push(t);
   }
   return out;
 }
 
-/** Loose stones in the dissolving band and on the wall beyond it, in sheet pixels like the laid
-    stones: denser near the frame, sparser, smaller, paler and more scattered further out. */
+/** Loose stones on the wall beyond the frame's edge, in sheet pixels like the laid stones. */
 export function looseStones(q, su, rnd, kept) {
   const P = FRAME_PAL, out = [], arcLen = Math.PI * R_OUT, total = arcLen + 2 * (SILL - CY);
   const near = (x, y, r) => kept.some(o => (o.x - x) ** 2 + (o.y - y) ** 2 < r * r);
   const step = su * 1.08;
   for (let s = step * .5; s < total; s += step) {
-    const f = s / total, E = eatDepth(f, su), L = reachOut(f);
-    for (let d = E; d > -L; d -= su * (1 + rnd() * .3)) {
-      const p = d >= 0 ? 1 : 1 + d / L;                                   // 1 at the frame's edge, 0 at the far reach
-      const keep = d >= 0 ? .2 + .3 * (1 - d / Math.max(1, E)) : Math.pow(p, 1.8) * .8;
+    const f = s / total, fd = fade(f);
+    if (fd < .05) continue;
+    const L = su * (1.2 + 5.2 * reach(f)) * fd, E = su * (.15 + 1.75 * ragged(f)) * fd;
+    for (let d = E; d > -L; d -= su * (1 + rnd() * .25)) {
+      const p = clamp((d + L) / (L + E)), keep = Math.pow(p, 1.7) * .82;
       if (rnd() > keep) continue;
-      const jit = d < 0 ? su * (.3 + .6 * (1 - p)) : su * .12;
+      const jit = d < 0 ? su * .35 : su * .12;
       const [ux, uy] = edgePoint(clamp(f + (rnd() - .5) * step * .5 / total), d);
       const x = (ux + (rnd() - .5) * jit - PANEL.x0) * q, y = (uy + (rnd() - .5) * jit - PANEL.y0) * q;
       if (uy > SILL - su * .5) continue;
-      const sz = su * q * (.6 + rnd() * .3) * (d < 0 ? .78 + .22 * p : 1);
+      const sz = su * q * (.62 + rnd() * .3);
       if (near(x, y, sz * .78)) continue;
-      const a = Math.atan2(uy - CY, ux - CX) + Math.PI / 2 + (rnd() - .5) * (d < 0 ? .5 + 1.6 * (1 - p) : .3);
+      const a = Math.atan2(uy - CY, ux - CX) + Math.PI / 2 + (rnd() - .5) * (d < 0 ? 1.4 : .3);
       const t = { x, y, a, l: sz, w: sz * (.78 + rnd() * .2), k: 4, s: su * q, h: rnd(), h2: rnd(), loose: true };
       t.j = new Float32Array(8); for (let k = 0; k < 8; k++) t.j[k] = (rnd() - .5) * t.s * .1;
-      const gold = rnd() < .035;
-      t.col = gold ? P.gold[(rnd() * 3) | 0] : mix(mix(P.marble, rnd() < .5 ? P.marbleShade : P.marbleWarm, rnd() * .7), P.bed, (1 - p) * .35);
-      t.gold = gold;
+      t.col = rnd() < .04 ? P.gold[(rnd() * 3) | 0] : mix(P.marble, rnd() < .5 ? P.marbleShade : P.marbleWarm, rnd() * .7);
+      t.gold = t.col === P.gold[0] || t.col === P.gold[1] || t.col === P.gold[2];
       t.ux = ux; t.uy = uy;
       out.push(t); kept.push(t);
     }
@@ -111,26 +99,25 @@ export function looseStones(q, su, rnd, kept) {
   return out;
 }
 
-/** The setting bed under the dissolving band: a pale wash of mortar reaching `scale` of the way
-    out to the loose stones' reach, with an uneven border. Drawn several times, wider and softer. */
-export function bedPath(c, toPx, su, scale = 1) {
-  const N = 240;
+/** The setting bed under the dissolving edge: a pale wash of mortar with a soft, uneven border. */
+export function bedPath(c, toPx) {
+  const N = 220;
   c.beginPath();
   for (let i = 0; i <= N; i++) {
-    const f = i / N, L = reachOut(f) * scale;
-    const [ux, uy] = edgePoint(f, -L * (.72 + .36 * fbm(f * 31, 2.2, 77, 2)));
+    const f = i / N, fd = fade(f), L = (36 + 70 * reach(f)) * fd;
+    const [ux, uy] = edgePoint(f, -L * (.55 + .25 * fbm(f * 31, 2.2, 77, 2)));
     const [px, py] = toPx(ux, uy);
     if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
   }
-  for (let i = N; i >= 0; i--) { const f = i / N; const [ux, uy] = edgePoint(f, eatDepth(f, su) + su * 1.5); const [px, py] = toPx(ux, uy); c.lineTo(px, py); }
+  for (let i = N; i >= 0; i--) { const [ux, uy] = edgePoint(i / N, 30); const [px, py] = toPx(ux, uy); c.lineTo(px, py); }
   c.closePath();
 }
-/** The grout under the laid frame: stops just short of where the thinning begins, so no hard outline shows. */
+/** The grout under the laid frame: stops just short of the ragged edge, so no hard outline shows. */
 export function groutPath(c, toPx, su) {
   const N = 260;
   c.beginPath();
   for (let i = 0; i <= N; i++) {
-    const f = i / N, E = eatDepth(f, su) * .55 + su * .55;
+    const f = i / N, E = su * (.15 + 1.75 * ragged(f)) * fade(f) + su * .55;
     const [px, py] = toPx(...edgePoint(f, E));
     if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
   }

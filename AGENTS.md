@@ -35,7 +35,13 @@ San's decisions, October 3 evening: the Paper Robots homepage that opens on the 
 to go live ("looks good, you can put it up"). For Dyson Swarm he chose the travel bureau as the collection
 homepage, replacing The Wheel and The Tether with Terraforming Mars and an orbital ring ("ride to an orbital
 ring from the ground"), and asked for those two experiences to be built "to very high quality and taste"
-(routes /mars/ and /orbital-ring/). The real-time swarm plate (sample 2) is rejected. The habitat window
+(routes /mars/ and /orbital-ring/). Revised the same evening: San's own terraforming method (sunshade →
+CO2 snows out → pave the dry ice with plastic and other materials → soil on top) is Birch's 1991 Venus plan,
+so the destinations are now Another Sky, The Swarm, Terraforming Venus (/venus/), The Orbital Ring
+(/orbital-ring/) and compute clusters on Triton (/triton/, San's "maybe"); Mars and Over Venus are dropped.
+He judged the airbrush posters below the quality of the Dyson Swarm and Another Sky covers, so the bureau's
+posters are now cover-quality prints, each in its own print style, made in the sankala.me cover system.
+The real-time swarm plate (sample 2) is rejected. The habitat window
 (sample 3) is "good"; its placement is open (proposed: the front door of Another Sky). The poem is now linked
 from Another Sky. The arch mosaic needs a v3 (window centred and bigger, a wider fade taking about half the
 page, a legible San Jose, a truer Geisel Library, lighter night scenes) before he picks the landing style.

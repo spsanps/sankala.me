@@ -2,22 +2,20 @@
    headland, coconut palms over the beach, and the stars (the astronomy club years).
    On the sill: a star chart unrolled and standing up, a small pocket oscilloscope showing a square
    wave (the NITK electronics lab), and a conch from the beach.
-   Palette (v3, lifted): sky #36568e → #4b6ba6 → #7a98c8; moon #f8f2dc; sea #33568e → #4569a2, moon
-   path #c4d3ea; headland #45598a / #7189b6 with moonlit scrub #5d7590; tower #f4f0e6 / #bcc2d2 with red bands #cc4e3c, lantern
-   #fadb84; palms #203258 / #46628f; sand #b4b1a3; chart #1f2f63 with gold #e2b552; scope #4f5e6e,
+   Palette: sky #0e1a3c → #1c3466 → #2c4677; moon #f3ecd2; sea #13284e → #1d3d6c, moon path #7d93b8;
+   headland #161e2e / #2f3b55; tower #e6e2d6 / #a9afc0 with red bands #b8402e, lantern #f7d27a;
+   palms #0c1424 / #26365a; sand #6e7487; chart #1f2f63 with gold #e2b552; scope #4f5e6e,
    screen #0d2a22, trace #7dfc9a; conch #f1dcc4 / #e4a98c, lip #e8a2a0. */
 import { mix, clamp, smooth, rgb, vnoise } from '../core.js';
 import { IN_X0, IN_X1, SILL, poly, disc, ell, bar, below, union, blade, regionList, segDist } from '../geom.js';
 
 const C = s => rgb(s);
-/* v3: lifted. Night is told by the palette, the moon, the stars and the lights, not by darkness:
-   moonlit blues stay light, and each layer (sky, sea, headland, palms, sand) is a clear step apart. */
 const P = {
-  skyTop: C('#36568e'), skyMid: C('#4b6ba6'), skyHor: C('#7a98c8'), moon: C('#f8f2dc'), moonDim: C('#e4dcc0'), halo: C('#86a3d2'),
-  sea: C('#33568e'), seaFar: C('#4569a2'), path: C('#c4d3ea'), foam: C('#dde4f0'), horizonGlow: C('#8aa6d2'),
-  head: C('#45598a'), headLit: C('#7189b6'), scrub: C('#5d7590'), sand: C('#b4b1a3'), sandWet: C('#8b92a6'),
-  tower: C('#f4f0e6'), towerShade: C('#bcc2d2'), red: C('#cc4e3c'), redShade: C('#9e3a2e'), iron: C('#2c3240'), lamp: C('#fadb84'), cap: C('#8e3226'),
-  palm: C('#203258'), palmLit: C('#46628f'), outline: C('#2b2925'),
+  skyTop: C('#0e1a3c'), skyMid: C('#1c3466'), skyHor: C('#2c4677'), moon: C('#f3ecd2'), moonDim: C('#dcd3b6'), halo: C('#3b5486'),
+  sea: C('#0b1834'), seaFar: C('#13264a'), path: C('#8aa0c4'), foam: C('#b9c6da'), horizonGlow: C('#3e5a8c'),
+  head: C('#141b2a'), headLit: C('#34405c'), sand: C('#8a8778'), sandWet: C('#5f6273'),
+  tower: C('#e6e2d6'), towerShade: C('#a9afc0'), red: C('#b8402e'), redShade: C('#8a2f24'), iron: C('#22262e'), lamp: C('#f7d27a'), cap: C('#7a2a20'),
+  palm: C('#0c1424'), palmLit: C('#26365a'), outline: C('#2b2925'),
 };
 function light() { return { pal: P, moon: { at: [474, 246], r: 56 }, caption: 'Surathkal · a night by the sea', label: 'a night by the sea', night: 1, stars: 1 }; }
 
@@ -54,7 +52,7 @@ function regions(L) {
     return mix(c, P.path, .55 * (1 - smooth(w * .4, w, Math.abs(x - MOON_X - (y - HORIZON) * .05))));
   }, { src: 'courses', live: 'sea' });
   R('head', 'view', c => { c.moveTo(560, SILL + 1); for (let x = 560; x <= IN_X1 + 4; x += 5) c.lineTo(x, headY(x)); c.lineTo(IN_X1 + 4, SILL + 1); c.closePath(); },
-    (x, y) => { const c = mix(P.headLit, P.head, smooth(0, 110, y - headY(x))); return vnoise(x / 30, y / 18, 19) > .6 ? mix(c, P.scrub, .55) : c; }, { src: ['sky', 'sea'] });
+    (x, y) => mix(P.headLit, P.head, smooth(0, 26, y - headY(x))), { src: ['sky', 'sea'] });
   R('sand', 'view', below(SHORE, IN_X0 - 4, 640), (x, y) => { const d = y - SHORE(x); return d < 9 ? P.foam : mix(P.sandWet, P.sand, smooth(9, 50, d)); }, { src: ['sea'], live: 'foam' });
   /* the lighthouse */
   R('tower', 'lh', poly([[LH.x - 36, LH.base + 6], [LH.x - 24, LH.top], [LH.x + 24, LH.top], [LH.x + 36, LH.base + 6]]), (x, y) => {

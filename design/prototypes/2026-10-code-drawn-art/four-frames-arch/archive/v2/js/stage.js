@@ -7,7 +7,7 @@
 import { mix, clamp, smooth, mulberry32, hash2 } from './core.js';
 import { PANEL, FIT, IN_X0, IN_X1, SILL, SILL_B, innerPath, sillPath } from './geom.js';
 import { laySteps, corners } from './lay.js';
-import { FRAME_PAL, frameRegions, FRAME_OUTLINES, finishFrame, looseStones, bedPath, groutPath, setReach } from './frame.js';
+import { FRAME_PAL, frameRegions, FRAME_OUTLINES, finishFrame, looseStones, bedPath, groutPath } from './frame.js';
 import sanjose from './places/sanjose.js';
 import sandiego from './places/sandiego.js';
 import bengaluru from './places/bengaluru.js';
@@ -19,21 +19,14 @@ const SHEET_STONE = 6;
 const WIN = { x0: IN_X0 - 4, y0: 64, x1: IN_X1 + 4, y1: SILL + 2 };   // the window's box, in units
 const q8 = new Float32Array(8);
 
-/* Wide screens: the window and its fade take the right half of the page (a little more when the
-   words need it), and the window sits centred in that half, as large as the height allows.
-   FADE_SIDE and FADE_TOP (units) are how much of the fade must stay on screen beside and above it. */
-const FADE_SIDE = 106, FADE_TOP = 58, CAP = 30;
 function placePanel(mode, stageEl, laneEl, header) {
-  const r = stageEl.getBoundingClientRect(), w = r.width, h = r.height;
+  const r = stageEl.getBoundingClientRect(), w = r.width, h = r.height, CAP = 30;
+  let area;
   if (mode === 'wide') {
     const laneRight = laneEl.getBoundingClientRect().right - r.left;
-    const top = Math.max(16, (header ? header.getBoundingClientRect().bottom - r.top : 16) - 8), bottom = h - CAP;
-    const x0 = Math.max(laneRight + 48, w * .42), aw = w - x0;
-    const k = Math.min(aw / (1000 + 2 * FADE_SIDE), (bottom - top) / (SILL_B + FADE_TOP));
-    const ox = x0 + aw / 2 - 500 * k, oy = top + ((bottom - top) - (SILL_B + FADE_TOP) * k) / 2 + FADE_TOP * k;
-    return { k, ox, oy, stageW: w, stageH: h };
-  }
-  const area = { x: 14, y: 8, w: w - 28, h: h - 8 - CAP - 4 };
+    const top = Math.max(16, header ? header.getBoundingClientRect().bottom - r.top + 4 : 16);
+    area = { x: laneRight + 40, y: top, w: w - laneRight - 40 - 30, h: h - top - 14 - CAP };
+  } else area = { x: 14, y: 8, w: w - 28, h: h - 8 - CAP - 4 };
   const k = Math.min(area.w / FIT.w, area.h / FIT.h);
   const ox = area.x + (area.w - FIT.w * k) / 2 - FIT.x0 * k, oy = area.y + (area.h - FIT.h * k) / 2 - FIT.y0 * k;
   return { k, ox, oy, stageW: w, stageH: h };
@@ -148,7 +141,6 @@ export async function createStage({ canvas, stageEl, laneEl, sections, header, c
     const id = ++building, alive = () => !disposed && id === building;
     const mode = wideMq.matches ? 'wide' : 'tall', dpr = Math.min(2, devicePixelRatio || 1);
     const Pp = placePanel(mode, stageEl, laneEl, header);
-    setReach(mode === 'wide' ? 1 : .62);
     if (Pp.k * 1000 < 60) return;
     st.ready = false; st.eras = [];
     canvas.width = Math.round(Pp.stageW * dpr); canvas.height = Math.round(Pp.stageH * dpr);
@@ -168,12 +160,10 @@ export async function createStage({ canvas, stageEl, laneEl, sections, header, c
     const kept = finishFrame(fres.stones, fr, q, su, rnd), loose = looseStones(q, su, rnd, kept.slice());
     const fc = document.createElement('canvas'); fc.width = canvas.width; fc.height = canvas.height;
     const c = fc.getContext('2d');
-    // the setting bed: three washes, each wider and softer, so the panel dissolves into the wall
-    for (const [sc, blur, a] of [[1.08, 18, .26], [.66, 8, .4], [.3, 3, .34]]) {
-      c.save(); c.filter = `blur(${Math.max(1, blur * dpr * G.k)}px)`; bedPath(c, toPx, su, sc); c.fillStyle = `rgba(${FRAME_PAL.bed.join(',')},${a})`; c.fill(); c.restore();
-    }
-    c.save(); bedPath(c, toPx, su, .7); c.clip(); c.strokeStyle = 'rgba(150,138,116,.07)'; c.lineWidth = Math.max(1, 1.1 * dpr);
-    for (let i = 0; i < 12; i++) { const r0 = 506 + rnd() * 62, a0 = Math.PI * 1.06 + rnd() * Math.PI * .88, a1 = a0 + .08 + rnd() * .14; c.beginPath(); for (let a = a0; a < a1; a += .01) { const [px, py] = toPx(500 + r0 * Math.cos(a), 500 + r0 * Math.sin(a)); a === a0 ? c.moveTo(px, py) : c.lineTo(px, py); } c.stroke(); }
+    // the setting bed, soft-edged, and a few trowel marks in it
+    c.save(); c.filter = `blur(${Math.max(1, 3 * dpr * G.k)}px)`; bedPath(c, toPx); c.fillStyle = `rgba(${FRAME_PAL.bed.join(',')},.6)`; c.fill(); c.restore();
+    c.save(); bedPath(c, toPx); c.clip(); c.strokeStyle = 'rgba(150,138,116,.08)'; c.lineWidth = Math.max(1, 1.1 * dpr);
+    for (let i = 0; i < 8; i++) { const r0 = 512 + rnd() * 40, a0 = Math.PI * 1.08 + rnd() * Math.PI * .84, a1 = a0 + .08 + rnd() * .14; c.beginPath(); for (let a = a0; a < a1; a += .01) { const [px, py] = toPx(500 + r0 * Math.cos(a), 500 + r0 * Math.sin(a)); a === a0 ? c.moveTo(px, py) : c.lineTo(px, py); } c.stroke(); }
     c.restore();
     // a soft shadow under the sill
     c.save(); const [sx0, sy0] = toPx(-30, SILL_B), [sx1, sy1] = toPx(1030, SILL_B + 18); const g = c.createLinearGradient(0, sy0, 0, sy1); g.addColorStop(0, 'rgba(70,52,30,.2)'); g.addColorStop(1, 'rgba(70,52,30,0)'); c.fillStyle = g; c.fillRect(sx0, sy0, sx1 - sx0, sy1 - sy0); c.restore();

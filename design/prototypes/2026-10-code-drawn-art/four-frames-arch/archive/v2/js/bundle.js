@@ -354,14 +354,14 @@
       if (used[i0]) continue;
       used[i0] = 1;
       const chain = [segs[i0][0], segs[i0][1]];
-      for (const dir2 of [1, 0]) {
+      for (const dir of [1, 0]) {
         for (; ; ) {
-          const end = dir2 ? chain[chain.length - 1] : chain[0];
+          const end = dir ? chain[chain.length - 1] : chain[0];
           const nb = (at.get(end) || []).find((j) => !used[j]);
           if (nb === void 0) break;
           used[nb] = 1;
           const s = segs[nb], nxt = s[0] === end ? s[1] : s[0];
-          if (dir2) chain.push(nxt);
+          if (dir) chain.push(nxt);
           else chain.unshift(nxt);
         }
       }
@@ -440,7 +440,7 @@
 
   // js/lay.js
   function* laySteps(regions5, outlines5, { W, H, q, s, seed = 7, grout = 0.17 }) {
-    const N = W * H, nR = regions5.length, rnd2 = mulberry32(seed);
+    const N = W * H, nR = regions5.length, rnd = mulberry32(seed);
     const lab = new Int16Array(N).fill(-1);
     const cv = document.createElement("canvas");
     cv.width = W;
@@ -514,7 +514,7 @@
     const free = (x, y, r) => !B.near(x, y, r);
     const add = (x, y, a, l, w, k, reg, ls, row = 0) => {
       const id = stones.length;
-      stones.push({ x, y, a, l, w, k, reg, s: ls, row, h: rnd2(), h2: rnd2() });
+      stones.push({ x, y, a, l, w, k, reg, s: ls, row, h: rnd(), h2: rnd() });
       B.add(x, y, id);
       return id;
     };
@@ -601,7 +601,7 @@
     const kept = yield* fit(stones, lab, zone, W, H, s, grout);
     for (const t of kept) {
       t.j = new Float32Array(8);
-      for (let k2 = 0; k2 < 8; k2++) t.j[k2] = (rnd2() - 0.5) * t.s * (t.k === 0 ? 0.05 : 0.075);
+      for (let k2 = 0; k2 < 8; k2++) t.j[k2] = (rnd() - 0.5) * t.s * (t.k === 0 ? 0.05 : 0.075);
     }
     return { stones: kept, lab, W, H };
   }
@@ -761,7 +761,7 @@
     }
     return [1e3 - depth, CY + (s - side - arcLen)];
   }
-  function finishFrame(stones, regions5, q, su, rnd2) {
+  function finishFrame(stones, regions5, q, su, rnd) {
     const P4 = FRAME_PAL, out = [];
     for (const t of stones) {
       const ux = t.x / q + PANEL.x0, uy = t.y / q + PANEL.y0;
@@ -774,8 +774,8 @@
       }
       const r = regions5[t.reg];
       if (r.name === "frame") {
-        const od = outerDepth(ux, uy), f = frameParam(ux, uy), E2 = eatDepth(f, su);
-        if (od < E2 && rnd2() > 0.16 + 0.8 * Math.pow(Math.max(0, od) / E2, 1.1)) continue;
+        const od = outerDepth(ux, uy), f = frameParam(ux, uy), eat = su * (0.15 + 1.75 * ragged(f)) * fade(f);
+        if (od < eat && rnd() > 0.18) continue;
         const id = innerDepth(ux, uy);
         if (id > su * 2.05 && id < su * 3.05) {
           t.gold = true;
@@ -784,36 +784,35 @@
           continue;
         }
         t.col = r.fill(ux, uy);
-        const age = 1 - clamp(od / (E2 + su * 1.5));
-        if (age > 0) t.col = mix(t.col, t.h2 > 0.5 ? P4.marbleWarm : P4.bed, age * (0.25 + 0.4 * t.h2));
+        if (od < su * 2.2 && t.h2 > 0.7) t.col = mix(t.col, P4.marbleWarm, 0.6);
       } else t.col = r.fill(ux, uy);
       out.push(t);
     }
     return out;
   }
-  function looseStones(q, su, rnd2, kept) {
+  function looseStones(q, su, rnd, kept) {
     const P4 = FRAME_PAL, out = [], arcLen = Math.PI * R_OUT, total = arcLen + 2 * (SILL - CY);
     const near = (x, y, r) => kept.some((o) => (o.x - x) ** 2 + (o.y - y) ** 2 < r * r);
     const step = su * 1.08;
     for (let s = step * 0.5; s < total; s += step) {
-      const f = s / total, E2 = eatDepth(f, su), L = reachOut(f);
-      for (let d = E2; d > -L; d -= su * (1 + rnd2() * 0.3)) {
-        const p = d >= 0 ? 1 : 1 + d / L;
-        const keep = d >= 0 ? 0.2 + 0.3 * (1 - d / Math.max(1, E2)) : Math.pow(p, 1.8) * 0.8;
-        if (rnd2() > keep) continue;
-        const jit = d < 0 ? su * (0.3 + 0.6 * (1 - p)) : su * 0.12;
-        const [ux, uy] = edgePoint(clamp(f + (rnd2() - 0.5) * step * 0.5 / total), d);
-        const x = (ux + (rnd2() - 0.5) * jit - PANEL.x0) * q, y = (uy + (rnd2() - 0.5) * jit - PANEL.y0) * q;
+      const f = s / total, fd = fade(f);
+      if (fd < 0.05) continue;
+      const L = su * (1.2 + 5.2 * reach(f)) * fd, E2 = su * (0.15 + 1.75 * ragged(f)) * fd;
+      for (let d = E2; d > -L; d -= su * (1 + rnd() * 0.25)) {
+        const p = clamp((d + L) / (L + E2)), keep = Math.pow(p, 1.7) * 0.82;
+        if (rnd() > keep) continue;
+        const jit = d < 0 ? su * 0.35 : su * 0.12;
+        const [ux, uy] = edgePoint(clamp(f + (rnd() - 0.5) * step * 0.5 / total), d);
+        const x = (ux + (rnd() - 0.5) * jit - PANEL.x0) * q, y = (uy + (rnd() - 0.5) * jit - PANEL.y0) * q;
         if (uy > SILL - su * 0.5) continue;
-        const sz = su * q * (0.6 + rnd2() * 0.3) * (d < 0 ? 0.78 + 0.22 * p : 1);
+        const sz = su * q * (0.62 + rnd() * 0.3);
         if (near(x, y, sz * 0.78)) continue;
-        const a = Math.atan2(uy - CY, ux - CX) + Math.PI / 2 + (rnd2() - 0.5) * (d < 0 ? 0.5 + 1.6 * (1 - p) : 0.3);
-        const t = { x, y, a, l: sz, w: sz * (0.78 + rnd2() * 0.2), k: 4, s: su * q, h: rnd2(), h2: rnd2(), loose: true };
+        const a = Math.atan2(uy - CY, ux - CX) + Math.PI / 2 + (rnd() - 0.5) * (d < 0 ? 1.4 : 0.3);
+        const t = { x, y, a, l: sz, w: sz * (0.78 + rnd() * 0.2), k: 4, s: su * q, h: rnd(), h2: rnd(), loose: true };
         t.j = new Float32Array(8);
-        for (let k = 0; k < 8; k++) t.j[k] = (rnd2() - 0.5) * t.s * 0.1;
-        const gold = rnd2() < 0.035;
-        t.col = gold ? P4.gold[rnd2() * 3 | 0] : mix(mix(P4.marble, rnd2() < 0.5 ? P4.marbleShade : P4.marbleWarm, rnd2() * 0.7), P4.bed, (1 - p) * 0.35);
-        t.gold = gold;
+        for (let k = 0; k < 8; k++) t.j[k] = (rnd() - 0.5) * t.s * 0.1;
+        t.col = rnd() < 0.04 ? P4.gold[rnd() * 3 | 0] : mix(P4.marble, rnd() < 0.5 ? P4.marbleShade : P4.marbleWarm, rnd() * 0.7);
+        t.gold = t.col === P4.gold[0] || t.col === P4.gold[1] || t.col === P4.gold[2];
         t.ux = ux;
         t.uy = uy;
         out.push(t);
@@ -822,19 +821,18 @@
     }
     return out;
   }
-  function bedPath(c, toPx, su, scale = 1) {
-    const N = 240;
+  function bedPath(c, toPx) {
+    const N = 220;
     c.beginPath();
     for (let i = 0; i <= N; i++) {
-      const f = i / N, L = reachOut(f) * scale;
-      const [ux, uy] = edgePoint(f, -L * (0.72 + 0.36 * fbm(f * 31, 2.2, 77, 2)));
+      const f = i / N, fd = fade(f), L = (36 + 70 * reach(f)) * fd;
+      const [ux, uy] = edgePoint(f, -L * (0.55 + 0.25 * fbm(f * 31, 2.2, 77, 2)));
       const [px, py] = toPx(ux, uy);
       if (i === 0) c.moveTo(px, py);
       else c.lineTo(px, py);
     }
     for (let i = N; i >= 0; i--) {
-      const f = i / N;
-      const [ux, uy] = edgePoint(f, eatDepth(f, su) + su * 1.5);
+      const [ux, uy] = edgePoint(i / N, 30);
       const [px, py] = toPx(ux, uy);
       c.lineTo(px, py);
     }
@@ -844,14 +842,14 @@
     const N = 260;
     c.beginPath();
     for (let i = 0; i <= N; i++) {
-      const f = i / N, E2 = eatDepth(f, su) * 0.55 + su * 0.55;
+      const f = i / N, E2 = su * (0.15 + 1.75 * ragged(f)) * fade(f) + su * 0.55;
       const [px, py] = toPx(...edgePoint(f, E2));
       if (i === 0) c.moveTo(px, py);
       else c.lineTo(px, py);
     }
     c.closePath();
   }
-  var FRAME_PAL, FRAME_OUTLINES, ragged, reach, fade, crown, eatDepth, REACH, setReach, reachOut;
+  var FRAME_PAL, FRAME_OUTLINES, ragged, reach, fade;
   var init_frame = __esm({
     "js/frame.js"() {
       init_core();
@@ -872,15 +870,8 @@
         { inside: ["sill"], against: ["window", "frame"] }
       ];
       ragged = (f) => smooth(0.25, 0.75, fbm(f * 15, 3.1, 41, 3));
-      reach = (f) => smooth(0.2, 0.8, fbm(f * 9, 7.7, 57, 3));
-      fade = (f) => 0.3 + 0.7 * smooth(0, 0.13, f) * smooth(1, 0.87, f);
-      crown = (f) => 1 - 0.22 * Math.exp(-(((f - 0.5) / 0.1) ** 2));
-      eatDepth = (f, su) => Math.max(0, Math.min(24, 70 - 3.9 * su)) * (0.4 + 0.6 * ragged(f)) * fade(f);
-      REACH = 1;
-      setReach = (s) => {
-        REACH = s;
-      };
-      reachOut = (f) => (58 + 62 * reach(f)) * fade(f) * crown(f) * REACH;
+      reach = (f) => 0.35 + 0.65 * smooth(0.2, 0.8, fbm(f * 9, 7.7, 57, 3));
+      fade = (f) => smooth(0, 0.07, f) * smooth(1, 0.93, f);
     }
   });
 
@@ -908,8 +899,8 @@
       const tx = Math.sin(i * 1.3 + k.ph) * 10, ty = h * 0.9 + i * k.size * 0.42;
       if (Math.abs(u - tx) < k.size * 0.16 && Math.abs(v - ty) < k.size * 0.11) return 3;
     }
-    const ex = k.strX - k.x, ey = k.strY - k.y, l = Math.hypot(ex, ey), along3 = (dx * ex + dy * ey) / l;
-    if (along3 > 0 && along3 < l) {
+    const ex = k.strX - k.x, ey = k.strY - k.y, l = Math.hypot(ex, ey), along2 = (dx * ex + dy * ey) / l;
+    if (along2 > 0 && along2 < l) {
       const off = Math.abs(dx * ey - dy * ex) / l;
       if (off < 4.5) return 4;
     }
@@ -942,161 +933,171 @@
       sun: sunUp ? arcPos(sky.sun.az) : null,
       moon: !sunUp && moonUp ? { at: arcPos(sky.moon.az), phase: sky.moon.phase } : null,
       stars: sky.stars,
-      night: sky.night,
-      lamps: smooth(-2, -8, e)
+      night: sky.night
     };
   }
   function regions(L) {
     const P4 = L.pal, out = regionList(), R = out.R;
     const tint = (c) => [c[0] * P4.tint[0], c[1] * P4.tint[1], c[2] * P4.tint[2]].map((v) => Math.min(255, v));
     const warm = (c) => tint(L.sun ? mix(c, [255, 236, 200], 0.07 * (1 - L.night)) : c);
-    const sunSide = L.sun ? L.sun[0] < CX ? -1 : 1 : L.moon ? L.moon.at[0] < CX ? -1 : 1 : 1;
     R("sky", "view", (c) => {
       c.rect(IN_X0 - 4, 60, IN_X1 - IN_X0 + 8, SILL - 60);
     }, (x, y) => {
       const t = clamp((y - 70) / (ridgeY(x) - 70));
       let c = t < 0.45 ? mix(P4.skyTop, P4.skyMid, t / 0.45) : t < 0.78 ? mix(P4.skyMid, P4.skyLow, (t - 0.45) / 0.33) : mix(P4.skyLow, P4.skyHor, (t - 0.78) / 0.22);
       if (L.sun) c = mix(c, P4.sunIn, 0.36 * (1 - smooth(60, 240, Math.hypot(x - L.sun[0], y - L.sun[1]))) * (1 - L.night));
-      if (L.moon) c = mix(c, mix(P4.skyLow, [235, 236, 225], 0.3), 0.4 * (1 - smooth(50, 210, Math.hypot(x - L.moon.at[0], y - L.moon.at[1]))));
       return c;
     }, { live: "sky" });
     if (L.sun) {
       const [sx, sy] = L.sun;
-      R("sun", "view", disc(sx, sy, 60), (x, y) => mix(P4.sunIn, P4.sunOut, smooth(8, 58, Math.hypot(x - sx, y - sy))), { live: "sun", fine: 0.9 });
+      R("sun", "view", disc(sx, sy, 64), (x, y) => mix(P4.sunIn, P4.sunOut, smooth(8, 62, Math.hypot(x - sx, y - sy))), { live: "sun", fine: 0.9 });
     }
     if (L.moon) {
-      const [mx, my] = L.moon.at, ph = L.moon.phase, r = 48, c2 = Math.cos(ph * Math.PI * 2);
+      const [mx, my] = L.moon.at, ph = L.moon.phase, r = 50, c2 = Math.cos(ph * Math.PI * 2);
       R("moon", "view", disc(mx, my, r), (x, y) => {
         const dx = x - mx, w = Math.sqrt(Math.max(0, r * r - (y - my) ** 2)), lit = ph < 0.5 ? dx > c2 * w : -dx > c2 * w;
-        return lit ? rgb("#f6efd8") : mix(P4.skyMid, P4.skyLow, 0.4);
+        return lit ? rgb("#f1ead2") : mix(P4.skyMid, P4.skyTop, 0.5);
       }, { live: "moon", fine: 0.9 });
     }
-    R("ridge", "view", below(ridgeY), (x, y) => {
-      const d = y - ridgeY(x), slope = (ridgeY(x + 6) - ridgeY(x - 6)) / 12;
-      const spur = Math.sin((x - (y - 600) * 0.9 * Math.sign(x - 566)) / 46);
-      const lit = clamp(0.45 - slope * 2.2 * sunSide + spur * 0.18) * (1 - smooth(10, 140, d) * 0.5);
-      let c = mix(P4.mtn, P4.mtnLit, lit);
-      if (vnoise(x / 34, y / 22, 12) > 0.62 && d > 14) c = mix(c, P4.chap, 0.5);
-      return mix(c, P4.haze, 0.22 * smooth(40, 140, d));
-    }, { src: ["sky", "sun", "moon"] });
-    R("town", "view", below(footY), (x, y) => {
-      const h = hash2(x / 9 | 0, y / 9 | 0, 21);
-      let c = h < 0.55 ? P4.townTree : h < 0.84 ? mix(P4.townTree, P4.haze, 0.5) : mix(P4.town, [255, 255, 255], h > 0.95 ? 0.3 : 0);
-      c = mix(c, P4.haze, 0.62 - 0.4 * L.lamps + 0.2 * (1 - smooth(0, 22, y - footY(x))) * (1 - L.lamps));
-      if (L.lamps > 0 && hash2(x / 9 | 0, y / 9 | 0, 33) > 0.5) c = mix(c, h > 0.7 ? [236, 240, 255] : [255, 204, 118], L.lamps * 0.78);
-      return c;
-    }, { src: ["ridge", "obs"], live: "town", fine: 0.8 });
-    const stucco = (x, cx, half) => mix(P4.stucco, P4.stuccoShade, smooth(-0.3, 0.8, (x - cx) / half * sunSide) * 0.85);
-    R("towers", "obs", union(onGround(SMALL.x - SMALL.half, SMALL.x + SMALL.half, SMALL.top), onGround(BIG.x - BIG.half, BIG.x + BIG.half, BIG.top), onGround(SHANE.x - SHANE.half, SHANE.x + SHANE.half, SHANE.top)), (x, y) => {
-      const T = x < 560 ? SMALL : x < 760 ? BIG : SHANE;
-      if (y < T.top + 7) return mix(P4.stucco, [255, 255, 255], 0.2);
-      return stucco(x, T.x, T.half);
-    }, { fine: 0.74, src: "courses" });
-    R("hall", "obs", union(onGround(HALL.x0, HALL.x1, HALL.top), onGround(ENTRY.x0, ENTRY.x1, ENTRY.top, 14)), (x, y) => {
-      const inEntry = x >= ENTRY.x0 && x <= ENTRY.x1;
-      if (!inEntry && y < HALL.top + 6) return mix(P4.stucco, [255, 255, 255], 0.18);
-      return mix(P4.stucco, P4.stuccoShade, inEntry ? sunSide * (x - 552) > 0 ? 0.5 : 0.1 : 0.3);
-    }, { fine: 0.7, src: "courses" });
-    R("obsWindows", "obs", (c) => {
-      for (const wx of HALL_WINDOWS) {
-        c.moveTo(wx - 6, HALL.top + 34);
-        c.lineTo(wx - 6, HALL.top + 17);
-        c.arc(wx, HALL.top + 17, 6, Math.PI, 0);
-        c.lineTo(wx + 6, HALL.top + 34);
+    R("ridge", "view", below(ridgeY), (x, y) => mix(P4.ridgeRim, P4.ridge, smooth(0, 80, y - ridgeY(x))), { src: ["sky", "sun", "moon"] });
+    R("domes", "view", (c) => {
+      for (const d of DOMES) {
+        const base = ridgeY(d.x) + 10;
+        c.moveTo(d.x - d.r * 0.92, base);
+        c.lineTo(d.x - d.r * 0.92, base - d.drum);
+        c.lineTo(d.x + d.r * 0.92, base - d.drum);
+        c.lineTo(d.x + d.r * 0.92, base);
         c.closePath();
-      }
-      c.rect(546, ENTRY.top + 16, 12, 30);
-    }, () => P4.window, { fine: 0.5, live: "window" });
-    R("domes", "obs", (c) => {
-      for (const D of [SMALL, BIG, SHANE]) {
-        c.moveTo(D.x + D.r, D.top + 1);
-        c.arc(D.x, D.top + 1, D.r, 0, Math.PI, true);
+        c.moveTo(d.x + d.r, base - d.drum);
+        c.arc(d.x, base - d.drum, d.r, 0, Math.PI, true);
         c.closePath();
       }
     }, (x, y) => {
-      const D = x < 560 ? SMALL : x < 760 ? BIG : SHANE, nx = (x - D.x) / D.r, ny = (y - D.top) / D.r;
-      if (D !== SHANE && Math.abs(nx + 0.14 * sunSide) < (D === BIG ? 0.11 : 0.12) && ny < -0.08) return D === BIG && L.lamps > 0.2 ? mix(P4.domeSlit, P4.slitGlow, L.lamps) : P4.domeSlit;
-      const l = smooth(-0.2, 0.8, nx * sunSide * 0.9 - ny * 0.3);
-      return mix(P4.domeLit, P4.domeShade, l);
-    }, { fine: 0.72, live: "slit" });
-    R("hills", "view", below(hillY), (x, y) => {
-      const d = y - hillY(x), slope = (hillY(x + 5) - hillY(x - 5)) / 10;
-      let c = mix(P4.hillLit, P4.hill, clamp(0.45 + slope * 3 * sunSide) * 0.75 + smooth(0, 90, d) * 0.3);
-      const fd = segDistTo(x, y, FOLD);
-      if (fd < 60) c = mix(c, P4.shadow, 0.5 * (1 - fd / 60) * (x - FOLD[0][0] > 0 ? 1 : 0));
-      for (const o of OAKS) {
-        const s = Math.hypot((x - o.x - o.r * 0.35 * -sunSide) / (o.r * 1.3), (y - o.y - 3) / (o.ry * 0.5));
-        if (s < 1) c = mix(c, P4.shadow, 0.55 * (1 - s * s));
+      const d = nearest(DOMES, x, 0), base = ridgeY(d.x) + 10;
+      if (y > base - d.drum) return mix(P4.drum, P4.domeShade, smooth(-0.2, 0.9, (x - d.x) / d.r) * 0.7);
+      const nx = (x - d.x) / d.r, ny = (y - (base - d.drum)) / d.r;
+      if (d.slit && Math.abs(nx + 0.12) < 0.1 && ny < -0.12) return P4.domeSlit;
+      return mix(P4.domeLit, P4.domeShade, smooth(-0.15, 0.65, nx * 0.9 - ny * 0.25));
+    }, { fine: 0.78 });
+    R("foothills", "view", below(footY), (x, y) => mix(P4.footLit, P4.foot, smooth(0, 70, y - footY(x))), { src: ["ridge", "domes"] });
+    R("cypress", "view", (c) => {
+      for (const t of CYPRESS) {
+        const b = BASE + 8;
+        c.moveTo(t.x, b - t.h);
+        c.bezierCurveTo(t.x + t.w * 0.7, b - t.h * 0.62, t.x + t.w * 0.62, b - t.h * 0.12, t.x + t.w * 0.4, b);
+        c.lineTo(t.x - t.w * 0.4, b);
+        c.bezierCurveTo(t.x - t.w * 0.62, b - t.h * 0.12, t.x - t.w * 0.7, b - t.h * 0.62, t.x, b - t.h);
+        c.closePath();
       }
-      c = mix(c, P4.shadow, smooth(0.58, 0.8, vnoise(x / 44, y / 7, 9)) * 0.3);
-      return mix(c, P4.hill, 0.25 * vnoise(x / 22, y / 10, 4));
-    }, { src: ["town", "ridge", "obs"] });
-    const grove = (list) => (x, y) => {
-      let o = list[0], bd = 1e9;
-      for (const g of list) {
-        const d = Math.hypot((x - g.x) / g.r, (y - (g.y - g.ry * 0.8)) / g.ry);
-        if (d < bd) {
-          bd = d;
-          o = g;
+    }, (x) => {
+      const t = nearest(CYPRESS, x, 0);
+      return mix(P4.footLit, P4.cypress, 0.6 + 0.4 * smooth(-0.5, 0.5, (x - t.x) / t.w));
+    }, { fine: 0.8 });
+    R("walls", "view", (c) => {
+      for (const h of HOUSES) c.rect(h.x - h.w / 2, BASE - h.h, h.w, h.h + 4);
+    }, (x) => {
+      const h = nearest(HOUSES, x, 0);
+      return x > h.x + h.w * 0.18 ? P4.wallShade : P4.wall;
+    }, { fine: 0.8 });
+    R("windows", "view", (c) => {
+      for (const h of HOUSES) for (const f of [-0.24, 0.22]) c.rect(h.x + f * h.w - 9, BASE - h.h * 0.64, 18, 16);
+    }, () => P4.window, { fine: 0.7, live: "window" });
+    R(
+      "roofs",
+      "view",
+      (c) => {
+        for (const h of HOUSES) {
+          const y = BASE - h.h;
+          c.moveTo(h.x - h.w * 0.62, y + 2);
+          c.lineTo(h.x - h.w * 0.3, y - 32);
+          c.lineTo(h.x + h.w * 0.3, y - 32);
+          c.lineTo(h.x + h.w * 0.62, y + 2);
+          c.closePath();
         }
-      }
-      const nx = (x - o.x) / o.r, ny = (y - (o.y - o.ry * 0.8)) / o.ry;
-      const lit = smooth(0.3, -0.8, nx * -sunSide * 0.7 + ny * 0.8);
-      return mix(mix(mix(P4.oak, P4.oakDeep, o.k * 0.35), P4.oakLit, lit), P4.oakDeep, smooth(0.1, 0.95, ny) * 0.55);
-    };
-    R("oaks", "tree", union(...OAKS.map(crownOf)), grove(OAKS), { fine: 0.72 });
-    R("near", "view", below(nearY), (x, y) => {
-      const d = y - nearY(x);
-      let c = mix(P4.nearLit, P4.near, smooth(0, 70, d) * 0.6 + 0.2 * vnoise(x / 30, y / 10, 6));
-      c = mix(c, P4.shadow, smooth(0.58, 0.8, vnoise(x / 50, y / 8, 10)) * 0.3);
-      const o = BIG_OAK, s = Math.hypot((x - o.x - o.rx * 0.25 * -sunSide) / (o.rx * 1.2), (y - o.y - 6) / 20);
-      if (s < 1) c = mix(c, P4.shadow, 0.6 * (1 - s * s));
-      return c;
-    }, { src: ["hills", "tree"] });
-    R("treetops", "tree", union(...LOW.map(crownOf)), grove(LOW), { fine: 0.76 });
-    R("bigTrunk", "tree", union(
-      poly([[BIG_OAK.x - 12, BIG_OAK.y + 4], [BIG_OAK.x - 7, BIG_OAK.y - 40], [BIG_OAK.x + 7, BIG_OAK.y - 40], [BIG_OAK.x + 13, BIG_OAK.y + 4]]),
-      bar(BIG_OAK.x - 2, BIG_OAK.y - 30, BIG_OAK.x - 34, BIG_OAK.y - 62, 10),
-      bar(BIG_OAK.x + 2, BIG_OAK.y - 30, BIG_OAK.x + 36, BIG_OAK.y - 58, 10)
-    ), () => P4.trunk, { fine: 0.62 });
-    R("bigOak", "tree", crownOf({ ...BIG_OAK, y: BIG_OAK.y - 30, big: true }), (x, y) => {
-      const o = BIG_OAK, cy = o.y - 30 - o.ry;
-      const lit = smooth(0.25, -0.95, (x - o.x) / o.rx * -sunSide + (y - cy) / o.ry * 0.9);
-      const clump = vnoise(x / 30, y / 24, 8);
-      return mix(mix(P4.oak, P4.oakLit, clamp(lit + (clump - 0.5) * 0.5)), P4.oakDeep, smooth(cy + o.ry * 0.3, cy + o.ry * 1.05, y) * 0.65);
-    }, { fine: 0.76 });
-    const brassLit = rgb("#efcd76"), brassDark = rgb("#8f6a26"), wood = rgb("#6e4a2c"), woodLit = rgb("#93643c"), woodDark = rgb("#4d321e");
+      },
+      (x) => {
+        const h = nearest(HOUSES, x, 0);
+        return x > h.x + h.w * 0.05 ? P4.roofDark : P4.roof;
+      },
+      { fine: 0.8 }
+    );
+    R("hedge", "view", below(hedgeY), (x, y) => mix(P4.hedgeLit, P4.hedge, smooth(0, 40, y - hedgeY(x)) * 0.8 + 0.2 * hash2(x / 22 | 0, y / 22 | 0, 3)), { src: ["foothills", "walls", "cypress", "roofs"] });
+    const brass = rgb("#c9973f"), brassLit = rgb("#ecc970"), brassDark = rgb("#8f6a26"), wood = rgb("#6e4a2c"), woodLit = rgb("#93643c"), woodDark = rgb("#4d321e");
     const tubeShade = (x, y) => {
       const ax = O[0] - E[0], ay = O[1] - E[1], l = Math.hypot(ax, ay), v = ((x - E[0]) * -ay + (y - E[1]) * ax) / l;
-      return warm(mix(brassLit, brassDark, smooth(-TW * 0.45, TW * 0.5, -v)));
+      return warm(mix(brassLit, brassDark, smooth(-TW * 0.45, TW * 0.5, -v)), x);
     };
     R(
       "tsStand",
       "still",
-      poly([[PIV[0] - 54, 962], [PIV[0] + 54, 962], [PIV[0] + 80, SILL + 1], [PIV[0] - 80, SILL + 1]]),
-      (x, y) => tint(mix(woodLit, woodDark, smooth(-40, 80, x - PIV[0]) * 0.7 + smooth(962, 1e3, y) * 0.3)),
+      poly([[PIV[0] - 56, 960], [PIV[0] + 56, 960], [PIV[0] + 82, SILL + 1], [PIV[0] - 82, SILL + 1]]),
+      (x, y) => tint(mix(woodLit, woodDark, smooth(-40, 80, x - PIV[0]) * 0.7 + smooth(960, 1e3, y) * 0.3)),
       { fine: 0.74 }
     );
-    R("tsPillar", "still", poly([[PIV[0] - 15, PIV[1]], [PIV[0] + 15, PIV[1]], [PIV[0] + 15, 964], [PIV[0] - 15, 964]]), (x) => tint(mix(wood, woodDark, smooth(-10, 16, x - PIV[0]))), { fine: 0.7 });
-    R("tsTube", "still", bar(...along(0.04), ...along(0.8), TW), (x, y) => {
+    R("tsPillar", "still", poly([[PIV[0] - 16, PIV[1]], [PIV[0] + 16, PIV[1]], [PIV[0] + 16, 962], [PIV[0] - 16, 962]]), (x) => tint(mix(wood, woodDark, smooth(-10, 16, x - PIV[0]))), { fine: 0.7 });
+    R("tsTube", "still", bar(...along(0.04), ...along(0.82), TW), (x, y) => {
       const c = tubeShade(x, y), t = ((x - E[0]) * (O[0] - E[0]) + (y - E[1]) * (O[1] - E[1])) / ((O[0] - E[0]) ** 2 + (O[1] - E[1]) ** 2);
-      return Math.abs(t - 0.34) < 0.028 ? mix(c, brassDark, 0.55) : c;
+      return Math.abs(t - 0.3) < 0.025 || Math.abs(t - 0.58) < 0.025 ? mix(c, brassDark, 0.55) : c;
     }, { fine: 0.7 });
-    R("tsCap", "still", bar(...along(0.78), ...O, TW + 14), tubeShade, { fine: 0.7 });
-    R("tsLens", "still", bar(...along(0.985), ...along(1.005), TW + 6), () => tint(rgb("#35505f")), { fine: 0.64 });
+    R("tsCap", "still", bar(...along(0.8), ...O, TW + 16), tubeShade, { fine: 0.7 });
+    R("tsLens", "still", bar(...along(0.985), ...along(1.005), TW + 8), () => tint(rgb("#2f4a5a")), { fine: 0.64 });
     R("tsEye", "still", bar(...along(-0.12), ...along(0.06), 22), () => tint(mix(brassDark, woodDark, 0.4)), { fine: 0.66 });
+    const blue = rgb("#3a62c4"), deep = rgb("#22408f");
+    R("rBody", "still", poly([rob(16, 358), rob(16, 232), rob(34, 206), rob(158, 206), rob(176, 232), rob(176, 358)]), (x, y) => warm(mix(blue, deep, smooth(220, 360, (y - RB.y) / RS) * 0.55 + smooth(80, 180, (x - RB.x) / RS) * 0.3), x), { fine: 0.68, src: "courses" });
+    R("rNeck", "still", poly([rob(68, 210), rob(68, 176), rob(124, 176), rob(124, 210)]), () => tint(rgb("#1d3478")), { fine: 0.66 });
+    R("rTop", "still", poly([rob(4, 28), rob(32, 0), rob(194, 0), rob(166, 28)]), (x) => warm(rgb("#5b82cc"), x), { fine: 0.66 });
+    R("rSide", "still", poly([rob(166, 28), rob(194, 0), rob(194, 150), rob(166, 178)]), () => tint(deep), { fine: 0.66 });
+    R("rFront", "still", poly([rob(4, 28), rob(122, 28), rob(166, 72), rob(166, 178), rob(4, 178)]), (x, y) => warm(mix(rgb("#3460c2"), rgb("#2a4ea8"), smooth(40, 170, (y - RB.y) / RS)), x), { fine: 0.64 });
+    R("rFold", "still", poly([rob(122, 28), rob(166, 28), rob(166, 72)]), () => tint(rgb("#f2e9d4")), { fine: 0.6 });
+    R("rEarRim", "still", disc(...rob(184, 102), 31 * RS), () => tint(rgb("#f2e6cc")), { fine: 0.6 });
+    R("rEar", "still", disc(...rob(184, 102), 23 * RS), () => tint(rgb("#e0502f")), { fine: 0.6 });
+    for (const [k, ex] of [["L", 44], ["R", 116]]) {
+      R("rEye" + k, "still", disc(...rob(ex, 104), 30 * RS), () => tint(rgb("#f8f3e6")), { fine: 0.56 });
+      R("rPupil" + k, "still", disc(...rob(ex + 9, 106), 13 * RS), () => rgb("#1f1c1a"), { fine: 0.54 });
+    }
+    const terra = rgb("#c2653a"), terraLit = rgb("#dc8454"), terraDark = rgb("#9a4a29");
+    R(
+      "pot",
+      "still",
+      poly([[POT.x - POT.topW / 2, POT.rimY + POT.rimH], [POT.x + POT.topW / 2, POT.rimY + POT.rimH], [POT.x + POT.botW / 2, SILL + 1], [POT.x - POT.botW / 2, SILL + 1]]),
+      (x) => warm(mix(terraLit, terraDark, smooth(-50, 60, x - POT.x)), x),
+      { fine: 0.72, src: "courses" }
+    );
+    R(
+      "potRim",
+      "still",
+      poly([[POT.x - POT.rimW / 2, POT.rimY], [POT.x + POT.rimW / 2, POT.rimY], [POT.x + POT.rimW / 2, POT.rimY + POT.rimH], [POT.x - POT.rimW / 2, POT.rimY + POT.rimH]]),
+      (x) => warm(mix(terraLit, terra, smooth(-40, 66, x - POT.x)), x),
+      { fine: 0.66 }
+    );
+    const leafCol = [rgb("#7aa58d"), rgb("#9cc2a6"), rgb("#5f8a73")], blush = rgb("#d08a8c");
+    R("succulent", "still", union(...LEAVES.map((l) => {
+      const [tx, ty] = leafTip(l);
+      return blade(ROS.x, ROS.y + 4, (ROS.x + tx) / 2, (ROS.y + ty) / 2 - 6, tx, ty, l.w, 2);
+    })), (x, y) => {
+      let best = 0, bd = 1e9;
+      LEAVES.forEach((l2, i) => {
+        const [tx, ty] = leafTip(l2), d = Math.abs(Math.atan2(y - ROS.y, x - ROS.x) - Math.atan2(ty - ROS.y, tx - ROS.x)) * (1 + 2e-3 * Math.abs(Math.hypot(x - ROS.x, y - ROS.y) - l2.len * 0.6));
+        if (d < bd) {
+          bd = d;
+          best = i;
+        }
+      });
+      const l = LEAVES[best], r = Math.hypot(x - ROS.x, (y - ROS.y) / 0.82) / l.len;
+      let c = leafCol[(best * 2 + (l.len < 70 ? 1 : 0)) % 3];
+      c = mix(c, blush, smooth(0.72, 0.98, r) * 0.75);
+      return warm(c, x);
+    }, { fine: 0.62 });
     return out;
   }
   function liveKind(t, r, L) {
     if (r.live === "sky") return "sky";
     if (r.live === "sun") return "sun";
-    if (r.live === "window" && L.lamps > 0.2) return "window";
-    if (r.live === "slit" && L.lamps > 0.2 && r.name === "domes") return "slit";
-    if (r.live === "town" && L.lamps > 0.1 && t.h > 0.8) return "town";
+    if (r.live === "window" && L.night > 0.3) return "window";
     return null;
   }
   function frameState(time, L) {
-    return { birds: L.night < 0.5 ? birdsAt(time, [[0, 30, 250, 46], [1, 38, 330, 38]]) : [], band: time * 38 % 1500 - 250, time };
+    return { birds: L.night < 0.5 ? birdsAt(time, [[0, 26, 230, 70], [1, 34, 320, 54]]) : [], band: time * 38 % 1500 - 250, time };
   }
   function liveColour(s, F, L) {
     const P4 = L.pal;
@@ -1114,7 +1115,7 @@
       }
       if (s.star) {
         const tw = 0.55 + 0.45 * Math.sin(F.time * (1.3 + s.h2 * 2) + s.h * 40);
-        col = mix(col, [255, 248, 222], L.stars * tw);
+        col = mix(col, [255, 246, 214], L.stars * tw);
         changed = true;
       }
       return changed ? col : null;
@@ -1125,153 +1126,119 @@
     }
     if (s.kind === "window") {
       const fl = 0.85 + 0.15 * Math.sin(F.time * 2.1 + s.h * 30);
-      return mix(s.col, [255, 214, 120], 0.25 * fl * L.lamps);
-    }
-    if (s.kind === "town") {
-      const tw = Math.sin(F.time * (1.5 + s.h2 * 2) + s.h * 60);
-      return tw > 0.3 ? mix(s.col, [255, 244, 220], (tw - 0.3) * 0.5 * L.lamps) : mix(s.col, P4.town, (0.3 - tw) * 0.25 * L.lamps);
-    }
-    if (s.kind === "slit") {
-      const nx = (s.ux - BIG.x) / BIG.r;
-      if (Math.abs(nx + 0.14 * (L.sun ? L.sun[0] < CX ? -1 : 1 : L.moon ? L.moon.at[0] < CX ? -1 : 1 : 1)) > 0.13 || s.ux < 560) return null;
-      const fl = 0.8 + 0.2 * Math.sin(F.time * 0.7 + s.uy * 0.05);
-      return mix(s.col, [255, 220, 150], 0.3 * fl * L.lamps);
+      return mix(s.col, [255, 214, 120], 0.25 * fl);
     }
     return null;
   }
-  var DAY, GOLDEN, TWILIGHT, NIGHT, asRGB, PALS, ARC_R, arcPos, ridgeY, footY, hillY, nearY, SMALL, BIG, HALL, ENTRY, SHANE, HALL_WINDOWS, onGround, rnd, along2, GROVES, OAKS, LOW, FOLD, BIG_OAK, segDistTo, crownOf, E, AIM, TL, TW, dir, O, along, PIV, outlines, isStar, sanjose_default;
+  var DAY, GOLDEN, TWILIGHT, NIGHT, asRGB, PALS, ARC_R, arcPos, ridgeY, footY, hedgeY, DOMES, HOUSES, BASE, CYPRESS, E, O, TW, along, PIV, RS, RB, rob, POT, ROS, LEAVES, leafTip, outlines, isStar, sanjose_default;
   var init_sanjose = __esm({
     "js/places/sanjose.js"() {
       init_core();
       init_geom();
       init_life();
       DAY = {
-        skyTop: "#3a8fc2",
-        skyMid: "#77bbdf",
-        skyLow: "#b6dbe6",
-        skyHor: "#e8efdd",
-        mtn: "#8293b2",
-        mtnLit: "#aab6ca",
-        chap: "#6f7f8e",
-        hill: "#c3a06a",
-        hillLit: "#dcc18e",
-        near: "#c9a56c",
-        nearLit: "#e0c690",
-        shadow: "#8c7850",
-        town: "#d9dcd8",
-        townTree: "#7f9180",
-        haze: "#b9c6d2",
-        oak: "#4c6a3d",
-        oakLit: "#738e50",
-        oakDeep: "#33492e",
-        trunk: "#4e3b2a",
-        domeLit: "#fbf8f1",
-        domeShade: "#c4c9d1",
-        domeSlit: "#4c535d",
-        stucco: "#f3ead6",
-        stuccoShade: "#d3c6a8",
-        window: "#66707a",
-        slitGlow: "#4c535d",
+        skyTop: "#2c8fa0",
+        skyMid: "#6fbcc4",
+        skyLow: "#b5dfdc",
+        skyHor: "#e9f0d8",
+        ridge: "#3f7480",
+        ridgeRim: "#6a9aa0",
+        foot: "#7f9a54",
+        footLit: "#a9b867",
+        hedge: "#3f5c36",
+        hedgeLit: "#5f7f45",
+        wall: "#f2ead6",
+        wallShade: "#ddd0b3",
+        roof: "#c96b42",
+        roofDark: "#a8522f",
+        cypress: "#2f4b31",
+        window: "#5a6f78",
         sunOut: "#f2b44e",
         sunIn: "#fbefc4",
+        domeLit: "#f6f1e4",
+        domeShade: "#c9cdd2",
+        drum: "#e9e3d4",
+        domeSlit: "#59606a",
         tint: [1, 1, 1],
-        bird: "#3a3530"
+        bird: "#33383d"
       };
       GOLDEN = {
         skyTop: "#25868a",
         skyMid: "#62b0aa",
         skyLow: "#b7dcc9",
         skyHor: "#f2c675",
-        mtn: "#7f7896",
-        mtnLit: "#b8938a",
-        chap: "#6a6478",
-        hill: "#c18e54",
-        hillLit: "#e4b474",
-        near: "#c99a5a",
-        nearLit: "#e9be7c",
-        shadow: "#84643e",
-        town: "#e9d7c0",
-        townTree: "#7b7f62",
-        haze: "#c9b4a6",
-        oak: "#3f5a35",
-        oakLit: "#66803f",
-        oakDeep: "#2b4029",
-        trunk: "#4a3626",
-        domeLit: "#fdf1dd",
-        domeShade: "#c2b8c4",
-        domeSlit: "#4b4650",
-        stucco: "#f6e2bf",
-        stuccoShade: "#cfb48e",
-        window: "#5f5a62",
-        slitGlow: "#4b4650",
+        ridge: "#1f5864",
+        ridgeRim: "#4f7f86",
+        foot: "#7f8f4a",
+        footLit: "#c9b65c",
+        hedge: "#3a5331",
+        hedgeLit: "#6f7a3c",
+        wall: "#f3e2c0",
+        wallShade: "#dcc8a3",
+        roof: "#c8643a",
+        roofDark: "#a14b2b",
+        cypress: "#2c462d",
+        window: "#57606a",
         sunOut: "#e2702f",
         sunIn: "#fae6a0",
-        tint: [1.04, 0.99, 0.94],
-        bird: "#33302e"
+        domeLit: "#fbecd0",
+        domeShade: "#b9b4bf",
+        drum: "#efdcbc",
+        domeSlit: "#5b5560",
+        tint: [1.05, 0.99, 0.93],
+        bird: "#2f3036"
       };
       TWILIGHT = {
-        skyTop: "#3b5b92",
-        skyMid: "#6a7cb2",
-        skyLow: "#b09bbb",
-        skyHor: "#f0b28a",
-        mtn: "#55608c",
-        mtnLit: "#7a7aa4",
-        chap: "#4b527a",
-        hill: "#8c7c68",
-        hillLit: "#ab9473",
-        near: "#958268",
-        nearLit: "#b39a76",
-        shadow: "#6e6158",
-        town: "#8a87a0",
-        townTree: "#57606a",
-        haze: "#8b8fb0",
-        oak: "#344632",
-        oakLit: "#4a5c40",
-        oakDeep: "#26352a",
-        trunk: "#3a2e2a",
-        domeLit: "#ece6e6",
-        domeShade: "#a7a6bd",
-        domeSlit: "#45435a",
-        stucco: "#ddd0c4",
-        stuccoShade: "#b2a6a2",
+        skyTop: "#26406e",
+        skyMid: "#4b5d8f",
+        skyLow: "#9a86a6",
+        skyHor: "#e7a07a",
+        ridge: "#273650",
+        ridgeRim: "#3f4d6c",
+        foot: "#4a5640",
+        footLit: "#6a6a4a",
+        hedge: "#26332a",
+        hedgeLit: "#34402f",
+        wall: "#cbbca6",
+        wallShade: "#b5a88c",
+        roof: "#8d4c3a",
+        roofDark: "#6f3a2c",
+        cypress: "#22332a",
         window: "#f2c66a",
-        slitGlow: "#e9a95a",
         sunOut: "#e4683a",
         sunIn: "#f6c58c",
-        tint: [0.9, 0.88, 0.96],
-        bird: "#2a2a36"
+        domeLit: "#d9d2d6",
+        domeShade: "#8f8ca3",
+        drum: "#cbc3c4",
+        domeSlit: "#3c3a48",
+        tint: [0.8, 0.8, 0.92],
+        bird: "#22242c"
       };
       NIGHT = {
-        skyTop: "#2a4479",
-        skyMid: "#38558e",
-        skyLow: "#4d6ba4",
-        skyHor: "#6b88bc",
-        mtn: "#34477a",
-        mtnLit: "#51659a",
-        chap: "#2e3f6c",
-        hill: "#5c6a86",
-        hillLit: "#7a88a2",
-        near: "#66738f",
-        nearLit: "#8592ab",
-        shadow: "#4a5671",
-        town: "#3a4566",
-        townTree: "#2c3756",
-        haze: "#4a5a84",
-        oak: "#25334f",
-        oakLit: "#3a4b6c",
-        oakDeep: "#1c2840",
-        trunk: "#222b40",
-        domeLit: "#e6ebf3",
-        domeShade: "#a3aec4",
-        domeSlit: "#3a4258",
-        stucco: "#c4c9d6",
-        stuccoShade: "#9aa1b6",
+        skyTop: "#101b3a",
+        skyMid: "#172a54",
+        skyLow: "#22396a",
+        skyHor: "#354c78",
+        ridge: "#141d2e",
+        ridgeRim: "#26324a",
+        foot: "#1f2a26",
+        footLit: "#2a3530",
+        hedge: "#141d18",
+        hedgeLit: "#1c2620",
+        wall: "#5c5a62",
+        wallShade: "#4a4952",
+        roof: "#3f2c2c",
+        roofDark: "#33232a",
+        cypress: "#142019",
         window: "#f5c35a",
-        slitGlow: "#f2b45a",
         sunOut: "#e4683a",
         sunIn: "#f6c58c",
-        tint: [0.84, 0.86, 0.97],
-        bird: "#1b2236"
+        domeLit: "#b9c0cf",
+        domeShade: "#6c7590",
+        drum: "#9aa1b2",
+        domeSlit: "#2a2f3e",
+        tint: [0.66, 0.68, 0.84],
+        bird: "#0e1220"
       };
       asRGB = (p) => {
         const o = {};
@@ -1279,73 +1246,51 @@
         return o;
       };
       PALS = { D: asRGB(DAY), G: asRGB(GOLDEN), T: asRGB(TWILIGHT), N: asRGB(NIGHT) };
-      ARC_R = 318;
+      ARC_R = 300;
       arcPos = (az) => {
         const th = Math.PI + Math.PI * clamp((az - 95) / 170);
-        return [CX + ARC_R * Math.cos(th), CY + ARC_R * Math.sin(th) - 34];
+        return [CX + ARC_R * Math.cos(th), CY + ARC_R * Math.sin(th) - 20];
       };
-      ridgeY = (x) => 612 + 112 * (1 - Math.exp(-((Math.max(0, Math.abs(x - 566) - 56) / 210) ** 2))) - 30 * Math.exp(-(((x - 838) / 60) ** 2)) + 3 * Math.sin(x / 37 + 1);
-      footY = (x) => 744 + 3 * Math.sin(x / 50);
-      hillY = (x) => 794 + 18 * Math.sin(x / 115 + 0.6) + 8 * Math.sin(x / 47 + 2);
-      nearY = (x) => 886 + 12 * Math.sin(x / 80 + 1) - 46 * Math.exp(-(((x - 800) / 170) ** 2));
-      SMALL = { x: 450, half: 38, top: 576, r: 42 };
-      BIG = { x: 666, half: 60, top: 544, r: 66 };
-      HALL = { x0: 470, x1: 630, top: 580 };
-      ENTRY = { x0: 528, x1: 576, top: 566 };
-      SHANE = { x: 838, half: 38, top: ridgeY(838) - 24, r: 38 };
-      HALL_WINDOWS = [490, 510, 594, 614];
-      onGround = (x0, x1, top, peak) => (c) => {
-        c.moveTo(x0, top);
-        if (peak) c.lineTo((x0 + x1) / 2, top - peak);
-        c.lineTo(x1, top);
-        for (let x = x1; x >= x0; x -= 4) c.lineTo(x, ridgeY(x) + 8);
-        c.lineTo(x0, ridgeY(x0) + 8);
-        c.closePath();
-      };
-      rnd = /* @__PURE__ */ (() => {
-        let a = 91;
-        return () => (a = a * 16807 % 2147483647) / 2147483647;
-      })();
-      along2 = (x0, y0, x1, y1, n, r0, r1, jit) => Array.from({ length: n }, (_, i) => {
-        const t = i / (n - 1);
-        return { x: x0 + (x1 - x0) * t + (rnd() - 0.5) * jit, y: y0 + (y1 - y0) * t + (rnd() - 0.5) * jit * 0.5, r: r0 + (r1 - r0) * rnd() };
-      });
-      GROVES = [
-        ...along2(366, 806, 612, 908, 12, 16, 30, 16),
-        // down the fold
-        ...along2(92, 802, 232, 818, 7, 18, 30, 14),
-        // the shaded flank
-        { x: 300, y: hillY(300) + 3, r: 20 },
-        { x: 662, y: hillY(662) + 4, r: 22 },
-        { x: 706, y: hillY(706) + 3, r: 15 },
-        ...along2(300, 1002, 600, 1004, 7, 30, 42, 10).map((o) => ({ ...o, low: true }))
-        // treetops below the window
-      ].map((o) => ({ ...o, ry: o.r * 0.7, k: rnd() }));
-      OAKS = GROVES.filter((o) => !o.low);
-      LOW = GROVES.filter((o) => o.low);
-      FOLD = [[366, 806], [612, 908]];
-      BIG_OAK = { x: 792, y: nearY(792) + 6, rx: 96, ry: 58 };
-      segDistTo = (x, y, [[ax, ay], [bx, by]]) => {
-        const dx = bx - ax, dy = by - ay, t = clamp(((x - ax) * dx + (y - ay) * dy) / (dx * dx + dy * dy));
-        return Math.hypot(x - ax - dx * t, y - ay - dy * t);
-      };
-      crownOf = (o) => o.big ? union(ell(o.x, o.y - o.ry * 0.78, o.rx, o.ry * 0.72), ell(o.x - o.rx * 0.45, o.y - o.ry * 0.55, o.rx * 0.58, o.ry * 0.6), ell(o.x + o.rx * 0.5, o.y - o.ry * 0.58, o.rx * 0.55, o.ry * 0.58), ell(o.x + o.rx * 0.05, o.y - o.ry * 1.18, o.rx * 0.55, o.ry * 0.5)) : ell(o.x, o.y - o.ry * 0.8, o.r, o.ry);
-      E = [150, 906];
-      AIM = [BIG.x, BIG.top - BIG.r * 0.55];
-      TL = 250;
-      TW = 44;
-      dir = (() => {
-        const dx = AIM[0] - E[0], dy = AIM[1] - E[1], l = Math.hypot(dx, dy);
-        return [dx / l, dy / l];
-      })();
-      O = [E[0] + dir[0] * TL, E[1] + dir[1] * TL];
+      ridgeY = (x) => 786 - 146 * Math.exp(-(((x - 690) / 240) ** 2)) - 40 * Math.exp(-(((x - 205) / 125) ** 2));
+      footY = (x) => 852 + 16 * Math.sin(x / 110 + 0.8) + 7 * Math.sin(x / 47 + 2);
+      hedgeY = (x) => 936 + 7 * Math.sin(x / 38 + 1.3) + 5 * Math.sin(x / 17);
+      DOMES = [{ x: 572, r: 46, drum: 26 }, { x: 690, r: 60, drum: 34, slit: true }, { x: 812, r: 46, drum: 26 }];
+      HOUSES = [{ x: 466, w: 96, h: 42 }, { x: 576, w: 86, h: 38 }];
+      BASE = 930;
+      CYPRESS = [{ x: 520, w: 38, h: 128 }, { x: 628, w: 34, h: 112 }];
+      E = [140, 884];
+      O = [392, 754];
+      TW = 50;
       along = (t) => [lerp(E[0], O[0], t), lerp(E[1], O[1], t)];
       PIV = along(0.42);
+      RS = 0.62;
+      RB = { x: 722 - 96 * RS, y: SILL - 358 * RS };
+      rob = (dx, dy) => [RB.x + dx * RS, RB.y + dy * RS];
+      POT = { x: 862, rimY: 906, rimH: 20, topW: 118, botW: 90, rimW: 130 };
+      ROS = { x: 862, y: 896 };
+      LEAVES = [
+        [-172, 72, 34],
+        [-150, 86, 38],
+        [-128, 92, 40],
+        [-106, 96, 40],
+        [-84, 98, 40],
+        [-62, 94, 40],
+        [-40, 88, 38],
+        [-14, 76, 34],
+        [-139, 56, 30],
+        [-112, 62, 32],
+        [-86, 64, 32],
+        [-60, 60, 30],
+        [-34, 52, 28],
+        [-96, 34, 24],
+        [-72, 34, 24]
+      ].map(([deg, len, w]) => ({ a: deg * Math.PI / 180, len, w }));
+      leafTip = (l) => [ROS.x + Math.cos(l.a) * l.len, ROS.y + Math.sin(l.a) * l.len * 0.82];
       outlines = [
-        { inside: ["still"], against: ["view", "obs", "tree"] },
-        { inside: ["obs"], against: ["sky", "sun", "moon", "ridge"] }
+        { inside: ["still"], against: ["view"] },
+        { inside: ["domes"], against: ["sky", "sun", "moon"] }
       ];
-      isStar = (r, L, t, uy) => r.name === "sky" && L.stars > 0.05 && t.h > 0.982 && t.h2 > 0.2 && uy < 560 && !(L.moon && Math.hypot(t.ux - L.moon.at[0], t.uy - L.moon.at[1]) < 110);
+      isStar = (r, L, t, uy) => r.name === "sky" && L.stars > 0.05 && t.h > 0.985 && t.h2 > 0.25 && uy < 600;
       sanjose_default = {
         key: "now",
         place: "San Jose",
@@ -1356,7 +1301,7 @@
         frameState,
         liveColour,
         isStar,
-        alt: (L) => `The window onto San Jose at ${L.label}: Mt Hamilton across the valley with the white domes of the Lick Observatory on its summit, golden foothills and dark valley oaks; on the sill a small brass telescope aimed at the great dome.`
+        alt: (L) => `The window onto San Jose at ${L.label}: Mt Hamilton with the three Lick Observatory domes, foothills, two valley houses and cypresses; on the sill a brass telescope aimed at the domes, the small blue paper robot and a potted succulent.`
       };
     }
   });
@@ -1375,53 +1320,29 @@
     R("sun", "view", disc(...L.sun, 50), (x, y) => mix(P.sunIn, P.sunOut, smooth(6, 48, Math.hypot(x - L.sun[0], y - L.sun[1]))), { live: "sun", fine: 0.9 });
     R("sea", "view", below(() => HORIZON), (x, y) => mix(P.seaFar, P.sea, smooth(HORIZON, HORIZON + 60, y)), { src: "courses", live: "sea" });
     R("land", "view", below(LAND), (x, y) => mix(P.scrub, P.scrubDark, smooth(0, 140, y - LAND(x)) * 0.6 + 0.25 * vnoise(x / 40, y / 30, 5)), { src: ["sea"] });
-    R("lawn", "view", below((x) => GROUND - 1 + 2 * Math.sin(x / 50)), (x, y) => {
-      if (Math.abs(x - LX - (y - GROUND) * 0.7) < 22 + (y - GROUND) * 0.25 && y > GROUND) return P.path;
+    R("lawn", "view", below((x) => GROUND - 2 + 3 * Math.sin(x / 50)), (x, y) => {
+      if (Math.abs(x - LX - (y - GROUND) * 0.9) < 26 && y > GROUND) return P.path;
       return mix(P.lawn, P.lawnDark, smooth(GROUND, SILL, y) * 0.7);
     }, { src: "courses" });
-    const facet = (x, f) => {
-      const u = (x - LX) / (f[2] / 2);
-      return u < -0.8 ? -1 : u > 0.8 ? 1 : 0;
-    };
-    R("libCore", "lib", (c) => c.rect(LX - 112, FLOORS[0][1] - 2, 224, POD.top - FLOORS[0][1] + 4), (x, y) => {
-      return mix(P.glassDeep, P.glass, smooth(FLOORS[0][1], POD.top, y) * 0.5);
-    }, { fine: 0.66, src: "courses" });
-    R("podium", "lib", (c) => c.rect(LX - POD.w / 2, POD.top, POD.w, GROUND - POD.top + 1), (x, y) => {
-      if (y < POD.top + 9) return x > LX + POD.w * 0.3 ? P.concreteShade : P.concrete;
-      if (y > GROUND - 8) return P.concreteShade;
-      const mull = Math.abs((x - LX) / 22 % 1) < 0.18;
-      return mix(mull ? P.concreteShade : P.glassLit, P.glass, smooth(POD.top + 9, GROUND, y) * 0.7);
-    }, { fine: 0.64, src: "courses" });
-    R("piers", "lib", union(...PIERS.map(([sd, b, t, yt, w]) => {
-      const x0 = LX + sd * b, x1 = LX + sd * t, a = Math.atan2(yt - POD.top, x1 - x0), nx = -Math.sin(a), ny = Math.cos(a);
-      return poly([[x0 + nx * 8, POD.top + 4 + ny * 8], [x1 + nx * w / 2, yt + ny * w / 2], [x1 - nx * w / 2, yt - ny * w / 2], [x0 - nx * 8, POD.top + 4 - ny * 8]]);
-    })), (x, y) => {
-      const lit = x < LX ? 1 : 0;
-      return mix(P.concrete, P.concreteShade, lit ? 0.08 + 0.2 * smooth(POD.top, 700, y) : 0.55);
-    }, { fine: 0.64 });
     R("library", "lib", (c) => {
-      for (const f of [...FLOORS, ROOF]) {
-        const hw = f[2] / 2, ch = Math.min(26, hw * 0.14);
-        c.moveTo(LX - hw + ch, f[0]);
-        c.lineTo(LX + hw - ch, f[0]);
-        c.lineTo(LX + hw, f[0] + 3);
-        c.lineTo(LX + hw, f[1] + 0.8);
-        c.lineTo(LX - hw, f[1] + 0.8);
-        c.lineTo(LX - hw, f[0] + 3);
-        c.closePath();
-      }
+      TIERS.forEach(([top, w], i) => {
+        const bot = i ? TIERS[i - 1][0] : GROUND;
+        c.rect(LX - w / 2, top, w, bot - top + 1);
+      });
+      c.rect(LX - ROOF[1] / 2, ROOF[0], ROOF[1], TIERS[TIERS.length - 1][0] - ROOF[0] + 1);
     }, (x, y) => {
-      const f = floorAt(y);
-      if (!f) return P.concrete;
-      const side = facet(x, f), ledge = y > f[1] - LEDGE || f === ROOF;
-      if (ledge) return side > 0 ? P.concreteShade : side < 0 ? mix(P.concrete, [255, 255, 255], 0.3) : mix(P.concrete, P.concreteShade, 0.18);
-      const g = (y - f[0]) / (f[1] - LEDGE - f[0]);
-      let c = mix(P.glassLit, P.glass, smooth(0.05, 0.85, g));
-      if (side > 0) c = mix(c, P.glassDeep, 0.55);
-      else if (side < 0) c = mix(c, P.glassLit, 0.35);
-      else if (Math.abs((x - LX) / 30 % 1) < 0.1) c = mix(c, P.glassDeep, 0.35);
+      if (y < TIERS[TIERS.length - 1][0]) return P.concrete;
+      const T = tierAt(y);
+      if (!T) return P.concrete;
+      const slab = y > T.bot - 11;
+      const shade2 = x > LX + T.w * 0.2;
+      if (slab) return shade2 ? P.concreteShade : P.concrete;
+      const g = (y - T.top) / (T.bot - 11 - T.top);
+      let c = mix(P.glassLit, P.glass, smooth(0, 0.7, g));
+      if (shade2) c = mix(c, P.glassDeep, 0.45);
       return c;
-    }, { fine: 0.64, src: "courses" });
+    }, { fine: 0.72, src: "courses" });
+    R("piers", "lib", union(...PIERS.map(([side, b, t]) => bar(LX + side * b, GROUND - 80, LX + side * t, 648, 26))), (x) => x > LX ? P.concreteShade : P.concrete, { fine: 0.68 });
     for (const [n, T] of TREES.entries()) {
       const [a, m, b] = T.trunk;
       R(
@@ -1500,7 +1421,7 @@
     }
     return null;
   }
-  var C, P, LX, GROUND, POD, FLOORS, ROOF, LEDGE, PIERS, floorAt, HORIZON, LAND, TREES, ZX0, ZX1, ZINE_UP, CUPX, GULL, outlines2, sandiego_default;
+  var C, P, LX, GROUND, TIERS, ROOF, tierAt, PIERS, HORIZON, LAND, TREES, ZX0, ZX1, ZINE_UP, CUPX, GULL, outlines2, sandiego_default;
   var init_sandiego = __esm({
     "js/places/sandiego.js"() {
       init_core();
@@ -1534,17 +1455,18 @@
         bird: C("#3a4248"),
         outline: C("#2b2925")
       };
-      LX = 520;
-      GROUND = 862;
-      POD = { top: 808, w: 224 };
-      FLOORS = [[680, 716, 290], [644, 680, 358], [608, 644, 412], [574, 608, 420], [541, 574, 378], [510, 541, 326]];
-      ROOF = [497, 510, 278];
-      LEDGE = 12;
-      PIERS = [[22, 52, 716, 26], [58, 110, 716, 27], [96, 180, 680, 27]].flatMap((p) => [[-1, ...p], [1, ...p]]);
-      floorAt = (y) => {
-        for (const f of [...FLOORS, ROOF]) if (y >= f[0] && y < f[1] + 0.5) return f;
+      LX = 522;
+      GROUND = 902;
+      TIERS = [[862, 160], [822, 172], [778, 254], [734, 318], [690, 374], [646, 414], [604, 394], [564, 350]];
+      ROOF = [550, 362];
+      tierAt = (y) => {
+        for (let i = 0; i < TIERS.length; i++) {
+          const top = TIERS[i][0], bot = i ? TIERS[i - 1][0] : GROUND;
+          if (y >= top && y < bot) return { i, top, bot, w: TIERS[i][1] };
+        }
         return null;
       };
+      PIERS = [[46, 88], [60, 140], [76, 188]].flatMap(([b, t]) => [[-1, b, t], [1, b, t]]);
       HORIZON = 652;
       LAND = (x) => 726 + 8 * Math.sin(x / 70);
       TREES = [
@@ -1568,7 +1490,7 @@
       GULL = { x: 836, y: 924 };
       outlines2 = [
         { inside: ["still"], against: ["view", "lib", "tree"] },
-        { inside: ["lib"], against: ["sky", "sea", "land", "lawn", "tree"] }
+        { inside: ["lib"], against: ["sky", "sea", "land", "lawn"] }
       ];
       sandiego_default = {
         key: "sd",
@@ -1779,10 +1701,7 @@
         c.lineTo(IN_X1 + 4, SILL + 1);
         c.closePath();
       },
-      (x, y) => {
-        const c = mix(P3.headLit, P3.head, smooth(0, 110, y - headY(x)));
-        return vnoise(x / 30, y / 18, 19) > 0.6 ? mix(c, P3.scrub, 0.55) : c;
-      },
+      (x, y) => mix(P3.headLit, P3.head, smooth(0, 26, y - headY(x))),
       { src: ["sky", "sea"] }
     );
     R("sand", "view", below(SHORE, IN_X0 - 4, 640), (x, y) => {
@@ -1881,31 +1800,30 @@
       init_geom();
       C3 = (s) => rgb(s);
       P3 = {
-        skyTop: C3("#36568e"),
-        skyMid: C3("#4b6ba6"),
-        skyHor: C3("#7a98c8"),
-        moon: C3("#f8f2dc"),
-        moonDim: C3("#e4dcc0"),
-        halo: C3("#86a3d2"),
-        sea: C3("#33568e"),
-        seaFar: C3("#4569a2"),
-        path: C3("#c4d3ea"),
-        foam: C3("#dde4f0"),
-        horizonGlow: C3("#8aa6d2"),
-        head: C3("#45598a"),
-        headLit: C3("#7189b6"),
-        scrub: C3("#5d7590"),
-        sand: C3("#b4b1a3"),
-        sandWet: C3("#8b92a6"),
-        tower: C3("#f4f0e6"),
-        towerShade: C3("#bcc2d2"),
-        red: C3("#cc4e3c"),
-        redShade: C3("#9e3a2e"),
-        iron: C3("#2c3240"),
-        lamp: C3("#fadb84"),
-        cap: C3("#8e3226"),
-        palm: C3("#203258"),
-        palmLit: C3("#46628f"),
+        skyTop: C3("#0e1a3c"),
+        skyMid: C3("#1c3466"),
+        skyHor: C3("#2c4677"),
+        moon: C3("#f3ecd2"),
+        moonDim: C3("#dcd3b6"),
+        halo: C3("#3b5486"),
+        sea: C3("#0b1834"),
+        seaFar: C3("#13264a"),
+        path: C3("#8aa0c4"),
+        foam: C3("#b9c6da"),
+        horizonGlow: C3("#3e5a8c"),
+        head: C3("#141b2a"),
+        headLit: C3("#34405c"),
+        sand: C3("#8a8778"),
+        sandWet: C3("#5f6273"),
+        tower: C3("#e6e2d6"),
+        towerShade: C3("#a9afc0"),
+        red: C3("#b8402e"),
+        redShade: C3("#8a2f24"),
+        iron: C3("#22262e"),
+        lamp: C3("#f7d27a"),
+        cap: C3("#7a2a20"),
+        palm: C3("#0c1424"),
+        palmLit: C3("#26365a"),
         outline: C3("#2b2925")
       };
       HORIZON2 = 640;
@@ -1951,16 +1869,13 @@
     createStage: () => createStage
   });
   function placePanel(mode, stageEl, laneEl, header) {
-    const r = stageEl.getBoundingClientRect(), w = r.width, h = r.height;
+    const r = stageEl.getBoundingClientRect(), w = r.width, h = r.height, CAP = 30;
+    let area;
     if (mode === "wide") {
       const laneRight = laneEl.getBoundingClientRect().right - r.left;
-      const top = Math.max(16, (header ? header.getBoundingClientRect().bottom - r.top : 16) - 8), bottom = h - CAP;
-      const x0 = Math.max(laneRight + 48, w * 0.42), aw = w - x0;
-      const k2 = Math.min(aw / (1e3 + 2 * FADE_SIDE), (bottom - top) / (SILL_B + FADE_TOP));
-      const ox2 = x0 + aw / 2 - 500 * k2, oy2 = top + (bottom - top - (SILL_B + FADE_TOP) * k2) / 2 + FADE_TOP * k2;
-      return { k: k2, ox: ox2, oy: oy2, stageW: w, stageH: h };
-    }
-    const area = { x: 14, y: 8, w: w - 28, h: h - 8 - CAP - 4 };
+      const top = Math.max(16, header ? header.getBoundingClientRect().bottom - r.top + 4 : 16);
+      area = { x: laneRight + 40, y: top, w: w - laneRight - 40 - 30, h: h - top - 14 - CAP };
+    } else area = { x: 14, y: 8, w: w - 28, h: h - 8 - CAP - 4 };
     const k = Math.min(area.w / FIT.w, area.h / FIT.h);
     const ox = area.x + (area.w - FIT.w * k) / 2 - FIT.x0 * k, oy = area.y + (area.h - FIT.h * k) / 2 - FIT.y0 * k;
     return { k, ox, oy, stageW: w, stageH: h };
@@ -2103,7 +2018,6 @@
       const id = ++building, alive = () => !disposed && id === building;
       const mode = wideMq.matches ? "wide" : "tall", dpr = Math.min(2, devicePixelRatio || 1);
       const Pp = placePanel(mode, stageEl, laneEl, header);
-      setReach(mode === "wide" ? 1 : 0.62);
       if (Pp.k * 1e3 < 60) return;
       st.ready = false;
       st.eras = [];
@@ -2130,29 +2044,27 @@
       st.G = G;
       st.P = Pp;
       const toPx = (ux, uy) => [G.unitX + ux * G.k * dpr, G.unitY + uy * G.k * dpr];
-      const fr = frameRegions(), rnd2 = mulberry32(5);
+      const fr = frameRegions(), rnd = mulberry32(5);
       const fres = await runSliced(laySteps(fr, FRAME_OUTLINES, { W: G.W, H: G.H, q, s: SHEET_STONE, seed: 11 }), alive);
       if (!fres) return;
-      const kept = finishFrame(fres.stones, fr, q, su, rnd2), loose = looseStones(q, su, rnd2, kept.slice());
+      const kept = finishFrame(fres.stones, fr, q, su, rnd), loose = looseStones(q, su, rnd, kept.slice());
       const fc = document.createElement("canvas");
       fc.width = canvas.width;
       fc.height = canvas.height;
       const c = fc.getContext("2d");
-      for (const [sc, blur, a] of [[1.08, 18, 0.26], [0.66, 8, 0.4], [0.3, 3, 0.34]]) {
-        c.save();
-        c.filter = `blur(${Math.max(1, blur * dpr * G.k)}px)`;
-        bedPath(c, toPx, su, sc);
-        c.fillStyle = `rgba(${FRAME_PAL.bed.join(",")},${a})`;
-        c.fill();
-        c.restore();
-      }
       c.save();
-      bedPath(c, toPx, su, 0.7);
+      c.filter = `blur(${Math.max(1, 3 * dpr * G.k)}px)`;
+      bedPath(c, toPx);
+      c.fillStyle = `rgba(${FRAME_PAL.bed.join(",")},.6)`;
+      c.fill();
+      c.restore();
+      c.save();
+      bedPath(c, toPx);
       c.clip();
-      c.strokeStyle = "rgba(150,138,116,.07)";
+      c.strokeStyle = "rgba(150,138,116,.08)";
       c.lineWidth = Math.max(1, 1.1 * dpr);
-      for (let i = 0; i < 12; i++) {
-        const r0 = 506 + rnd2() * 62, a0 = Math.PI * 1.06 + rnd2() * Math.PI * 0.88, a1 = a0 + 0.08 + rnd2() * 0.14;
+      for (let i = 0; i < 8; i++) {
+        const r0 = 512 + rnd() * 40, a0 = Math.PI * 1.08 + rnd() * Math.PI * 0.84, a1 = a0 + 0.08 + rnd() * 0.14;
         c.beginPath();
         for (let a = a0; a < a1; a += 0.01) {
           const [px, py] = toPx(500 + r0 * Math.cos(a), 500 + r0 * Math.sin(a));
@@ -2360,7 +2272,7 @@
       document.removeEventListener("visibilitychange", onVis);
     } };
   }
-  var PLACES, WIDE_QUERY, SHEET_STONE, WIN, q8, FADE_SIDE, FADE_TOP, CAP, grouted, WAVE_D, waveAt, WAVE_W, WAVE_J, WIN_PTS;
+  var PLACES, WIDE_QUERY, SHEET_STONE, WIN, q8, grouted, WAVE_D, waveAt, WAVE_W, WAVE_J, WIN_PTS;
   var init_stage = __esm({
     "js/stage.js"() {
       init_core();
@@ -2376,9 +2288,6 @@
       SHEET_STONE = 6;
       WIN = { x0: IN_X0 - 4, y0: 64, x1: IN_X1 + 4, y1: SILL + 2 };
       q8 = new Float32Array(8);
-      FADE_SIDE = 106;
-      FADE_TOP = 58;
-      CAP = 30;
       grouted = (t, gr) => ({ ...t, l: t.l + t.s * 0.2, w: t.w + t.s * 0.2 });
       WAVE_D = IN_X1 - IN_X0 + 930 * 0.55;
       waveAt = (ux, uy) => (IN_X1 - ux + (uy - 70) * 0.55) / WAVE_D;
