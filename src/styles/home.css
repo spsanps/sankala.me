@@ -1,0 +1,130 @@
+/* The homepage. One painted desk fills the screen and stays put while the words scroll beside it
+   (wide screens) or beneath it (phones). The picture of the desk is a static print until the live
+   painting is ready; both are laid out by the same numbers (see four-frames/constants.js). */
+.personal-site.home-page {
+  --ff-wall: #dfe3d0;
+  --ff-gutter: clamp(20px, 5vw, 84px);
+  --ff-sticky: min(56vh, 115vw);
+}
+@supports (height: 1svh) { .personal-site.home-page { --ff-sticky: min(56svh, 115vw); } }
+
+/* the site header sits on the wall */
+.personal-site .home-header { position: relative; z-index: 4; width: auto; margin: 0; padding-inline: var(--ff-gutter); background: var(--ff-wall); border-bottom: 0; }
+
+.personal-site .four-frames { position: relative; }
+.personal-site .ff-stage { position: sticky; top: 0; z-index: 3; height: var(--ff-sticky); overflow: hidden; background: var(--ff-wall); container-type: inline-size; }
+.personal-site .ff-stage picture { display: contents; }
+.personal-site .ff-still { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: auto; max-width: none; height: calc(min(100cqw / 700, var(--ff-sticky) / 790) * 1042); }
+.personal-site .ff-canvas { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s ease; }
+.personal-site .four-frames.is-live .ff-canvas { opacity: 1; }
+.personal-site .ff-caption { position: absolute; top: 8px; right: 14px; margin: 0; font-size: 12px; line-height: 1.3; color: #4e5850; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+
+/* the words */
+.personal-site .ff-lane { --ff-link: var(--accent); --ff-muted: #46504a; position: relative; z-index: 2; padding: 26px var(--ff-gutter) 64px; background: var(--ff-wall); color: var(--ink); }
+.personal-site .ff-lane a { color: var(--ff-link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.personal-site .ff-lane a:hover { text-decoration-thickness: 2px; }
+.personal-site .ff-frame { min-height: 74vh; }
+.personal-site .ff-frame:last-child { min-height: 0; padding-bottom: 16vh; }
+.personal-site .ff-intro { padding-bottom: 10vh; }
+.personal-site .ff-intro h1 { font-size: clamp(36px, 3.6vw, 54px); letter-spacing: -.04em; }
+.personal-site .ff-lede { margin-top: 20px; font-size: 17.5px; line-height: 1.58; max-width: 31em; }
+.personal-site .ff-more { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 15px; }
+.personal-site .ff-mail { color: var(--ff-muted); user-select: all; }
+.personal-site .ff-cue { margin-top: 26px; font-size: 13.5px; line-height: 1.55; color: var(--ff-muted); max-width: 30em; }
+.personal-site .ff-clock { display: block; min-height: 1.55em; margin-top: 4px; }
+.personal-site .four-frames.is-plain .ff-clock { display: none; }
+.personal-site .ff-path { margin-top: 14vh; font-size: 28px; letter-spacing: -.03em; }
+.personal-site .ff-place { display: flex; flex-direction: column; gap: 2px; padding-top: 16px; margin-top: 24px; border-top: 1px solid rgba(32, 44, 56, .2); scroll-margin-top: calc(var(--ff-sticky) + 12px); }
+.personal-site .ff-years { font-size: 13px; color: var(--ff-muted); font-variant-numeric: tabular-nums; }
+.personal-site .ff-place h2 { font-size: 30px; letter-spacing: -.035em; }
+.personal-site .ff-role { font-size: 15px; color: var(--ff-muted); }
+.personal-site .ff-entries { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 26px; }
+.personal-site .ff-entries > li { scroll-margin-top: calc(var(--ff-sticky) + 16px); }
+.personal-site .ff-entries > li.has-print { display: grid; grid-template-columns: minmax(0, 1fr) 78px; gap: 18px; align-items: start; }
+.personal-site .ff-entries time { display: block; font-size: 12.5px; color: var(--ff-muted); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.personal-site .ff-entries h3 { font: 600 16px/1.35 'DM Sans', sans-serif; letter-spacing: 0; }
+.personal-site .ff-entries p { margin-top: 5px; font-size: 15px; line-height: 1.58; }
+.personal-site .ff-entries .ff-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+.personal-site .ff-print { display: block; scroll-margin-top: calc(var(--ff-sticky) + 16px); margin-top: 20px; padding: 4px 4px 5px; background: #fbfaf5; box-shadow: 0 .5px 1px rgba(40, 32, 20, .22), 0 8px 14px -10px rgba(40, 32, 20, .55); transform: rotate(2.2deg); transition: transform .3s ease; }
+.personal-site .ff-entries > li:nth-child(even) .ff-print { transform: rotate(-2deg); }
+.personal-site .ff-print img { display: block; width: 100%; height: auto; }
+.personal-site .ff-lane a.ff-print { text-decoration: none; }
+.personal-site .ff-print:hover, .personal-site .ff-print:focus-visible { transform: rotate(0) translateY(-2px); }
+.personal-site .ff-plain-still { display: none; }
+
+.personal-site .ff-lightbox { max-width: min(1100px, 94vw); max-height: 94dvh; border: 0; padding: 20px; background: var(--paper); color: var(--ink); }
+.personal-site .ff-lightbox::backdrop { background: rgba(17, 28, 43, .9); }
+.personal-site .ff-lightbox img { max-height: 76dvh; width: auto; max-width: 100%; margin: auto; object-fit: contain; }
+.personal-site .ff-lightbox figure { margin: 0; }
+.personal-site .ff-lightbox figcaption { margin-top: 12px; text-align: center; font-size: 13px; color: var(--muted); }
+.personal-site .ff-lightbox-close { display: block; margin: 0 0 14px auto; font-size: 13px; }
+
+/* ───────── wide screens: the painting is the page; the words run down the plain wall ───────── */
+@media (min-aspect-ratio: 29/20) and (min-width: 1000px) {
+  .personal-site.home-page { --ff-sticky: 100vh; }
+  .personal-site .home-header { position: absolute; top: 0; left: 0; right: 0; min-height: 84px; background: transparent; }
+  .personal-site .ff-stage { height: 100vh; z-index: 1; }
+  .personal-site .ff-caption { display: none; }
+  .personal-site .ff-still { left: auto; right: 0; transform: none; height: calc(min(100vh, 100cqw - 520px) * 1.5); }
+  .personal-site .four-frames.is-dim .ff-lane { --ff-link: #16202a; --ff-muted: #16202a; color: #16202a; }
+  .personal-site .ff-lane { z-index: 2; margin-top: -100vh; margin-left: var(--ff-gutter); width: min(452px, calc(max(100vw - 100vh, 520px) - var(--ff-gutter) - 48px)); padding: 0 0 46vh; background: none; }
+  .personal-site .ff-frame { min-height: 118vh; }
+  .personal-site .ff-frame:last-child { min-height: 96vh; padding-bottom: 0; }
+  .personal-site .ff-intro { padding-top: 22vh; padding-bottom: 6vh; }
+  .personal-site .ff-path { margin-top: 26vh; }
+  .personal-site .ff-place { scroll-margin-top: 18vh; }
+  .personal-site .ff-entries > li { scroll-margin-top: 20vh; }
+}
+
+/* ───────── the plain version, and for readers who prefer less motion ───────── */
+.personal-site .four-frames.is-plain .ff-stage { display: none; }
+.personal-site .four-frames.is-plain .ff-lane { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 40px; background: none; }
+.personal-site .four-frames.is-plain .ff-frame { min-height: 0; margin-bottom: 40px; }
+.personal-site .four-frames.is-plain .ff-intro { padding: 32px 0 24px; }
+.personal-site .four-frames.is-plain .ff-path { margin-top: 48px; }
+.personal-site .four-frames.is-plain .ff-plain-still { display: block; margin: 24px 0 18px; }
+.personal-site .four-frames.is-plain .ff-plain-still img { width: 100%; height: auto; }
+.personal-site.home-page:has(.four-frames.is-plain) .home-header { position: relative; background: var(--paper); }
+@media (prefers-reduced-motion: reduce) {
+  .personal-site .four-frames .ff-stage { display: none; }
+  .personal-site .four-frames .ff-lane { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 40px; background: none; }
+  .personal-site .four-frames .ff-frame { min-height: 0; margin-bottom: 40px; }
+  .personal-site .four-frames .ff-intro { padding: 32px 0 24px; }
+  .personal-site .four-frames .ff-path { margin-top: 48px; }
+  .personal-site .four-frames .ff-plain-still { display: block; margin: 24px 0 18px; }
+  .personal-site .four-frames .ff-plain-still img { width: 100%; height: auto; }
+  .personal-site .home-header { position: relative !important; background: var(--paper) !important; }
+  .personal-site .ff-place, .personal-site .ff-entries > li { scroll-margin-top: 16px; }
+  .personal-site .ff-print { transition: none; }
+  .personal-site .ff-clock { display: none; }
+}
+
+/* ───────── after the experience: the shelf, then what's recent ───────── */
+.personal-site .home-shelf { position: relative; z-index: 4; display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; width: min(1160px, calc(100% - 2 * var(--ff-gutter))); margin: 0 auto; padding-block: 72px 56px; background: var(--paper); }
+.personal-site .home-anchor { position: absolute; top: 0; }
+.personal-site .home-shelf-text h2 { font-size: clamp(28px, 3vw, 38px); }
+.personal-site .home-shelf-text > p { margin-top: 12px; max-width: 30em; color: var(--muted); font-size: 15.5px; }
+.personal-site .home-shelf-links { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 18px; font-size: 14px; }
+.personal-site .home-shelf-links a { text-decoration: underline; text-decoration-color: #a2a7ab; text-underline-offset: 5px; }
+.personal-site .home-shelf-links a:hover { color: var(--accent); text-decoration-color: currentColor; }
+.personal-site .home-covers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 18px; }
+.personal-site .home-covers li { min-width: 0; }
+.personal-site .home-cover { display: block; }
+.personal-site .home-cover .cover-art { display: block; box-shadow: 0 .5px 1px rgba(40, 32, 20, .16), 0 10px 16px -12px rgba(40, 32, 20, .44); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+.personal-site .home-cover .cover-art img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; }
+.personal-site .home-cover:hover .cover-art, .personal-site .home-cover:focus-visible .cover-art { transform: translateY(-4px); }
+.personal-site .home-cover:hover { text-decoration: none; }
+.personal-site .home-cover-title { display: block; margin-top: 12px; font-size: 14px; line-height: 1.32; text-wrap: balance; }
+.personal-site .home-cover:hover .home-cover-title { text-decoration: underline; text-underline-offset: .2em; }
+.personal-site .home-cover-meta { display: block; margin-top: 3px; font-size: 12.5px; color: var(--muted); }
+.personal-site .home-recent { width: min(1160px, calc(100% - 2 * var(--ff-gutter))); margin: 0 auto; padding-block: 26px 48px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); }
+.personal-site .home-recent span { color: var(--ink); font-weight: 600; margin-right: 6px; }
+.personal-site .home-recent a { color: var(--ink); text-decoration: underline; text-decoration-color: #a2a7ab; text-underline-offset: 4px; }
+.personal-site .home-recent a:hover { color: var(--accent); }
+.personal-site .home-colophon { margin-top: 8px; font-size: 13px; }
+@media (min-width: 860px) {
+  .personal-site .home-shelf { grid-template-columns: minmax(0, 340px) minmax(0, 620px); justify-content: space-between; gap: 48px; padding-block: 96px 72px; }
+  .personal-site .home-shelf-text { position: sticky; top: 32px; align-self: start; }
+  .personal-site .home-covers { gap: 40px 28px; }
+}
+@media (prefers-reduced-motion: reduce) { .personal-site .home-cover .cover-art { transition: none; } .personal-site .home-cover:hover .cover-art { transform: none; } }

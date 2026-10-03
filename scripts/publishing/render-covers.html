@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cover printing harness</title>
+<!-- Loaded by scripts/publishing/render-covers.mjs through the Vite dev server. It prints each
+     cover with the same code the site uses and hands the images back as data URLs. -->
+</head>
+<body>
+<script type="module">
+import { printCover } from '/src/components/art/covers/renderer.js';
+import { coverSocialImage } from '/src/components/art/covers/registry.js';
+import { works, formatNames } from '/src/data/work.js';
+
+const SITE_FONTS = [['Fraunces', 600, '/fonts/fraunces-3.woff2'], ['DM Sans', 400, '/fonts/dm-sans-1.woff2'], ['DM Sans', 500, '/fonts/dm-sans-2.woff2']];
+const fontsReady = Promise.all(SITE_FONTS.map(([family, weight, url]) => new FontFace(family, `url(${url})`, { weight: String(weight) }).load().then(face => document.fonts.add(face))));
+
+const sheet = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+function downscale(src, w, h) {
+  let cur = src;
+  while (cur.width / 2 >= w) { const half = sheet(Math.round(cur.width / 2), Math.round(cur.height / 2)); const x = half.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(cur, 0, 0, half.width, half.height); cur = half; }
+  const out = sheet(w, h), x = out.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(cur, 0, 0, w, h); return out;
+}
+function wrap(ctx, text, maxWidth) {
+  const lines = []; let line = '';
+  for (const word of text.split(' ')) { const next = line ? line + ' ' + word : word; if (ctx.measureText(next).width > maxWidth && line) { lines.push(line); line = word; } else line = next; }
+  if (line) lines.push(line); return lines;
+}
+
+// A share card: the cover on the site's quiet paper, with the work's title beside it.
+function shareCard(cover, work) {
+  const W = 1200, H = 630, c = sheet(W, H), x = c.getContext('2d');
+  x.fillStyle = '#faf9f5'; x.fillRect(0, 0, W, H);
+  const ch = 500, cw = ch * 2 / 3, cx = 92, cy = (H - ch) / 2;
+  x.save(); x.fillStyle = '#e6e1d6'; x.shadowColor = 'rgba(40,32,20,.32)'; x.shadowBlur = 26; x.shadowOffsetY = 12; x.fillRect(cx, cy, cw, ch); x.restore();
+  x.imageSmoothingQuality = 'high'; x.drawImage(downscale(cover, Math.round(cw), ch), cx, cy, cw, ch);
+  const tx = 520, tw = 600;
+  x.font = '600 62px Fraunces'; const titleLines = wrap(x, work.title, tw).slice(0, 3);
+  x.font = '400 28px "DM Sans"'; const subLines = wrap(x, work.displayTitle, tw).slice(0, 2);
+  const blockH = 34 + titleLines.length * 68 + 22 + subLines.length * 38;
+  let y = (H - blockH) / 2 + 6;
+  x.fillStyle = '#58616b'; x.font = '500 22px "DM Sans"'; x.fillText(`San Kala · ${formatNames[work.formats[0]].replace(' / note', '')} · ${work.date}`, tx, y); y += 34 + 52;
+  x.fillStyle = '#202c38'; x.font = '600 62px Fraunces'; for (const l of titleLines) { x.fillText(l, tx, y); y += 68; }
+  y += 22 - 68 + 38;
+  x.fillStyle = '#58616b'; x.font = '400 28px "DM Sans"'; for (const l of subLines) { x.fillText(l, tx, y); y += 38; }
+  x.fillStyle = '#244f85'; x.font = '500 22px "DM Sans"'; x.fillText('sankala.me', tx, H - 58);
+  return c;
+}
+
+window.renderCover = async slug => {
+  await fontsReady;
+  const canvas = sheet(720, 1080), t0 = performance.now();
+  const renderer = await printCover(slug, canvas, 720, 1080);
+  renderer.draw(renderer.still, true);
+  const buildMs = Math.round(performance.now() - t0);
+  const c360 = downscale(canvas, 360, 540), thumb = downscale(c360, 160, 240);
+  const out = { buildMs, cover: canvas.toDataURL('image/webp', .86), c360: c360.toDataURL('image/webp', .86), thumb: thumb.toDataURL('image/webp', .86) };
+  const work = works.find(w => w.slug === slug);
+  if (coverSocialImage(slug) && work) out.social = shareCard(canvas, work).toDataURL('image/jpeg', .9);
+  return out;
+};
+window.__ready = true;
+</script>
+</body>
+</html>

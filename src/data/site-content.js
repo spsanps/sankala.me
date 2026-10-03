@@ -33,7 +33,7 @@ export const notesData = [
       excerpt: "Walk inside an O’Neill cylinder, where the landscape curves overhead. A world to explore on foot or by air, made with Astra.",
       readTime: "Interactive",
       tags: ["Space", "O’Neill Cylinder", "Astra"],
-      ogImage: "/images/space/another-sky.jpg",
+      ogImage: "/images/covers/another-sky-social.jpg",
       isExternalLink: true,
       externalUrl: "https://dysonswarm.com/another-sky/"
     },
@@ -60,7 +60,7 @@ export const notesData = [
       excerpt: "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge — and why the recipe matters for robotics.",
       readTime: "4 min read",
       tags: ["AI", "Robotics", "NeurIPS", "LLMs"],
-      ogImage: "/notes/eai/og-image.png",
+      ogImage: "/images/covers/eai-challenge-social.jpg",
       isEssayLink: true,
       essayRoute: "/notes/eai-challenge"
     },
@@ -73,7 +73,7 @@ export const notesData = [
       excerpt: "What if Claude had a quiet life as a bee? A meditative pixel simulation made entirely with Claude Code.",
       readTime: "Interactive",
       tags: ["Claude", "Generative Art", "Simulation"],
-      ogImage: "/toys/bee-sim/og-image.png",
+      ogImage: "/images/covers/a-clauiet-life-social.jpg",
       isExternalLink: true,
       externalUrl: "/toys/bee-sim/index.html"
     },
@@ -86,7 +86,7 @@ export const notesData = [
       excerpt: "Interactive visualization of a Dyson swarm megastructure. Watch Mercury get dismantled to build a civilization-scale solar collector.",
       readTime: "Interactive",
       tags: ["Space", "Visualization", "Megastructures"],
-      ogImage: "/images/writing/dysonswarm-og.png",
+      ogImage: "/images/covers/dyson-swarm-social.jpg",
       isExternalLink: true,
       externalUrl: "https://dysonswarm.com/swarm/"
     },
@@ -99,17 +99,18 @@ export const notesData = [
       excerpt: "Lessons learned from building a writing assistant for novelists that didn't make it to market.",
       readTime: "5 min read",
       tags: ["Entrepreneurship", "Product", "Failure"],
+      ogImage: "/images/covers/startr-postmortem-social.jpg",
       originalDate: "Oct 2023",
       content: `
 # StartR Accelerator: A Post-Mortem
 
 *Originally pitched Oct 2023, published Dec 2025*
 
-Fall 2023, I got accepted into UCSD's StartR Rady accelerator with "Glyp"—an AI platform for long-form content writing, targeting novelists and creative writers.
+In fall 2023, I got accepted into UCSD's StartR Rady accelerator with "Glyp"—an AI platform for long-form content writing, targeting novelists and creative writers.
 
 ## The Pitch
 
-I'd kept this digital notebook for years—random story ideas, settings, character concepts. When ChatGPT came out, I started using it to flesh out chapters from these notes. It worked surprisingly well. Since I was already doing LLM research at UCSD, building a product around this felt like a natural extension of what I was already thinking about.
+I'd kept a digital notebook for years—random story ideas, settings, character concepts. When ChatGPT came out, I started using it to flesh out chapters from these notes. It worked surprisingly well. Since I was doing LLM research at UCSD, building a product around this felt like a natural extension of what I was already thinking about.
 
 The vision for Glyp went beyond being just another AI writing assistant. I wanted to build a platform where people could share, edit, and collaborate on AI-written content. The idea was that if AI made writing more accessible, you could bring readers into the creative process itself—not just as consumers but as participants. Democratizing storytelling, basically.
 
@@ -117,17 +118,17 @@ Looking back, I think I was excited about the technology and assumed the product
 
 ## What Went Wrong
 
-I had this sense that AI + products was going to be huge in 2023, and I wasn't wrong about that—but I completely misread where the action would actually be. For B2C, the momentum was in mobile apps like [Cal AI](https://cal.ai/), while I was still optimizing for web. Wrong medium, wrong form factor. By the time I realized this, competitors had already established themselves.
+I had this sense that AI products were going to be huge in 2023, and I wasn't wrong about that—but I completely misread where the action would actually be. For B2C, the momentum was in mobile apps like [Cal AI](https://cal.ai/), while I was still building for the web. Wrong medium, wrong form factor. By the time I realized this, competitors had already established themselves.
 
 I also wasn't really in [founder mode](https://paulgraham.com/foundermode.html). Instead of executing on one clear direction, I kept getting pulled toward different ideas—tweaking features, exploring new angles, second-guessing the core product. No real conviction, no committed path forward.
 
 Meanwhile, competitors like [Sudowrite](https://sudowrite.com/) and [Jenni AI](https://jenni.ai/) had picked specific niches and stuck with them. Watching their progress over the same timeframe taught me more about what building a product actually involves than any course could—getting users, growing users, keeping users, making money. I was worrying about the wrong things entirely. I kept thinking about features when I should have been thinking about distribution.
 
-Later [Rohan](https://www.linkedin.com/in/rohan-mishra-cs/) and I tried pivoting to video content with [Glyp Podcasts](https://www.youtube.com/@glyp.podcasts), thinking it was a larger TAM play. Same fundamental problems though—too late, poorly executed, no real conviction behind the pivot. Just trying things instead of building toward something.
+Later, [Rohan](https://www.linkedin.com/in/rohan-mishra-cs/) and I tried pivoting to video content with [Glyp Podcasts](https://www.youtube.com/@glyp.podcasts), thinking it was a larger TAM play. Same fundamental problems though—too late, poorly executed, no real conviction behind the pivot. Just trying things instead of building toward something.
 
 ## What I Learned
 
-Making something that works isn't the same as making something people use. You can build the best product in the world, but if nobody knows it exists or doesn't understand why they need it, it doesn't matter. Distribution matters way more than features. This sounds obvious when you say it, but you don't really internalize it until you've built something nobody finds.
+Making something that works isn't the same as making something people use. You can build the best product in the world, but if nobody knows it exists, or people don't understand why they need it, it doesn't matter. Distribution matters way more than features. This sounds obvious when you say it, but you don't really internalize it until you've built something nobody finds.
 
 The competitors who succeeded weren't necessarily smarter or more technical than I was. They were just more focused. They picked something specific, committed to it, and executed consistently. I was trying to figure out what to build while they were already building.
 

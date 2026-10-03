@@ -67,22 +67,20 @@ try {
     await page.goto(origin + '/this-route-does-not-exist', { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
+    // The homepage: the desk in four places, all ten milestones with their photographs, the covers.
     await page.goto(origin + '/');
-    assert.equal(await page.locator('.atlas-object').count(),3,'Three photographs on the personal cover');
-    await page.getByRole('button',{name:'Arrange as a grid',exact:false}).click();
-    assert.ok(await page.locator('.personal-atlas.is-ordered').isVisible(),'Collection can be arranged for scanning');
-    await page.getByRole('button',{name:'Spread the collection',exact:false}).click();
-    await page.locator('.atlas-people').click();
-    assert.ok(page.url().endsWith('#history-ucsd-graduation'),'Cover photograph leads to its history');
     await page.locator('[data-milestone]').first().waitFor();
+    assert.equal(await page.locator('[data-frame]').count(),4,'Four places on the homepage');
     assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
-    assert.equal(await page.locator('.history-photo-link').count(),8,'Career photos restored');
-    await page.locator('.history-photo-link').first().click();
-    assert.ok(await page.getByRole('dialog',{name:'Career photograph'}).isVisible(),'Photo enlarges');
+    for (const id of ['eai-challenge','ebay-research','ucsd-graduation','zinify','startr','ebay-internship','ebay-ml-challenge','ucsd-start','texas-instruments','nitk']) assert.equal(await page.locator(`#history-${id}`).count(),1,`History anchor kept: ${id}`);
+    assert.ok(await page.locator('.ff-still').evaluate(image => image.complete && image.naturalWidth > 0),'Static picture of the desk loads');
+    assert.equal(await page.locator('.ff-print').count(),8,'Career photos on the homepage');
+    await page.locator('.ff-print').first().evaluate(link => link.click());
+    assert.ok(await page.getByRole('dialog',{name:'Photograph'}).isVisible(),'Photo enlarges');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('dialog[open]').count(),0,'Photo closes with Escape');
-    await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'02 Writing'}).click();
-    assert.ok(page.url().endsWith('#writing'),'Jump to writing');
+    assert.equal(await page.locator('.home-covers li').count(),9,'Every cover on the homepage shelf');
+    for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     for (const label of ['Writing', 'Projects', 'Research', 'History', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);

@@ -16,7 +16,7 @@ const introductions = {
   'a-clauiet-life': ['An AI-controlled bee in a simulated garden', 'What would Claude do with a quiet life as a bee? Watch it make decisions in a garden simulation.'],
   'dyson-swarm': ['Build a swarm of solar collectors around the Sun', 'An interactive simulation of dismantling Mercury to build solar collectors in orbit around the Sun.'],
   'gpt7-will-have-arms': ['Why I think language models will power robots', 'An essay about how advances in AI and cheaper robot hardware could bring capable robots into everyday life. Also adapted into an animated film.'],
-  'eai-challenge': ['How we won an AI-agent competition', 'My brother and I used a language model and the competition’s own evaluator to generate training data and win the NeurIPS 2025 Embodied Agent Interface Challenge.'],
+  'eai-challenge': ['How we won an AI-agent competition', 'Chin and I used a language model and the competition’s own evaluator to generate training data and win the NeurIPS 2025 Embodied Agent Interface Challenge.'],
   'startr-postmortem': ['What went wrong with my writing-assistant startup', 'The story of building a tool for novelists through UCSD’s StartR accelerator, and why it never made it to market.'],
   'zinify': ['Turning research papers into illustrated zines', 'ZINify uses language models to turn academic papers into visual zines. UIST 2023 Student Innovation Contest Honorable Mention.'],
   'power-quality': ['Recognizing electrical disturbances with neural networks', 'Research on classifying power-quality events using recurrent neural networks. IEEE DISCOVER 2019 Best Paper Award.'],

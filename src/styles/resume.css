@@ -1,0 +1,38 @@
+/* The CV: no art. Type carries rank, rules carry groups, and it prints on one clean column. */
+.personal-site .resume-page .page-heading > p:first-of-type { font-size: 17px; letter-spacing: .01em; }
+.personal-site .resume-page .print-contact { display: none; }
+.personal-site .resume-page .profile-section { margin: 24px 0 72px; }
+.personal-site .resume-page .section-heading { border-bottom: 1px solid var(--ink); padding-bottom: 14px; }
+.personal-site .resume-page .section-heading h2 { font-size: clamp(26px, 2.6vw, 32px); }
+.personal-site .resume-page .profile-row { grid-template-columns: 210px minmax(0, 1fr); gap: 40px; padding: 28px 0; }
+.personal-site .resume-page .profile-section .profile-row:first-child { border-top: 0; }
+.personal-site .resume-page .profile-row h3 { font-size: clamp(21px, 1.9vw, 25px); line-height: 1.25; }
+.personal-site .resume-page .profile-row > div:first-child h3 { font-size: 21px; }
+.personal-site .resume-page .profile-row > div:first-child .eyebrow { margin-top: 8px; font-variant-numeric: tabular-nums; }
+.personal-site .resume-page .profile-row > .eyebrow { padding-top: 5px; font-variant-numeric: tabular-nums; }
+.personal-site .resume-page .profile-row p, .personal-site .resume-page .profile-row li { font-size: 15.5px; line-height: 1.6; max-width: 720px; }
+.personal-site .resume-page .profile-row li { margin-top: 10px; }
+@media (max-width: 760px) {
+  .personal-site .resume-page .profile-row { grid-template-columns: 1fr; gap: 10px; }
+}
+
+@media print {
+  @page { margin: 16mm 15mm; }
+  .personal-site:has(.resume-page) { background: #fff; color: #000; font-size: 10.5pt; }
+  .personal-site:has(.resume-page) :is(.site-header, .site-footer, .skip) { display: none !important; }
+  .personal-site .resume-page { width: auto; margin: 0; }
+  .personal-site .resume-page .actions { display: none; }
+  .personal-site .resume-page .print-contact { display: block; margin-top: 6pt; color: #000; font-size: 10pt; }
+  .personal-site .resume-page .page-heading { padding: 0 0 10pt; }
+  .personal-site .resume-page h1 { font-size: 24pt; }
+  .personal-site .resume-page .page-heading > p:first-of-type { margin-top: 4pt; font-size: 10.5pt; color: #333; }
+  .personal-site .resume-page .profile-section { margin: 10pt 0 14pt; }
+  .personal-site .resume-page .section-heading { padding-bottom: 4pt; border-color: #000; break-after: avoid; }
+  .personal-site .resume-page .section-heading h2 { font-size: 14pt; }
+  .personal-site .resume-page .profile-row { grid-template-columns: 34mm minmax(0, 1fr); gap: 6mm; padding: 7pt 0; border-color: #ccc; break-inside: avoid; }
+  .personal-site .resume-page .profile-row h3, .personal-site .resume-page .profile-row > div:first-child h3 { font-size: 11.5pt; }
+  .personal-site .resume-page .profile-row :is(p, li, .eyebrow) { font-size: 9.5pt; line-height: 1.45; color: #222; margin-top: 3pt; max-width: none; }
+  .personal-site .resume-page .profile-row .venue { color: #000; }
+  .personal-site .resume-page .profile-links { display: none; }
+  .personal-site .resume-page a { color: #000; text-decoration: none; }
+}

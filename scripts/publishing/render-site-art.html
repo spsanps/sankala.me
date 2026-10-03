@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Site art harness</title>
+<!-- Loaded by scripts/publishing/render-site-art.mjs through the Vite dev server. It draws the
+     small window views for /history and the 404 scene with the same clear-line kit as the
+     Four frames homepage, and hands the images back as data URLs. ?hour= sets San Jose time. -->
+</head>
+<body>
+<script src="/design/prototypes/2026-10-code-drawn-art/four-frames/js/core.js"></script>
+<script src="/design/prototypes/2026-10-code-drawn-art/four-frames/js/ink.js"></script>
+<script src="/design/prototypes/2026-10-code-drawn-art/four-frames/js/room.js"></script>
+<script src="/design/prototypes/2026-10-code-drawn-art/four-frames/js/views.js"></script>
+<script src="/design/prototypes/2026-10-code-drawn-art/four-frames/js/objects.js"></script>
+<script>
+'use strict';
+/* One window, drawn the way the homepage room draws its window: enamel frame, shaded reveal,
+   sill, glazing bars, latch and two glints, with the place's view behind the glass. */
+const WIN = { x: 30, y: 8, w: 470, h: 482, f: 20, transom: .36, bar: 12 };
+const SILL = { y: WIN.y + WIN.h, h: 20, over: 24 };
+const OPEN = { x: WIN.x + WIN.f, y: WIN.y + WIN.f, w: WIN.w - 2 * WIN.f, h: WIN.h - 2 * WIN.f };
+const VIEW_H = 1000 * OPEN.h / OPEN.w;
+const BOX = { x: 0, y: 0, w: WIN.x * 2 + WIN.w, h: SILL.y + SILL.h + 14 };
+
+// The light each place is remembered by, as on the homepage (San Jose follows ?hour=).
+function lightFor(era) {
+  const H = VIEW_H;
+  if (era === 'now') {
+    const st = skyState(sceneDate());
+    const ax = az => (az - 55) / 70 * 1000, ey = el => H * .44 - el / 30 * H * .44;
+    return { ...st, sunUp: st.sun.el > -1 && st.sun.az > 50 && st.sun.az < 130, sunX: ax(st.sun.az), sunY: ey(st.sun.el),
+      moonUp: st.moon.el > 0 && st.moon.az > 45 && st.moon.az < 135 && st.night > .2, moonX: ax(st.moon.az), moonY: ey(st.moon.el) };
+  }
+  if (era === 'sd') return { day: 1, golden: 0, night: 0, twilight: 0, stars: 0, sunUp: false, moonUp: false };
+  if (era === 'blr') return { day: .7, golden: .55, night: 0, twilight: 0, stars: 0, sunUp: false, moonUp: false };
+  return { day: 0, golden: 0, night: .78, twilight: .35, stars: .9, sunUp: false, moonUp: true, moon: { phase: .3 }, moonX: 760, moonY: H * .16 };
+}
+
+function drawView(P, era, sky, t, extra) {
+  LIGHT = { day: sky.day ?? 1, golden: sky.golden || 0, night: sky.night || 0, twilight: sky.twilight || 0 };
+  P.within(c => c.rect(OPEN.x, OPEN.y, OPEN.w, OPEN.h), p => {
+    p.at(OPEN.x, OPEN.y, 0, OPEN.w / 1000, q => {
+      VIEWS[era](q, VIEW_H, sky);
+      if (VIEW_LIVE[era]) VIEW_LIVE[era](q.c, VIEW_H, t);
+      if (extra) extra(q);
+    });
+  });
+}
+
+function drawFrame(P) {
+  const w = WIN, o = OPEN, s = SILL;
+  P.alpha(.16, p => p.fill('#4b5240', R(w.x + 7, w.y + 8, w.w, w.h)));
+  P.shape(c => { c.rect(w.x, w.y, w.w, w.h); c.rect(o.x + o.w, o.y, -o.w, o.h); }, PAL.frame, LW, 'evenodd');
+  P.fill(PAL.frameShade, PL([[o.x, o.y], [o.x + o.w, o.y], [o.x + o.w - 7, o.y + 8], [o.x + 7, o.y + 8]]));
+  P.fill(PAL.frameShade, PL([[o.x, o.y], [o.x + 7, o.y + 8], [o.x + 7, o.y + o.h], [o.x, o.y + o.h]]));
+  P.ink(c => c.rect(o.x, o.y, o.w, o.h), LW);
+  P.shape(PL([[w.x - s.over, s.y], [w.x + w.w + s.over, s.y], [w.x + w.w + s.over + 5, s.y + 8], [w.x - s.over - 5, s.y + 8]]), '#fbfaf4', LW_IN);
+  P.shape(R(w.x - s.over - 5, s.y + 8, w.w + 2 * s.over + 10, s.h - 8), PAL.frameShade, LW_IN);
+  P.alpha(.18, p => p.fill('#4b5240', R(w.x - s.over, s.y + s.h, w.w + 2 * s.over + 4, 8)));
+  const tY = o.y + o.h * w.transom, mX = o.x + o.w / 2, bar = w.bar;
+  P.shape(R(o.x, tY - bar / 2, o.w, bar), PAL.frame, LW_IN);
+  P.shape(R(mX - bar / 2, o.y, bar, o.h), PAL.frame, LW_IN);
+  P.fill(PAL.frameShade, R(o.x + 1, tY + bar / 2 - 3, o.w - 2, 3));
+  P.fill(PAL.frameShade, R(mX + bar / 2 - 3, tY + bar / 2, 3, o.h - (tY - o.y) - bar / 2));
+  P.shape(RR(mX - 4, tY + 34, 8, 30, 3), '#c99a3e', LW_IN);
+  P.alpha(.5, p => {
+    for (const [x0, y0] of [[o.x + 26, tY + 40], [mX + 24, tY + 40]]) {
+      p.ink(LN([[x0, y0 + 46], [x0 + 40, y0]]), 2.2, 'rgba(255,255,255,.9)');
+      p.ink(LN([[x0 + 12, y0 + 70], [x0 + 66, y0 + 10]]), 1.2, 'rgba(255,255,255,.75)');
+    }
+  });
+}
+
+function toDataUrl(sp, type = 'image/png') { return sp.cv.toDataURL(type); }
+
+/** A place's window: era is now | sd | blr | nitk; width in device pixels. */
+window.renderPlace = (era, width, t = 4) => {
+  makeTextures();
+  const px = width / BOX.w, sky = lightFor(era);
+  const sp = bake(px, BOX.x, BOX.y, BOX.w, BOX.h, P => { drawView(P, era, sky, t); drawFrame(P); }, { texture: .8 });
+  return toDataUrl(sp);
+};
+
+/** The 404: San Jose at night, and a telescope on the sill aimed at a patch of sky with nothing in it. */
+window.renderNotFound = (width) => {
+  makeTextures();
+  const px = width / BOX.w, sky = { ...lightFor('now'), moonUp: false, sunUp: false };
+  const patch = { x: 845, y: VIEW_H * .13, r: 72 };   // view units: clear sky, away from the domes and the palm
+  const sp = bake(px, BOX.x, BOX.y, BOX.w, BOX.h, P => {
+    drawView(P, 'now', sky, 0, q => {
+      // the empty patch: the same sky, with no stars in it, and the finder's dashed circle
+      q.within(EL(patch.x, patch.y, patch.r, patch.r), r => drawSky(r, VIEW_H, { ...sky, stars: 0 }));
+      q.c.save(); q.c.setLineDash([10, 9]);
+      q.ink(EL(patch.x, patch.y, patch.r, patch.r), 2.4, 'rgba(255,244,214,.75)');
+      q.c.restore();
+      for (const a of [0, PI / 2, PI, PI * 1.5]) {
+        const cx = patch.x + Math.cos(a) * patch.r, cy = patch.y + Math.sin(a) * patch.r;
+        q.ink(LN([[cx + Math.cos(a) * 8, cy + Math.sin(a) * 8], [cx + Math.cos(a) * 24, cy + Math.sin(a) * 24]]), 2.4, 'rgba(255,244,214,.75)');
+      }
+    });
+    drawFrame(P);
+    // the telescope stands on the sill, aimed at the patch
+    const tx = OPEN.x + 128, ty = SILL.y + 1, s = 1.08, top = [tx, ty - 74 * s - 6 * s];
+    const aim = [OPEN.x + patch.x * OPEN.w / 1000, OPEN.y + patch.y * OPEN.w / 1000];
+    drawTelescope(P, tx, ty, s, Math.atan2(aim[1] - top[1], aim[0] - top[0]));
+  }, { texture: .8 });
+  return toDataUrl(sp);
+};
+
+window.__ready = true;
+</script>
+</body>
+</html>

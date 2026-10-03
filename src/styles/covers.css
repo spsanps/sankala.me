@@ -1,0 +1,36 @@
+/* Covers on the site: the Writing shelf and the small prints beside archive rows. */
+.personal-site .cover-shelf { list-style: none; margin: 0; padding: 12px 0 76px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 64px 48px; }
+.personal-site .shelf-piece { display: grid; align-content: start; gap: 26px; min-width: 0; }
+.personal-site .shelf-cover { display: block; width: 100%; max-width: 300px; border-radius: 1px; }
+.personal-site .shelf-cover .cover-art { transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s cubic-bezier(.2,.7,.2,1); }
+.personal-site .shelf-cover:hover .cover-art, .personal-site .shelf-cover:focus-visible .cover-art { transform: translateY(-4px); box-shadow: 0 .5px 1px rgba(40,32,20,.16), 0 16px 24px -14px rgba(40,32,20,.46); }
+.personal-site .shelf-cover:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; }
+.personal-site .shelf-text { min-width: 0; max-width: 340px; }
+.personal-site .shelf-meta { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.personal-site .shelf-text h2 { font-size: clamp(22px, 2.2vw, 27px); line-height: 1.2; margin-top: 8px; text-wrap: balance; }
+.personal-site .shelf-text .original-work-title { margin: 10px 0 12px; }
+.personal-site .shelf-text > p:not(.shelf-meta) { color: var(--muted); font-size: 15.5px; line-height: 1.55; margin-bottom: 16px; }
+@media (max-width: 900px) {
+  .personal-site .cover-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 52px 32px; }
+}
+@media (max-width: 600px) {
+  .personal-site .cover-shelf { gap: 40px 18px; padding-bottom: 56px; }
+  .personal-site .shelf-piece { gap: 16px; }
+  .personal-site .shelf-text h2 { font-size: 19px; }
+  .personal-site .shelf-text .original-work-title { font-size: 12px; margin: 8px 0; }
+  .personal-site .shelf-text > p:not(.shelf-meta) { font-size: 14px; }
+  .personal-site .shelf-text .inline-links { gap: 8px 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .personal-site .shelf-cover .cover-art { transition: none; }
+  .personal-site .shelf-cover:hover .cover-art, .personal-site .shelf-cover:focus-visible .cover-art { transform: none; }
+}
+
+/* Archive rows carry a small cover beside the date. */
+.personal-site .work-row.has-cover { grid-template-columns: 132px 76px minmax(0,1fr); gap: 30px; }
+.personal-site .work-row .cover-thumb { width: 76px; margin-top: 4px; }
+@media (max-width: 760px) {
+  .personal-site .work-row.has-cover { grid-template-columns: 56px minmax(0,1fr); gap: 10px 16px; }
+  .personal-site .work-row.has-cover .work-date { grid-column: 1 / -1; }
+  .personal-site .work-row .cover-thumb { width: 56px; margin-top: 6px; }
+}

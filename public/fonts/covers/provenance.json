@@ -1,0 +1,131 @@
+[
+  {
+    "family": "Archivo",
+    "weights": [
+      400,
+      600,
+      800
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/archivo/OFL.txt",
+    "licenseFile": "archivo-OFL.txt",
+    "files": [
+      "archivo-400.woff2",
+      "archivo-600.woff2",
+      "archivo-800.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Anton",
+    "weights": [
+      400
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Anton:wght@400",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/anton/OFL.txt",
+    "licenseFile": "anton-OFL.txt",
+    "files": [
+      "anton-400.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Abril Fatface",
+    "weights": [
+      400
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Abril+Fatface:wght@400",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/abrilfatface/OFL.txt",
+    "licenseFile": "abril-fatface-OFL.txt",
+    "files": [
+      "abril-fatface-400.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Old Standard TT",
+    "weights": [
+      400,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/oldstandardtt/OFL.txt",
+    "licenseFile": "old-standard-tt-OFL.txt",
+    "files": [
+      "old-standard-tt-400.woff2",
+      "old-standard-tt-700.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Jost",
+    "weights": [
+      500,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Jost:wght@500;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/jost/OFL.txt",
+    "licenseFile": "jost-OFL.txt",
+    "files": [
+      "jost-500.woff2",
+      "jost-700.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Josefin Sans",
+    "weights": [
+      600,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/josefinsans/OFL.txt",
+    "licenseFile": "josefin-sans-OFL.txt",
+    "files": [
+      "josefin-sans-600.woff2",
+      "josefin-sans-700.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Michroma",
+    "weights": [
+      400
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Michroma:wght@400",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/michroma/OFL.txt",
+    "licenseFile": "michroma-OFL.txt",
+    "files": [
+      "michroma-400.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Courier Prime",
+    "weights": [
+      400,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/courierprime/OFL.txt",
+    "licenseFile": "courier-prime-OFL.txt",
+    "files": [
+      "courier-prime-400.woff2",
+      "courier-prime-700.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Shippori Mincho",
+    "weights": [
+      800
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@800",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/shipporimincho/OFL.txt",
+    "licenseFile": "shippori-mincho-OFL.txt",
+    "files": [
+      "shippori-mincho-800.woff2"
+    ],
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  }
+]

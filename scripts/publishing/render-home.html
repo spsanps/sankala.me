@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Homepage printing harness</title>
+<!-- Loaded by scripts/publishing/render-home.mjs through the Vite dev server. It paints the
+     desk with the same code the homepage runs and hands the images back as data URLs. -->
+</head>
+<body>
+<script type="module">
+import { paintStill } from '/src/pages/home/four-frames/stage.js';
+import { PHOTOS } from '/src/pages/home/eras.js';
+
+const SITE_FONTS = [['Fraunces', 500, '/fonts/fraunces-2.woff2'], ['DM Sans', 400, '/fonts/dm-sans-1.woff2']];
+await Promise.all(SITE_FONTS.map(([family, weight, url]) => new FontFace(family, `url(${url})`, { weight: String(weight) }).load().then(face => document.fonts.add(face)).catch(() => {})));
+
+const encode = (canvas, type, q) => canvas.toDataURL(type, q);
+
+// One still of a place: `bounds` are art units (the art square is 1000 × 1000), `u` CSS px per unit.
+window.renderStill = async ({ mode, era = 'now', hour = 17.5, u, bounds, type = 'image/webp', q = .84 }) => {
+  const canvas = document.createElement('canvas');
+  const width = Math.round((bounds.xMax - bounds.xMin) * u), height = Math.round((bounds.yMax - bounds.yMin) * u);
+  const t0 = performance.now();
+  await paintStill({ canvas, mode, width, height, dpr: 1, era, hour, t: 2, bounds: { ...bounds, u }, photos: PHOTOS });
+  return { data: encode(canvas, type, q), width, height, ms: Math.round(performance.now() - t0) };
+};
+
+// The share card: the desk at golden hour, with San's name on the wall beside it.
+window.renderSocial = async () => {
+  const W = 1200, H = 630, canvas = document.createElement('canvas');
+  await paintStill({ canvas, mode: 'wide', width: W, height: H, dpr: 1, era: 'now', hour: 17.5, t: 2, photos: PHOTOS });
+  const x = canvas.getContext('2d');
+  x.setTransform(1, 0, 0, 1, 0, 0);
+  x.fillStyle = '#202c38'; x.textBaseline = 'alphabetic';
+  x.font = '500 78px Fraunces'; x.fillText('San Kala', 64, 268);
+  x.font = '400 27px "DM Sans"';
+  ['Language models at eBay.', 'Before that: UC San Diego,', 'Texas Instruments and', 'NIT Karnataka.'].forEach((line, i) => x.fillText(line, 66, 332 + i * 40));
+  x.font = '400 21px "DM Sans"'; x.fillStyle = '#4f5952'; x.fillText('sankala.me', 66, 560);
+  return { data: canvas.toDataURL('image/jpeg', .88) };
+};
+window.__ready = true;
+</script>
+</body>
+</html>

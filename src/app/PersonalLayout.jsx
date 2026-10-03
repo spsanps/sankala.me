@@ -7,9 +7,10 @@ import '../styles/personal-pages.css';
 const links = [['/writing', 'Writing'], ['/projects', 'Projects'], ['/research', 'Research'], ['/history', 'History'], ['/about', 'About'], ['/resume', 'CV']];
 export default function PersonalLayout() {
   const { pathname } = useLocation();
-  return <div className={`personal-site${pathname === "/" ? " atlas-page" : ""}`}>
+  const home = pathname === '/';
+  return <div className={`personal-site${home ? ' home-page' : ''}`}>
     <a className="skip" href="#main">Skip to content</a>
-    <header className="site-header shell"><Link className="wordmark" to="/">San Kala<span className="wordmark-dot">.</span></Link>
+    <header className={home ? 'site-header home-header' : 'site-header shell'}><Link className="wordmark" to="/">San Kala<span className="wordmark-dot">.</span></Link>
       <nav className="desktop-nav" aria-label="Main">{links.map(([to,label]) => <NavLink key={to} to={to}>{label}</NavLink>)}</nav>
     </header><Outlet />
     <footer className="site-footer shell"><div><strong>San Kala</strong><p>AI researcher, writer & builder.</p><div className="inline-links"><Link to="/notes">All work & search</Link><Link to="/history">Career & history</Link></div></div>

@@ -26,7 +26,7 @@ const PAGES = {
     url: `${SITE}/notes/eai-challenge`,
     title: 'Winning by Overfitting',
     description: "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 Embodied Agent Interface challenge — and why the recipe matters for robotics.",
-    ogImage: `${SITE}/notes/eai/og-image.png`,
+    ogImage: `${SITE}/images/covers/eai-challenge-social.jpg`,
     alternativeHeadline: 'An LLM in a loop won the NeurIPS 2025 EAI Challenge',
     datePublished: '2026-07',
     markdownUrl: `${SITE}/notes/eai-challenge.md`,

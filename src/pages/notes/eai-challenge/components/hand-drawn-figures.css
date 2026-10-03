@@ -1,0 +1,67 @@
+/* Hand-drawn figures for "Winning by Overfitting".
+   The figure is a printed sheet that breaks a little wider than the reading
+   column; its controls and caption return to the column width. Riso blue marks
+   everything the reader can press, matching the blue "plan" ink in the drawing. */
+.eai-fig {
+  --eai-fig-w: min(960px, calc(100vw - 32px));
+  --eai-riso: #0078BF;
+  width: var(--eai-fig-w);
+  margin: 44px calc((100% - var(--eai-fig-w)) / 2) 52px;
+}
+.eai-fig-sheet {
+  position: relative;
+  background: #F9F7F1;
+  box-shadow: 0 1px 0 rgba(26, 26, 26, .07), 0 14px 30px -18px rgba(40, 32, 14, .35);
+}
+.eai-fig-sheet canvas { display: block; width: 100%; height: auto; touch-action: manipulation; }
+.eai-fig-hits { position: absolute; inset: 0; }
+.eai-fig-hit {
+  position: absolute; background: transparent; border: 0; padding: 0; margin: 0;
+  cursor: pointer; border-radius: 8px; -webkit-tap-highlight-color: transparent;
+}
+.eai-fig-hit[hidden] { display: none; }
+.eai-fig-cover { cursor: zoom-out; border-radius: 0; }
+.eai-fig-cover:focus-visible { outline-offset: -4px; }
+.eai-fig button:focus-visible,
+.eai-fig input:focus-visible { outline: 2px solid var(--eai-riso); outline-offset: 3px; border-radius: 3px; }
+
+.eai-fig-controls {
+  max-width: 640px; margin: 16px auto 0;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+.eai-fig-controls button {
+  font: 500 14px/1 'DM Sans', system-ui, sans-serif; color: var(--eai-riso);
+  background: transparent; border: 1.5px solid currentColor; border-radius: 3px;
+  padding: 9px 13px; cursor: pointer; min-height: 40px;
+}
+.eai-fig-controls button:hover:not(:disabled) { background: rgba(0, 120, 191, .08); }
+.eai-fig-controls button:disabled { color: #9A968E; border-style: dashed; cursor: default; }
+.eai-fig-scrub { flex: 1 1 100%; position: relative; padding: 4px 0 18px; order: 5; }
+.eai-fig-scrub input { width: 100%; margin: 0; accent-color: var(--eai-riso); height: 28px; }
+.eai-fig-marks {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 16px;
+  font: 12px/1 'DM Sans', system-ui, sans-serif; color: rgba(26, 26, 26, .6);
+}
+.eai-fig-marks span { position: absolute; transform: translateX(-2px); white-space: nowrap; }
+.eai-page .eai-fig-status {
+  flex: 1 1 100%; order: 6; margin: 0; min-height: 1.5em;
+  font: 15px/1.5 'DM Sans', system-ui, sans-serif; color: #1A1A1A;
+}
+.eai-fig-spacer { flex: 1 1 auto; }
+.eai-fig-group { display: inline-flex; gap: 8px 10px; flex-wrap: nowrap; }
+.eai-page .eai-fig-sr {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; margin: 0;
+}
+.eai-fig figcaption {
+  max-width: 640px; margin: 14px auto 0;
+  font: 14px/1.55 'DM Sans', system-ui, sans-serif; color: rgba(26, 26, 26, .62);
+}
+.eai-fig figcaption b { color: #1A1A1A; font-weight: 500; }
+
+@media (max-width: 560px) {
+  .eai-fig { --eai-fig-w: calc(100vw - 20px); margin-top: 32px; margin-bottom: 40px; }
+  .eai-fig-controls, .eai-fig figcaption { padding: 0 6px; }
+  .eai-fig-controls button { padding: 10px 12px; min-height: 44px; }
+}

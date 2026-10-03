@@ -11,8 +11,11 @@
     "build": "vite build && node scripts/publishing/prerender.mjs",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "generate:essay-static": "node scripts/essays/generate-static.mjs",
+    "render:covers": "node scripts/publishing/render-covers.mjs",
     "check:site": "node scripts/checks/check-site.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "render:home": "node scripts/publishing/render-home.mjs",
+    "render:site-art": "node scripts/publishing/render-site-art.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^1.6.1",

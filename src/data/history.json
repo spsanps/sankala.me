@@ -2,7 +2,7 @@
   {
     "year": "2025",
     "title": "First place at the NeurIPS EAI Challenge",
-    "description": "My brother Chin and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.",
+    "description": "[Chin](https://chin.bio) and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.",
     "id": "eai-challenge",
     "month": "December",
     "location": "San Diego, CA",
@@ -105,7 +105,7 @@
   {
     "year": "2023",
     "title": "A writing-assistant startup at UCSD’s StartR accelerator",
-    "description": "Accepted into UCSD’s StartR Rady accelerator with Glyp, a writing assistant for novelists. The project did not make it to market; I wrote about what went wrong.",
+    "description": "I co-founded Glyp, a writing assistant for novelists, and took it through UCSD’s StartR Rady accelerator. It did not make it to market; I wrote about what went wrong.",
     "id": "startr",
     "month": "October",
     "location": "San Diego, CA",
