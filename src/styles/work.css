@@ -1,0 +1,50 @@
+/* Work: one index for essays, research, projects and films. The covers carry the colour;
+   the filters are plain text, and the grid never changes shape. */
+.personal-site .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.personal-site .work-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 32px; border-block: 1px solid var(--line); padding-block: 10px; }
+.personal-site .work-chips { display: flex; flex-wrap: wrap; gap: 0 26px; }
+.personal-site .work-chip { padding: 10px 0 8px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 15.5px; line-height: 1.2; }
+.personal-site .work-chip small { margin-left: 6px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.personal-site .work-chip:hover { color: var(--ink); }
+.personal-site .work-chip[aria-pressed="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.personal-site .work-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.personal-site .work-search input { width: 220px; max-width: 100%; padding: 8px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; font-size: 15px; -webkit-appearance: none; appearance: none; }
+.personal-site .work-search input::placeholder { color: var(--muted); }
+.personal-site .work-search input:focus-visible { outline: none; border-bottom-color: var(--ink); }
+.personal-site .work-count { padding-block: 18px 30px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+.personal-site .work-shelf { padding-top: 0; }
+.personal-site .work-piece { position: relative; scroll-margin-top: 32px; }
+.personal-site .work-anchor { position: absolute; top: -32px; }
+.personal-site .work-piece .shelf-text h2 a { text-decoration: none; }
+.personal-site .work-piece .shelf-text h2 a:hover { text-decoration: underline; }
+.personal-site .work-piece .inline-links { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.personal-site .work-piece .text-link { font-size: 14px; text-decoration: underline; text-decoration-color: var(--line); }
+.personal-site .work-piece .text-link:hover { text-decoration-color: currentColor; }
+.personal-site .work-paper { margin: 0 0 16px; padding-left: 14px; border-left: 1px solid var(--line); color: var(--muted); font-size: 13.5px; line-height: 1.5; }
+.personal-site .work-paper p + p { margin-top: 4px; }
+.personal-site .work-paper .work-paper-title { color: var(--ink); }
+.personal-site .work-empty { padding: 20px 0 60px; }
+.personal-site .work-empty p { margin-block: 12px 18px; color: var(--muted); }
+
+/* Phones: a list, each cover small beside its text. */
+@media (max-width: 600px) {
+  .personal-site .work-tools { padding-block: 6px 12px; }
+  .personal-site .work-chips { gap: 0 14px; }
+  .personal-site .work-chip { font-size: 14.5px; }
+  .personal-site .work-chip small { margin-left: 4px; }
+  .personal-site .work-search { width: 100%; }
+  .personal-site .work-search input { width: 100%; }
+  .personal-site .work-count { padding-block: 14px 20px; }
+  .personal-site .work-shelf { grid-template-columns: 1fr; gap: 0; }
+  .personal-site .work-piece { grid-template-columns: 30% minmax(0, 1fr); gap: 0 18px; padding-block: 22px; border-top: 1px solid var(--line); }
+  .personal-site .work-piece .shelf-cover { max-width: none; }
+  .personal-site .work-piece .shelf-text h2 { margin-top: 4px; }
+  .personal-site .work-piece .shelf-text > p:not(.shelf-meta) { margin-bottom: 12px; }
+}
+@media (max-width: 380px) {
+  .personal-site .work-chips { gap: 0 11px; }
+  .personal-site .work-chip { font-size: 14px; }
+  .personal-site .work-chip small { margin-left: 3px; font-size: 11px; }
+}

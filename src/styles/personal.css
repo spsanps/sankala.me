@@ -98,29 +98,6 @@
 .personal-site .project-entry img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
 .personal-site .project-entry h3 { font-size: 38px; margin-top: 12px; }
 .personal-site .project-entry p { color: var(--muted); margin-block: 16px 22px; max-width: 460px; }
-.personal-site .project-films { display: grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items: center; padding-block: 48px; }
-.personal-site .project-films h2 { margin-top: 12px; }
-.personal-site .project-films p { max-width: 480px; margin-block: 16px 22px; color: var(--muted); }
-.personal-site .project-films img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
-.personal-site .library-tools { border-block: 1px solid var(--line); padding-block: 22px; }
-.personal-site .library-tools form { display: flex; align-items: flex-end; gap: 18px; }
-.personal-site .library-tools label { display: flex; flex-direction: column; gap: 8px; font-size: 13px; min-width: 0; }
-.personal-site .library-tools :is(input,select) { padding: 11px 12px; border: 1px solid #afb4b8; background: #fff; width: 100%; min-width: 0; border-radius: 0; }
-.personal-site .search-field { flex: 1; }
-.personal-site .library-count { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; padding: 20px 0; }
-.personal-site .work-row { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 38px; padding-block: 28px; border-top: 1px solid var(--line); }
-.personal-site .work-date, .personal-site .work-meta { color: var(--muted); font-size: 13px; }
-.personal-site .work-row h3 { margin-block: 10px 12px; }
-.personal-site .work-row p { color: var(--muted); max-width: 740px; }
-.personal-site .formats { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
-.personal-site .formats span { font-size: 12px; color: var(--muted); }
-.personal-site .formats span + span::before { content: '·'; margin-right: 12px; }
-.personal-site .archive-note { border-top: 1px solid var(--line); padding-block: 32px 60px; }
-.personal-site .archive-note h2 { font-size: 24px; }
-.personal-site .archive-note p { max-width: 750px; color: var(--muted); margin-block: 14px; }
-.personal-site .archive-note a { text-decoration: underline; }
-.personal-site .empty-state { padding: 40px 0; }
-.personal-site .empty-state p { margin-block: 15px; }
 .personal-site .history-heading { display: grid; grid-template-columns: 1.3fr .7fr; gap: 64px; align-items: center; }
 .personal-site .history-heading img { width: 100%; object-fit: cover; }
 .personal-site figcaption { color: var(--muted); font-size: 12px; margin-top: 10px; }
@@ -179,15 +156,10 @@
   .personal-site .home-publication img { width: 60px; height: 60px; }
   .personal-site .home-publication h2 { font-size: 23px; }
   .personal-site .page-heading { padding-block: 32px; }
-  .personal-site .writing-entry, .personal-site .work-row, .personal-site .milestone { grid-template-columns: 1fr; gap: 14px; }
+  .personal-site .writing-entry, .personal-site .milestone { grid-template-columns: 1fr; gap: 14px; }
   .personal-site .writing-date { display: flex; align-items: baseline; gap: 14px; }
   .personal-site .writing-date span { margin-top: 0; }
-  .personal-site .project-entry, .personal-site .project-films { grid-template-columns: 1fr; gap: 24px; }
-  .personal-site .project-films img { max-width: 500px; }
-  .personal-site .library-tools form { flex-wrap: wrap; }
-  .personal-site .library-tools label { flex: 1 1 40%; }
-  .personal-site .library-tools .search-field { flex-basis: 65%; }
-  .personal-site .library-count > span { display: none; }
+  .personal-site .project-entry { grid-template-columns: 1fr; gap: 24px; }
   .personal-site .history-heading { grid-template-columns: 1fr; gap: 28px; }
   .personal-site .history-heading figure { max-width: 380px; }
   .personal-site .site-footer { gap: 28px; }
@@ -227,4 +199,5 @@
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto !important; } }
 /* Contextual names keep original titles searchable and recognizable. */
 .personal-site .original-work-title { display: block; font-size: 13px; color: var(--accent); margin: 12px 0; }
-@media(max-width:600px) { .personal-site .desktop-nav { flex-wrap: wrap; gap: 0; } .personal-site .desktop-nav a { flex: 0 0 33.333%; } }
+/* Four destinations fit one row on phones. */
+@media(max-width:600px) { .personal-site .desktop-nav { flex-wrap: nowrap; gap: 0; justify-content: space-between; } .personal-site .desktop-nav a { flex: 0 0 auto; } }

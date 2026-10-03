@@ -25,6 +25,6 @@ export default function NoteEntry() {
   return <main id="main" className="shell">
     <Metadata title={entry.title + ' — San Kala'} description={entry.excerpt} path={'/notes/' + entry.slug} type="article" image={image} />
     <header className="page-heading note-heading has-frontispiece"><div><span className="eyebrow">Personal note · {entry.date} · {entry.readTime}</span><h1>{entry.title}</h1><p>{entry.excerpt}</p></div><Frontispiece entry={entry} /></header>
-    <article className="prose note-body"><ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown><div className="actions"><Action href="/writing">More writing</Action></div><LLMActions getMarkdown={() => entry.content} className="mt-8" /></article>
+    <article className="prose note-body"><ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown><div className="actions"><Action href="/work?type=writing">More writing</Action></div><LLMActions getMarkdown={() => entry.content} className="mt-8" /></article>
   </main>;
 }

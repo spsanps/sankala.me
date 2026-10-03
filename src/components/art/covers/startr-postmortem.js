@@ -1,4 +1,4 @@
-// StartR Accelerator: A Post-Mortem — letterpress broadside, annotated in blue pencil.
+// Glyp: A Post-Mortem — letterpress broadside, annotated in blue pencil.
 // Living detail: the pencil writes "post-mortem".
 import { PI, TAU, DW, DH, bez, wobble, glyphStrokes, penPaths, strokePen, spaced, clamp, smooth, letterpress, paperTex } from './kit.js';
 

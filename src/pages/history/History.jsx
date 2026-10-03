@@ -9,6 +9,6 @@ export default function History() {
     <header className="page-heading"><h1>Career & history</h1><p>From electrical engineering and chip design to AI research—with a startup, some competitions, and a few detours along the way.</p>
       <nav className="place-index inline-links" aria-label="Places">{places.map(place => <a key={place.id} href={`#place-${place.id}`}>{place.name} <span>{place.years}</span></a>)}</nav></header>
     <PhotoTimeline headingLevel={2} grouped />
-    <section className="history-end"><h2>There’s more to explore.</h2><div className="actions"><Action href="/notes">Browse all work</Action><Action href="/resume" quiet>Full CV</Action></div></section>
+    <section className="history-end"><h2>There’s more to explore.</h2><div className="actions"><Action href="/work">Browse all work</Action><Action href="/resume" quiet>Full CV</Action></div></section>
   </main>;
 }

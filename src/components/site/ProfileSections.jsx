@@ -1,10 +1,8 @@
 import { publications, experience, education, honors } from '../../data/profile';
 import { Arrow, SiteLink } from './Elements';
-import Cover from '../art/covers/Cover';
 
-// covers: optional { publicationId: workSlug } to show each paper's small code-drawn cover (Research only).
-export function Publications({ covers = null }) {
-  return <div className="publication-list">{publications.map(p => <article className={`profile-row${covers?.[p.id] ? ' has-cover' : ''}`} key={p.id} id={p.id}><span className="eyebrow">{p.year}</span>{covers?.[p.id] && <Cover slug={covers[p.id]} title={p.title} variant="thumb" />}<div><h3>{p.title}</h3><p>{p.authors}</p><p className="venue">{p.venue}</p><p>{p.note}</p><div className="profile-links">{p.links.map(([href,label]) => <SiteLink key={href} href={href}>{label} <Arrow /></SiteLink>)}</div></div></article>)}</div>;
+export function Publications() {
+  return <div className="publication-list">{publications.map(p => <article className="profile-row" key={p.id} id={p.id}><span className="eyebrow">{p.year}</span><div><h3>{p.title}</h3><p>{p.authors}</p><p className="venue">{p.venue}</p><p>{p.note}</p><div className="profile-links">{p.links.map(([href,label]) => <SiteLink key={href} href={href}>{label} <Arrow /></SiteLink>)}</div></div></article>)}</div>;
 }
 export function Experience() {
   return <div>{experience.map(job => <article className="profile-row" key={job.organization}><div><h3>{job.organization}</h3><span className="eyebrow">{job.date}</span></div><div><h3>{job.role}</h3><ul>{job.details.map(detail => <li key={detail}>{detail}</li>)}</ul></div></article>)}</div>;

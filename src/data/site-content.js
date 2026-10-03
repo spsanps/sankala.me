@@ -1,24 +1,3 @@
-export const publicationsData = [
-    {
-      id: 1,
-      title: "Axis Tilted2: Embodied Agents",
-      venue: "NeurIPS 2025 Winner",
-      year: "2025",
-      description: "1st place in the Embodied Agent Interface challenge. Designed agents that reason about physical tasks in simulated environments, evaluated on goal interpretation, subgoal decomposition, and action sequencing.",
-      tags: ["Reinforcement Learning", "LLMs", "Robotics"],
-      color: "bg-[#E8E6DE]"
-    },
-    {
-      id: 2,
-      title: "ZINify: Research to Zines",
-      venue: "UIST 2023 Honorable Mention",
-      year: "2023",
-      description: "Won Honorable Mention (People's Choice). Automatically converts academic papers into visual zines using LLMs and text-to-image models. Makes research more engaging and helps papers stand out.",
-      tags: ["HCI", "Generative AI", "Visualization"],
-      color: "bg-[#E3E7E2]"
-    }
-  ];
-
 export const experimentsData = [
   // Lab content coming soon - placeholder experiments removed
 ];
@@ -57,7 +36,7 @@ export const notesData = [
       slug: "eai-challenge",
       date: "Jul 2026",
       title: "Winning by Overfitting",
-      excerpt: "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge — and why the recipe matters for robotics.",
+      excerpt: "How an LLM in a loop with a benchmark's own evaluator won the NeurIPS 2025 EAI Challenge—and why the recipe matters for robotics.",
       readTime: "4 min read",
       tags: ["AI", "Robotics", "NeurIPS", "LLMs"],
       ogImage: "/images/covers/eai-challenge-social.jpg",
@@ -95,14 +74,14 @@ export const notesData = [
       type: "note",
       slug: "startr-postmortem",
       date: "Dec 2025",
-      title: "StartR Accelerator: A Post-Mortem",
+      title: "Glyp: A Post-Mortem",
       excerpt: "Lessons learned from building a writing assistant for novelists that didn't make it to market.",
       readTime: "5 min read",
       tags: ["Entrepreneurship", "Product", "Failure"],
       ogImage: "/images/covers/startr-postmortem-social.jpg",
       originalDate: "Oct 2023",
       content: `
-# StartR Accelerator: A Post-Mortem
+# Glyp: A Post-Mortem
 
 *Originally pitched Oct 2023, published Dec 2025*
 

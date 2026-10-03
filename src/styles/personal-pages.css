@@ -29,7 +29,6 @@
 .personal-site .experiment-grid img { width: 100%; aspect-ratio: 4/3; object-fit: cover; margin-bottom: 24px; }
 .personal-site .experiment-grid h2 { font-size: 32px; margin: 14px 0; }
 .personal-site .experiment-grid p { color: var(--muted); margin-bottom: 20px; }
-.personal-site .work-row .text-link { display: inline-block; margin-top: 16px; font-size: 14px; }
 .personal-site .site-footer small { line-height: 1.8; }
 @media(max-width: 760px) {
   .personal-site .profile-row { grid-template-columns: 1fr; gap: 16px; }

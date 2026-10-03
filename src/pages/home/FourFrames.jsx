@@ -90,7 +90,7 @@ export default function FourFrames() {
           <h1>Hi, I’m San.</h1>
           <p className="ff-lede">I work on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Along the way I co-founded <SiteLink href="/notes/startr-postmortem">a startup that didn’t make it</SiteLink>. I also write, make things, and sometimes turn an idea into a film.</p>
           <p className="ff-more"><SiteLink href="/about">More about me</SiteLink><span className="ff-mail">san@sankala.me</span>{plain ? <a href="/">Living version</a> : <a href="/?plain=1">Plain version</a>}</p>
-          <p className="ff-cue">The desk is drawn in code and keeps San Jose time. Scroll, and it goes back through the places I’ve worked.<span className="ff-clock">{clock && <>It’s {clock} in San Jose now.</>}</span></p>
+          <p className="ff-cue">The desk is drawn in code and keeps San Jose time. Scroll, and it goes back through the places I’ve lived and worked.<span className="ff-clock">{clock && <>It’s {clock} in San Jose now.</>}</span></p>
           <h2 className="ff-path" id="history">My path so far</h2>
         </div>}
         <picture className="ff-plain-still">

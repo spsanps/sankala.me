@@ -35,7 +35,7 @@ export default function EAIWriteup() {
         <meta name="twitter:title" content="Winning by Overfitting — San Kala" />
         <meta name="twitter:description" content="How an LLM in a loop with a benchmark’s own evaluator won the NeurIPS 2025 EAI Challenge." />
         <meta name="twitter:image" content="https://www.sankala.me/images/covers/eai-challenge-social.jpg" />
-        <meta name="description" content="We won the NeurIPS 2025 Embodied Agent Interface Challenge by putting an LLM in a loop with the benchmark's own evaluator. The loop manufactures its own training data — and the recipe matters for robotics." />
+        <meta name="description" content="We won the NeurIPS 2025 Embodied Agent Interface Challenge by putting an LLM in a loop with the benchmark's own evaluator. The loop manufactures its own training data—and the recipe matters for robotics." />
       </Helmet>
 
       <style>{`
@@ -129,7 +129,7 @@ export default function EAIWriteup() {
       `}</style>
 
       <div className="eai-column">
-        <Link to="/writing" className="eai-back">
+        <Link to="/work?type=writing" className="eai-back">
           <ArrowLeft size={16} /> Back to Writing
         </Link>
 
@@ -168,7 +168,7 @@ export default function EAIWriteup() {
         <p>
           The challenge measures how well language models plan household-robot tasks in
           two simulators, BEHAVIOR and VirtualHome. During the development phase, the
-          official evaluator does more than score a submission — it explains precisely
+          official evaluator does more than score a submission—it explains precisely
           why a plan failed. We built our pipeline around that feedback: prompt a
           frontier model, evaluate its answer, feed the errors into the next attempt,
           and repeat. Every plan that survives the process becomes verified training
@@ -180,7 +180,7 @@ export default function EAIWriteup() {
         <p>
           The loop earns its keep because of <em>where</em> capable models fail. They
           produce plans a human would readily accept, and the simulator rejects them for
-          omitting details no person would think to mention — the new identifier an
+          omitting details no person would think to mention—the new identifier an
           object receives after being sliced, or an <span className="eai-mono">OPEN</span>{' '}
           action that seems implied. Conventions like these are nearly impossible to
           anticipate in a prompt, but they are easy to learn from error logs, and the
@@ -215,19 +215,19 @@ export default function EAIWriteup() {
           <mark>Closing a loop between a frontier model and that signal turns any
           simulated environment into a training-data factory.</mark>{' '}
           "Overfitting to the simulator" is usually said with a wince, but here it is
-          the point — the loop exhaustively learns whatever the environment actually
+          the point—the loop exhaustively learns whatever the environment actually
           rewards, without a single human label.
         </p>
         <p>
           The sharper lesson is about where the competence has to live: in the evaluator, not the model. The model in our loop
-          knew nothing special about robotics — it stumbled into BEHAVIOR's
+          knew nothing special about robotics—it stumbled into BEHAVIOR's
           conventions attempt by attempt, because the evaluator could always say what
           was wrong. Machine learning has a name for the asymmetry that makes this
           work: <strong>the generator–verifier gap</strong>. Checking a plan is far
           easier than producing one, so a model too weak to write expert answers on
           demand can still search its way to them, as long as the verdict is real.
           This is the same <em>verifiable reward</em> the reasoning-model boom runs
-          on — and robotics is the field where it comes free. If frontier models are
+          on—and robotics is the field where it comes free. If frontier models are
           going to become the robot brains, as I argue in{' '}
           <Link className="eai-body-link" to="/essays/gpt7-will-have-arms">GPT-7 Will Have Arms</Link>,
           they won't need to arrive knowing robotics. They need loops closed around
@@ -244,7 +244,7 @@ export default function EAIWriteup() {
           <a href="https://foundation-models-meet-embodied-agents.github.io/eai_challenge/slides/AxisTilted2.pdf" target="_blank" rel="noopener noreferrer">winners' presentation</a>.
           The benchmark: <a href="https://neurips25-eai.github.io/" target="_blank" rel="noopener noreferrer">Embodied Agent Interface</a>.
         </div>
-        <div className="mt-8"><Link to="/writing" className="eai-body-link">More writing by San Kala →</Link></div>
+        <div className="mt-8"><Link to="/work?type=writing" className="eai-body-link">More writing by San Kala →</Link></div>
         <LLMActions markdownUrl="/notes/eai-challenge.md" className="mt-6" />
       </div>
     </div>

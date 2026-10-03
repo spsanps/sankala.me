@@ -10,8 +10,8 @@
     "images": [
       {
         "src": "/images/awards/uist-2023-presentation.jpg",
-        "alt": "San and his collaborator receiving a research award.",
-        "caption": "Receiving the research award"
+        "alt": "San and Chin receiving first place at NeurIPS 2025.",
+        "caption": "First place at NeurIPS 2025"
       }
     ],
     "links": [
@@ -33,7 +33,7 @@
   {
     "year": "2024",
     "title": "Joined eBay as an AI researcher",
-    "description": "Joined eBay’s Knowledge Extraction team in April 2024. Researching and building language-model systems for information extraction. Promoted in October 2025.",
+    "description": "I joined eBay’s Knowledge Extraction team in April 2024, where I research and build language-model systems for information extraction. I was promoted in October 2025.",
     "id": "ebay-research",
     "month": "April",
     "location": "San Jose, CA",
@@ -56,7 +56,7 @@
   {
     "year": "2024",
     "title": "Completed my MS at UC San Diego",
-    "description": "Completed an MS in computer science at UC San Diego. Worked with Julian McAuley’s group on AI music and language models, and TA’d recommender systems and data mining.",
+    "description": "I completed an MS in computer science at UC San Diego, working with Julian McAuley’s group on AI music and language models and TA’ing recommender systems and data mining.",
     "id": "ucsd-graduation",
     "month": "March",
     "location": "San Diego, CA",
@@ -74,7 +74,7 @@
   {
     "year": "2023",
     "title": "A UIST award for turning papers into zines",
-    "description": "ZINify received an Honorable Mention at the UIST Student Innovation Contest. Experiments with language models and visual storytelling.",
+    "description": "ZINify, which [Jaidev Shriram](https://jaidevshriram.com/) and I built, received an Honorable Mention at the UIST Student Innovation Contest. It uses language models to turn research papers into illustrated zines.",
     "id": "zinify",
     "month": "October",
     "location": "San Francisco, CA",
@@ -82,8 +82,8 @@
     "images": [
       {
         "src": "/images/history/uist-award.webp",
-        "alt": "San and his collaborator holding the UIST 2023 award.",
-        "caption": "ZINify at UIST 2023"
+        "alt": "San and Jaidev Shriram holding the UIST 2023 award.",
+        "caption": "With Jaidev Shriram at UIST 2023"
       }
     ],
     "links": [
@@ -105,7 +105,7 @@
   {
     "year": "2023",
     "title": "A writing-assistant startup at UCSD’s StartR accelerator",
-    "description": "I co-founded Glyp, a writing assistant for novelists, and took it through UCSD’s StartR Rady accelerator. It did not make it to market; I wrote about what went wrong.",
+    "description": "I co-founded Glyp, a writing assistant for novelists, and took it through UCSD’s StartR Rady accelerator. It didn’t make it to market, and I wrote about what went wrong.",
     "id": "startr",
     "month": "October",
     "location": "San Diego, CA",
@@ -122,7 +122,7 @@
   {
     "year": "2023",
     "title": "A summer research internship at eBay",
-    "description": "Summer research with eBay’s Knowledge Extraction team, working on information extraction at scale.",
+    "description": "I spent the summer researching information extraction at scale with eBay’s Knowledge Extraction team.",
     "id": "ebay-internship",
     "month": "June",
     "location": "San Jose, CA",
@@ -140,7 +140,7 @@
   {
     "year": "2023",
     "title": "Won the eBay ML Challenge: first of 591 teams",
-    "description": "Won the eBay University Machine Learning Challenge by extracting named entities from product titles using DeBERTa V3 and K-fold ensembling. The result, announced in January 2023, led to the summer research internship.",
+    "description": "I placed first of 591 teams in the eBay University Machine Learning Challenge, extracting named entities from product titles with DeBERTa-v3 and K-fold ensembling. The result, announced in January 2023, led to the summer research internship.",
     "id": "ebay-ml-challenge",
     "month": "January",
     "location": "San Diego, CA",
@@ -161,7 +161,7 @@
   {
     "year": "2022",
     "title": "Moved from chip design to computer science at UCSD",
-    "description": "Started the MS at UC San Diego after three years in chip design.",
+    "description": "I started the MS at UC San Diego after three years in chip design.",
     "id": "ucsd-start",
     "month": "September",
     "location": "San Diego, CA",
@@ -179,7 +179,7 @@
   {
     "year": "2019",
     "title": "Three years designing chips at Texas Instruments",
-    "description": "ASIC digital design at Texas Instruments, 2019–2022: physical design, RTL, and getting actual chips out of the door.",
+    "description": "I spent 2019–2022 on ASIC digital design at Texas Instruments: physical design, RTL, and getting actual chips out the door.",
     "id": "texas-instruments",
     "month": "July",
     "location": "Bengaluru, India",
@@ -202,7 +202,7 @@
   {
     "year": "2019",
     "title": "Electrical engineering at NIT Karnataka",
-    "description": "Graduated in electrical and electronics engineering. I got into deep learning through Kaggle, earning silver and bronze medals. My thesis on power-quality classification won a best-paper award at IEEE DISCOVER; the Amateur Astronomy Club gave me a place to explore space and astronomy.",
+    "description": "I graduated in electrical and electronics engineering. I got into deep learning through Kaggle, earning silver and bronze medals. My thesis on power-quality classification won a best-paper award at IEEE DISCOVER, and the Amateur Astronomy Club gave me a place to explore astronomy.",
     "id": "nitk",
     "month": "May",
     "location": "Karnataka, India",

@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { preview } from 'vite';
 import handler from '../../api/og.js';
+import { works } from '../../src/data/work.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const server = await preview({
@@ -15,7 +16,7 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
 const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
@@ -46,20 +47,28 @@ try {
       localAssets.forEach(asset => assets.add(asset));
       report.push({ route, width, title: await page.title(), heading, text: await page.locator('body').innerText() });
     }
-    await page.goto(origin + '/notes');
-    assert.equal(await page.locator('[data-work]').count(), 9, 'Complete archive');
-    await page.getByLabel('Subject').selectOption('ai');
-    await page.getByRole('combobox', { name: /^Format/ }).selectOption('research');
-    assert.equal(await page.locator('[data-work]').count(), 3, 'Combined research and AI filters');
+    // One Work page: every work, plain filters, search; the old index routes show it filtered.
+    await page.goto(origin + '/work');
+    assert.equal(await page.locator('[data-work]').count(), works.length, 'Every work on the Work page');
+    await page.getByRole('button', { name: /^Research/ }).click();
+    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
+    assert.equal(await page.getByRole('button', { name: /^Research/ }).getAttribute('aria-pressed'), 'true', 'Selected filter is announced');
     await page.getByRole('searchbox').fill('ZINify');
-    assert.equal(await page.locator('[data-work]').count(), 1, 'Combined search');
+    assert.equal(await page.locator('[data-work]').count(), 1, 'Filter and search combine');
     await page.reload({ waitUntil: 'networkidle' });
     assert.equal(await page.locator('[data-work]').count(), 1, 'Filters survive a reload');
     await page.getByRole('searchbox').fill('no-such-project');
     assert.equal(await page.locator('[data-work]').count(), 0, 'Empty state');
     await page.getByRole('button', { name: 'Show all work' }).click();
-    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 9, null, { timeout: 5000 });
-    assert.equal(await page.locator('[data-work]').count(), 9, 'Reset clears all filters');
+    await page.waitForFunction(count => document.querySelectorAll('[data-work]').length === count, works.length, { timeout: 5000 });
+    assert.equal(await page.locator('[data-work]').count(), works.length, 'Reset clears all filters');
+    for (const [route, label, count] of [['/writing', 'Writing', 3], ['/projects', 'Projects', 3], ['/lab', 'Projects', 3], ['/research', 'Research', 3], ['/notes', 'All', works.length], ['/work#films', 'Films', 2]]) {
+      await page.goto(origin + route, { waitUntil: 'networkidle' });
+      await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, count, { timeout: 5000 });
+      assert.equal((await page.locator('h1').innerText()).trim(), 'Work', `Old route shows the Work page: ${route}`);
+      assert.equal(await page.getByRole('button', { name: new RegExp('^' + label) }).getAttribute('aria-pressed'), 'true', `Old route is pre-filtered: ${route}`);
+      assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://www.sankala.me/work', `Old route points search engines at /work: ${route}`);
+    }
     await page.goto(origin + '/notes/2', { waitUntil: 'networkidle' });
     assert.ok(page.url().endsWith('/notes/startr-postmortem'), 'Preserve numeric StartR URL');
     await page.goto(origin + '/history', { waitUntil: 'networkidle' });
@@ -82,21 +91,22 @@ try {
     assert.equal(await page.locator('.home-covers li').count(),9,'Every cover on the homepage shelf');
     for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
-    for (const label of ['Writing', 'Projects', 'Research', 'History', 'About', 'CV']) {
+    assert.equal(await nav.getByRole('link').count(), 4, `Four destinations in the menu at ${width}`);
+    for (const label of ['Work', 'History', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
-    await nav.getByRole('link', { name: 'Writing', exact: true }).click();
-    await page.locator('[data-writing]').first().waitFor();
-    assert.equal(await page.locator('[data-writing]').count(), 3, 'Writing has every essay and note');
+    await nav.getByRole('link', { name: 'Work', exact: true }).click();
+    await page.locator('[data-work]').first().waitFor();
+    await page.getByRole('button', { name: /^Writing/ }).click();
+    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
     await page.getByRole('link', { name: 'How we won an AI-agent competition', exact: true }).click();
     await page.waitForURL('**/notes/eai-challenge');
-    assert.ok(page.url().endsWith('/notes/eai-challenge'), 'Writing opens the original rich article');
+    assert.ok(page.url().endsWith('/notes/eai-challenge'), 'Work opens the original rich article');
     await page.getByRole('link', { name: 'Back to Writing' }).click();
-    await page.locator('[data-writing]').first().waitFor();
-    assert.equal(await page.locator('[data-writing]').count(), 3, 'Article returns to the writing index');
-    await nav.getByRole('link', { name: 'Projects', exact: true }).click();
-    await page.locator('[data-project]').first().waitFor();
-    assert.equal(await page.locator('[data-project]').count(), 3, 'All interactive projects remain discoverable');
+    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
+    assert.equal(await page.locator('[data-work]').count(), 3, 'Article returns to the writing filter');
+    await page.getByRole('button', { name: /^Projects/ }).click();
+    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
     assert.equal(await page.getByRole('link', { name: 'Explore the space habitat', exact: false }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
     await nav.getByRole('link', { name: 'About', exact: true }).click();
     await page.getByRole('link', { name: 'Career & history', exact: true }).first().click();
@@ -105,12 +115,17 @@ try {
     await page.close();
   }
 
+  // The preview server only reaches <route>/index.html with a trailing slash (Vercel uses rewrites),
+  // so ask for that file directly; without the slash it answers every route with the homepage.
   for (const route of routes.filter(path => !['/essays/gpt7-will-have-arms','/notes/eai-challenge'].includes(path))) {
-    const html = await (await fetch(origin + route)).text();
+    const html = await (await fetch(origin + (route === '/' ? '/' : route + '/'))).text();
     assert.ok(html.includes('<h1>') || html.includes('<h1 '), `Prerendered page content: ${route}`);
     assert.equal((html.match(/<title\b/g) || []).length, 1, `One server-rendered title: ${route}`);
     assert.ok(html.includes('rel="canonical"'), `Canonical in initial HTML: ${route}`);
   }
+  const workHtml = await (await fetch(origin + '/work/')).text();
+  assert.ok(workHtml.includes('<h1>Work</h1>'), 'Prerendered Work page');
+  for (const work of works) assert.ok(workHtml.includes(work.displayTitle.replaceAll('&', '&amp;')), `Prerendered Work page lists: ${work.title}`);
 
   for (const asset of assets) {
     const response = await fetch(origin + asset);

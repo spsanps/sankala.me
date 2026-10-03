@@ -1,4 +1,4 @@
-/* Covers on the site: the Writing shelf and the small prints beside archive rows. */
+/* Covers on the site: the shelf on the Work page, and small prints elsewhere. */
 .personal-site .cover-shelf { list-style: none; margin: 0; padding: 12px 0 76px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 64px 48px; }
 .personal-site .shelf-piece { display: grid; align-content: start; gap: 26px; min-width: 0; }
 .personal-site .shelf-cover { display: block; width: 100%; max-width: 300px; border-radius: 1px; }
@@ -24,13 +24,4 @@
 @media (prefers-reduced-motion: reduce) {
   .personal-site .shelf-cover .cover-art { transition: none; }
   .personal-site .shelf-cover:hover .cover-art, .personal-site .shelf-cover:focus-visible .cover-art { transform: none; }
-}
-
-/* Archive rows carry a small cover beside the date. */
-.personal-site .work-row.has-cover { grid-template-columns: 132px 76px minmax(0,1fr); gap: 30px; }
-.personal-site .work-row .cover-thumb { width: 76px; margin-top: 4px; }
-@media (max-width: 760px) {
-  .personal-site .work-row.has-cover { grid-template-columns: 56px minmax(0,1fr); gap: 10px 16px; }
-  .personal-site .work-row.has-cover .work-date { grid-column: 1 / -1; }
-  .personal-site .work-row .cover-thumb { width: 56px; margin-top: 6px; }
 }

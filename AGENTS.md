@@ -23,6 +23,13 @@ go-ahead. On 2026-10-03 he asked for a polished sankala.me to be published: the 
 (Four frames homepage, covers, EAI figures, History by place, Projects posters, 404, copy
 fixes) is live on www.sankala.me as commit `aff959d` (branch `code-drawn-art` merged to
 `main`). San has not yet reacted to the live version.
+San's feedback on the live redesign, October 3: "pretty cool". Writing, Projects and
+Research should be ONE page with filters ("writing and work"): being built as /work with the
+nav Work · History · About · CV (branch `work-index`); old routes render the same page
+pre-filtered. He questioned the word "History" (maybe "News"); undecided. He asked for tile-art
+and pixel-art versions of the Four frames landing to compare with the clear-line one, and for
+the remaining essay ideas (power quality, ZINify, StartR) as prototypes for feedback. The
+GPT-7 cover's detached-hand glitch was fixed live (`58ab877`).
 Latest decisions, October 2 (code-drawn art review): San approved code-drawn covers
 for all essays/work ("absolutely love"), and wants every past and future essay to get
 an interactive or media treatment like the Winning by Overfitting figures, with a style
@@ -120,7 +127,10 @@ Naming (San, 2026-10-02): refer to his brother as "Chin", linked to https://chin
 where markup allows, never "my brother". San co-founded Glyp (StartR accelerator, 2023);
 the site may say so plainly, linked to the post-mortem. Describe his background by what he
 did: computer science at UC San Diego, chip design at Texas Instruments, electrical
-engineering at NIT Karnataka.
+engineering at NIT Karnataka. His eBay title is Applied Researcher 1 at the SE3 level; keep
+"(SE3)" on the CV because recruiters ask about it. Name Jaidev Shriram (ZINify co-author,
+https://jaidevshriram.com/) where relevant. The second film's card title "The OpenAI–Hugging
+Face incident" is confirmed.
 
 For social copy, San prefers light edits close to his own conversational wording.
 He rejected polished launch copy as sounding AI-written. Preserve his voice;

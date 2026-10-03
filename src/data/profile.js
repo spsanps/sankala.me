@@ -4,12 +4,12 @@ export const publications = [
   { id: 'power-quality', year: '2019', title: 'Power Quality Event Classification Using Long Short-Term Memory Networks', authors: 'S. K. G. Manikonda, J. Santhosh, S. P. Kumar Sreekala, S. Gangwani, and D. N. Gaonkar', venue: 'IEEE DISCOVER 2019', note: 'Best Paper Award.', links: [['/documents/certificates/24_DISCOVER_BestPaper%20(2).pdf', 'Award certificate']] },
 ];
 export const experience = [
-  { organization: 'eBay', date: 'April 2024 — present', role: 'Applied Researcher 1 (SE3) · Knowledge Extraction for Search', details: [
+  { organization: 'eBay', date: 'April 2024 – present', role: 'Applied Researcher 1 (SE3) · Knowledge Extraction for Search', details: [
     'Drove adoption of small multimodal model (SLM)-based generative information extraction at scale (100M+ listings/month), designing and building pipelines that improve on legacy NER and dictionary-based methods.',
     'Built multimodal agents and workflow pipelines that generate synthetic training and evaluation data using open-source large language and multimodal models (LLMs, LMMs) to accelerate data and model iteration.',
     'Developed deep learning models for classification, confidence scoring, and bounding-box detection to augment the LLM/SLM information extraction pipeline, improving extraction accuracy and field coverage.',
   ] },
-  { organization: 'Texas Instruments', date: 'July 2019 — July 2022', role: 'ASIC Digital Design Engineer', details: [
+  { organization: 'Texas Instruments', date: 'July 2019 – July 2022', role: 'ASIC Digital Design Engineer', details: [
     'Physical design for four taped-out power management ICs: timing closure (STA), power, and EM/IR reliability signoff.',
     'RTL design of custom floating-point multipliers and a system ALU achieving 40% area reduction versus comparable Cadence IP; plus RTL for PMBus protocol and GPIO control IP.',
     'Automated physical design flows in Python/TCL, cutting tape-out time by 2×.',
