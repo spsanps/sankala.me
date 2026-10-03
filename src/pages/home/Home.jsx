@@ -13,7 +13,7 @@ const year = work => String(work.sortDate).slice(0, 4);
 
 export default function Home() {
   return <main id="main" className="home">
-    <Metadata title="San Kala — AI researcher, writer & builder" description="San Kala works on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Writing, projects and research."
+    <Metadata title="San Kala — AI researcher and builder" description="San Kala works on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Writing, projects and research."
       image="/images/home/social.jpg"
       schema={{ '@context': 'https://schema.org', '@type': 'Person', name: 'San Kala', url: 'https://www.sankala.me/', image: 'https://www.sankala.me/images/identity/san-kala.webp', jobTitle: 'Applied Researcher', worksFor: { '@type': 'Organization', name: 'eBay' }, sameAs: ['https://github.com/spsanps', 'https://linkedin.com/in/sanjayanps', 'https://kaggle.com/spsanps'] }} />
     <FourFrames />
