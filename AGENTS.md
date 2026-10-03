@@ -18,8 +18,11 @@ professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
 San's decision, October 2: keep the GPT-7 Will Have Arms essay as it is (its images,
 video and share card); only minor background changes if unavoidable. The rest of the
-site-wide art direction (`docs/design/2026-10-02-site-wide-art-direction.md`) is his
-go-ahead to implement, on the local branch `code-drawn-art`, uncommitted until he reviews.
+site-wide art direction (`docs/design/2026-10-02-site-wide-art-direction.md`) was his
+go-ahead. On 2026-10-03 he asked for a polished sankala.me to be published: the redesign
+(Four frames homepage, covers, EAI figures, History by place, Projects posters, 404, copy
+fixes) is live on www.sankala.me as commit `aff959d` (branch `code-drawn-art` merged to
+`main`). San has not yet reacted to the live version.
 Latest decisions, October 2 (code-drawn art review): San approved code-drawn covers
 for all essays/work ("absolutely love"), and wants every past and future essay to get
 an interactive or media treatment like the Winning by Overfitting figures, with a style

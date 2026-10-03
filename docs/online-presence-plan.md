@@ -1,8 +1,18 @@
 # Online presence plan
 
-Created: 2026-09-05. Last discussed: 2026-10-02. Time zone: America/Los_Angeles.
+Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
+
+**October 3 — the code-drawn redesign is live:** San asked to "get an amazing polished
+sankala.me published". Published as `aff959d` on `main` (Vercel production deploy
+succeeded). Live checks: every page at 1440 and 390 px without horizontal scroll or failing
+requests; the homepage share card, EAI and StartR cover cards, and the unchanged GPT-7 card;
+crawler HTML for both essays; RSS with nine items. Vercel branch previews require Vercel
+login (deployment protection). Not yet done: real-device performance and Safari checks, the
+remaining essay treatments (power quality, ZINify, StartR), the Paper Robots pass, and San's
+answers about his real desk and window. Full-size design previews stay local in
+`design/prototypes/2026-10-code-drawn-art/previews/full/`.
 
 **October 2 — visual taste reading and code-drawn art samples:** San shared his
 `Visual Taste.html` reference collection (the content, not that page's styling,
