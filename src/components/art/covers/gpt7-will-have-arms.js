@@ -78,5 +78,5 @@ export default {
     crease(L, 7, .2, .1);
     L.tex = paperTex(L, { mottle: .05, grain: .05, fibres: 300, fAlpha: .07 });
   },
-  live: { box: [0, 214, 400, 340], fps: 20, draw(ctx, t) { ctx.save(); RS(ctx); ARMS.forEach(a => arm(ctx, a, t)); ctx.restore(); } },
+  live: { box: [0, 200, 400, 400], fps: 20, draw(ctx, t) { ctx.save(); RS(ctx); ARMS.forEach(a => arm(ctx, a, t)); ctx.restore(); } },
 };
