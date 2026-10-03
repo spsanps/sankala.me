@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ZINify — San Kala</title>
+<meta name="description" content="ZINify turns research papers into zines with a large language model and a text-to-image model. Feed it its own paper and watch a zine come out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
+<!--
+DESIGN — "ZINify: paper in, zine out" (an essay idea for sankala.me)
+  One figure carries the page: a riso-printed machine that turns the ZINify
+  paper into a zine about ZINify, which the reader then folds open and flips.
+  Process   three-drum risograph (shared press from essay-by-hand): blue key
+            line and lettering, pink accents and sound effects, yellow fills;
+            misregistration, drum speckle, halftone, a three-drawing boil.
+  Facts     the four steps follow the paper (Shriram and Sreekala, UIST '23
+            Adjunct): Claude condenses and plans, a text-to-image model draws,
+            the pipeline assembles. The paper's output is a multi-page PDF;
+            the one-sheet fold is a flourish and the caption says so.
+  Page      sankala.me's quiet reading column; type is the interface.
+            page #EEEDE8 · text #1C1B19 · muted #5B5852 · link #1C4FB6
+  Refused   AI beige, decorative italics, glossy gradients, flowchart boxes,
+            dashboard chrome, emoji.
+-->
+<style>
+  :root {
+    --page: #EEEDE8; --text: #1C1B19; --muted: #5B5852; --link: #1C4FB6; --riso: #0078BF;
+    --sheet: #F9F7F1; --rule: rgba(28, 27, 25, .16);
+    --serif: Georgia, "Times New Roman", serif; --display: "Fraunces", Georgia, serif;
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 19px/1.65 var(--serif); }
+  a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, button:focus-visible, .sheet:focus-visible { outline: 2px solid var(--riso); outline-offset: 3px; border-radius: 3px; }
+  [hidden] { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .site { max-width: 1040px; margin: 0 auto; padding: 28px 20px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--sans); }
+  .site .name { font: 600 21px/1.2 var(--display); color: var(--text); text-decoration: none; }
+  .site nav { display: flex; gap: 18px; flex-wrap: wrap; font-size: 15px; }
+  main { padding: 64px 20px 96px; }
+  .col { max-width: 640px; margin: 0 auto; }
+  p { margin: 0 0 24px; }
+  .eyebrow { font: 500 12px/1.5 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 22px; }
+  .chip { background: #FFE800; color: var(--text); padding: 2px 7px; margin-left: 4px; white-space: nowrap; }
+  h1 { font: 600 clamp(40px, 7vw, 58px)/1.05 var(--display); letter-spacing: -.01em; margin: 0 0 20px; text-wrap: balance; }
+  .deck { font-size: 22px; line-height: 1.5; color: #34322E; margin: 0 0 26px; text-wrap: pretty; }
+  .byline { font: 14px/1.6 var(--sans); color: var(--muted); padding-bottom: 36px; border-bottom: 1px solid var(--rule); margin: 0 0 52px; }
+  h2 { font: 600 27px/1.25 var(--display); margin: 60px 0 20px; text-wrap: balance; }
+  figure.fig { margin: 44px auto 52px; max-width: 980px; }
+  .sheet { position: relative; background: var(--sheet); box-shadow: 0 1px 0 rgba(28, 27, 25, .07), 0 14px 30px -18px rgba(40, 32, 14, .35); }
+  .sheet canvas { display: block; width: 100%; height: auto; touch-action: pan-y; }
+  .hits { position: absolute; inset: 0; pointer-events: none; }
+  .hit { position: absolute; pointer-events: auto; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; border-radius: 6px; -webkit-tap-highlight-color: transparent; }
+  #hit-paper { cursor: grab; touch-action: none; }
+  #hit-paper:active { cursor: grabbing; }
+  #hit-prev { cursor: w-resize; } #hit-next { cursor: e-resize; }
+  .controls { max-width: 640px; margin: 16px auto 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-family: var(--sans); }
+  .controls button { font: 500 14px/1 var(--sans); color: var(--riso); background: transparent; border: 1.5px solid currentColor; border-radius: 3px; padding: 9px 13px; cursor: pointer; min-height: 40px; }
+  .controls button.primary { background: var(--riso); color: #fff; border-color: var(--riso); }
+  .controls button:hover:not(:disabled) { background: rgba(0, 120, 191, .08); }
+  .controls button.primary:hover:not(:disabled) { background: #005f99; }
+  .controls button:disabled { color: #9A968E; border-style: dashed; cursor: default; background: transparent; border-color: #9A968E; }
+  .spacer { flex: 1 1 auto; }
+  .group { display: inline-flex; gap: 8px 10px; }
+  .status { flex: 1 1 100%; margin: 4px 0 0; font: 15px/1.5 var(--sans); color: var(--text); min-height: 3em; }
+  figcaption { max-width: 640px; margin: 10px auto 0; font: 15px/1.55 var(--sans); color: var(--muted); }
+  figcaption b { color: var(--text); font-weight: 500; }
+  .foot { font: 14px/1.6 var(--sans); color: var(--muted); border-top: 1px solid var(--rule); padding-top: 24px; margin-top: 64px; }
+  .more { font: 15px/1.6 var(--sans); margin-top: 18px; }
+  .site-foot { max-width: 1040px; margin: 0 auto; padding: 0 20px 40px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font: 13px/1.5 var(--sans); color: var(--muted); }
+  @media (max-width: 560px) {
+    body { font-size: 17.5px; line-height: 1.62; }
+    main { padding: 40px 16px 72px; }
+    .site { padding: 20px 16px 0; }
+    .site nav { gap: 14px; font-size: 14px; }
+    .deck { font-size: 19px; }
+    figure.fig { margin: 32px -6px 40px; }
+    .controls, figcaption { padding: 0 6px; }
+    .controls button { padding: 10px 12px; min-height: 44px; }
+    .controls { gap: 6px 8px; margin-top: 12px; }
+    .controls .spacer { display: none; }
+    .controls button { font-size: 13px; padding: 9px 10px; }
+    .status { min-height: 4.5em; font-size: 14px; margin-top: 2px; }
+    h2 { font-size: 24px; margin-top: 48px; }
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <a class="name" href="https://www.sankala.me/">San Kala</a>
+  <nav aria-label="Site">
+    <a href="https://www.sankala.me/work" aria-current="page">Work</a>
+    <a href="https://www.sankala.me/history">Timeline</a>
+    <a href="https://www.sankala.me/about">About</a>
+    <a href="https://www.sankala.me/resume">CV</a>
+  </nav>
+</header>
+
+<main>
+<article>
+  <header class="col">
+    <p class="eyebrow">UIST 2023 · Student Innovation Contest <span class="chip">Honorable Mention (People’s Choice)</span></p>
+    <h1>ZINify</h1>
+    <p class="deck">What if a research paper could come out as a zine?</p>
+    <p class="byline"><a href="https://jaidevshriram.com">Jaidev Shriram</a> &amp; San Kala · equal contribution · UIST ’23 Adjunct · <a href="https://dl.acm.org/doi/abs/10.1145/3586182.3625118">Paper</a> · <a href="https://jaidevshriram.com/zinify-uist/">Project page</a></p>
+  </header>
+
+  <div class="col">
+    <p>Research papers are written for people who already read research papers. In 2023, Jaidev and I wondered what would happen if a paper came out as a zine instead: a few folded pages of short text and pictures, in the format punk scenes and independent artists have long used to say things their own way.</p>
+  </div>
+
+  <figure class="fig" id="zfig">
+    <div class="sheet" id="zsheet" tabindex="0" aria-label="ZINify machine. Feed it the paper, then turn the zine's pages with the arrow keys.">
+      <canvas id="zcv" aria-hidden="true"></canvas>
+      <div class="hits">
+        <button class="hit" id="hit-paper" type="button" aria-label="The ZINify paper. Drag it into the machine, or press Enter to feed it."></button>
+        <button class="hit" id="hit-prev" type="button" aria-label="Previous page" hidden></button>
+        <button class="hit" id="hit-next" type="button" aria-label="Next page" hidden></button>
+      </div>
+    </div>
+    <div class="controls">
+      <button type="button" class="primary" id="b-feed">Feed the paper</button>
+      <span class="group"><button type="button" id="b-prev">Back</button><button type="button" id="b-next">Next page</button></span>
+      <span class="spacer"></span>
+      <button type="button" id="b-unfold">Unfold the sheet</button>
+      <button type="button" id="b-again">Run it again</button>
+      <p class="status" id="zstatus" aria-live="polite"></p>
+    </div>
+    <figcaption><b>Paper in, zine out.</b> Feed the ZINify paper to the machine and it makes a zine about itself. The four steps follow the paper. The fold is ours: ZINify’s output is a multi-page PDF, but zines are meant to be folded.</figcaption>
+    <div class="sr">
+      <p>The zine the machine makes, page by page:</p>
+      <ol>
+        <li>Cover: ZINify! Research papers into zines. Issue 1, UIST ’23.</li>
+        <li>A walled garden: jargon and paywalls keep most people outside.</li>
+        <li>The reader: curious, but not an expert. Even with good tutorials, new research feels steep.</li>
+        <li>The author: wants one paper to stand out in an exponential pile.</li>
+        <li>Zines! Self-published. Small print runs. Punk roots. A lot like preprints.</li>
+        <li>How it works: PDF, condense with Claude, plan with Claude, pictures with a text-to-image model, zine. And you can steer the plan.</li>
+        <li>Equations into poems: the rendering equation, and an LLM’s verse about it: “In realms of code where light does dance, the rendering equation takes its chance.”</li>
+        <li>Back cover: More engaging. More accessible. Honorable Mention, People’s Choice. J. Shriram and S. Sreekala, UIST ’23, San Francisco.</li>
+      </ol>
+    </div>
+  </figure>
+
+  <div class="col">
+    <h2>How it works</h2>
+    <p>ZINify starts from the PDF. A large language model (we used Claude) condenses the paper into short sections and picks the figures worth keeping. Then it plans the zine: what goes on each page, and which ideas to tell differently. A dense equation might come back as a short poem. The plan also writes prompts for a text-to-image model, and the pipeline puts the words and pictures together. Authors can steer the plan along the way.</p>
+
+    <h2>Why zines</h2>
+    <p>Zines are self-published and passed from hand to hand, which isn’t so different from posting a preprint. We thought the format could help a paper reach people who would never open the PDF, and give its authors a more personal way to talk about their work.</p>
+
+    <div class="foot">ZINify received an Honorable Mention (People’s Choice) in the UIST 2023 Student Innovation Contest. Read the <a href="https://dl.acm.org/doi/abs/10.1145/3586182.3625118">paper</a>, and see <a href="https://jaidevshriram.com/zinify-uist/">Jaidev Shriram’s project page</a>.</div>
+    <p class="more"><a href="https://www.sankala.me/writing">More writing by San Kala →</a></p>
+  </div>
+</article>
+</main>
+
+<footer class="site-foot">
+  <span>San Kala</span>
+  <span>Essay idea · figure drawn in code</span>
+</footer>
+
+<script src="js/riso.js"></script>
+<script src="js/zine-pages.js"></script>
+<script src="js/fig-zinify.js"></script>
+</body>
+</html>

@@ -31,6 +31,10 @@ smaller Work posters in `4c22492`. He asked for tile-art
 and pixel-art versions of the Four frames landing to compare with the clear-line one, and for
 the remaining essay ideas (power quality, ZINify, StartR) as prototypes for feedback. The
 GPT-7 cover's detached-hand glitch was fixed live (`58ab877`).
+Rule (San, 2026-10-03): every essay, figure and project gets its OWN unique art style and
+creative idea. Never reuse another piece's visual style or engine look (he rejected the ZINify
+draft for reusing the EAI riso style). Check the style register in
+`docs/design/2026-10-02-site-wide-art-direction.md` before designing, and add the new style to it.
 Latest decisions, October 2 (code-drawn art review): San approved code-drawn covers
 for all essays/work ("absolutely love"), and wants every past and future essay to get
 an interactive or media treatment like the Winning by Overfitting figures, with a style

@@ -74,3 +74,26 @@ proposals for San; only the items marked as his decisions are decided.
 3. Essay treatments, one at a time, starting with porting Winning by Overfitting.
 4. Projects as animated posters; History grouped by place; 404 vignette; remove italics.
 5. Paper Robots pass (evidence loop opening, film kits), then Dyson Swarm posters.
+
+## Rule: every piece has its own art (San, October 3, 2026)
+
+Every essay, figure and project gets a unique art style and creative idea. Never reuse another
+piece's visible style, palette, lettering or mechanism, even when the code could be shared.
+Shared infrastructure (canvas helpers, the LivingCanvas wrapper) is fine. Within one
+experience, such as the homepage scroll, keep one style. Before designing, check this register
+and add the new style to it.
+
+### Style register (what is already taken)
+
+| Where | Style |
+| --- | --- |
+| Homepage (Four frames, live) | Clear ink line with warm gouache |
+| Winning by Overfitting figures | Three-ink risograph zine, hand-lettered, characters |
+| Power quality idea | A realistic bench oscilloscope (instrument UI) |
+| Covers | Polish gouache film poster; art-deco railway lithograph; Swiss typographic poster; woodblock on washi; linocut paperback; letterpress broadside with blue pencil; screenprint; riso zine; technical journal |
+| Paper Robots kits | Three-block reduction linocut; egg tempera and gold leaf |
+| History vignettes, 404 | Clear line with gouache (homepage family) |
+| ZINify idea (v2) | Photocopier zine: black toner on coloured copy paper, ransom-note lettering, copies of copies |
+| Glyp idea (v2) | 1960s lithographed board game with spinner, tokens and cards |
+| Landing comparisons | Living stone mosaic (andamento); muted halftone-dot print in five inks |
+| Earlier studies | Cyanotype, line engraving, mezzotint, sumi ink, suminagashi marbling, pochoir, paper-cut collage, origami, cross-stitch, chalkboard, banknote engraving, camcorder halftone loop, azulejo tile, native pixel art, komorebi light |

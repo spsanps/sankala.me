@@ -1,0 +1,230 @@
+// Copied from src/data/history.json (San's own wording) for this standalone prototype.
+export default [
+ {
+  "year": "2025",
+  "title": "First place at the NeurIPS EAI Challenge",
+  "description": "[Chin](https://chin.bio) and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.",
+  "id": "eai-challenge",
+  "month": "December",
+  "location": "San Diego, CA",
+  "category": "Competition",
+  "images": [
+   {
+    "src": "/images/awards/uist-2023-presentation.jpg",
+    "alt": "San and Chin receiving first place at NeurIPS 2025.",
+    "caption": "First place at NeurIPS 2025"
+   }
+  ],
+  "links": [
+   [
+    "/notes/eai-challenge",
+    "Read the account"
+   ],
+   [
+    "https://openreview.net/pdf?id=gABfrJI5ni",
+    "Research paper"
+   ],
+   [
+    "/documents/certificates/award_certificate_AxisTilted2.pdf",
+    "Award certificate"
+   ]
+  ],
+  "date": "2025-12"
+ },
+ {
+  "year": "2024",
+  "title": "Joined eBay as an AI researcher",
+  "description": "I joined eBay’s Knowledge Extraction team in April 2024, where I research and build language-model systems for information extraction. I was promoted in October 2025.",
+  "id": "ebay-research",
+  "month": "April",
+  "location": "San Jose, CA",
+  "category": "Work",
+  "images": [
+   {
+    "src": "/images/history/ebay-headquarters.webp",
+    "alt": "San outside eBay headquarters.",
+    "caption": "eBay headquarters, San Jose"
+   }
+  ],
+  "links": [
+   [
+    "/resume",
+    "Current work"
+   ]
+  ],
+  "date": "2024-04"
+ },
+ {
+  "year": "2024",
+  "title": "Completed my MS at UC San Diego",
+  "description": "I completed an MS in computer science at UC San Diego, working with Julian McAuley’s group on AI music and language models and TA’ing recommender systems and data mining.",
+  "id": "ucsd-graduation",
+  "month": "March",
+  "location": "San Diego, CA",
+  "category": "Education",
+  "images": [
+   {
+    "src": "/images/history/research-group.webp",
+    "alt": "The UC San Diego research group outdoors in 2023.",
+    "caption": "With Julian McAuley’s research group, 2023"
+   }
+  ],
+  "links": [],
+  "date": "2024-03"
+ },
+ {
+  "year": "2023",
+  "title": "A UIST award for turning papers into zines",
+  "description": "ZINify, which [Jaidev Shriram](https://jaidevshriram.com/) and I built, received an Honorable Mention at the UIST Student Innovation Contest. It uses language models to turn research papers into illustrated zines.",
+  "id": "zinify",
+  "month": "October",
+  "location": "San Francisco, CA",
+  "category": "Research",
+  "images": [
+   {
+    "src": "/images/history/uist-award.webp",
+    "alt": "San and Jaidev Shriram holding the UIST 2023 award.",
+    "caption": "With Jaidev Shriram at UIST 2023"
+   }
+  ],
+  "links": [
+   [
+    "https://jaidevshriram.com/zinify-uist/",
+    "See ZINify"
+   ],
+   [
+    "https://dl.acm.org/doi/abs/10.1145/3586182.3625118",
+    "Research paper"
+   ],
+   [
+    "/documents/certificates/Certificate%20UIST%20ACM%20-%20Hon%20Mention.pdf",
+    "Award certificate"
+   ]
+  ],
+  "date": "2023-10"
+ },
+ {
+  "year": "2023",
+  "title": "A writing-assistant startup at UCSD’s StartR accelerator",
+  "description": "I co-founded Glyp, a writing assistant for novelists, and took it through UCSD’s StartR Rady accelerator. It didn’t make it to market, and I wrote about what went wrong.",
+  "id": "startr",
+  "month": "October",
+  "location": "San Diego, CA",
+  "category": "Startup",
+  "images": [],
+  "links": [
+   [
+    "/notes/startr-postmortem",
+    "Read the post-mortem"
+   ]
+  ],
+  "date": "2023-10"
+ },
+ {
+  "year": "2023",
+  "title": "A summer research internship at eBay",
+  "description": "I spent the summer researching information extraction at scale with eBay’s Knowledge Extraction team.",
+  "id": "ebay-internship",
+  "month": "June",
+  "location": "San Jose, CA",
+  "category": "Work",
+  "images": [
+   {
+    "src": "/images/history/ebay-intern.webp",
+    "alt": "San beside the planted eBay sign during his internship.",
+    "caption": "The summer research internship, 2023"
+   }
+  ],
+  "links": [],
+  "date": "2023-06"
+ },
+ {
+  "year": "2023",
+  "title": "Won the eBay ML Challenge: first of 591 teams",
+  "description": "I placed first of 591 teams in the eBay University Machine Learning Challenge, extracting named entities from product titles with DeBERTa-v3 and K-fold ensembling. The result, announced in January 2023, led to the summer research internship.",
+  "id": "ebay-ml-challenge",
+  "month": "January",
+  "location": "San Diego, CA",
+  "category": "Competition",
+  "images": [],
+  "links": [
+   [
+    "https://innovation.ebayinc.com/stories/ebay-announces-winners-of-4th-annual-machine-learning-challenge/",
+    "The announcement"
+   ],
+   [
+    "/documents/certificates/eBay%20ML%20Challenge%20Letter.pdf",
+    "Award letter"
+   ]
+  ],
+  "date": "2023-01"
+ },
+ {
+  "year": "2022",
+  "title": "Moved from chip design to computer science at UCSD",
+  "description": "I started the MS at UC San Diego after three years in chip design.",
+  "id": "ucsd-start",
+  "month": "September",
+  "location": "San Diego, CA",
+  "category": "Education",
+  "images": [
+   {
+    "src": "/images/history/ucsd-library.webp",
+    "alt": "San outside Geisel Library at UC San Diego.",
+    "caption": "Starting at UC San Diego, 2022"
+   }
+  ],
+  "links": [],
+  "date": "2022-09"
+ },
+ {
+  "year": "2019",
+  "title": "Three years designing chips at Texas Instruments",
+  "description": "I spent 2019–2022 on ASIC digital design at Texas Instruments: physical design, RTL, and getting actual chips out the door.",
+  "id": "texas-instruments",
+  "month": "July",
+  "location": "Bengaluru, India",
+  "category": "Work",
+  "images": [
+   {
+    "src": "/images/locations/ti-bangalore.jpg",
+    "alt": "San outside the Texas Instruments office in Bengaluru.",
+    "caption": "Texas Instruments, Bengaluru"
+   }
+  ],
+  "links": [
+   [
+    "/resume",
+    "Engineering background"
+   ]
+  ],
+  "date": "2019-07"
+ },
+ {
+  "year": "2019",
+  "title": "Electrical engineering at NIT Karnataka",
+  "description": "I graduated in electrical and electronics engineering. I got into deep learning through Kaggle, earning silver and bronze medals. My thesis on power-quality classification won a best-paper award at IEEE DISCOVER, and the Amateur Astronomy Club gave me a place to explore astronomy.",
+  "id": "nitk",
+  "month": "May",
+  "location": "Karnataka, India",
+  "category": "Education",
+  "images": [
+   {
+    "src": "/images/history/nitk-lab.webp",
+    "alt": "An oscilloscope showing a signal in the NITK electronics laboratory.",
+    "caption": "The electronics lab at NITK"
+   }
+  ],
+  "links": [
+   [
+    "/documents/certificates/24_DISCOVER_BestPaper%20(2).pdf",
+    "Best paper certificate"
+   ],
+   [
+    "https://kaggle.com/spsanps",
+    "Kaggle profile"
+   ]
+  ],
+  "date": "2019-05"
+ }
+];

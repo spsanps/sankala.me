@@ -101,7 +101,13 @@ Chin. Awaiting San's review; questions are in its `notes.md`.
 | `essay-zinify/` | ZINify: the paper goes into a riso machine and comes out as an eight-page zine |
 | `essay-startr/` | The Glyp post-mortem with a "features or distribution" notebook figure |
 
-All five are on the gallery for San's feedback. The tile page also ships a `js/bundle.js`
+San clarified on October 3 that "tile" meant mosaic and "pixel" meant the muted dot print of the
+first Four places sample, so `four-frames-mosaic/` and `four-frames-dots/` replaced the tile and pixel
+studies in the comparison (those folders stay as records). He also rejected reusing styles between
+essays, so `essay-zinify/` (photocopier zine) and `essay-startr/` (board game) were rebuilt in their
+own styles; the first drafts are in each folder's `archive/v1/`.
+
+All are on the gallery for San's feedback. The tile page also ships a `js/bundle.js`
 (rebuild with `build.sh`) so it opens from `file://`; the pixel page needs to be served over http.
 
 ## Status
