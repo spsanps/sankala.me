@@ -18,7 +18,7 @@ export function LoopFigure() {
   return (
     <figure className="eai-fig" id="fig-loop" ref={ref}>
       <div className="eai-fig-sheet">
-        <canvas id="loop" role="img" aria-label="The loop, hand-drawn." />
+        <canvas id="loop" role="img" aria-label="The loop, drawn in code." />
         <div className="eai-fig-hits">
           <button className="eai-fig-hit" id="loop-hit1" type="button" aria-label="Open error log from try 1" hidden />
           <button className="eai-fig-hit" id="loop-hit2" type="button" aria-label="Open error log from try 2" hidden />
@@ -46,7 +46,7 @@ export function LoopFigure() {
         <p className="eai-fig-sr" id="loop-live" aria-live="polite" />
       </div>
       <figcaption>
-        <b>The loop, by hand.</b> Step through the three tries or drag the timeline, and open each
+        <b>The loop.</b> Step through the three tries or drag the timeline, and open each
         error log to read what the evaluator said and what changed in the plan. The task is made up
         for the figure; the two failures are the two kinds this write-up describes.
       </figcaption>

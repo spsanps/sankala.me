@@ -19,7 +19,7 @@ Loop. Loop. Loop. If 2024 asked how big your model is and 2025 asked how long it
 
 The challenge measures how well language models plan household-robot tasks in two simulators, BEHAVIOR and VirtualHome. During the development phase, the official evaluator does more than score a submission—it explains precisely why a plan failed. We built our pipeline around that feedback: prompt a frontier model, evaluate its answer, feed the errors into the next attempt, and repeat. Every plan that survives the process becomes verified training data.
 
-> **Figure 1. The loop, by hand.** An interactive hand-drawn figure in three tries. A frontier model writes a plan for a task made up for the figure (put a sliced apple in the fridge), and the evaluator runs it in a small simulated kitchen. Try 1 fails: the error log says the fridge is closed, so the next plan adds step 3, OPEN FRIDGE. Try 2 fails: the error log says 'apple' no longer exists, because a sliced object gets a new name, so the plan changes APPLE to SLICES. Try 3 passes, and the plan and both error logs go into the gold data that later trains the small 0.6B model. The two failures are the two kinds described above.
+> **Figure 1. The loop.** An interactive figure drawn in code in three tries. A frontier model writes a plan for a task made up for the figure (put a sliced apple in the fridge), and the evaluator runs it in a small simulated kitchen. Try 1 fails: the error log says the fridge is closed, so the next plan adds step 3, OPEN FRIDGE. Try 2 fails: the error log says 'apple' no longer exists, because a sliced object gets a new name, so the plan changes APPLE to SLICES. Try 3 passes, and the plan and both error logs go into the gold data that later trains the small 0.6B model. The two failures are the two kinds described above.
 
 The loop earns its keep because of *where* capable models fail. They produce plans a human would readily accept, and the simulator rejects them for omitting details no person would think to mention—the new identifier an object receives after being sliced, or an `OPEN` action that seems implied. Conventions like these are nearly impossible to anticipate in a prompt, but they are easy to learn from error logs, and the loop collects them automatically.
 
@@ -31,13 +31,13 @@ The loop earns its keep because of *where* capable models fail. They produce pla
 
 **Even the judge can be distilled.** The official evaluator is withheld during the test phase, so we trained a model to imitate its feedback and used that imitation to review our answers before submission. The loop keeps working after the oracle is gone.
 
-> **Figure 2. Hard tasks teach the most.** An interactive hand-drawn figure with three illustrative tasks: turn on the lamp passes on the first try, make coffee takes four tries, and clean up after dinner takes ten. Every try leaves a card in the dataset, either an error log or the plan that finally passed, so the stacks hold one, four and ten cards. Distilling copies all fifteen cards into the 0.6B model, which becomes a specialist; no human labels are involved. Tasks and try counts are illustrative.
+> **Figure 2. Hard tasks teach the most.** An interactive figure drawn in code with three illustrative tasks: turn on the lamp passes on the first try, make coffee takes four tries, and clean up after dinner takes ten. Every try leaves a card in the dataset, either an error log or the plan that finally passed, so the stacks hold one, four and ten cards. Distilling copies all fifteen cards into the 0.6B model, which becomes a specialist; no human labels are involved. Tasks and try counts are illustrative.
 
 ## What it bought us
 
 We distilled the loop's output into small Qwen3 models. On BEHAVIOR, every module we submitted was a 0.6-billion-parameter specialist, and every one of them outscored the frontier baseline:
 
-**Figure 3. Official BEHAVIOR scores.** The page draws these scores by hand; the reader picks a module to see the gap.
+**Figure 3. Official BEHAVIOR scores.** The page draws these scores in code; the reader picks a module to see the gap.
 
 | Module (BEHAVIOR) | gpt-5-mini baseline | Qwen3-0.6B fine-tuned (ours) | Gain |
 | --- | --- | --- | --- |
