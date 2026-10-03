@@ -32,7 +32,8 @@ and pixel-art versions of the Four frames landing to compare with the clear-line
 the remaining essay ideas (power quality, ZINify, StartR) as prototypes for feedback. The
 GPT-7 cover's detached-hand glitch was fixed live (`58ab877`).
 San's decisions, October 3 evening: the Paper Robots homepage that opens on the evidence loop is approved
-to go live ("looks good, you can put it up"). For Dyson Swarm he chose the travel bureau as the collection
+to go live ("looks good, you can put it up"). It is live on www.paperrobots.studio as paper-robots-site commit `9b8630b`
+(built from the site's data; the screening room, RSS and analytics kept). For Dyson Swarm he chose the travel bureau as the collection
 homepage, replacing The Wheel and The Tether with Terraforming Mars and an orbital ring ("ride to an orbital
 ring from the ground"), and asked for those two experiences to be built "to very high quality and taste"
 (routes /mars/ and /orbital-ring/). Revised the same evening: San's own terraforming method (sunshade →
