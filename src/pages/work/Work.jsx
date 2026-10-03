@@ -77,7 +77,7 @@ export default function Work({ preset = 'all' }) {
   const title = type === 'all' ? 'Writing & projects — San Kala' : `${filter.label} — San Kala`;
   return <main id="main" className="shell work-page">
     <Metadata title={title} description="Essays, research, projects and films by San Kala, newest first: AI and robotics, simulated worlds, and notes on building things." path="/work" />
-    <header className="page-heading"><h1>Writing & projects</h1><p>Essays, research, projects and films, newest first. Each one has its own cover, drawn in code.</p></header>
+    <header className="page-heading"><h1>Writing & projects</h1><p>Essays, research, projects and films, newest first. Each one has its own cover, drawn in code.</p><p className="work-why">AI makes it easy to make almost anything now, so I use it as a way to put ideas down. The covers, figures and films here are made with AI tools; the ideas are mine.</p></header>
 
     <div className="work-tools">
       <div className="work-chips" role="group" aria-label="Show">
