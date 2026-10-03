@@ -31,7 +31,7 @@ export function archRegions(G) {
   const P = ARCH_PAL;
   return [
     { name: 'wall', group: 'wall', clip: false, fine: 1.04, src: ['archivolt', 'cornice'], draw: c => c.rect(X0, Y0, X1 - X0, Y1 - Y0), fill: () => P.lapis },
-    { name: 'cornice', group: 'cornice', clip: false, fine: .9, src: 'courses', draw: c => { const xc = G.side ? (G.cornX0 - G.cx) / G.u : X0; c.rect(xc, F, X1 - xc, C); }, fill: () => P.lapisBand },
+    { name: 'cornice', group: 'cornice', clip: false, fine: .9, src: 'courses', draw: c => c.rect(X0, F, X1 - X0, C), fill: () => P.lapisBand },
     { name: 'conch', group: 'conch', clip: false, skip: true, draw: conchPath(F), fill: () => P.gold[0] },
     { name: 'archivolt', group: 'archivolt', clip: false, fine: .86, src: ['conch'], draw: archivoltPath(F), fill: () => P.gold[0] },
     { name: 'gems', group: 'archivolt', clip: false, fine: .62, src: 'self', draw: c => { for (const g of gems) gemPath(c, g); }, fill: () => P.gems[0] },
@@ -105,8 +105,7 @@ export function finishArch(stones, regions, G, su) {
     const r = regions[t.reg], x = t.ux, y = t.uy;
     if (r.name === 'wall') {
       // lighter near the arch (lit by the gold), deeper toward the edges and low on the wall
-      const beside = G.side && x * G.u + G.cx < G.cornX0;          // left of the cornice: measure from the apse's side
-      const d = y < F || beside ? (y < 0 ? Math.hypot(x, y) - RO : Math.abs(x) - RO) : (y - F - C) * 1.4 + 40;
+      const d = y < F ? (y < 0 ? Math.hypot(x, y) - RO : Math.abs(x) - RO) : (y - F - C) * 1.4 + 40;
       let c = mix(P.lapisLit, P.lapis, smooth(0, 150, d));
       c = mix(c, P.lapisDeep, smooth(150, 700, d) * .7 + smooth(.55, .8, fbm(x / 160, y / 160, 3, 3)) * .25);
       if (rnd() < .05) c = mix(c, rgb('#3a56a8'), .5); else if (rnd() < .05) c = mix(c, P.lapisDeep, .6);

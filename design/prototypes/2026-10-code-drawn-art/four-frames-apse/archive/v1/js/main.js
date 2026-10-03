@@ -30,11 +30,11 @@ const WORKS = [
 ];
 
 function lane(still) {
-  const intro = `<div class="intro"><section class="tab tab-intro" aria-labelledby="hello"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
+  const intro = `<section class="tab tab-intro" aria-labelledby="hello"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
       <h1 id="hello">Hi, I’m San.</h1>
       <p class="lede">I work on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Along the way I co-founded <a href="${SITE}/notes/startr-postmortem">a startup that didn’t make&nbsp;it</a>. I also write, make things, and sometimes turn an idea into a film.</p>
       <p class="more"><a href="${SITE}/about">More about me</a><span class="mail">san@sankala.me</span>${still ? '<a href="?">Living version</a>' : '<a href="?plain=1">Still version</a>'}</p>
-    </div></section></div>
+    </div></section>
     <p class="wall-note">The apse is laid in stones, in code. In San Jose it keeps the real time; scroll, and it is re-laid for each place I’ve lived and worked.<span class="clock"></span><button type="button" class="tilt" hidden>Tilt your phone to catch the light</button></p>
     <h2 class="path" id="history">My path so far</h2>`;
   return intro + ERA_LIST.map((era, index) => `<section class="tab place" data-frame="${era.key}" aria-labelledby="place-${era.key}"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
@@ -75,13 +75,11 @@ async function start() {
   hooks.noGlint = params.get('glint') === '0';
   const clock = laneEl.querySelector('.clock');
   const tablets = [...laneEl.querySelectorAll('.tab')];
-  let stonePx = 6.6, side = true, tabletsDone = Promise.resolve();
+  let stonePx = 6.6, wide = true, tabletsDone = Promise.resolve();
   const dpr = Math.min(2, devicePixelRatio || 1);
-  const riseOf = w => Math.round(Math.min(w * .2, side ? 104 : 64));
   const paintOne = (el, i) => {
     const intro = el.classList.contains('tab-intro'), r = el.getBoundingClientRect();
-    // the intro is a round-headed stele, echoing the apse; the path's tablets are plain
-    return paintTablet(el.querySelector('.tab-art'), r.width, r.height, { rise: intro ? riseOf(r.width) : 0, stonePx, rows: 4, seed: 3 + i * 7, dpr })
+    return paintTablet(el.querySelector('.tab-art'), r.width, r.height, { ansae: intro && wide, ear: intro ? Math.min(46, stonePx * 7) : 0, stonePx, rows: 4, seed: 3 + i * 7, dpr })
       .then(() => el.classList.add('is-painted'));
   };
   // the intro tablet before the first screen is shown; the rest (below the fold) just after
@@ -102,19 +100,14 @@ async function start() {
     frontEl: root.querySelector('.apse-front'), backEl: root.querySelector('.apse-back'), laneEl, sections: [...laneEl.querySelectorAll('.place')],
     header: document.querySelector('.site-header'), captionEl: root.querySelector('.apse-caption'), hooks, still,
     onLayout: G => {
-      const s = document.documentElement.style, u = G.u, R = 546 * u;
-      s.setProperty('--band', (G.side ? G.mt : G.bandH) + 'px');
-      s.setProperty('--glint-h', G.bandH + 'px');
-      s.setProperty('--mt', G.mt + 'px');
+      const s = document.documentElement.style, u = G.u;
+      s.setProperty('--band', G.bandH + 'px');
       s.setProperty('--conch-w', Math.round(2 * 500 * u) + 'px');
       s.setProperty('--tab-w', Math.round(2 * 530 * u) + 'px');
       s.setProperty('--cornice-y', (G.cy + G.F * u) + 'px');
       s.setProperty('--cornice-h', (46 * u) + 'px');
-      s.setProperty('--cap-x', (G.side ? G.cx - R : 0) + 'px');
-      s.setProperty('--cap-w', (G.side ? 2 * R : G.w) + 'px');
-      stonePx = Math.max(4.6, Math.min(7.4, u * 1000 / 132)); side = G.side;
+      stonePx = Math.max(4.6, Math.min(7.4, u * 1000 / 132)); wide = G.corners;
       s.setProperty('--stone', stonePx + 'px');
-      tablets[0].style.setProperty('--rise', riseOf(tablets[0].getBoundingClientRect().width) + 'px');
     },
     onChange: info => { root.querySelector('.apse-conch').setAttribute('aria-label', info.alt); },
     onReady: async light => {

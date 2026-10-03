@@ -1,35 +1,7 @@
 # The apse: a homepage designed for mosaic from the start
 
 October 3, 2026. The last mosaic test, built so San can choose between it and the live clear-line
-homepage. Not committed. The first version is kept in `archive/v1/`.
-
-## v2 (this version)
-
-San on v1: "Yeah this is really good. Only thing is maybe the text below is cutting it off; maybe we
-could do text on the side, on the left side. The only problem I have with this is the text is too
-small, really hard to read, but everything else is really good."
-
-- **The words moved to the left; the apse is whole.** On a wide screen (at least 900 px wide and wider
-  than 1.15 : 1) the intro stands on a tall, round-headed marble stele set into the lapis wall on the
-  left (its arch echoes the apse; its frame is laid in tesserae: dark, gold, porphyry red, gold). The
-  apse fills the rest of the wall, right of centre and full height, from just under the nav to the
-  cornice near the bottom of the screen, with nothing across it. Given a tall space the apse
-  lengthens its upright sides rather than shrinking, so it stays as large as the room allows
-  (1440×900: about 800 px wide and 815 px tall). The cornice now runs from beside the stele across
-  under the apse, with the place and the hour on it. The nav stays plain in the top corners; the wall's
-  top strip is the front layer, so the stele and the path's tablets pass under it as you scroll the
-  left column, while the apse stays put and is re-laid for each place. The glint never draws over the
-  words' column.
-- **Type is much larger** (sizes at 1440×900 / 1280×720 / 1920×1080): the intro body 21.6 / 21 / 23.5
-  px at a 1.55 line height, darker ink (#1f1b17 on pale marble); the heading 53 / 49 / 64 px; nav 19–23
-  px; the wordmark 29–38 px; the cornice label 16.5 / 15 / 21 px with a stronger shadow; the history
-  tablets' text 19.5–22.5 px with 22–26 px titles and 38–52 px place names, photographs moved under the
-  text and enlarged; the shelf's heading 46–54 px, intro 20–24 px, cover titles 19.5–22 px; the
-  colophon 17.5–19.5 px. Phones: the intro body 19 px, the heading 40 px, the history text 18.5 px.
-- **Phones** keep v1's order: the apse comes first, whole, and the words scroll beneath its cornice;
-  the intro is the same round-headed stele, in large type.
-- Unchanged: the gold apse, the desk and its things, the empty chair, the glint, the four places and
-  their transition, the shelf.
+homepage. Not committed.
 
 ## Why this study exists
 
@@ -63,9 +35,10 @@ type part of the same world, and the material light that only mosaic has.
   empty, as if he has just stepped away (a Byzantine apse would call it the *hetoimasia*, the
   prepared seat). The desk top tips up toward you a little, as Byzantine tables do. The place's
   landscape stands behind.
-- **The words belong to the mosaic.** The intro is real HTML on a round-headed stele (v1: a
-  *tabula ansata* below the cornice) set into the wall: a book-matched slab of pale veined marble in a
-  frame laid in tesserae (dark, gold, porphyry red, gold). The heading is in Marcellus, a typeface drawn from flared Roman inscriptional capitals; the
+- **The words belong to the mosaic.** The intro is real HTML on a *tabula ansata* (the Roman
+  inscription tablet with a dovetail handle on each side) set into the wall below the cornice: a
+  book-matched slab of pale veined marble in a frame laid in tesserae (dark, gold, porphyry red,
+  gold). The heading is in Marcellus, a typeface drawn from flared Roman inscriptional capitals; the
   body is EB Garamond. Both are self-hosted (`fonts/`, OFL). The place and the hour are written in
   gold capitals on the cornice band ("San Jose · 3:00 pm"), like the inscription bands at the foot
   of a conch. The nav stays plain, in the top corners of the wall beside the crown (in a band
@@ -102,10 +75,8 @@ schematic).
 ## How the page is built
 
 Back to front, inside `.apse` (sticky elements, so nothing is fixed): the wall canvas (the whole
-screen, laid once and drawn once), the lane of words (scrolling; on wide screens a left column),
-then the front layer: a copy of the wall (the strip under the nav on wide screens, the band above the
-cornice on phones) so the words pass beneath it, the conch's own canvas, the glint canvas, the nav and
-the caption. Both sticky
+screen, laid once and drawn once), the lane of words (scrolling), then the band above the cornice
+(architecture, the conch's own canvas, the glint canvas, the nav and the caption). Both sticky
 layers are 100svh tall so they leave together at the end of the section; the front one ignores the
 pointer except over the band, so hidden text under the conch is not clickable. `scroll-margin-top`
 keeps keyboard focus out from under the band.
@@ -138,13 +109,6 @@ the page exposes `__renderAt(t, pos)` and `__light(x, y)`. Animation stops when 
 the apse is off screen; the device pixel ratio is capped at 2.
 
 ## Measured (headless Chromium, software rendering on a shared, loaded machine; not a real device)
-
-v2, measured while the machine's load average was 9–18 from other work, so not comparable with v1's
-numbers below (load about 5): first frame 4.0 s at 1440×900 (3.6–3.7 s at 1280×720 and 1920×1080, 1.8 s
-on a phone); no console errors and no horizontal scroll at 1440×900, 1280×720, 1920×1080 and 390×844.
-The amount of work is about the same as v1's (the conch is taller and narrower, a similar area).
-
-v1:
 
 | Screen | First frame | Page ready (intro tablet painted) | All four places laid | Frame (median / 95th pct, scrolling through every wave while the pointer moves) |
 | --- | --- | --- | --- | --- |
@@ -184,13 +148,9 @@ loops and one relaxation pass fewer. That cut the 1440×900 first frame from 6.8
   are one or two stones wide.
 - The ground under the desk is the weakest area in every place (golden grass, lawn, terrace, sand);
   the chair and the desk's shadow hold it together but it is still mostly a field.
-- v2 makes the desktop a two-part composition (stele left, apse right) rather than one central
-  monument; the apse is still whole and full height, but it is no longer centred. On a desktop the
-  words now have the full height to read in (v1's letterbox strip remains only on phones, about 40%
-  of the screen).
-- At the in-between apse proportions of a wide screen some things overlap a little: the lamp's head
-  sits in front of the observatory's hill (San Jose), the library (San Diego) and the gulmohar
-  (Bengaluru).
+- The words scroll through the strip under the cornice (about a third of the screen on a desktop),
+  so reading the whole path is like reading an inscription through a letterbox; at 1280×720 the strip
+  is about 250 px.
 - The desk is re-laid along with the landscape in each wave (its stones turn over too), because every
   place is laid as one layer.
 - Landmarks are schematic and enlarged (the observatory, the library); the oaks and the San Diego

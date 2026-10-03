@@ -133,50 +133,23 @@
   });
 
   // js/geom.js
-  function layoutApse(w, h, mode, headerH = 0, colRight = 0) {
-    const side = mode === "side";
-    const mt = headerH + (side ? 4 : 6);
-    let x0, x1, top, bottom;
-    if (side) {
-      x0 = colRight + Math.max(36, w * 0.03);
-      x1 = w - Math.max(18, w * 0.016);
-      top = mt;
-      bottom = h - Math.max(12, h * 0.016);
-    } else {
-      x0 = 9;
-      x1 = w - 9;
-      top = mt;
-      bottom = Math.min(h * 0.6, w * 1.62);
-    }
-    const uW = (x1 - x0) / (2 * RO);
+  function layoutApse(w, h, header, headerH = 0) {
+    const corners2 = header === "corners";
+    const bandTarget = corners2 ? h * 0.662 : Math.min(h * 0.6, w * 1.62);
+    const mt = corners2 ? Math.max(10, h * 0.014) : headerH + 6;
+    const ms = corners2 ? 24 : 9;
+    const uW = (w - 2 * ms) / (2 * RO);
     let u, F;
-    const fW = (bottom - top) / uW - (RO + C);
+    const fW = (bandTarget - mt) / uW - (RO + C);
     if (fW >= F_MIN) {
       u = uW;
       F = Math.min(fW, F_MAX);
     } else {
       F = F_MIN;
-      u = (bottom - top) / (RO + F_MIN + C);
+      u = (bandTarget - mt) / (RO + F_MIN + C);
     }
-    const used = (RO + F + C) * u;
-    const cx = (x0 + x1) / 2, cy = top + (side ? Math.max(0, (bottom - top - used) / 2) : 0) + RO * u;
-    const corniceBottom = Math.ceil(cy + (F + C) * u);
-    return {
-      u,
-      F,
-      cx,
-      cy,
-      bandH: side ? h : corniceBottom,
-      corniceBottom,
-      w,
-      h,
-      mt,
-      side,
-      corners: side,
-      cornX0: side ? colRight + 14 : 0,
-      colRight: side ? colRight : 0,
-      tall: clamp((F - F_MIN) / (760 - F_MIN))
-    };
+    const cx = w / 2, cy = mt + RO * u, bandH = Math.ceil(cy + (F + C) * u);
+    return { u, F, cx, cy, bandH, w, h, mt, corners: corners2, tall: clamp((F - F_MIN) / (760 - F_MIN)) };
   }
   function archDepth(x, y) {
     return Math.hypot(x, Math.min(y, 0)) - RI;
@@ -951,10 +924,7 @@
     const P6 = ARCH_PAL;
     return [
       { name: "wall", group: "wall", clip: false, fine: 1.04, src: ["archivolt", "cornice"], draw: (c) => c.rect(X0, Y0, X1 - X0, Y1 - Y0), fill: () => P6.lapis },
-      { name: "cornice", group: "cornice", clip: false, fine: 0.9, src: "courses", draw: (c) => {
-        const xc = G.side ? (G.cornX0 - G.cx) / G.u : X0;
-        c.rect(xc, F, X1 - xc, C);
-      }, fill: () => P6.lapisBand },
+      { name: "cornice", group: "cornice", clip: false, fine: 0.9, src: "courses", draw: (c) => c.rect(X0, F, X1 - X0, C), fill: () => P6.lapisBand },
       { name: "conch", group: "conch", clip: false, skip: true, draw: conchPath(F), fill: () => P6.gold[0] },
       { name: "archivolt", group: "archivolt", clip: false, fine: 0.86, src: ["conch"], draw: archivoltPath(F), fill: () => P6.gold[0] },
       { name: "gems", group: "archivolt", clip: false, fine: 0.62, src: "self", draw: (c) => {
@@ -1036,8 +1006,7 @@
       }
       const r = regions5[t.reg], x = t.ux, y = t.uy;
       if (r.name === "wall") {
-        const beside = G.side && x * G.u + G.cx < G.cornX0;
-        const d = y < F || beside ? y < 0 ? Math.hypot(x, y) - RO : Math.abs(x) - RO : (y - F - C) * 1.4 + 40;
+        const d = y < F ? y < 0 ? Math.hypot(x, y) - RO : Math.abs(x) - RO : (y - F - C) * 1.4 + 40;
         let c = mix(P6.lapisLit, P6.lapis, smooth(0, 150, d));
         c = mix(c, P6.lapisDeep, smooth(150, 700, d) * 0.7 + smooth(0.55, 0.8, fbm(x / 160, y / 160, 3, 3)) * 0.25);
         if (rnd() < 0.05) c = mix(c, rgb("#3a56a8"), 0.5);
@@ -2551,8 +2520,7 @@ void main() {
       if (hooks.pos != null) return hooks.pos;
       const G = st.G;
       if (!G) return 0;
-      const vh = G.h, zone = vh - G.bandH;
-      const ref = G.side ? scrollY + vh * 0.56 : scrollY + G.bandH + zone * 0.62, span = G.side ? vh * 0.45 : Math.max(150, zone * 0.75);
+      const vh = G.h, zone = vh - G.bandH, ref = scrollY + G.bandH + zone * 0.62, span = Math.max(150, zone * 0.75);
       const tops = sections.map((s) => s.getBoundingClientRect().top + scrollY);
       let pos = 0;
       for (let k = 1; k < tops.length; k++) {
@@ -2679,7 +2647,7 @@ void main() {
           cc[k * 2 + 1] = q8[k * 2 + 1] * Z.kk + Z.gy;
         }
         const cx = t.x * Z.kk + Z.gx, cy = t.y * Z.kk + Z.gy;
-        if (!conch && (cy > G.bandH * dpr + 4 || G.side && cx < (G.colRight + 6) * dpr)) continue;
+        if (!conch && cy > G.bandH * dpr + 4) continue;
         const patch = (fbm(t.ux / 90, t.uy / 90, 61, 2) - 0.5) * 2, patch2 = (fbm(t.ux / 90, t.uy / 90, 83, 2) - 0.5) * 2;
         let bx = patch * 0.1, by = patch2 * 0.1;
         if (conch) {
@@ -2694,14 +2662,11 @@ void main() {
     const build = async () => {
       const id = ++building, alive = () => !disposed && id === building;
       const w = document.documentElement.clientWidth, h = backEl.clientHeight || innerHeight;
-      const side = w >= 900 && w / h >= 1.15;
-      root.classList.toggle("is-side", side);
-      root.classList.toggle("is-band", !side);
-      const gutter = clamp(w * 0.03, 24, 56), colW = side ? clamp(w * 0.375, 440, 640) : 0;
-      document.documentElement.style.setProperty("--gutter", gutter + "px");
-      document.documentElement.style.setProperty("--col-w", colW + "px");
+      const corner = w >= 980 && w / h >= 1.22;
+      root.classList.toggle("is-corners", corner);
+      root.classList.toggle("is-band", !corner);
       const headerH = header ? header.getBoundingClientRect().height : 0;
-      const G = layoutApse(w, h, side ? "side" : "band", headerH, gutter + colW);
+      const G = layoutApse(w, h, corner ? "corners" : "band", headerH);
       const dpr = Math.min(2, devicePixelRatio || 1);
       st.G = G;
       st.dpr = dpr;
@@ -2740,10 +2705,10 @@ void main() {
       }
       for (const t of ares.stones) paintStone(wc, t, t.col, kk, aox, aoy, t.mat === MAT.GLASS && !t.star);
       archCanvas.width = Math.round(w * dpr);
-      archCanvas.height = Math.round((G.side ? G.mt : G.bandH) * dpr);
+      archCanvas.height = Math.round(G.bandH * dpr);
       archCanvas.getContext("2d").drawImage(wallCanvas, 0, 0);
-      glintCanvas.width = Math.round(w * dpr);
-      glintCanvas.height = Math.round(G.bandH * dpr);
+      glintCanvas.width = archCanvas.width;
+      glintCanvas.height = archCanvas.height;
       uploadGlint("arch", ares.stones.filter((t) => t.mat), { kk, gx: aox, gy: aoy, dpr }, false);
       if (!alive()) return;
       const cx0 = Math.floor((G.cx - (RI + 6) * G.u) * dpr), cy0 = Math.floor((G.cy - (RI + 6) * G.u) * dpr);
@@ -2894,12 +2859,12 @@ void main() {
       caption(tau < 0.5 ? A : B2);
     }
     function lightAt(time) {
-      const G = st.G, w = G.w, bh = G.bandH, R = 546 * G.u, mid = [G.cx, G.cy - R * 0.35];
-      const drift = [G.cx + R * 0.8 * Math.sin(time * 0.11 - 0.4), G.cy - R * 0.5 + R * 0.3 * Math.sin(time * 0.083 - 0.6)];
+      const G = st.G, w = G.w, bh = G.bandH;
+      const drift = [w * (0.5 + 0.3 * Math.sin(time * 0.11 - 0.4)), bh * (0.32 + 0.14 * Math.sin(time * 0.083 - 0.6))];
       let target = drift;
       if (hooks.light) target = [w * hooks.light[0], bh * hooks.light[1]];
       else if (st.tilt) target = [w * clamp(0.5 + st.tilt[0] / 50, -0.1, 1.1), bh * clamp(0.4 + st.tilt[1] / 60, -0.1, 1.1)];
-      else if (st.target && performance.now() - st.pointerAt < 9e3) target = [mid[0] + (st.target[0] - mid[0]) * 1.15, mid[1] + (st.target[1] - mid[1]) * 1.15];
+      else if (st.target && performance.now() - st.pointerAt < 9e3) target = [w / 2 + (st.target[0] - w / 2) * 1.15, bh * 0.45 + (st.target[1] - bh * 0.45) * 1.15];
       if (!st.light || hooks.t != null || still) st.light = target.slice();
       else {
         st.light[0] += (target[0] - st.light[0]) * 0.07;
@@ -2921,8 +2886,7 @@ void main() {
         draws.push({ key: "era" + st.wave.b, mode: 2, lo: st.wave.fw - WAVE_W });
       } else for (const k of st.shown || []) draws.push({ key: "era" + k });
       if (hooks.noGlint) return glint.draw([0, 0, 1], [0, 0, 1], [], 0);
-      const R = 546 * G.u;
-      glint.draw([Lp[0] * d, Lp[1] * d, R * 1.45 * d], [G.cx * d, (G.cy - R * 0.3) * d, G.w * 2.4 * d], draws, 1);
+      glint.draw([Lp[0] * d, Lp[1] * d, G.w * 0.5 * d], [G.w * 0.5 * d, G.bandH * 0.5 * d, G.w * 2.4 * d], draws, 1);
     }
     const frame = (now) => {
       raf = 0;
@@ -3039,16 +3003,7 @@ void main() {
     clamp: () => clamp,
     paintTablet: () => paintTablet
   });
-  function outline(c, x0, x1, h, ansae, ear, rise = 0) {
-    if (rise > 0) {
-      const half = (x1 - x0) / 2, r = (half * half + rise * rise) / (2 * rise), cx = (x0 + x1) / 2, a = Math.asin(Math.min(1, half / r));
-      c.moveTo(x0, rise);
-      c.arc(cx, r, r, -Math.PI / 2 - a, -Math.PI / 2 + a, false);
-      c.lineTo(x1, h);
-      c.lineTo(x0, h);
-      c.closePath();
-      return;
-    }
+  function outline(c, x0, x1, h, ansae, ear) {
     c.moveTo(x0, 0);
     c.lineTo(x1, 0);
     if (ansae) {
@@ -3069,7 +3024,7 @@ void main() {
     }
     c.closePath();
   }
-  async function paintTablet(target, w, h, { ansae = false, ear = 0, rise = 0, stonePx = 6.6, rows = 4, seed = 3, dpr = 1 } = {}) {
+  async function paintTablet(target, w, h, { ansae = false, ear = 0, stonePx = 6.6, rows = 4, seed = 3, dpr = 1 } = {}) {
     const pad = ansae ? ear : 0, W = w + 2 * pad;
     const canvas = document.createElement("canvas");
     canvas.width = Math.round(W * dpr);
@@ -3080,13 +3035,12 @@ void main() {
     c.save();
     c.scale(dpr, dpr);
     c.beginPath();
-    outline(c, pad, pad + w, h, ansae, ear, rise);
+    outline(c, pad, pad + w, h, ansae, ear);
     c.fillStyle = `rgb(${P4.grout.join(",")})`;
     c.fill();
-    const field = (cc) => rise > 0 ? outlineInset(cc, pad, pad + w, h, rise, frameW) : cc.rect(pad + frameW, frameW, w - 2 * frameW, h - 2 * frameW);
     c.save();
     c.beginPath();
-    field(c);
+    c.rect(pad + frameW, frameW, w - 2 * frameW, h - 2 * frameW);
     c.clip();
     c.imageSmoothingQuality = "high";
     const sw = m.width * 2, sh = m.height * 2, cxm = pad + w / 2;
@@ -3108,8 +3062,8 @@ void main() {
     c.restore();
     const q = SHEET_STONE2 / stonePx, panel = { x0: -4, y0: -4 };
     const regions5 = [
-      { name: "frame", group: "frame", clip: false, fine: 1, src: ["outside"], draw: (cc) => outline(cc, pad, pad + w, h, ansae, ear, rise), fill: () => P4.gold[0] },
-      { name: "field", group: "field", clip: false, skip: true, draw: (cc) => rise > 0 ? outlineInset(cc, pad, pad + w, h, rise, frameW - 0.5) : cc.rect(pad + frameW - 0.5, frameW - 0.5, w - 2 * frameW + 1, h - 2 * frameW + 1), fill: () => P4.marble }
+      { name: "frame", group: "frame", clip: false, fine: 1, src: ["outside"], draw: (cc) => outline(cc, pad, pad + w, h, ansae, ear), fill: () => P4.gold[0] },
+      { name: "field", group: "field", clip: false, skip: true, draw: (cc) => cc.rect(pad + frameW - 0.5, frameW - 0.5, w - 2 * frameW + 1, h - 2 * frameW + 1), fill: () => P4.marble }
     ];
     const gen = laySteps(regions5, [{ inside: ["frame"], against: ["outside"] }], { W: Math.ceil((W + 8) * q), H: Math.ceil((h + 8) * q), q, s: SHEET_STONE2, seed, panel });
     let res = gen.next(), t0 = performance.now();
@@ -3133,7 +3087,7 @@ void main() {
         t.col = P4.outline;
         continue;
       }
-      const r = rise > 0 ? t.row : Math.floor(depth(x, y) / stonePx);
+      const r = Math.floor(depth(x, y) / stonePx);
       t.col = r <= 1 ? P4.gold[rnd() * 4 | 0] : r === 2 ? mix(P4.red, P4.redLit, rnd() * 0.6) : P4.gold[rnd() * 4 | 0];
       if (x < pad || x > pad + w) t.col = t.row % 3 === 1 ? mix(P4.red, P4.redLit, rnd() * 0.6) : P4.gold[rnd() * 4 | 0];
     }
@@ -3145,15 +3099,6 @@ void main() {
     target.style.height = h + "px";
     target.style.left = -pad + "px";
     target.getContext("2d").drawImage(canvas, 0, 0);
-  }
-  function outlineInset(c, x0, x1, h, rise, f) {
-    const half = (x1 - x0) / 2, r = (half * half + rise * rise) / (2 * rise), cx = (x0 + x1) / 2;
-    const ri = r - f, hi = half - f, a = Math.asin(Math.min(1, hi / ri)), ys = r - Math.cos(a) * ri;
-    c.moveTo(x0 + f, ys);
-    c.arc(cx, r, ri, -Math.PI / 2 - a, -Math.PI / 2 + a, false);
-    c.lineTo(x1 - f, h - f);
-    c.lineTo(x0 + f, h - f);
-    c.closePath();
   }
   function marbleSlab(seed) {
     const key = seed % 3;
@@ -3573,11 +3518,11 @@ void main() {
     ["power-quality", "Power quality event classification with LSTMs", "Research", 2019, "/notes/power-quality"]
   ];
   function lane(still) {
-    const intro = `<div class="intro"><section class="tab tab-intro" aria-labelledby="hello"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
+    const intro = `<section class="tab tab-intro" aria-labelledby="hello"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
       <h1 id="hello">Hi, I\u2019m San.</h1>
       <p class="lede">I work on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Along the way I co-founded <a href="${SITE}/notes/startr-postmortem">a startup that didn\u2019t make&nbsp;it</a>. I also write, make things, and sometimes turn an idea into a film.</p>
       <p class="more"><a href="${SITE}/about">More about me</a><span class="mail">san@sankala.me</span>${still ? '<a href="?">Living version</a>' : '<a href="?plain=1">Still version</a>'}</p>
-    </div></section></div>
+    </div></section>
     <p class="wall-note">The apse is laid in stones, in code. In San Jose it keeps the real time; scroll, and it is re-laid for each place I\u2019ve lived and worked.<span class="clock"></span><button type="button" class="tilt" hidden>Tilt your phone to catch the light</button></p>
     <h2 class="path" id="history">My path so far</h2>`;
     return intro + ERA_LIST.map((era, index) => `<section class="tab place" data-frame="${era.key}" aria-labelledby="place-${era.key}"><canvas class="tab-art" aria-hidden="true"></canvas><div class="tab-text">
@@ -3618,12 +3563,11 @@ void main() {
     hooks.noGlint = params.get("glint") === "0";
     const clock = laneEl.querySelector(".clock");
     const tablets = [...laneEl.querySelectorAll(".tab")];
-    let stonePx = 6.6, side = true, tabletsDone = Promise.resolve();
+    let stonePx = 6.6, wide = true, tabletsDone = Promise.resolve();
     const dpr = Math.min(2, devicePixelRatio || 1);
-    const riseOf = (w) => Math.round(Math.min(w * 0.2, side ? 104 : 64));
     const paintOne = (el, i) => {
       const intro = el.classList.contains("tab-intro"), r = el.getBoundingClientRect();
-      return paintTablet2(el.querySelector(".tab-art"), r.width, r.height, { rise: intro ? riseOf(r.width) : 0, stonePx, rows: 4, seed: 3 + i * 7, dpr }).then(() => el.classList.add("is-painted"));
+      return paintTablet2(el.querySelector(".tab-art"), r.width, r.height, { ansae: intro && wide, ear: intro ? Math.min(46, stonePx * 7) : 0, stonePx, rows: 4, seed: 3 + i * 7, dpr }).then(() => el.classList.add("is-painted"));
     };
     const paintAll = async (firstOnly) => {
       await paintOne(tablets[0], 0);
@@ -3659,20 +3603,15 @@ void main() {
       hooks,
       still,
       onLayout: (G) => {
-        const s = document.documentElement.style, u = G.u, R = 546 * u;
-        s.setProperty("--band", (G.side ? G.mt : G.bandH) + "px");
-        s.setProperty("--glint-h", G.bandH + "px");
-        s.setProperty("--mt", G.mt + "px");
+        const s = document.documentElement.style, u = G.u;
+        s.setProperty("--band", G.bandH + "px");
         s.setProperty("--conch-w", Math.round(2 * 500 * u) + "px");
         s.setProperty("--tab-w", Math.round(2 * 530 * u) + "px");
         s.setProperty("--cornice-y", G.cy + G.F * u + "px");
         s.setProperty("--cornice-h", 46 * u + "px");
-        s.setProperty("--cap-x", (G.side ? G.cx - R : 0) + "px");
-        s.setProperty("--cap-w", (G.side ? 2 * R : G.w) + "px");
         stonePx = Math.max(4.6, Math.min(7.4, u * 1e3 / 132));
-        side = G.side;
+        wide = G.corners;
         s.setProperty("--stone", stonePx + "px");
-        tablets[0].style.setProperty("--rise", riseOf(tablets[0].getBoundingClientRect().width) + "px");
       },
       onChange: (info) => {
         root.querySelector(".apse-conch").setAttribute("aria-label", info.alt);

@@ -18,14 +18,7 @@ const q8 = new Float32Array(8);
 
 /** the tablet's outline (css px, origin top left of the canvas): a rectangle `x0..x1`, `0..h`,
     with dovetail handles reaching `ear` px out on each side when `ansae` */
-function outline(c, x0, x1, h, ansae, ear, rise = 0) {
-  if (rise > 0) {   // a round head: a segmental arch rising `rise` above the straight sides
-    // the circle through both shoulders and the crown at y = 0 has its centre r below the crown
-    const half = (x1 - x0) / 2, r = (half * half + rise * rise) / (2 * rise), cx = (x0 + x1) / 2, a = Math.asin(Math.min(1, half / r));
-    c.moveTo(x0, rise); c.arc(cx, r, r, -Math.PI / 2 - a, -Math.PI / 2 + a, false);
-    c.lineTo(x1, h); c.lineTo(x0, h); c.closePath();
-    return;
-  }
+function outline(c, x0, x1, h, ansae, ear) {
   c.moveTo(x0, 0); c.lineTo(x1, 0);
   if (ansae) { const cy = h / 2, n = h * .2, m = h * .36; c.lineTo(x1, cy - n); c.lineTo(x1 + ear, cy - m); c.lineTo(x1 + ear, cy + m); c.lineTo(x1, cy + n); }
   c.lineTo(x1, h); c.lineTo(x0, h);
@@ -34,7 +27,7 @@ function outline(c, x0, x1, h, ansae, ear, rise = 0) {
 }
 
 /** Paint a tablet on `canvas` for an element `w` × `h` css px. Returns a promise. */
-export async function paintTablet(target, w, h, { ansae = false, ear = 0, rise = 0, stonePx = 6.6, rows = 4, seed = 3, dpr = 1 } = {}) {
+export async function paintTablet(target, w, h, { ansae = false, ear = 0, stonePx = 6.6, rows = 4, seed = 3, dpr = 1 } = {}) {
   const pad = ansae ? ear : 0, W = w + 2 * pad;
   const canvas = document.createElement('canvas');
   canvas.width = Math.round(W * dpr); canvas.height = Math.round(h * dpr);
@@ -43,9 +36,8 @@ export async function paintTablet(target, w, h, { ansae = false, ear = 0, rise =
   /* the marble: one book-matched slab, painted once and shared by every tablet */
   const m = marbleSlab(seed);
   c.save(); c.scale(dpr, dpr);
-  c.beginPath(); outline(c, pad, pad + w, h, ansae, ear, rise); c.fillStyle = `rgb(${P.grout.join(',')})`; c.fill();
-  const field = cc => rise > 0 ? outlineInset(cc, pad, pad + w, h, rise, frameW) : cc.rect(pad + frameW, frameW, w - 2 * frameW, h - 2 * frameW);
-  c.save(); c.beginPath(); field(c); c.clip(); c.imageSmoothingQuality = 'high';
+  c.beginPath(); outline(c, pad, pad + w, h, ansae, ear); c.fillStyle = `rgb(${P.grout.join(',')})`; c.fill();
+  c.save(); c.beginPath(); c.rect(pad + frameW, frameW, w - 2 * frameW, h - 2 * frameW); c.clip(); c.imageSmoothingQuality = 'high';
   // the slab is mirrored about the tablet's middle (book-matched) and repeated, mirrored, down a tall tablet
   const sw = m.width * 2, sh = m.height * 2, cxm = pad + w / 2;
   for (let y0 = 0, flip = false; y0 < h; y0 += sh, flip = !flip) {
@@ -61,8 +53,8 @@ export async function paintTablet(target, w, h, { ansae = false, ear = 0, rise =
   /* the frame, in tesserae, laid along the outline */
   const q = SHEET_STONE / stonePx, panel = { x0: -4, y0: -4 };
   const regions = [
-    { name: 'frame', group: 'frame', clip: false, fine: 1, src: ['outside'], draw: cc => outline(cc, pad, pad + w, h, ansae, ear, rise), fill: () => P.gold[0] },
-    { name: 'field', group: 'field', clip: false, skip: true, draw: cc => rise > 0 ? outlineInset(cc, pad, pad + w, h, rise, frameW - .5) : cc.rect(pad + frameW - .5, frameW - .5, w - 2 * frameW + 1, h - 2 * frameW + 1), fill: () => P.marble },
+    { name: 'frame', group: 'frame', clip: false, fine: 1, src: ['outside'], draw: cc => outline(cc, pad, pad + w, h, ansae, ear), fill: () => P.gold[0] },
+    { name: 'field', group: 'field', clip: false, skip: true, draw: cc => cc.rect(pad + frameW - .5, frameW - .5, w - 2 * frameW + 1, h - 2 * frameW + 1), fill: () => P.marble },
   ];
   const gen = laySteps(regions, [{ inside: ['frame'], against: ['outside'] }], { W: Math.ceil((W + 8) * q), H: Math.ceil((h + 8) * q), q, s: SHEET_STONE, seed, panel });
   let res = gen.next(), t0 = performance.now();
@@ -77,7 +69,7 @@ export async function paintTablet(target, w, h, { ansae = false, ear = 0, rise =
   for (const t of res.value.stones) {
     const x = t.x / q + panel.x0, y = t.y / q + panel.y0;
     if (t.k === 0) { t.col = P.outline; continue; }
-    const r = rise > 0 ? t.row : Math.floor(depth(x, y) / stonePx);
+    const r = Math.floor(depth(x, y) / stonePx);
     t.col = r <= 1 ? P.gold[(rnd() * 4) | 0] : r === 2 ? mix(P.red, P.redLit, rnd() * .6) : P.gold[(rnd() * 4) | 0];
     if (x < pad || x > pad + w) t.col = (t.row % 3 === 1) ? mix(P.red, P.redLit, rnd() * .6) : P.gold[(rnd() * 4) | 0];
   }
@@ -86,14 +78,6 @@ export async function paintTablet(target, w, h, { ansae = false, ear = 0, rise =
   target.width = canvas.width; target.height = canvas.height;
   target.style.width = W + 'px'; target.style.height = h + 'px'; target.style.left = -pad + 'px';
   target.getContext('2d').drawImage(canvas, 0, 0);
-}
-
-/* the field inside a round-headed tablet's frame (`f` in from the outline) */
-function outlineInset(c, x0, x1, h, rise, f) {
-  const half = (x1 - x0) / 2, r = (half * half + rise * rise) / (2 * rise), cx = (x0 + x1) / 2;
-  const ri = r - f, hi = half - f, a = Math.asin(Math.min(1, hi / ri)), ys = r - Math.cos(a) * ri;
-  c.moveTo(x0 + f, ys); c.arc(cx, r, ri, -Math.PI / 2 - a, -Math.PI / 2 + a, false);
-  c.lineTo(x1 - f, h - f); c.lineTo(x0 + f, h - f); c.closePath();
 }
 
 /* a slab of veined marble, half size (it is drawn at twice this): veins from warped noise */

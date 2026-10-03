@@ -65,8 +65,7 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
   const scrollPos = () => {
     if (hooks.pos != null) return hooks.pos;
     const G = st.G; if (!G) return 0;
-    const vh = G.h, zone = vh - G.bandH;
-    const ref = G.side ? scrollY + vh * .56 : scrollY + G.bandH + zone * .62, span = G.side ? vh * .45 : Math.max(150, zone * .75);
+    const vh = G.h, zone = vh - G.bandH, ref = scrollY + G.bandH + zone * .62, span = Math.max(150, zone * .75);
     const tops = sections.map(s => s.getBoundingClientRect().top + scrollY);
     let pos = 0;
     for (let k = 1; k < tops.length; k++) { const a = tops[k] - span, b = tops[k]; if (ref >= b) pos = k; else if (ref > a) { pos = k - 1 + (ref - a) / span; break; } else break; }
@@ -145,7 +144,7 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
       const cc = new Float32Array(8);
       for (let k = 0; k < 4; k++) { cc[k * 2] = q8[k * 2] * Z.kk + Z.gx; cc[k * 2 + 1] = q8[k * 2 + 1] * Z.kk + Z.gy; }
       const cx = t.x * Z.kk + Z.gx, cy = t.y * Z.kk + Z.gy;
-      if (!conch && (cy > G.bandH * dpr + 4 || (G.side && cx < (G.colRight + 6) * dpr))) continue;   // never over the words
+      if (!conch && cy > G.bandH * dpr + 4) continue;
       // each stone's tilt: its own angle, a patchy drift across the wall, and (in the conch) a lean toward the middle
       const patch = (fbm(t.ux / 90, t.uy / 90, 61, 2) - .5) * 2, patch2 = (fbm(t.ux / 90, t.uy / 90, 83, 2) - .5) * 2;
       let bx = patch * .1, by = patch2 * .1;
@@ -159,14 +158,10 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
   const build = async () => {
     const id = ++building, alive = () => !disposed && id === building;
     const w = document.documentElement.clientWidth, h = backEl.clientHeight || innerHeight;
-    const side = w >= 900 && w / h >= 1.15;
-    root.classList.toggle('is-side', side); root.classList.toggle('is-band', !side);
-    // the words' column on a wide screen: wide enough for large type, the rest is the apse's
-    const gutter = clamp(w * .03, 24, 56), colW = side ? clamp(w * .375, 440, 640) : 0;
-    document.documentElement.style.setProperty('--gutter', gutter + 'px');
-    document.documentElement.style.setProperty('--col-w', colW + 'px');
+    const corner = w >= 980 && w / h >= 1.22;
+    root.classList.toggle('is-corners', corner); root.classList.toggle('is-band', !corner);
     const headerH = header ? header.getBoundingClientRect().height : 0;
-    const G = layoutApse(w, h, side ? 'side' : 'band', headerH, gutter + colW);
+    const G = layoutApse(w, h, corner ? 'corners' : 'band', headerH);
     const dpr = Math.min(2, devicePixelRatio || 1);
     st.G = G; st.dpr = dpr; st.ready = false; st.eras = []; lastW = w;
     glint?.clearAll();
@@ -196,11 +191,9 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
     wc.fillStyle = `rgb(${mix(gr, ARCH_PAL.lapisDeep, .5).map(v => v | 0).join(',')})`; wc.fillRect(0, 0, wallCanvas.width, wallCanvas.height);
     for (const t of ares.stones) { t.col = shade(t.col, t.h, t.h2, t.mat === MAT.GOLD ? .12 : .07); paintStone(wc, grouted(t), mix(gr, t.col, .45), kk, aox, aoy, true); }
     for (const t of ares.stones) paintStone(wc, t, t.col, kk, aox, aoy, t.mat === MAT.GLASS && !t.star);   // the lapis needs no bevel
-    // the front copy of the wall: the band above the cornice (phones), or the strip under the nav
-    // (wide), so the words pass beneath it
-    archCanvas.width = Math.round(w * dpr); archCanvas.height = Math.round((G.side ? G.mt : G.bandH) * dpr);
+    archCanvas.width = Math.round(w * dpr); archCanvas.height = Math.round(G.bandH * dpr);
     archCanvas.getContext('2d').drawImage(wallCanvas, 0, 0);
-    glintCanvas.width = Math.round(w * dpr); glintCanvas.height = Math.round(G.bandH * dpr);
+    glintCanvas.width = archCanvas.width; glintCanvas.height = archCanvas.height;
     uploadGlint('arch', ares.stones.filter(t => t.mat), { kk, gx: aox, gy: aoy, dpr }, false);
     if (!alive()) return;
 
@@ -302,12 +295,12 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
 
   /* where the light is: the pointer (eased), a tilted phone, or a slow drift */
   function lightAt(time) {
-    const G = st.G, w = G.w, bh = G.bandH, R = 546 * G.u, mid = [G.cx, G.cy - R * .35];
-    const drift = [G.cx + R * .8 * Math.sin(time * .11 - .4), G.cy - R * .5 + R * .3 * Math.sin(time * .083 - .6)];   // starts over the open gold
+    const G = st.G, w = G.w, bh = G.bandH;
+    const drift = [w * (.5 + .3 * Math.sin(time * .11 - .4)), bh * (.32 + .14 * Math.sin(time * .083 - .6))];   // starts over the open gold
     let target = drift;
     if (hooks.light) target = [w * hooks.light[0], bh * hooks.light[1]];
     else if (st.tilt) target = [w * clamp(.5 + st.tilt[0] / 50, -.1, 1.1), bh * clamp(.4 + st.tilt[1] / 60, -.1, 1.1)];
-    else if (st.target && performance.now() - st.pointerAt < 9000) target = [mid[0] + (st.target[0] - mid[0]) * 1.15, mid[1] + (st.target[1] - mid[1]) * 1.15];
+    else if (st.target && performance.now() - st.pointerAt < 9000) target = [w / 2 + (st.target[0] - w / 2) * 1.15, bh * .45 + (st.target[1] - bh * .45) * 1.15];
     if (!st.light || hooks.t != null || still) st.light = target.slice();
     else { st.light[0] += (target[0] - st.light[0]) * .07; st.light[1] += (target[1] - st.light[1]) * .07; }
     return st.light;
@@ -324,8 +317,7 @@ export async function createStage({ root, wallCanvas, archCanvas, conchCanvas, g
     if (st.wave) { draws.push({ key: 'era' + st.wave.a, mode: 1, hi: st.wave.fw }); draws.push({ key: 'era' + st.wave.b, mode: 2, lo: st.wave.fw - WAVE_W }); }
     else for (const k of st.shown || []) draws.push({ key: 'era' + k });
     if (hooks.noGlint) return glint.draw([0, 0, 1], [0, 0, 1], [], 0);
-    const R = 546 * G.u;
-    glint.draw([Lp[0] * d, Lp[1] * d, R * 1.45 * d], [G.cx * d, (G.cy - R * .3) * d, G.w * 2.4 * d], draws, 1);
+    glint.draw([Lp[0] * d, Lp[1] * d, G.w * .5 * d], [G.w * .5 * d, G.bandH * .5 * d, G.w * 2.4 * d], draws, 1);
   }
 
   const frame = now => {

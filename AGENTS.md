@@ -42,6 +42,10 @@ so the destinations are now Another Sky, The Swarm, Terraforming Venus (/venus/)
 (/orbital-ring/) and compute clusters on Triton (/triton/, San's "maybe"); Mars and Over Venus are dropped.
 He judged the airbrush posters below the quality of the Dyson Swarm and Another Sky covers, so the bureau's
 posters are now cover-quality prints, each in its own print style, made in the sankala.me cover system.
+Dyson Swarm positioning (San, October 3): the collection is "a marriage of space futurism and AI futurism":
+it looks past the singularity, maybe fifty years out, at the tremendous structures we might build in space, where
+most people look only 10–20 years ahead. The landing page is being rebuilt as a living, full-page, better version
+of the Dyson Swarm screenprint poster, then a short about in his voice, then the five posters.
 The real-time swarm plate (sample 2) is rejected. The habitat window
 (sample 3) is "good"; its placement is open (proposed: the front door of Another Sky). The poem is now linked
 from Another Sky. The arch mosaic needs a v3 (window centred and bigger, a wider fade taking about half the

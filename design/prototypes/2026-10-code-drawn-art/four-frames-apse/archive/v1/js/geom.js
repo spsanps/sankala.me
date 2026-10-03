@@ -12,28 +12,20 @@ export const RI = 500, B = 46, C = 46, RO = RI + B;
 export const LEG = 150;                               // the desk's height, top to feet, in desk units
 const F_MIN = 78, F_MAX = 1150;
 
-/** Lay out the apse on a stage `w` × `h` css px.
-    'side' (desktop, landscape): the words stand on a tall tablet in a column on the left (`colRight`
-    is where that column ends) and the apse fills the rest of the wall, full height, its crown just
-    under the nav (`headerH`). It grows taller (a longer F) rather than smaller when the room is tall.
-    'band' (phones, portrait): the apse fills the width under the nav band and the words scroll
-    beneath its cornice. */
-export function layoutApse(w, h, mode, headerH = 0, colRight = 0) {
-  const side = mode === 'side';
-  const mt = headerH + (side ? 4 : 6);
-  let x0, x1, top, bottom;
-  if (side) { x0 = colRight + Math.max(36, w * .03); x1 = w - Math.max(18, w * .016); top = mt; bottom = h - Math.max(12, h * .016); }
-  else { x0 = 9; x1 = w - 9; top = mt; bottom = Math.min(h * .6, w * 1.62); }
-  const uW = (x1 - x0) / (2 * RO);
+/** Lay out the apse on a stage `w` × `h` css px. `header`: 'corners' (the nav sits in the top
+    corners of the wall, beside the crown) or 'band' (the nav is a band across the top, `headerH` tall). */
+export function layoutApse(w, h, header, headerH = 0) {
+  const corners = header === 'corners';
+  const bandTarget = corners ? h * .662 : Math.min(h * .6, w * 1.62);
+  const mt = corners ? Math.max(10, h * .014) : headerH + 6;
+  const ms = corners ? 24 : 9;
+  const uW = (w - 2 * ms) / (2 * RO);
   let u, F;
-  const fW = (bottom - top) / uW - (RO + C);
+  const fW = (bandTarget - mt) / uW - (RO + C);
   if (fW >= F_MIN) { u = uW; F = Math.min(fW, F_MAX); }
-  else { F = F_MIN; u = (bottom - top) / (RO + F_MIN + C); }
-  const used = (RO + F + C) * u;
-  const cx = (x0 + x1) / 2, cy = top + (side ? Math.max(0, (bottom - top - used) / 2) : 0) + RO * u;
-  const corniceBottom = Math.ceil(cy + (F + C) * u);
-  return { u, F, cx, cy, bandH: side ? h : corniceBottom, corniceBottom, w, h, mt, side, corners: side,
-    cornX0: side ? colRight + 14 : 0, colRight: side ? colRight : 0, tall: clamp((F - F_MIN) / (760 - F_MIN)) };
+  else { F = F_MIN; u = (bandTarget - mt) / (RO + F_MIN + C); }
+  const cx = w / 2, cy = mt + RO * u, bandH = Math.ceil(cy + (F + C) * u);
+  return { u, F, cx, cy, bandH, w, h, mt, corners, tall: clamp((F - F_MIN) / (760 - F_MIN)) };
 }
 
 /* paths, in units */
