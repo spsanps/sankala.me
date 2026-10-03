@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>San Kala — The apse</title>
+<meta name="description" content="A study for the sankala.me homepage designed for mosaic from the start: a great gold apse laid in code, San's desk and its things in it, his words on a marble tablet set into the wall, the gold catching the light.">
+<style>
+/* EB Garamond (Georg Duffner, OFL) and Marcellus / Marcellus SC (Astigmatic, OFL): latin subset, self-hosted from Google Fonts */
+@font-face { font-family: 'EB Garamond'; font-style: italic; font-weight: 400; font-display: swap; src: url(fonts/eb-garamond-400-italic.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'EB Garamond'; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/eb-garamond.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Marcellus'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/marcellus-400.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: 'Marcellus SC'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/marcellus-sc-400.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+/* The whole first screen is one mosaic wall: lapis glass strewn with gold stars, a great apse in
+   the middle with a jewelled archivolt, its conch gold, San's desk and its things in it. The words
+   are on marble tablets set into the wall below the cornice, and slide up under it as you read.
+   Below the mosaic the same building goes on in plaster: the same gold, lapis, porphyry and marble,
+   and the same inscriptional capitals. */
+:root {
+  --lapis: #1f3170; --lapis-deep: #142152; --gold: #d9ad4f; --gold-lit: #f0d488; --gold-deep: #9a7128;
+  --marble: #f3eee2; --ink: #29241f; --ink-soft: #5a5247; --porphyry: #8e2c27; --link: #7c2a22;
+  --plaster: #efe8d9; --plaster-deep: #e4dac6; --line: #d4c8b1;
+  --band: 66vh; --conch-w: 860px; --tab-w: 900px; --cornice-y: 60vh; --cornice-h: 38px; --stone: 6.6px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--plaster); color: var(--ink); font: 18px/1.6 'EB Garamond', Georgia, serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p, figure, ol { margin: 0; }
+h1, h2 { font-family: 'Marcellus', 'Trajan Pro', Georgia, serif; font-weight: 400; line-height: 1.12; letter-spacing: .01em; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+img { display: block; max-width: 100%; height: auto; }
+
+/* ───────── the mosaic ───────── */
+.apse { position: relative; background: var(--lapis-deep); }
+.apse-back { position: sticky; top: 0; height: 100vh; height: 100svh; z-index: 1; overflow: hidden; background: var(--lapis-deep); }
+.apse-wall { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.apse-front { position: sticky; top: 0; height: 100vh; height: 100svh; margin-top: -100vh; margin-top: -100svh; z-index: 3; pointer-events: none; }
+.apse-front > * { pointer-events: auto; }
+.apse-arch, .apse-glint { position: absolute; left: 0; top: 0; width: 100%; height: var(--band); }
+.apse-glint { pointer-events: none; }
+.apse-conch { position: absolute; }
+.apse-back canvas, .apse-front canvas { opacity: 0; transition: opacity .7s ease; }
+.apse.is-live .apse-back canvas, .apse.is-live .apse-front canvas { opacity: 1; }
+.is-frozen canvas { transition: none !important; }
+
+.site-header { position: absolute; left: 0; right: 0; top: 0; z-index: 2; display: flex; align-items: baseline; justify-content: space-between; gap: 24px; padding: 22px clamp(20px, 3vw, 44px) 0; color: #f4ead2; pointer-events: none; }
+.site-header > * { pointer-events: auto; }
+.wordmark { font: 400 clamp(25px, 1.75vw, 34px)/1 'Marcellus', Georgia, serif; letter-spacing: .02em; text-decoration: none; text-shadow: 0 1px 0 rgba(10, 16, 40, .5); }
+.wordmark span { color: var(--gold-lit); }
+.nav { display: flex; gap: clamp(24px, 2vw, 36px); font: 500 clamp(16.5px, 1.08vw, 20px)/1 'EB Garamond', Georgia, serif; letter-spacing: .02em; }
+.nav a { padding: 10px 0; text-decoration: none; text-shadow: 0 1px 0 rgba(10, 16, 40, .55); }
+.nav a:hover { color: var(--gold-lit); text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.is-band .site-header { flex-direction: column; align-items: flex-start; gap: 6px; padding: 14px 16px 6px; }
+.is-band .nav { width: 100%; justify-content: space-between; gap: 0; font-size: 15.5px; }
+.is-band .nav a { padding: 8px 0; }
+
+.apse-caption { position: absolute; left: 0; right: 0; top: var(--cornice-y); height: var(--cornice-h); display: flex; align-items: center; justify-content: center; margin: 0; font: 400 13px/1 'Marcellus SC', 'Marcellus', serif; letter-spacing: .22em; color: var(--gold-lit); text-transform: uppercase; text-shadow: 0 1px 0 rgba(5, 10, 30, .6); pointer-events: none; font-variant-numeric: lining-nums; }
+
+.apse-lane * { scroll-margin-top: calc(var(--band) + 24px); }
+.apse-lane { position: relative; z-index: 2; margin-top: -100vh; margin-top: -100svh; padding: calc(var(--band) + 14px) 16px 34vh; }
+
+/* the tablets */
+.tab { position: relative; width: min(var(--tab-w), 100%); margin: 0 auto; }
+.tab-art { position: absolute; top: 0; z-index: 0; pointer-events: none; }
+.tab-text { position: relative; z-index: 1; padding: calc(var(--stone) * 4 + 22px) calc(var(--stone) * 4 + clamp(18px, 4vw, 52px)); }
+.tab:not(.is-painted) { background: var(--marble); box-shadow: 0 0 0 3px var(--gold-deep); }
+.tab a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: rgba(124, 42, 34, .45); }
+.tab a:hover { text-decoration-color: currentColor; }
+
+.tab-intro .tab-text { text-align: center; padding: calc(var(--stone) * 4 + 12px) calc(var(--stone) * 4 + clamp(14px, 3vw, 40px)) calc(var(--stone) * 4 + 12px); }
+.tab-intro h1 { font-size: clamp(32px, calc(2.2vw + 10px), 54px); color: #1c2a5c; }
+.lede { margin: 8px auto 0; max-width: 44em; font-size: clamp(17px, calc(.6vw + 9.4px), 21.5px); line-height: 1.46; text-wrap: pretty; }
+.more { margin-top: 8px; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; font-size: clamp(16px, calc(.4vw + 10.5px), 19px); }
+.mail { color: var(--ink-soft); user-select: all; }
+
+.wall-note { width: min(var(--conch-w), 100%); margin: 16vh auto 0; text-align: center; color: #e9dcbc; font-size: 16px; line-height: 1.5; text-shadow: 0 1px 0 rgba(5, 10, 30, .6); }
+.wall-note .clock { display: block; margin-top: 2px; color: var(--gold-lit); }
+.wall-note button { margin-top: 12px; font: 500 15px 'EB Garamond', serif; color: var(--gold-lit); background: rgba(10, 18, 48, .55); border: 1px solid rgba(240, 212, 136, .5); padding: 8px 16px; cursor: pointer; }
+.path { width: min(var(--conch-w), 100%); margin: 22vh auto 26px; text-align: center; font: 400 clamp(26px, 2.6vw, 34px)/1.1 'Marcellus SC', 'Marcellus', serif; letter-spacing: .14em; color: var(--gold-lit); text-shadow: 0 1px 0 rgba(5, 10, 30, .6); }
+
+.place { margin-top: 12vh; }
+.place:first-of-type { margin-top: 0; }
+.place-head { display: grid; gap: 2px; text-align: center; padding-bottom: 18px; margin-bottom: 22px; border-bottom: 1px solid rgba(142, 44, 39, .25); }
+.years { font: 400 13px/1.2 'Marcellus SC', serif; letter-spacing: .2em; color: var(--porphyry); font-variant-numeric: lining-nums; }
+.place-head h2 { font-size: clamp(30px, 2.8vw, 38px); color: #1c2a5c; letter-spacing: .03em; }
+.role { font-size: 17px; color: var(--ink-soft); font-style: italic; }
+.entries { list-style: none; padding: 0; display: grid; gap: 26px; }
+.entries > li.has-print { display: grid; grid-template-columns: minmax(0, 1fr) 96px; gap: 22px; align-items: start; }
+.entries time { display: block; font: 400 12.5px/1.3 'Marcellus SC', serif; letter-spacing: .14em; color: var(--porphyry); margin-bottom: 3px; font-variant-numeric: lining-nums; }
+.entries h3 { font: 600 19px/1.3 'EB Garamond', serif; }
+.entries p { margin-top: 4px; font-size: 17.5px; line-height: 1.55; }
+.links { display: flex; flex-wrap: wrap; gap: 2px 16px; font-size: 16px; }
+.print { display: block; margin-top: 6px; padding: 3px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); box-shadow: 0 2px 6px -2px rgba(40, 28, 10, .5); }
+.tab a.print { text-decoration: none; }
+.print img { width: 100%; outline: 1px solid rgba(40, 28, 10, .4); }
+.print:hover { filter: brightness(1.06); }
+
+.lightbox { max-width: min(1100px, 94vw); max-height: 94dvh; border: 0; padding: 20px; background: var(--marble); color: var(--ink); }
+.lightbox::backdrop { background: rgba(14, 22, 52, .9); }
+.lightbox img { max-height: 76dvh; width: auto; max-width: 100%; margin: auto; object-fit: contain; }
+.lightbox figcaption { margin-top: 12px; text-align: center; font-size: 15px; color: var(--ink-soft); }
+.lightbox-close { display: block; margin: 0 0 14px auto; font: inherit; font-size: 15px; padding: 6px 14px; background: transparent; border: 1px solid var(--line); cursor: pointer; }
+
+/* ───────── below the mosaic: the same building, in plaster ───────── */
+.frieze { display: block; width: 100%; height: 46px; background: var(--lapis-deep); }
+.shelf { width: min(1160px, calc(100% - 32px)); margin: 0 auto; padding: 76px 0 56px; display: grid; gap: 34px; }
+.shelf-head { text-align: center; }
+.shelf-head h2 { font: 400 clamp(28px, 3vw, 38px)/1.1 'Marcellus SC', 'Marcellus', serif; letter-spacing: .12em; color: #1c2a5c; }
+.shelf-head p { margin: 12px auto 0; max-width: 32em; color: var(--ink-soft); font-size: 18px; }
+.shelf-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 24px; margin-top: 14px; font-size: 17px; }
+.shelf a, .recent a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: rgba(124, 42, 34, .4); }
+.covers { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(46%, 170px), 1fr)); gap: 34px 22px; }
+.cover { display: block; text-decoration: none !important; color: var(--ink) !important; }
+.cover-art { display: block; padding: 4px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); box-shadow: 0 10px 18px -12px rgba(40, 28, 10, .6); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+.cover-art img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; }
+.cover:hover .cover-art, .cover:focus-visible .cover-art { transform: translateY(-4px); }
+.cover-title { display: block; margin-top: 12px; font-size: 17px; line-height: 1.3; text-wrap: balance; }
+.cover:hover .cover-title { text-decoration: underline; text-underline-offset: .18em; }
+.cover-meta { display: block; margin-top: 2px; font: 400 12.5px/1.3 'Marcellus SC', serif; letter-spacing: .12em; color: var(--porphyry); }
+.recent { width: min(1160px, calc(100% - 32px)); margin: 0 auto; padding: 26px 0 56px; border-top: 1px solid var(--line); text-align: center; color: var(--ink-soft); font-size: 17px; }
+.recent b { font: 400 13px 'Marcellus SC', serif; letter-spacing: .16em; color: var(--porphyry); margin-right: 8px; }
+.colophon { margin-top: 10px; font-size: 15px; }
+
+@media (max-height: 780px) and (min-width: 900px) {
+  .tab-intro h1 { font-size: 30px; }
+  .lede { font-size: 16.8px; line-height: 1.42; margin-top: 4px; }
+  .more { margin-top: 4px; font-size: 15.5px; }
+  .tab-intro .tab-text { padding-top: calc(var(--stone) * 4 + 8px); padding-bottom: calc(var(--stone) * 4 + 8px); }
+}
+@media (prefers-reduced-motion: reduce) { .apse-back canvas, .apse-front canvas { transition: none; } .cover-art { transition: none; } }
+</style>
+</head>
+<body>
+<main id="main">
+  <div class="apse" id="home">
+    <div class="apse-back"><canvas class="apse-wall" aria-hidden="true"></canvas></div>
+    <div class="apse-front">
+      <canvas class="apse-arch" aria-hidden="true"></canvas>
+      <canvas class="apse-conch" role="img" aria-label="The apse, laid in mosaic: San’s desk and its things, and the place behind it."></canvas>
+      <canvas class="apse-glint" aria-hidden="true"></canvas>
+      <header class="site-header">
+        <a class="wordmark" href="https://www.sankala.me/">San Kala<span>.</span></a>
+        <nav class="nav" aria-label="Main"><a href="https://www.sankala.me/work">Writing &amp; projects</a><a href="https://www.sankala.me/history">Timeline</a><a href="https://www.sankala.me/about">About</a><a href="https://www.sankala.me/resume">CV</a></nav>
+      </header>
+      <p class="apse-caption" aria-hidden="true"></p>
+    </div>
+    <div class="apse-lane"></div>
+    <dialog class="lightbox" aria-label="Photograph"><button type="button" class="lightbox-close">Close ×</button><figure></figure></dialog>
+  </div>
+  <canvas class="frieze" aria-hidden="true"></canvas>
+  <section class="shelf" id="writing" aria-labelledby="shelf-title">
+    <div class="shelf-head">
+      <h2 id="shelf-title">Writing &amp; work</h2>
+      <p>Essays, research, films and things to open in your browser. Each one has its own cover, drawn in code.</p>
+      <p class="shelf-links"><a href="https://www.sankala.me/work">All writing &amp; projects</a><a href="https://www.sankala.me/work?type=writing">Writing</a><a href="https://www.sankala.me/work?type=projects">Projects</a><a href="https://www.sankala.me/work?type=research">Research</a></p>
+    </div>
+    <ol class="covers"></ol>
+  </section>
+  <aside class="recent" aria-label="Recently">
+    <p><b>Recently</b> <a href="https://www.paperrobots.studio/films/capricious-god/">How to Please a Capricious God</a>, a painted film for Paper Robots (September 2026), and <a href="https://dysonswarm.com/another-sky/">Another Sky</a>, a walk inside an O’Neill cylinder (September 2026).</p>
+    <p class="colophon">The apse is laid in code, stone by stone, and so are the covers. The photographs are real.</p>
+  </aside>
+</main>
+<!-- ES modules when served; one bundled script (./build.sh) when opened straight from disk -->
+<script type="module">if (location.protocol !== 'file:') import('./js/main.js');</script>
+<script>if (location.protocol === 'file:') { const s = document.createElement('script'); s.src = 'js/bundle.js'; document.body.appendChild(s); }</script>
+</body>
+</html>
