@@ -33,7 +33,7 @@
 .personal-site .wordmark-dot { color: var(--accent); }
 .personal-site .desktop-nav { display: flex; gap: 30px; align-items: center; font-size: 15px; }
 .personal-site .desktop-nav a { padding: 12px 0; }
-.personal-site [aria-current='page'] { color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
+.personal-site [aria-current='page'], .personal-site .desktop-nav a.active { color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
 .personal-site .inline-links { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; }
 .personal-site .inline-links a, .personal-site .text-link { font-size: 14px; text-decoration: underline; text-decoration-color: #a2a7ab; text-underline-offset: 5px; }
 .personal-site .inline-links a:hover, .personal-site .text-link:hover { color: var(--accent); text-decoration-color: currentColor; }
