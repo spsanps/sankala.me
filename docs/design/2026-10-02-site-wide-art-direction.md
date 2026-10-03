@@ -97,4 +97,6 @@ and add the new style to it.
 | Glyp idea (v2) | 1960s lithographed board game with spinner, tokens and cards |
 | Landing comparisons | Living stone mosaic (andamento); muted halftone-dot print in five inks |
 | Nobody Owes Anything Now (poem) | Sgraffito on red earthenware: white slip scratched through to the clay, with burrs, crumbs and throwing lines. The figure is a lit, thrown cup turning on a banding wheel, the habitat wrapped round its side; the cover is a brushed slab |
+| Paper Robots homepage proposal | Evidence-loop camcorder opening (blue-violet halftone space, folded-paper screen) leading into each film's own title card |
+| Dyson Swarm samples (proposals) | 1970s airbrush and frisket travel posters; astronomical glass-plate negative with ink and grease-pencil annotations; plein-air watercolour over a graphite underdrawing |
 | Earlier studies | Cyanotype, line engraving, mezzotint, sumi ink, suminagashi marbling, pochoir, paper-cut collage, origami, cross-stitch, chalkboard, banknote engraving, camcorder halftone loop, azulejo tile, native pixel art, komorebi light |

@@ -4,30 +4,22 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
-**October 3, late — after the compaction (open work, in order):**
-1. Done: the three essays are built into the site (/notes/zinify as a photocopier zine, /notes/power-quality
-   with an oscilloscope, and the Glyp board game on /notes/startr-postmortem), and the nav label is now
-   "Writing & projects" (URL stays /work; footer and homepage shelf link renamed). Lint, build and the 45-page
-   check passed; merged to main. Next: send San the draft prose list in design/reviews/2026-10-03-essays/README.md
-   for him to rewrite in his own words, and answer his question about "we, at NIT Karnataka".
-2. San's poem "Nobody Owes Anything Now" (source: C:\Users\sanps\Downloads\message (5).txt, submitted to
-   Exastential): built on branch `poem` (not merged) at /notes/nobody-owes-anything-now in a new style,
-   sgraffito on red earthenware: a cup turning on a banding wheel with the habitat scratched round its side,
-   beside the poem (above it on phones), and a brushed-slab cover that is also the share card. Listed under
-   Writing & projects as a poem, on the homepage shelf, in RSS, the sitemap and llms.txt, with a Markdown
-   mirror. Review: design/reviews/2026-10-03-poem/. Open for San: the date (October 2026 for now), the
-   one-line description, and linking it from Another Sky (not done).
-3. Dyson Swarm reinvention: San asked to see ALL three ideas as samples, being built by three agents in
-   /home/san/Projects/dysonswarm/site/_design/prototypes/2026-10-reinvention/ (uncommitted):
-   travel-bureau/ (1970s airbrush travel posters), swarm-sky/ (glass-plate astronomy with a dated log, the swarm
-   growing on the real clock) and habitat-window/ (plein-air watercolour, the view inside Another Sky in real time).
-   Thumbnails go to design/prototypes/2026-10-code-drawn-art/previews/thumbs/dyson-*.jpg; add them to the gallery.
-4. Running agents: the arched-window mosaic extended to four scenes (four-frames-arch/), and the Paper
-   Robots proposal with the evidence loop as a full-page opening
-   (/home/san/Projects/paper-robots/site/design/prototypes/2026-10-evidence-opening/). Add each to the
-   gallery (https://claude.ai/artifact/1YKiNyoiy3MaTwJ7bw7nJi) when done.
-5. Pending San decisions: the landing style (clear line live; arch mosaic candidate); which Dyson Swarm concept;
-   the Paper Robots direction. The machine concurrency cap in ~/.claude/CLAUDE.md was raised from 4 to 32.
+**October 3, evening — state after the compaction:**
+- Live on www.sankala.me: the three essays (/notes/zinify, /notes/power-quality, the Glyp board game on
+  /notes/startr-postmortem), the "Writing & projects" label (URL /work), and San's poem "Nobody Owes Anything
+  Now" at /notes/nobody-owes-anything-now (sgraffito mug on a banding wheel, cover, RSS, sitemap, llms mirror).
+  Open for San: rewrite the drafted prose (design/reviews/2026-10-03-essays/README.md lists it); confirm the
+  poem's stanza reading (a line without a leading space starts a stanza), its date (shown as October 2026) and
+  its listing line; whether "as students at NIT Karnataka" is right for the power-quality page; whether to link
+  the poem from Another Sky.
+- On the gallery (https://claude.ai/artifact/1YKiNyoiy3MaTwJ7bw7nJi), awaiting San's choice:
+  the arched-window mosaic in four places (design/prototypes/2026-10-code-drawn-art/four-frames-arch/) vs. the
+  live clear line; the Paper Robots homepage opening on the evidence loop
+  (/home/san/Projects/paper-robots/site/design/prototypes/2026-10-evidence-opening/, uncommitted there); and the
+  three Dyson Swarm samples in /home/san/Projects/dysonswarm/site/_design/prototypes/2026-10-reinvention/
+  (travel-bureau, swarm-sky, habitat-window; uncommitted there). Each folder's notes.md lists its open questions.
+  Gallery copies of the sibling-repo samples are published from the scratchpad (gallery-sibs/, rebuilt by
+  copy-dyson.sh); /tmp is wiped on reboot, so re-copy from the repos if needed.
 
 **October 3 — the code-drawn redesign is live:** San asked to "get an amazing polished
 sankala.me published". Published as `aff959d` on `main` (Vercel production deploy
