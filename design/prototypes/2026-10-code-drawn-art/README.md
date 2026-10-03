@@ -107,6 +107,17 @@ studies in the comparison (those folders stay as records). He also rejected reus
 essays, so `essay-zinify/` (photocopier zine) and `essay-startr/` (board game) were rebuilt in their
 own styles; the first drafts are in each folder's `archive/v1/`.
 
+After San said the framed mosaic had too many lines and was hard to read, `four-frames-arch/` redesigned it
+for mosaic: one arched window with a few big shapes. He then asked for more than San Jose and the robot, a
+gentle fade from the arch and different scenes on scroll, so it now has four places (San Jose on the real
+clock, San Diego morning, Bengaluru monsoon, Surathkal night), each with a still life on the sill, re-laid
+stone by stone on scroll. The San Jose-only version is in its `archive/v1/`.
+
+The gallery also shows proposals for San's other two sites, built in their own repos: the Paper Robots
+homepage opening on the evidence loop (`/home/san/Projects/paper-robots/site/design/prototypes/2026-10-evidence-opening/`)
+and three Dyson Swarm reinvention samples (`/home/san/Projects/dysonswarm/site/_design/prototypes/2026-10-reinvention/`).
+Their gallery copies are published from the scratchpad; the sources stay in those repos.
+
 All are on the gallery for San's feedback. The tile page also ships a `js/bundle.js`
 (rebuild with `build.sh`) so it opens from `file://`; the pixel page needs to be served over http.
 
