@@ -18,5 +18,6 @@ at its displayed size at 1440, 390 and 320 px. Each figure was driven with Playw
 px and with reduced motion: no console errors beyond the two Vercel analytics scripts that only exist
 on Vercel, and no horizontal scroll.
 
-The prose on the ZINify and power-quality pages, and the three figure captions, are drafts for San
-to rewrite in his own voice.
+The prose on the ZINify and power-quality pages, and the three figure captions, were drafted for San
+to rewrite in his own voice. On October 3 he read them and approved them as written ("all the essay
+edits look good").

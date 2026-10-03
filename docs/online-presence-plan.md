@@ -8,10 +8,9 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 - Live on www.sankala.me: the three essays (/notes/zinify, /notes/power-quality, the Glyp board game on
   /notes/startr-postmortem), the "Writing & projects" label (URL /work), and San's poem "Nobody Owes Anything
   Now" at /notes/nobody-owes-anything-now (sgraffito mug on a banding wheel, cover, RSS, sitemap, llms mirror).
-  Open for San: rewrite the drafted prose (design/reviews/2026-10-03-essays/README.md lists it); confirm the
+  San approved the drafted essay prose and captions as written (October 3). Open for San: confirm the
   poem's stanza reading (a line without a leading space starts a stanza), its date (shown as October 2026) and
-  its listing line; whether "as students at NIT Karnataka" is right for the power-quality page; whether to link
-  the poem from Another Sky.
+  its listing line. The poem is linked from Another Sky (done, at San's request).
 - On the gallery (https://claude.ai/artifact/1YKiNyoiy3MaTwJ7bw7nJi), awaiting San's choice:
   the arched-window mosaic in four places (design/prototypes/2026-10-code-drawn-art/four-frames-arch/) vs. the
   live clear line; the Paper Robots homepage opening on the evidence loop

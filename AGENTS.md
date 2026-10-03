@@ -31,6 +31,14 @@ smaller Work posters in `4c22492`. He asked for tile-art
 and pixel-art versions of the Four frames landing to compare with the clear-line one, and for
 the remaining essay ideas (power quality, ZINify, StartR) as prototypes for feedback. The
 GPT-7 cover's detached-hand glitch was fixed live (`58ab877`).
+San's decisions, October 3 evening: the Paper Robots homepage that opens on the evidence loop is approved
+to go live ("looks good, you can put it up"). For Dyson Swarm he chose the travel bureau as the collection
+homepage, replacing The Wheel and The Tether with Terraforming Mars and an orbital ring ("ride to an orbital
+ring from the ground"), and asked for those two experiences to be built "to very high quality and taste"
+(routes /mars/ and /orbital-ring/). The real-time swarm plate (sample 2) is rejected. The habitat window
+(sample 3) is "good"; its placement is open (proposed: the front door of Another Sky). The poem is now linked
+from Another Sky. The arch mosaic needs a v3 (window centred and bigger, a wider fade taking about half the
+page, a legible San Jose, a truer Geisel Library, lighter night scenes) before he picks the landing style.
 Rule (San, 2026-10-03): every essay, figure and project gets its OWN unique art style and
 creative idea. Never reuse another piece's visual style or engine look (he rejected the ZINify
 draft for reusing the EAI riso style). Check the style register in
