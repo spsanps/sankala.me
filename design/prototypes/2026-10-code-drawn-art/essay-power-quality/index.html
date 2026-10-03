@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recognizing electrical disturbances with neural networks — San Kala</title>
+<meta name="description" content="A 2019 paper on classifying power-quality events with LSTMs, explained with an oscilloscope you can drive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,500&family=IBM+Plex+Mono:wght@500;600;700&display=swap">
+<style>
+  /* Essay draft for sankala.me: the site's quiet type around one instrument. */
+  :root { --paper: #faf9f5; --ink: #202c38; --muted: #69707a; --accent: #244f85; --rule: #d9d7d0; }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.68 "DM Sans", system-ui, sans-serif; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+  .site-header { display: flex; align-items: center; justify-content: space-between; gap: 18px 28px; flex-wrap: wrap; min-height: 84px; padding-block: 14px; border-bottom: 1px solid var(--ink); }
+  .wordmark { font: 500 28px/1 "Fraunces", Georgia, serif; letter-spacing: -.04em; color: inherit; text-decoration: none; white-space: nowrap; }
+  .wordmark span { color: var(--accent); }
+  .site-header nav { display: flex; flex-wrap: wrap; gap: 6px 26px; font-size: 15px; }
+  .site-header nav a { color: inherit; text-decoration: none; }
+  .site-header nav a:hover { text-decoration: underline; }
+  .site-header nav a[aria-current="page"] { color: var(--accent); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 7px; }
+  .essay { padding-block: 52px 72px; }
+  .eyebrow { font-size: 13px; color: var(--muted); margin: 0 0 14px; }
+  h1 { font: 500 clamp(36px, 5.2vw, 62px)/1.05 "Fraunces", Georgia, serif; letter-spacing: -.035em; margin: 0 0 22px; max-width: 15ch; text-wrap: balance; }
+  .cite { font-size: 14.5px; line-height: 1.6; color: var(--muted); max-width: 640px; margin: 0 0 40px; padding-top: 14px; border-top: 1px solid var(--rule); }
+  .cite strong { color: var(--ink); font-weight: 600; }
+  .prose { max-width: 640px; }
+  .prose p { margin: 0 0 1.05em; }
+  .lead-in { font-weight: 500; }
+  figure.scope { margin: 34px 0 30px; max-width: 1000px; }
+  .scope-stage { position: relative; width: 100%; touch-action: manipulation; }
+  .scope-stage canvas { display: block; width: 100%; }
+  .scope-controls button { position: absolute; display: block; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .scope-controls button[role="slider"] { cursor: grab; touch-action: none; }
+  .scope-controls button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  figcaption { font-size: 14px; line-height: 1.6; color: var(--muted); max-width: 640px; margin-top: 16px; }
+  figcaption strong { color: var(--ink); font-weight: 600; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .back { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--rule); font-size: 14px; display: flex; gap: 22px; flex-wrap: wrap; }
+  .site-footer { border-top: 1px solid var(--ink); padding-block: 22px 40px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .site-footer a { color: inherit; }
+  @media (max-width: 600px) { body { font-size: 16.5px; } .essay { padding-block: 36px 56px; } figure.scope { margin-inline: 0; } }
+</style>
+</head>
+<body>
+<header class="site-header shell">
+  <a class="wordmark" href="https://www.sankala.me/">San Kala<span>.</span></a>
+  <nav aria-label="Main">
+    <a href="https://www.sankala.me/work" aria-current="page">Work</a>
+    <a href="https://www.sankala.me/history">Timeline</a>
+    <a href="https://www.sankala.me/about">About</a>
+    <a href="https://www.sankala.me/resume">CV</a>
+  </nav>
+</header>
+
+<main class="essay shell">
+  <article>
+    <p class="eyebrow">Research · 2019</p>
+    <h1>Recognizing electrical disturbances with neural networks</h1>
+    <p class="cite"><cite>Power Quality Event Classification Using Long Short-Term Memory Networks.</cite> S. K. G. Manikonda, J. Santhosh, S. P. Kumar Sreekala, S. Gangwani and D. N. Gaonkar. IEEE DISCOVER 2019. <strong>Best Paper Award</strong> · <a href="https://www.sankala.me/documents/certificates/24_DISCOVER_BestPaper%20(2).pdf">Award certificate</a></p>
+
+    <div class="prose">
+      <p>The electricity in a wall socket is meant to be a clean wave. In India it rises and falls 50 times a second, the same way every time. Real grids are messier. A big motor starting nearby pulls the voltage down for a few cycles. Switching a capacitor bank leaves a spike that rings out. Rectifiers and chargers bend the wave out of shape. Engineers call these power-quality events.</p>
+      <p>Each kind has different causes and different fixes, so the first job is naming what happened. Monitors record far more of the wave than anyone can read by eye, which is why it helps to classify events automatically.</p>
+      <p>In 2019, at NIT Karnataka, we classified these events with long short-term memory networks (LSTMs). An LSTM reads a signal one step at a time and carries a memory forward. That lets it tell a dip lasting three cycles from a single spike, or from a slow flicker that only shows up across many cycles.</p>
+      <p class="lead-in">Try it below. Press a button beside the screen to inject an event, then watch a small network read the trace one cycle at a time.</p>
+    </div>
+
+    <figure class="scope" id="scope">
+      <div class="scope-stage">
+        <canvas role="img" aria-label="An oscilloscope showing a 230 volt, 50 hertz waveform. Beneath the trace, a row of network cells reads it one cycle at a time, and a menu beside the screen shows how confident the network is about each kind of event."></canvas>
+        <div class="scope-controls"></div>
+      </div>
+      <p id="scope-live" class="visually-hidden" aria-live="polite"></p>
+      <figcaption><strong>An oscilloscope you can drive.</strong> The waveforms are synthetic 230 V, 50 Hz signals with textbook disturbances. The reader is a small stand-in that works one cycle at a time, and its memory and confidence bars are illustrative, not the paper's model or results. Turn TIME/DIV to see more cycles; flicker only becomes clear across several. SINGLE draws a fresh example, and RUN/STOP freezes the screen.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <p>Watch the notch. After the first bite the reader guesses a transient, then changes its mind as the bites keep coming. Watch the sag, too: it calls the wave normal until the dip arrives. That running memory is what a recurrent network brings to signals like these.</p>
+    </div>
+
+    <p class="back"><a href="https://www.sankala.me/research">All research</a><a href="https://www.sankala.me/writing">More writing</a></p>
+  </article>
+</main>
+
+<footer class="site-footer shell">
+  <span>San Kala</span>
+  <span><a href="mailto:san@sankala.me">san@sankala.me</a></span>
+</footer>
+
+<script src="js/signal.js"></script>
+<script src="js/scope.js"></script>
+</body>
+</html>

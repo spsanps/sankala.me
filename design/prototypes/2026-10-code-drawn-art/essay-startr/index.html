@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glyp: A Post-Mortem — San Kala</title>
+<meta name="description" content="Lessons learned from building a writing assistant for novelists that didn't make it to market.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Caveat:wght@500;600&family=Old+Standard+TT:wght@400;700&family=Anton&family=Abril+Fatface&display=swap">
+<!--
+DESIGN — "Features or distribution" (StartR post-mortem, essay idea)
+  One figure, drawn in code, for the essay's core lesson: "I kept thinking about
+  features when I should have been thinking about distribution."
+  A founder's notebook page. Glyp is written in PENCIL (tentative, erasable): every
+  feature is a kraft tag the pencil adds to a wobbling tower. The competitors are
+  PRINTED in letterpress INK (committed): their road to readers grows one ruled
+  segment per feature San adds, stamped with the essay's own words. Glyp's road
+  stays a dotted line until the lesson is written. Conviction is ink; second-guessing
+  is pencil.
+  Palette   notebook #F4EDDC · rules #9DB6D3 · margin #D9897C · kraft #DACBAA
+            letterpress black #1F1C19 · letterpress red #BD3527 · pencil #3D78B8
+            (the cover's palette)
+  Type      Fraunces (title, headings) · Georgia (reading) · DM Sans (controls,
+            captions) · in the figure: Caveat (pencil hand), Old Standard TT and
+            Anton (letterpress), Abril Fatface (the GLYP block, as on the cover)
+  Facts     every label in the figure is the essay's own words; the figure is a
+            sketch of the argument, not data. No numbers, users or dates beyond
+            "fall 2023".
+  Refused   AI beige, decorative italics, side-tab borders, glossy gradients,
+            pulsing dots, cards, flowchart boxes.
+-->
+<style>
+  :root {
+    --page: #EEEDE8;
+    --text: #1C1B19;
+    --muted: #5B5852;
+    --link: #1C4FB6;
+    --pencil: #3D78B8;
+    --rule: rgba(28, 27, 25, .16);
+    --serif: Georgia, "Times New Roman", serif;
+    --display: "Fraunces", Georgia, serif;
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--page); color: var(--text); font: 19px/1.65 var(--serif); }
+  a { color: var(--link); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--pencil); outline-offset: 3px; border-radius: 3px; }
+
+  .site { max-width: 1040px; margin: 0 auto; padding: 28px 20px 0; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-family: var(--sans); }
+  .site .name { font: 600 21px/1.2 var(--display); color: var(--text); text-decoration: none; }
+  .site nav { display: flex; gap: 18px; flex-wrap: wrap; font-size: 15px; }
+
+  main { padding: 56px 20px 96px; }
+  .col { max-width: 640px; margin: 0 auto; }
+  .head { max-width: 860px; margin: 0 auto 44px; display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 36px; align-items: start; }
+  .head > div { min-width: 0; }
+  .eyebrow { font: 500 12px/1.5 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 18px; }
+  h1 { font: 600 clamp(38px, 6.4vw, 56px)/1.06 var(--display); letter-spacing: -.01em; margin: 0 0 18px; text-wrap: balance; }
+  .deck { font-size: 21px; line-height: 1.5; color: #34322E; margin: 0; text-wrap: pretty; }
+  .frontis { margin: 6px 0 0; }
+  .frontis img { display: block; width: 132px; height: auto; aspect-ratio: 2 / 3; box-shadow: 0 1px 2px rgba(0,0,0,.14), 0 6px 18px rgba(40,30,10,.12); }
+  .rule { max-width: 860px; margin: 0 auto 44px; border: 0; border-top: 1px solid var(--rule); }
+  p { margin: 0 0 24px; }
+  .dateline { font-style: italic; color: var(--muted); }
+  h2 { font: 600 27px/1.25 var(--display); margin: 56px 0 18px; text-wrap: balance; }
+
+  .fig { margin: 40px auto 48px; max-width: 960px; }
+  .fig canvas { display: block; width: 100%; height: auto; touch-action: manipulation; }
+  .fig .sheet { background: #F4EDDC; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 10px 30px rgba(50,40,20,.10); }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 16px auto 0; max-width: 640px; font-family: var(--sans); }
+  .controls button { font: 500 15px/1 var(--sans); color: var(--text); background: transparent; border: 1.5px solid var(--text); border-radius: 4px; padding: 0 16px; min-height: 44px; cursor: pointer; }
+  .controls button:hover:not(:disabled) { background: rgba(28,27,25,.06); }
+  .controls button:disabled { border-style: dashed; color: var(--muted); border-color: rgba(28,27,25,.35); cursor: default; }
+  .controls .spacer { flex: 1 1 auto; }
+  .status { max-width: 640px; margin: 12px auto 0; font: 15px/1.5 var(--sans); color: var(--text); min-height: 1.5em; }
+  figcaption { max-width: 640px; margin: 10px auto 0; font: 14px/1.6 var(--sans); color: var(--muted); }
+  figcaption strong { color: var(--text); font-weight: 500; }
+
+  .foot { max-width: 640px; margin: 64px auto 0; padding-top: 22px; border-top: 1px solid var(--rule); font: 15px/1.6 var(--sans); display: flex; gap: 20px; flex-wrap: wrap; }
+
+  @media (max-width: 640px) {
+    body { font-size: 18px; }
+    main { padding: 36px 16px 72px; }
+    .site { padding: 20px 16px 0; }
+    .head { grid-template-columns: minmax(0, 1fr) 84px; gap: 18px; }
+    .frontis img { width: 84px; }
+    .deck { font-size: 19px; }
+    .fig { margin: 32px -4px 40px; }
+    .controls button { flex: 1 1 auto; }
+    .controls .spacer { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="site">
+  <a class="name" href="https://www.sankala.me/">San Kala</a>
+  <nav aria-label="Site">
+    <a href="https://www.sankala.me/work" aria-current="page">Work</a>
+    <a href="https://www.sankala.me/history">Timeline</a>
+    <a href="https://www.sankala.me/about">About</a>
+    <a href="https://www.sankala.me/resume">CV</a>
+  </nav>
+</header>
+
+<main>
+  <header class="head">
+    <div>
+      <p class="eyebrow">Personal note · Dec 2025 · 5 min read</p>
+      <h1>Glyp: A Post-Mortem</h1>
+      <p class="deck">Lessons learned from building a writing assistant for novelists that didn't make it to market.</p>
+    </div>
+    <figure class="frontis"><img src="cover.webp" alt="The essay's cover: a letterpress poster for GLYP, a writing assistant for novelists, annotated POST-MORTEM in blue pencil." width="360" height="540"></figure>
+  </header>
+  <hr class="rule">
+
+  <article class="col">
+    <p class="dateline">Originally pitched Oct 2023, published Dec 2025</p>
+
+    <p>In fall 2023, I got accepted into UCSD's StartR Rady accelerator with "Glyp"—an AI platform for long-form content writing, targeting novelists and creative writers.</p>
+
+    <h2>The Pitch</h2>
+
+    <p>I'd kept a digital notebook for years—random story ideas, settings, character concepts. When ChatGPT came out, I started using it to flesh out chapters from these notes. It worked surprisingly well. Since I was doing LLM research at UCSD, building a product around this felt like a natural extension of what I was already thinking about.</p>
+
+    <p>The vision for Glyp went beyond being just another AI writing assistant. I wanted to build a platform where people could share, edit, and collaborate on AI-written content. The idea was that if AI made writing more accessible, you could bring readers into the creative process itself—not just as consumers but as participants. Democratizing storytelling, basically.</p>
+
+    <p>Looking back, I think I was excited about the technology and assumed the product would follow. That's not how it works.</p>
+
+    <h2>What Went Wrong</h2>
+
+    <p>I had this sense that AI products were going to be huge in 2023, and I wasn't wrong about that—but I completely misread where the action would actually be. For B2C, the momentum was in mobile apps like <a href="https://cal.ai/">Cal AI</a>, while I was still building for the web. Wrong medium, wrong form factor. By the time I realized this, competitors had already established themselves.</p>
+
+    <p>I also wasn't really in <a href="https://paulgraham.com/foundermode.html">founder mode</a>. Instead of executing on one clear direction, I kept getting pulled toward different ideas—tweaking features, exploring new angles, second-guessing the core product. No real conviction, no committed path forward.</p>
+
+    <p>Meanwhile, competitors like <a href="https://sudowrite.com/">Sudowrite</a> and <a href="https://jenni.ai/">Jenni AI</a> had picked specific niches and stuck with them. Watching their progress over the same timeframe taught me more about what building a product actually involves than any course could—getting users, growing users, keeping users, making money. I was worrying about the wrong things entirely. I kept thinking about features when I should have been thinking about distribution.</p>
+  </article>
+
+  <figure class="fig" id="features-figure">
+    <div class="sheet"><canvas id="features-canvas" role="img" aria-label="A notebook sketch. On the left, Glyp is a block labelled GLYP with a tower of pencilled feature tags growing on it: share, edit, collaborate, readers as participants, tweak features, a new angle, second-guess the core. Across the top, the competitors Sudowrite and Jenni AI have a printed road to a group of readers, stamped getting users, growing users, keeping users, making money. Glyp's own road to the readers stays a dotted line labelled distribution."></canvas></div>
+    <div class="controls" role="group" aria-label="Figure controls">
+      <button type="button" id="btn-feature">Add a feature</button>
+      <button type="button" id="btn-pivot" disabled>Pivot to Glyp Podcasts</button>
+      <span class="spacer"></span>
+      <button type="button" id="btn-reset">Start over</button>
+    </div>
+    <p class="status" id="features-status" aria-live="polite"></p>
+    <figcaption><strong>Features or distribution.</strong> Each feature you add to Glyp is pencilled onto a tag. In the same time, the competitors print another stretch of road to readers. A sketch of the essay's argument, not data.</figcaption>
+  </figure>
+
+  <article class="col">
+    <p>Later, <a href="https://www.linkedin.com/in/rohan-mishra-cs/">Rohan</a> and I tried pivoting to video content with <a href="https://www.youtube.com/@glyp.podcasts">Glyp Podcasts</a>, thinking it was a larger TAM play. Same fundamental problems though—too late, poorly executed, no real conviction behind the pivot. Just trying things instead of building toward something.</p>
+
+    <h2>What I Learned</h2>
+
+    <p>Making something that works isn't the same as making something people use. You can build the best product in the world, but if nobody knows it exists, or people don't understand why they need it, it doesn't matter. Distribution matters way more than features. This sounds obvious when you say it, but you don't really internalize it until you've built something nobody finds.</p>
+
+    <p>The competitors who succeeded weren't necessarily smarter or more technical than I was. They were just more focused. They picked something specific, committed to it, and executed consistently. I was trying to figure out what to build while they were already building.</p>
+
+    <p>This was my first real attempt at entrepreneurship. It didn't work out, but I'd do it again. You learn different things from failing at your own thing than you do from anything else—about yourself, about building products, about what actually matters when you're trying to create something people want.</p>
+  </article>
+
+  <div class="foot">
+    <a href="https://www.sankala.me/writing">More writing</a>
+    <a href="https://www.sankala.me/history#history-startr">StartR in my history</a>
+  </div>
+</main>
+
+<script src="js/figure.js"></script>
+</body>
+</html>

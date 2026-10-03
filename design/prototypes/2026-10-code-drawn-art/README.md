@@ -91,6 +91,19 @@ full-page sticky painting with the text in a lane on the plain wall. The desk ch
 across the four places; San Jose follows real time. It includes San's updated intro and names
 Chin. Awaiting San's review; questions are in its `notes.md`.
 
+## October 3: landing styles and the remaining essay ideas
+
+| Folder | What it is |
+| --- | --- |
+| `four-frames-tile/` | The live homepage scroll re-painted on glazed cobalt tiles; tiles flip over to change places |
+| `four-frames-pixel/` | The same scroll as native pixel art on a 270-pixel grid; parallax window and stepped light |
+| `essay-power-quality/` | The 2019 power-quality paper with an oscilloscope the reader drives |
+| `essay-zinify/` | ZINify: the paper goes into a riso machine and comes out as an eight-page zine |
+| `essay-startr/` | The Glyp post-mortem with a "features or distribution" notebook figure |
+
+All five are on the gallery for San's feedback. The tile page also ships a `js/bundle.js`
+(rebuild with `build.sh`) so it opens from `file://`; the pixel page needs to be served over http.
+
 ## Status
 
 Built on 2026-10-02 as samples for San's reaction; all six are on the private gallery

@@ -26,7 +26,8 @@ fixes) is live on www.sankala.me as commit `aff959d` (branch `code-drawn-art` me
 San's feedback on the live redesign, October 3: "pretty cool". Writing, Projects and
 Research should be ONE page with filters ("writing and work"): being built as /work with the
 nav Work · History · About · CV (branch `work-index`); old routes render the same page
-pre-filtered. He questioned the word "History" (maybe "News"); undecided. He asked for tile-art
+pre-filtered. The history page is now labelled "Timeline" (URL /history unchanged), live with the
+smaller Work posters in `4c22492`. He asked for tile-art
 and pixel-art versions of the Four frames landing to compare with the clear-line one, and for
 the remaining essay ideas (power quality, ZINify, StartR) as prototypes for feedback. The
 GPT-7 cover's detached-hand glitch was fixed live (`58ab877`).

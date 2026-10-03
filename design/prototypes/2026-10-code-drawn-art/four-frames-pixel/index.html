@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>San Kala</title>
+<meta name="description" content="San Kala: language models at eBay; before that computer science at UC San Diego, chip design at Texas Instruments and electrical engineering at NIT Karnataka.">
+<!--
+DESIGN — "Four frames", pixel edition (a comparison variant of the live homepage)
+  The same experience as the live clear-line homepage: one desk, one window, one pinboard, seen
+  from one seat; the words scroll on the plain wall while the desk moves back through San Jose,
+  San Diego, Bengaluru and Surathkal; San Jose keeps the real hour. Only the hand is different.
+
+  Hand: native pixel art. The scene is drawn on a low-resolution grid (a 270 × 270 design square
+  on wide screens, a re-composed 196 × 210 square on phones) and scaled up by a whole number,
+  nearest-neighbour, so every pixel is the same size at every device pixel ratio. No anti-aliasing,
+  no blur, no mixels, no rotation. Every pixel holds a material and a step on its ramp, not a
+  colour; colour comes from one palette per light (day, sun on a surface, golden hour, twilight,
+  night, lamplight, screen spill), each a single transform of 18 hand-picked five-step ramps
+  (90 colours per light). Shadows lean cool and violet, lights warm and yellow. Outlines are
+  selective: the darkest step of the thing's own material, never black. Soft edges are ordered
+  (Bayer) dither, used only for light: the window's sun on the desk, the lamp's pool, glare on the
+  glass, haze, the sky's bands, the lighthouse beam.
+
+  Change between places, the game way: the view outside slides past like a side-scroller, its
+  four layers (sky, far, middle, near) a beat apart so they parallax; prints are unpinned and
+  carried off, things hop off the desk to the right and the next place's things drop in and land
+  with a three-frame bounce; the laptop folds shut in three frames; the room's light changes by
+  ordered dither. Live details tick at ten frames a second: clouds, a gull, kites, the lighthouse
+  beam, stars, the oscilloscope trace, the laptop typing, the robot's blink.
+
+  The real photographs stay real: drawn at full resolution into pixel frames on the board, lit by
+  the room's light. Page type is crisp normal type (Fraunces + DM Sans), not a pixel font.
+  Refuse: downsampled or quantised illustration, smoothing, mixed pixel sizes, pillow shading,
+  black outlines, gradients, rotation, pixel fonts for reading text, any copy of a reference.
+  Hooks: ?t= freezes time · ?hour=0–24 sets San Jose time · ?era=now|sd|blr|nitk jumps ·
+  ?pos=0–3 sets the position · ?plain=1 shows each place as a still.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap">
+<style>
+:root {
+  --paper: #f7f6f0; --wall: #cdd5bb; --ink: #1f2a33; --muted: #4c5650; --rule: #cfd3c3; --link: #244f85;
+  --lane-ink: var(--ink); --lane-muted: var(--muted); --lane-link: var(--link); --lane-rule: rgba(31,42,51,.2);
+  --serif: Fraunces, Georgia, serif; --sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --gutter: clamp(20px, 5vw, 84px);
+}
+:root.stage-dark .stage-caption { color: #e9e4d6; }
+:root.lane-dark { --lane-ink: #f3efe2; --lane-muted: #cfd2d8; --lane-link: #c3d6ff; --lane-rule: rgba(243,239,226,.26); }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--sans); overflow-x: hidden; }
+a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; border-radius: 2px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.025em; line-height: 1.12; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+.topbar { position: sticky; top: 0; z-index: 4; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 16px; padding: 10px 16px 9px; background: var(--wall); }
+.wordmark { font-family: var(--serif); font-size: 22px; letter-spacing: -.04em; color: var(--ink); text-decoration: none; }
+.site-nav { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14.5px; }
+.site-nav a { color: var(--ink); }
+
+.frames { position: relative; }
+.stage-wrap { position: sticky; top: var(--bar-h, 50px); z-index: 3; height: min(56vh, 115vw); overflow: hidden; background: var(--wall); }
+@supports (height: 1svh) { .stage-wrap { height: min(56svh, 115vw); } }
+#stage-canvas { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+.stage-caption { position: absolute; top: 8px; right: 14px; margin: 0; font-size: 12px; color: #3d473f; font-variant-numeric: tabular-nums; z-index: 2; }
+
+.lane { position: relative; z-index: 2; padding: 22px var(--gutter) 64px; background: var(--wall); color: var(--lane-ink); transition: color .4s; }
+.lane a { color: var(--lane-link); transition: color .4s; }
+.lane > .wordmark { display: none; }
+.frame { min-height: 74vh; }
+.frame:last-child { min-height: 0; padding-bottom: 16vh; }
+.intro { padding-bottom: 10vh; }
+.intro h1 { font-size: clamp(34px, 3.6vw, 52px); letter-spacing: -.04em; }
+.lede { margin-top: 20px; font-size: 17.5px; line-height: 1.58; max-width: 31em; }
+.more { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 15px; }
+.mail { color: var(--lane-muted); user-select: all; }
+.cue { margin-top: 26px; font-size: 13.5px; line-height: 1.55; color: var(--lane-muted); max-width: 30em; }
+.clock { display: block; min-height: 1.55em; margin-top: 4px; }
+.path-title { margin-top: 14vh; font-size: 28px; letter-spacing: -.03em; }
+.era-head { display: flex; flex-direction: column; gap: 2px; padding-top: 16px; margin-top: 24px; border-top: 1px solid var(--lane-rule); }
+.era-years { font-size: 13px; color: var(--lane-muted); font-variant-numeric: tabular-nums; }
+.era-place { font-size: 30px; letter-spacing: -.035em; }
+.era-role { font-size: 15px; color: var(--lane-muted); }
+.entries { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 26px; }
+.entries > li.has-print { display: grid; grid-template-columns: minmax(0, 1fr) 78px; gap: 18px; align-items: start; }
+.entries time { display: block; font-size: 12.5px; color: var(--lane-muted); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.entries h3 { font: 600 16px/1.35 var(--sans); letter-spacing: 0; }
+.entries p { margin-top: 5px; font-size: 15px; line-height: 1.58; }
+.entries .links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+/* the lane's prints are pixel-framed too: a hard cream border and a one-pixel shadow step */
+.print { display: block; margin-top: 20px; padding: 4px; background: #fbf8ec; box-shadow: 4px 4px 0 rgba(43,34,50,.28); }
+.print img { display: block; width: 100%; height: auto; }
+.lane a.print { text-decoration: none; }
+.plain-still { display: none; }
+
+.after { max-width: 1160px; margin: 0 auto; padding: 48px var(--gutter) 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px 32px; font-size: 15px; color: var(--muted); border-top: 1px solid var(--rule); }
+.after strong { color: var(--ink); font-weight: 600; }
+
+/* ───── wide screens: the painting is the page; the words run down the plain wall ───── */
+@media (min-aspect-ratio: 29/20) and (min-width: 1000px) {
+  .topbar { position: absolute; top: 0; left: 0; right: 0; height: 0; padding: 0; background: none; }
+  .topbar > .wordmark { display: none; }
+  .site-nav { position: absolute; top: 22px; right: clamp(20px, 3.4vw, 48px); gap: 22px; font-size: 15px; z-index: 5; }
+  .site-nav a { color: var(--lane-ink); transition: color .4s; }
+  .stage-wrap { top: 0; height: 100vh; z-index: 1; }
+  #stage-canvas { left: auto; right: 0; transform: none; }
+  .stage-caption { top: auto; bottom: 6px; right: clamp(20px, 3.4vw, 48px); color: #f4ead8; font-size: 12.5px; }
+  .lane { margin-top: -100vh; margin-left: var(--gutter); width: min(452px, calc(max(100vw - 100vh, 520px) - var(--gutter) - 48px)); padding: 0 0 46vh; background: none; }
+  .lane > .wordmark { display: inline-block; margin-top: 18px; font-size: 25px; color: var(--lane-ink); }
+  .frame { min-height: 118vh; }
+  .frame:last-child { min-height: 96vh; padding-bottom: 0; }
+  .intro { padding-top: 18vh; padding-bottom: 6vh; }
+  .path-title { margin-top: 26vh; }
+}
+
+/* ───── the plain version, and for readers who prefer less motion ───── */
+:root.plain .stage-wrap { display: none; }
+:root.plain .topbar { position: static; height: auto; padding: 18px 16px 0; background: none; width: min(760px, 100% - 32px); margin: 0 auto; }
+:root.plain .topbar > .wordmark { display: inline; }
+:root.plain .site-nav { position: static; }
+:root.plain .site-nav a { color: var(--ink); }
+:root.plain .lane { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 40px; background: none; color: var(--ink); }
+:root.plain .lane a { color: var(--link); }
+:root.plain .lane > .wordmark { display: none; }
+:root.plain .frame { min-height: 0; margin-bottom: 40px; }
+:root.plain .intro { padding: 16px 0 24px; }
+:root.plain .path-title { margin-top: 48px; }
+:root.plain .plain-still { display: block; margin: 24px 0 18px; image-rendering: pixelated; max-width: 100%; }
+:root.plain .clock { display: none; }
+</style>
+</head>
+<body>
+<div class="topbar" id="topbar">
+  <a class="wordmark" href="https://www.sankala.me/">San Kala</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="https://www.sankala.me/work">Work</a>
+    <a href="https://www.sankala.me/history">Timeline</a>
+    <a href="https://www.sankala.me/about">About</a>
+    <a href="https://www.sankala.me/resume">CV</a>
+  </nav>
+</div>
+<div class="frames">
+  <div class="stage-wrap" id="stage">
+    <canvas id="stage-canvas" role="img" aria-label="San's desk, drawn in pixels: a window behind it, a pinboard of photographs, a lamp. As the page scrolls, the same desk moves back through San Jose, San Diego, Bengaluru and Surathkal."></canvas>
+    <p class="stage-caption" id="stage-caption" aria-hidden="true">San Jose</p>
+  </div>
+  <main class="lane" id="main">
+    <a class="wordmark" href="https://www.sankala.me/">San Kala</a>
+    <section class="frame" data-frame="now" aria-labelledby="place-now" data-alt="San’s desk in San Jose, in pixels: a window onto the valley and Mt Hamilton with the Lick Observatory domes, a laptop, a small paper robot and a telescope on the desk, books on the shelf, and two photographs on the pinboard.">
+      <div class="intro">
+        <h1>Hi, I’m San.</h1>
+        <p class="lede">I work on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Along the way I co-founded <a href="https://www.sankala.me/notes/startr-postmortem">a startup that didn’t make it</a>. I also write, make things, and sometimes turn an idea into a film.</p>
+        <p class="more"><a href="https://www.sankala.me/about">More about me</a><span class="mail">san@sankala.me</span><a href="?plain=1" id="plain-link">Plain version</a></p>
+        <p class="cue">The desk is drawn in pixels, in code, and keeps San Jose time. Scroll, and it goes back through the places I’ve lived and worked.<span class="clock" id="clock"></span></p>
+        <h2 class="path-title" id="history">My path so far</h2>
+      </div>
+      <canvas class="plain-still" data-era="now" role="img" aria-label="San’s desk in San Jose, in pixels: a window onto the valley and Mt Hamilton with the Lick Observatory domes, a laptop, a small paper robot and a telescope on the desk, books on the shelf, and two photographs on the pinboard."></canvas>
+      <header class="era-head"><span class="era-years">2024 – now</span><h2 class="era-place" id="place-now">San Jose</h2><span class="era-role">AI research at eBay</span></header>
+      <ol class="entries">
+        <li id="history-eai-challenge" class="has-print"><div class="entry-text"><time datetime="2025-12">December 2025</time><h3>First place at the NeurIPS EAI Challenge</h3><p><a href="https://chin.bio">Chin</a> and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.</p><p class="links"><a href="https://www.sankala.me/notes/eai-challenge">Read the account</a><a href="https://openreview.net/pdf?id=gABfrJI5ni">Research paper</a><a href="https://www.sankala.me/documents/certificates/award_certificate_AxisTilted2.pdf">Award certificate</a></p></div><a class="print" href="photos/neurips-award.jpg" aria-label="Photograph: First place at NeurIPS 2025"><img src="photos/neurips-award.jpg" alt="San and Chin receiving first place at NeurIPS 2025." loading="lazy" decoding="async"></a></li>
+        <li id="history-ebay-research" class="has-print"><div class="entry-text"><time datetime="2024-04">April 2024</time><h3>Joined eBay as an AI researcher</h3><p>I joined eBay’s Knowledge Extraction team in April 2024, where I research and build language-model systems for information extraction. I was promoted in October 2025.</p><p class="links"><a href="https://www.sankala.me/resume">Current work</a></p></div><a class="print" href="photos/ebay-headquarters.jpg" aria-label="Photograph: eBay headquarters, San Jose"><img src="photos/ebay-headquarters.jpg" alt="San outside eBay headquarters." loading="lazy" decoding="async"></a></li>
+      </ol>
+    </section>
+    <section class="frame" data-frame="sd" aria-labelledby="place-sd" data-alt="The same desk in San Diego on a clear morning: the Geisel Library and eucalyptus through the window, papers, a zine and a laptop on the desk, four photographs on the pinboard.">
+      <canvas class="plain-still" data-era="sd" role="img" aria-label="The same desk in San Diego on a clear morning: the Geisel Library and eucalyptus through the window, papers, a zine and a laptop on the desk, four photographs on the pinboard."></canvas>
+      <header class="era-head"><span class="era-years">2022 – 2024</span><h2 class="era-place" id="place-sd">San Diego</h2><span class="era-role">MS in computer science, UC San Diego</span></header>
+      <ol class="entries">
+        <li id="history-ucsd-graduation" class="has-print"><div class="entry-text"><time datetime="2024-03">March 2024</time><h3>Completed my MS at UC San Diego</h3><p>I completed an MS in computer science at UC San Diego, working with Julian McAuley’s group on AI music and language models and TA’ing recommender systems and data mining.</p></div><a class="print" href="photos/research-group.jpg" aria-label="Photograph: With Julian McAuley’s research group, 2023"><img src="photos/research-group.jpg" alt="The UC San Diego research group outdoors in 2023." loading="lazy" decoding="async"></a></li>
+        <li id="history-zinify" class="has-print"><div class="entry-text"><time datetime="2023-10">October 2023</time><h3>A UIST award for turning papers into zines</h3><p>ZINify, which <a href="https://jaidevshriram.com/">Jaidev Shriram</a> and I built, received an Honorable Mention at the UIST Student Innovation Contest. It uses language models to turn research papers into illustrated zines.</p><p class="links"><a href="https://jaidevshriram.com/zinify-uist/">See ZINify</a><a href="https://dl.acm.org/doi/abs/10.1145/3586182.3625118">Research paper</a><a href="https://www.sankala.me/documents/certificates/Certificate%20UIST%20ACM%20-%20Hon%20Mention.pdf">Award certificate</a></p></div><a class="print" href="photos/uist-award.jpg" aria-label="Photograph: With Jaidev Shriram at UIST 2023"><img src="photos/uist-award.jpg" alt="San and Jaidev Shriram holding the UIST 2023 award." loading="lazy" decoding="async"></a></li>
+        <li id="history-startr"><div class="entry-text"><time datetime="2023-10">October 2023</time><h3>A writing-assistant startup at UCSD’s StartR accelerator</h3><p>I co-founded Glyp, a writing assistant for novelists, and took it through UCSD’s StartR Rady accelerator. It didn’t make it to market, and I wrote about what went wrong.</p><p class="links"><a href="https://www.sankala.me/notes/startr-postmortem">Read the post-mortem</a></p></div></li>
+        <li id="history-ebay-internship" class="has-print"><div class="entry-text"><time datetime="2023-06">June 2023</time><h3>A summer research internship at eBay</h3><p>I spent the summer researching information extraction at scale with eBay’s Knowledge Extraction team.</p></div><a class="print" href="photos/ebay-intern.jpg" aria-label="Photograph: The summer research internship, 2023"><img src="photos/ebay-intern.jpg" alt="San beside the planted eBay sign during his internship." loading="lazy" decoding="async"></a></li>
+        <li id="history-ebay-ml-challenge"><div class="entry-text"><time datetime="2023-01">January 2023</time><h3>Won the eBay ML Challenge: first of 591 teams</h3><p>I placed first of 591 teams in the eBay University Machine Learning Challenge, extracting named entities from product titles with DeBERTa-v3 and K-fold ensembling. The result, announced in January 2023, led to the summer research internship.</p><p class="links"><a href="https://innovation.ebayinc.com/stories/ebay-announces-winners-of-4th-annual-machine-learning-challenge/">The announcement</a><a href="https://www.sankala.me/documents/certificates/eBay%20ML%20Challenge%20Letter.pdf">Award letter</a></p></div></li>
+        <li id="history-ucsd-start" class="has-print"><div class="entry-text"><time datetime="2022-09">September 2022</time><h3>Moved from chip design to computer science at UCSD</h3><p>I started the MS at UC San Diego after three years in chip design.</p></div><a class="print" href="photos/ucsd-library.jpg" aria-label="Photograph: Starting at UC San Diego, 2022"><img src="photos/ucsd-library.jpg" alt="San outside Geisel Library at UC San Diego." loading="lazy" decoding="async"></a></li>
+      </ol>
+    </section>
+    <section class="frame" data-frame="blr" aria-labelledby="place-blr" data-alt="The same desk in Bengaluru, late afternoon before the rain: rooftops with water tanks, a coconut palm and a flame tree through the window, a monitor showing a chip layout, a loupe and a packaged chip, one photograph on the pinboard.">
+      <canvas class="plain-still" data-era="blr" role="img" aria-label="The same desk in Bengaluru, late afternoon before the rain: rooftops with water tanks, a coconut palm and a flame tree through the window, a monitor showing a chip layout, a loupe and a packaged chip, one photograph on the pinboard."></canvas>
+      <header class="era-head"><span class="era-years">2019 – 2022</span><h2 class="era-place" id="place-blr">Bengaluru</h2><span class="era-role">Chip design at Texas Instruments</span></header>
+      <ol class="entries">
+        <li id="history-texas-instruments" class="has-print"><div class="entry-text"><time datetime="2019-07">July 2019</time><h3>Three years designing chips at Texas Instruments</h3><p>I spent 2019–2022 on ASIC digital design at Texas Instruments: physical design, RTL, and getting actual chips out the door.</p><p class="links"><a href="https://www.sankala.me/resume">Engineering background</a></p></div><a class="print" href="photos/ti-bengaluru.jpg" aria-label="Photograph: Texas Instruments, Bengaluru"><img src="photos/ti-bengaluru.jpg" alt="San outside the Texas Instruments office in Bengaluru." loading="lazy" decoding="async"></a></li>
+      </ol>
+    </section>
+    <section class="frame" data-frame="nitk" aria-labelledby="place-nitk" data-alt="The same desk in Surathkal after dark: palms, the sea and the lighthouse through the window, an oscilloscope showing a square wave, a breadboard and a star chart, and the photograph from the NITK lab.">
+      <canvas class="plain-still" data-era="nitk" role="img" aria-label="The same desk in Surathkal after dark: palms, the sea and the lighthouse through the window, an oscilloscope showing a square wave, a breadboard and a star chart, and the photograph from the NITK lab."></canvas>
+      <header class="era-head"><span class="era-years">2015 – 2019</span><h2 class="era-place" id="place-nitk">Surathkal</h2><span class="era-role">Electrical engineering at NIT Karnataka</span></header>
+      <ol class="entries">
+        <li id="history-nitk" class="has-print"><div class="entry-text"><time datetime="2019-05">May 2019</time><h3>Electrical engineering at NIT Karnataka</h3><p>I graduated in electrical and electronics engineering. I got into deep learning through Kaggle, earning silver and bronze medals. My thesis on power-quality classification won a best-paper award at IEEE DISCOVER, and the Amateur Astronomy Club gave me a place to explore astronomy.</p><p class="links"><a href="https://www.sankala.me/documents/certificates/24_DISCOVER_BestPaper%20(2).pdf">Best paper certificate</a><a href="https://kaggle.com/spsanps">Kaggle profile</a></p></div><a class="print" href="photos/nitk-lab.jpg" aria-label="Photograph: The electronics lab at NITK"><img src="photos/nitk-lab.jpg" alt="An oscilloscope showing a signal in the NITK electronics laboratory." loading="lazy" decoding="async"></a></li>
+      </ol>
+    </section>
+  </main>
+</div>
+<footer class="after">
+  <p><strong>Writing &amp; work</strong> — essays, research, films and things to open in your browser: <a href="https://www.sankala.me/writing">sankala.me/writing</a></p>
+  <p>Drawn in code, pixel by pixel. The photographs are real. · san@sankala.me</p>
+</footer>
+<script type="module">
+import { createStage, paintStill } from './js/stage.js';
+const PHOTOS = {
+  'neurips-award': 'photos/neurips-award.jpg', 'ebay-headquarters': 'photos/ebay-headquarters.jpg', 'ucsd-library': 'photos/ucsd-library.jpg',
+  'research-group': 'photos/research-group.jpg', 'uist-award': 'photos/uist-award.jpg', 'ebay-intern': 'photos/ebay-intern.jpg',
+  'ti-bengaluru': 'photos/ti-bengaluru.jpg', 'nitk-lab': 'photos/nitk-lab.jpg',
+};
+const q = new URLSearchParams(location.search), num = k => q.has(k) && !Number.isNaN(parseFloat(q.get(k))) ? parseFloat(q.get(k)) : undefined;
+const hooks = { t: num('t'), hour: num('hour'), pos: num('pos'), era: q.get('era') || undefined };
+if (hooks.era && hooks.pos == null && ['now', 'sd', 'blr', 'nitk'].includes(hooks.era)) hooks.pos = ['now', 'sd', 'blr', 'nitk'].indexOf(hooks.era);
+const root = document.documentElement, topbar = document.getElementById('topbar');
+const setBar = () => root.style.setProperty('--bar-h', topbar.getBoundingClientRect().height + 'px');
+setBar(); new ResizeObserver(setBar).observe(topbar); document.fonts?.ready.then(setBar);
+const plain = q.get('plain') === '1' || matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sections = [...document.querySelectorAll('.frame')];
+if (plain) {
+  root.classList.add('plain');
+  const link = document.getElementById('plain-link'); link.textContent = 'Living version'; link.href = location.pathname;
+  const lane = document.getElementById('main');
+  const draw = async () => {
+    const w = Math.min(760, lane.getBoundingClientRect().width), dpr = Math.min(3, devicePixelRatio || 1);
+    for (const cv of document.querySelectorAll('.plain-still')) await paintStill({ canvas: cv, mode: w >= 520 ? 'wide' : 'tall', cssWidth: w, dpr, era: cv.dataset.era, hour: hooks.hour, photos: PHOTOS });
+    window.__ready = true;
+  };
+  draw();
+} else {
+  const caption = document.getElementById('stage-caption'), clock = document.getElementById('clock');
+  await createStage({
+    canvas: document.getElementById('stage-canvas'), stageEl: document.getElementById('stage'), laneEl: document.getElementById('main'),
+    sections, photos: PHOTOS, hooks,
+    onChange: c => { caption.textContent = c.text; if (c.place === 'San Jose') clock.textContent = `It’s ${c.label} in San Jose now.`; },
+    onTone: (tone, mode) => { root.classList.toggle('lane-dark', tone === 'dim' && mode === 'wide'); root.classList.toggle('stage-dark', tone === 'dim'); },
+    onReady: () => { window.__ready = true; },
+  });
+  if (hooks.era) { const i = ['now', 'sd', 'blr', 'nitk'].indexOf(hooks.era); if (i > 0) scrollTo(0, sections[i].getBoundingClientRect().top + scrollY - innerHeight * .2); }
+}
+</script>
+</body>
+</html>
