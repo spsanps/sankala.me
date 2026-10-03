@@ -1,0 +1,9 @@
+/* The oscilloscope figure. The instrument carries its own colours; the page stays the site's. */
+.personal-site .pq-cite { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14.5px; line-height: 1.6; max-width: 640px; }
+.personal-site .pq-cite strong { color: var(--ink); font-weight: 600; }
+.personal-site .pq-lead-in { font-weight: 600; }
+.personal-site .pq-figure .scope-stage { position: relative; width: 100%; touch-action: manipulation; }
+.personal-site .pq-figure .scope-stage canvas { display: block; width: 100%; }
+.personal-site .pq-figure .scope-controls button { position: absolute; display: block; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.personal-site .pq-figure .scope-controls button[role="slider"] { cursor: grab; touch-action: none; }
+.personal-site .pq-figure .scope-controls button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

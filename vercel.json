@@ -19,6 +19,8 @@
     { "source": "/resume", "destination": "/resume/index.html" },
     { "source": "/lab", "destination": "/lab/index.html" },
     { "source": "/notes/startr-postmortem", "destination": "/notes/startr-postmortem/index.html" },
+    { "source": "/notes/zinify", "destination": "/notes/zinify/index.html" },
+    { "source": "/notes/power-quality", "destination": "/notes/power-quality/index.html" },
     { "source": "/notes/:slug", "destination": "/app.html" },
     { "source": "/lab/:id", "destination": "/app.html" }
   ]

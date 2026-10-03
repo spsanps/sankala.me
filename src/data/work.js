@@ -31,8 +31,9 @@ export const works = [
   })),
   { slug: 'zinify', title: 'ZINify: research to zines', date: '2023', sortDate: '2023',
     description: 'Turning research papers into visual zines with language models. UIST 2023 Student Innovation Contest Honorable Mention.',
-    url: '/research#zinify', topics: ['ai', 'making'], formats: ['research'] },
+    // The essay page is newer than the feed entry; feedId keeps the item's RSS guid unchanged.
+    url: '/notes/zinify', feedId: '/research#zinify', topics: ['ai', 'making'], formats: ['research', 'writing'] },
   { slug: 'power-quality', title: 'Power quality event classification with LSTMs', date: '2019', sortDate: '2019',
     description: 'Using recurrent neural networks to classify disturbances in electrical signals. IEEE DISCOVER 2019 Best Paper Award.',
-    url: '/research#power-quality', topics: ['ai'], formats: ['research'] },
+    url: '/notes/power-quality', feedId: '/research#power-quality', topics: ['ai'], formats: ['research', 'writing'] },
 ].map(work => ({ ...work, displayTitle: introductions[work.slug][0], description: introductions[work.slug][1] })).sort((a,b) => b.sortDate.localeCompare(a.sortDate));

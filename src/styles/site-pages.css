@@ -39,3 +39,12 @@
   .personal-site .page-heading.has-frontispiece { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .personal-site .frontispiece { width: 120px; grid-row: 1; }
 }
+
+/* Essays with an interactive figure: the reading column stays centred and the figure runs wider. */
+.personal-site .essay-body { margin: 0 auto 100px; }
+.personal-site .essay-body > .prose { margin-inline: auto; }
+.personal-site .essay-figure { max-width: 1000px; margin: 44px auto 52px; }
+.personal-site .essay-figure figcaption { max-width: 640px; margin: 14px auto 0; font-size: 14px; line-height: 1.6; }
+.personal-site .essay-figure figcaption strong, .personal-site .essay-figure figcaption b { color: var(--ink); font-weight: 600; }
+.personal-site .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+@media (max-width: 600px) { .personal-site .essay-figure { margin: 32px -6px 40px; } }

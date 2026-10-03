@@ -3,7 +3,7 @@
 export const historyLabel = 'Timeline';
 
 export const mainNav = [
-  { to: '/work', label: 'Work' },
+  { to: '/work', label: 'Writing & projects' },
   { to: '/history', label: historyLabel },
   { to: '/about', label: 'About' },
   { to: '/resume', label: 'CV' },

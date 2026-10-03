@@ -4,11 +4,8 @@
 
 ## Work and background
 
-- [Writing](https://www.sankala.me/writing): Essays, research write-ups and personal notes.
-- [Projects](https://www.sankala.me/projects): Interactive worlds and animated films.
-- [Complete work index](https://www.sankala.me/notes): Eight works, grouped by subject and format.
-- [Research](https://www.sankala.me/research): Three publications with authors, venues and project links.
-- [History](https://www.sankala.me/history): Ten milestones from NIT Karnataka through current AI research.
+- [Work](https://www.sankala.me/work): Every essay, research paper, project and film in one index, with filters (writing, projects, research, films).
+- [Timeline](https://www.sankala.me/history): Ten milestones from NIT Karnataka through current AI research.
 - [About](https://www.sankala.me/about)
 - [CV](https://www.sankala.me/resume)
 - [RSS](https://www.sankala.me/feed.xml)
@@ -17,7 +14,9 @@
 
 - [GPT-7 Will Have Arms](https://www.sankala.me/essays/gpt7-will-have-arms.md): Complete Markdown mirror. Original forecast: December 2025. Film adaptation: September 2026.
 - [Winning by Overfitting](https://www.sankala.me/notes/eai-challenge.md): Complete account of the NeurIPS 2025 EAI Challenge at the FMEA Workshop, written July 2026.
-- [StartR post-mortem](https://www.sankala.me/notes/startr-postmortem): Personal note, December 2025; original accelerator pitch October 2023.
+- [Glyp: A Post-Mortem](https://www.sankala.me/notes/startr-postmortem): Personal note on the StartR accelerator startup, December 2025; original pitch October 2023. Includes a board-game figure whose cards quote the essay.
+- [ZINify](https://www.sankala.me/notes/zinify.md): Complete Markdown mirror. Turning research papers into zines with Jaidev Shriram, UIST 2023 Honorable Mention; with a photocopier figure.
+- [Recognizing electrical disturbances with neural networks](https://www.sankala.me/notes/power-quality.md): Complete Markdown mirror. The 2019 IEEE DISCOVER Best Paper on power-quality events with LSTMs; with an oscilloscope figure.
 
 ## Related homes
 

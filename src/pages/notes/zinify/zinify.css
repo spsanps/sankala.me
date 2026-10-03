@@ -1,0 +1,29 @@
+/* The copy-center figure: blue copy paper and black toner. Controls are plain, square-edged
+   and in toner black, like the flyer; the page around it stays the site's. */
+.personal-site .zf-byline { margin-top: 14px; font-size: 14px; color: var(--muted); }
+.personal-site .zf-foot { font-size: 16px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 22px; }
+.personal-site .zf-figure .sheet { position: relative; background: #88c3e6; box-shadow: 0 1px 0 rgba(28, 27, 25, .08), 0 16px 32px -18px rgba(20, 30, 40, .45); }
+.personal-site .zf-figure .sheet:focus-visible { outline: 2px solid #151413; outline-offset: 3px; }
+.personal-site .zf-figure .sheet canvas { display: block; width: 100%; height: auto; touch-action: pan-y; }
+.personal-site .zf-figure .hits { position: absolute; inset: 0; pointer-events: none; }
+.personal-site .zf-figure .hit { position: absolute; pointer-events: auto; background: transparent; border: 0; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.personal-site .zf-figure #hit-paper { cursor: grab; touch-action: none; }
+.personal-site .zf-figure #hit-paper:active { cursor: grabbing; }
+.personal-site .zf-figure #hit-prev { cursor: w-resize; }
+.personal-site .zf-figure #hit-next { cursor: e-resize; }
+.personal-site .zf-figure [hidden] { display: none !important; }
+.personal-site .zf-controls { max-width: 640px; margin: 16px auto 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.personal-site .zf-controls button { font: 500 14px/1 'DM Sans', system-ui, sans-serif; color: #151413; background: transparent; border: 1.5px solid #151413; border-radius: 0; padding: 10px 14px; cursor: pointer; min-height: 42px; }
+.personal-site .zf-controls button.primary { background: #151413; color: #fff; }
+.personal-site .zf-controls button:hover:not(:disabled) { background: rgba(21, 20, 19, .07); }
+.personal-site .zf-controls button.primary:hover:not(:disabled) { background: #34322e; }
+.personal-site .zf-controls button:disabled { color: #9a968e; border-color: #b9b5ad; border-style: dashed; cursor: default; background: transparent; }
+.personal-site .zf-controls button:focus-visible { outline: 2px solid #151413; outline-offset: 3px; }
+.personal-site .zf-group { display: inline-flex; gap: 8px 10px; }
+.personal-site .zf-status { flex: 1 1 100%; margin: 4px 0 0; font-size: 15px; line-height: 1.5; color: var(--ink); min-height: 3em; }
+@media (max-width: 600px) {
+  .personal-site .zf-controls, .personal-site .zf-figure figcaption { padding: 0 10px; }
+  .personal-site .zf-controls { gap: 6px 8px; margin-top: 12px; }
+  .personal-site .zf-controls button { font-size: 13.5px; padding: 10px 12px; min-height: 44px; }
+  .personal-site .zf-status { min-height: 4.5em; font-size: 14px; }
+}

@@ -4,6 +4,28 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**October 3, late — after the compaction (open work, in order):**
+1. Done: the three essays are built into the site (/notes/zinify as a photocopier zine, /notes/power-quality
+   with an oscilloscope, and the Glyp board game on /notes/startr-postmortem), and the nav label is now
+   "Writing & projects" (URL stays /work; footer and homepage shelf link renamed). Lint, build and the 45-page
+   check passed; merged to main. Next: send San the draft prose list in design/reviews/2026-10-03-essays/README.md
+   for him to rewrite in his own words, and answer his question about "we, at NIT Karnataka".
+2. San's poem "Nobody Owes Anything Now" (source: C:\Users\sanps\Downloads\message (5).txt, submitted to
+   Exastential): San said he is fine publishing it on sankala.me now. Build a poem page in its own art style
+   (idea: a hand-thrown cup turning on a wheel; text is the hero), list it under Writing & projects with a
+   cover, RSS, sitemap, llms mirror. It is set in an O'Neill cylinder, so link it from Another Sky later.
+3. Dyson Swarm reinvention: San asked to see ALL three ideas as samples, being built by three agents in
+   /home/san/Projects/dysonswarm/site/_design/prototypes/2026-10-reinvention/ (uncommitted):
+   travel-bureau/ (1970s airbrush travel posters), swarm-sky/ (glass-plate astronomy with a dated log, the swarm
+   growing on the real clock) and habitat-window/ (plein-air watercolour, the view inside Another Sky in real time).
+   Thumbnails go to design/prototypes/2026-10-code-drawn-art/previews/thumbs/dyson-*.jpg; add them to the gallery.
+4. Running agents: the arched-window mosaic extended to four scenes (four-frames-arch/), and the Paper
+   Robots proposal with the evidence loop as a full-page opening
+   (/home/san/Projects/paper-robots/site/design/prototypes/2026-10-evidence-opening/). Add each to the
+   gallery (https://claude.ai/artifact/1YKiNyoiy3MaTwJ7bw7nJi) when done.
+5. Pending San decisions: the landing style (clear line live; arch mosaic candidate); which Dyson Swarm concept;
+   the Paper Robots direction. The machine concurrency cap in ~/.claude/CLAUDE.md was raised from 4 to 32.
+
 **October 3 — the code-drawn redesign is live:** San asked to "get an amazing polished
 sankala.me published". Published as `aff959d` on `main` (Vercel production deploy
 succeeded). Live checks: every page at 1440 and 390 px without horizontal scroll or failing

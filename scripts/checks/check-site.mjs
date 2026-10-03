@@ -16,8 +16,11 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
-const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/toys/bee-sim/index.html']);
+const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+// Essays whose hand-made figure must mount: the route and the figure's canvas.
+const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas']];
+const writingCount = works.filter(work => work.formats.includes('writing')).length;
+const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
 
@@ -47,6 +50,16 @@ try {
       localAssets.forEach(asset => assets.add(asset));
       report.push({ route, width, title: await page.title(), heading, text: await page.locator('body').innerText() });
     }
+    // Each essay's figure mounts: its canvas gets drawn at a real size, without errors.
+    for (const [route, selector] of figures) {
+      errors = [];
+      await page.goto(origin + route, { waitUntil: 'networkidle' });
+      const canvas = page.locator(selector).first();
+      await canvas.scrollIntoViewIfNeeded();
+      // drawn at its displayed size, not left at the browser's default 300×150 canvas
+      await page.waitForFunction(sel => { const c = document.querySelector(sel); return c && c.clientWidth > 100 && c.width >= c.clientWidth * 0.9 && c.height >= c.clientHeight * 0.9; }, selector, { timeout: 15000 });
+      assert.deepEqual(errors, [], `Figure errors: ${route} at ${width}`);
+    }
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
     await page.goto(origin + '/work');
     assert.equal(await page.locator('[data-work]').count(), works.length, 'Every work on the Work page');
@@ -62,10 +75,10 @@ try {
     await page.getByRole('button', { name: 'Show all work' }).click();
     await page.waitForFunction(count => document.querySelectorAll('[data-work]').length === count, works.length, { timeout: 5000 });
     assert.equal(await page.locator('[data-work]').count(), works.length, 'Reset clears all filters');
-    for (const [route, label, count] of [['/writing', 'Writing', 3], ['/projects', 'Projects', 3], ['/lab', 'Projects', 3], ['/research', 'Research', 3], ['/notes', 'All', works.length], ['/work#films', 'Films', 2]]) {
+    for (const [route, label, count] of [['/writing', 'Writing', writingCount], ['/projects', 'Projects', 3], ['/lab', 'Projects', 3], ['/research', 'Research', 3], ['/notes', 'All', works.length], ['/work#films', 'Films', 2]]) {
       await page.goto(origin + route, { waitUntil: 'networkidle' });
       await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, count, { timeout: 5000 });
-      assert.equal((await page.locator('h1').innerText()).trim(), 'Work', `Old route shows the Work page: ${route}`);
+      assert.equal((await page.locator('h1').innerText()).trim(), 'Writing & projects', `Old route shows the Writing & projects page: ${route}`);
       assert.equal(await page.getByRole('button', { name: new RegExp('^' + label) }).getAttribute('aria-pressed'), 'true', `Old route is pre-filtered: ${route}`);
       assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://www.sankala.me/work', `Old route points search engines at /work: ${route}`);
     }
@@ -92,19 +105,19 @@ try {
     for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     assert.equal(await nav.getByRole('link').count(), 4, `Four destinations in the menu at ${width}`);
-    for (const label of ['Work', 'Timeline', 'About', 'CV']) {
+    for (const label of ['Writing & projects', 'Timeline', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
-    await nav.getByRole('link', { name: 'Work', exact: true }).click();
+    await nav.getByRole('link', { name: 'Writing & projects', exact: true }).click();
     await page.locator('[data-work]').first().waitFor();
     await page.getByRole('button', { name: /^Writing/ }).click();
-    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
+    await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, writingCount, { timeout: 5000 });
     await page.getByRole('link', { name: 'How we won an AI-agent competition', exact: true }).click();
     await page.waitForURL('**/notes/eai-challenge');
     assert.ok(page.url().endsWith('/notes/eai-challenge'), 'Work opens the original rich article');
     await page.getByRole('link', { name: 'Back to Writing' }).click();
-    await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
-    assert.equal(await page.locator('[data-work]').count(), 3, 'Article returns to the writing filter');
+    await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, writingCount, { timeout: 5000 });
+    assert.equal(await page.locator('[data-work]').count(), writingCount, 'Article returns to the writing filter');
     await page.getByRole('button', { name: /^Projects/ }).click();
     await page.waitForFunction(() => document.querySelectorAll('[data-work]').length === 3, null, { timeout: 5000 });
     assert.equal(await page.getByRole('link', { name: 'Explore the space habitat', exact: false }).getAttribute('href'), 'https://dysonswarm.com/another-sky/', 'Project opens the actual interactive');
@@ -124,7 +137,7 @@ try {
     assert.ok(html.includes('rel="canonical"'), `Canonical in initial HTML: ${route}`);
   }
   const workHtml = await (await fetch(origin + '/work/')).text();
-  assert.ok(workHtml.includes('<h1>Work</h1>'), 'Prerendered Work page');
+  assert.ok(workHtml.includes('<h1>Writing &amp; projects</h1>'), 'Prerendered Work page');
   for (const work of works) assert.ok(workHtml.includes(work.displayTitle.replaceAll('&', '&amp;')), `Prerendered Work page lists: ${work.title}`);
 
   for (const asset of assets) {

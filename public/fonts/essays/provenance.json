@@ -1,0 +1,204 @@
+[
+  {
+    "family": "IBM Plex Mono",
+    "weights": [
+      500,
+      600,
+      700
+    ],
+    "usedBy": "src/pages/notes/power-quality/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/OFL.txt",
+    "licenseFile": "ibm-plex-mono-OFL.txt",
+    "files": [
+      "ibm-plex-mono-500.woff2",
+      "ibm-plex-mono-600.woff2",
+      "ibm-plex-mono-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Caveat",
+    "weights": [
+      600
+    ],
+    "usedBy": "src/pages/notes/power-quality/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Caveat:wght@600",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/caveat/OFL.txt",
+    "licenseFile": "caveat-OFL.txt",
+    "files": [
+      "caveat-600.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Alfa Slab One",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Alfa+Slab+One",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/alfaslabone/OFL.txt",
+    "licenseFile": "alfa-slab-one-OFL.txt",
+    "files": [
+      "alfa-slab-one-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Bowlby One SC",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Bowlby+One+SC",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/bowlbyonesc/OFL.txt",
+    "licenseFile": "bowlby-one-sc-OFL.txt",
+    "files": [
+      "bowlby-one-sc-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Special Elite",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Special+Elite",
+    "licenseKind": "Apache License 2.0",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/apache/specialelite/LICENSE.txt",
+    "licenseFile": "special-elite-LICENSE.txt",
+    "files": [
+      "special-elite-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "UnifrakturCook",
+    "weights": [
+      700
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/unifrakturcook/OFL.txt",
+    "licenseFile": "unifrakturcook-OFL.txt",
+    "files": [
+      "unifrakturcook-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Rubik Mono One",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Rubik+Mono+One",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/rubikmonoone/OFL.txt",
+    "licenseFile": "rubik-mono-one-OFL.txt",
+    "files": [
+      "rubik-mono-one-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Playfair Display SC",
+    "weights": [
+      900
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Playfair+Display+SC:wght@900",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplaysc/OFL.txt",
+    "licenseFile": "playfair-display-sc-OFL.txt",
+    "files": [
+      "playfair-display-sc-900.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Stardos Stencil",
+    "weights": [
+      700
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@700",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/stardosstencil/OFL.txt",
+    "licenseFile": "stardos-stencil-OFL.txt",
+    "files": [
+      "stardos-stencil-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Permanent Marker",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/zinify/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Permanent+Marker",
+    "licenseKind": "Apache License 2.0",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/apache/permanentmarker/LICENSE.txt",
+    "licenseFile": "permanent-marker-LICENSE.txt",
+    "files": [
+      "permanent-marker-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Shrikhand",
+    "weights": [
+      400
+    ],
+    "usedBy": "src/pages/notes/startr-postmortem/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Shrikhand",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/shrikhand/OFL.txt",
+    "licenseFile": "shrikhand-OFL.txt",
+    "files": [
+      "shrikhand-400.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Barlow Condensed",
+    "weights": [
+      500,
+      700
+    ],
+    "usedBy": "src/pages/notes/startr-postmortem/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/OFL.txt",
+    "licenseFile": "barlow-condensed-OFL.txt",
+    "files": [
+      "barlow-condensed-500.woff2",
+      "barlow-condensed-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "Rokkitt",
+    "weights": [
+      500,
+      700
+    ],
+    "usedBy": "src/pages/notes/startr-postmortem/ (figure lettering, drawn on canvas)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Rokkitt:wght@500;700",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/rokkitt/OFL.txt",
+    "licenseFile": "rokkitt-OFL.txt",
+    "files": [
+      "rokkitt-500-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  }
+]

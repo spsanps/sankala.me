@@ -18,6 +18,9 @@ export const routes = [
     { path: '/writing', element: <Work preset="writing" /> },
     { path: '/projects', element: <Work preset="projects" /> },
     { path: '/notes/:slug', element: <NoteEntry /> },
+    // Essays with their own hand-made figure; the figure code loads only on these pages.
+    { path: '/notes/zinify', lazy: async () => ({ Component: (await import('../pages/notes/zinify/ZinifyEssay')).default }) },
+    { path: '/notes/power-quality', lazy: async () => ({ Component: (await import('../pages/notes/power-quality/PowerQualityEssay')).default }) },
     { path: '/history', element: <History /> },
     { path: '/research', element: <Work preset="research" /> },
     { path: '/about', element: <About /> },

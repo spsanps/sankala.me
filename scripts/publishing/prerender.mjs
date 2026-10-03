@@ -12,7 +12,7 @@ const template = shell.replace(/<title\b[^>]*>[\s\S]*?<\/title>/g, '').replace(/
 // /writing, /projects, /research, /notes and /lab are the Work page, filtered; they are prerendered
 // so old links load instantly, but only /work goes in the sitemap.
 const aliases = ['/writing', '/projects', '/notes', '/research', '/lab'];
-const paths = ['/', '/work', ...aliases, '/history', '/about', '/resume', '/notes/startr-postmortem', '/404'];
+const paths = ['/', '/work', ...aliases, '/history', '/about', '/resume', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/404'];
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', ssr: { noExternal: ['react-helmet-async'], resolve: { externalConditions: ['module-sync'] } } });
 try {
   const { render } = await server.ssrLoadModule('/src/entry-server.jsx');
@@ -25,7 +25,7 @@ try {
 } finally { await server.close(); }
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
 const url = w => w.url.startsWith('/') ? 'https://www.sankala.me' + w.url : w.url;
-const feed = `<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>San Kala — work &amp; ideas</title><link>https://www.sankala.me/</link><description>Research, writing, films, and experiments.</description><language>en</language><atom:link href="https://www.sankala.me/feed.xml" rel="self" type="application/rss+xml"/>${works.map(w => `<item><title>${esc(w.title)}</title><link>${esc(url(w))}</link><guid isPermaLink="true">${esc(url(w))}</guid><description>${esc(w.description)}</description></item>`).join('')}</channel></rss>`;
+const feed = `<?xml version="1.0" encoding="utf-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>San Kala — work &amp; ideas</title><link>https://www.sankala.me/</link><description>Research, writing, films, and experiments.</description><language>en</language><atom:link href="https://www.sankala.me/feed.xml" rel="self" type="application/rss+xml"/>${works.map(w => `<item><title>${esc(w.title)}</title><link>${esc(url(w))}</link><guid isPermaLink="true">${esc(w.feedId ? 'https://www.sankala.me' + w.feedId : url(w))}</guid><description>${esc(w.description)}</description></item>`).join('')}</channel></rss>`;
 await writeFile(resolve(dist,'feed.xml'),feed);
 const sitemapPaths = [...paths.filter(p => p !== '/404' && !aliases.includes(p)), '/essays/gpt7-will-have-arms', '/notes/eai-challenge', '/toys/bee-sim/index.html'];
 await writeFile(resolve(dist,'sitemap.xml'),`<?xml version="1.0" encoding="utf-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${sitemapPaths.map(path => `<url><loc>https://www.sankala.me${path}</loc></url>`).join('')}</urlset>`);

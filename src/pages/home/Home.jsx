@@ -23,7 +23,7 @@ export default function Home() {
       <div className="home-shelf-text">
         <h2 id="shelf-title">Writing &amp; work</h2>
         <p>Essays, research, films and things to open in your browser. Each one has its own cover, drawn in code.</p>
-        <p className="home-shelf-links"><SiteLink href="/work">All work</SiteLink><SiteLink href="/work?type=writing">Writing</SiteLink><SiteLink href="/work?type=projects">Projects</SiteLink><SiteLink href="/work?type=research">Research</SiteLink></p>
+        <p className="home-shelf-links"><SiteLink href="/work">All writing & projects</SiteLink><SiteLink href="/work?type=writing">Writing</SiteLink><SiteLink href="/work?type=projects">Projects</SiteLink><SiteLink href="/work?type=research">Research</SiteLink></p>
       </div>
       <ol className="home-covers">{shelf.map(work => <li key={work.slug}>
         <SiteLink href={work.url} className="home-cover">
