@@ -16,6 +16,26 @@ audience-first redesign of sankala.me and a clear relationship with a possible
 free Substack and the YouTube channel. San explicitly puts audience before
 professional opportunities and has no existing Substack. No existing newsletter
 or email list has been identified.
+San's decision, October 2: keep the GPT-7 Will Have Arms essay as it is (its images,
+video and share card); only minor background changes if unavoidable. The rest of the
+site-wide art direction (`docs/design/2026-10-02-site-wide-art-direction.md`) is his
+go-ahead to implement, on the local branch `code-drawn-art`, uncommitted until he reviews.
+Latest decisions, October 2 (code-drawn art review): San approved code-drawn covers
+for all essays/work ("absolutely love"), and wants every past and future essay to get
+an interactive or media treatment like the Winning by Overfitting figures, with a style
+chosen per essay. The landing page follows "four frames" (one desk in four places) but
+in ONE style, drawn with more effort, as a full-page experience (v2 in progress in
+`design/prototypes/2026-10-code-drawn-art/four-frames/`). Rejected: Komorebi (literal
+copy), the code-drawn film scene ("pretty bad"), style changes tied to time, and the
+noisy riso of Four places. Plates has no use yet. For Paper Robots, "made not generated"
+is liked but needs expanding later; the evidence loop could open the Paper Robots site
+full-page. Animated posters may suit a later Dyson Swarm redesign.
+Earlier exploration, October 2: San asked what his visual references say about
+him before any production. The reading is `docs/design/2026-10-02-visual-taste-analysis.md`
+(hypotheses, not decisions): a person visibly present, time made visible through slow
+loops, warmth, a quiet frame around one living thing, and effort as care. Six code-drawn
+samples await his reaction in `design/prototypes/2026-10-code-drawn-art/`. When he shares
+references, explain why he likes them before building.
 Latest feedback, September 9: San rejected the TI/eBay replacement cover photos
 as visually poor. The implementation now uses three cover photos: the portrait,
 NeurIPS award with his brother, and the complete UCSD group photograph. The TI/eBay
@@ -92,6 +112,12 @@ San's latest release instruction (2026-09-05): ship the current film cut and kee
 the editorial/opening feedback for future films. Do not reopen a recut or make an
 extra viewer-feedback round a launch prerequisite. All three current thumbnails
 and complementary titles are prepared; his many-arms concept stays first.
+
+Naming (San, 2026-10-02): refer to his brother as "Chin", linked to https://chin.bio
+where markup allows, never "my brother". San co-founded Glyp (StartR accelerator, 2023);
+the site may say so plainly, linked to the post-mortem. Describe his background by what he
+did: computer science at UC San Diego, chip design at Texas Instruments, electrical
+engineering at NIT Karnataka.
 
 For social copy, San prefers light edits close to his own conversational wording.
 He rejected polished launch copy as sounding AI-written. Preserve his voice;

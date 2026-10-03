@@ -37,3 +37,6 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Full-size design previews and videos stay local; thumbnails are committed
+design/prototypes/*/previews/full/

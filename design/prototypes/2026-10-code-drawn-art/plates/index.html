@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Now · San Kala</title>
+<meta name="description" content="What San Kala is doing this month, drawn by hand in code. One plate a month, each in a process he has not tried before.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Archivo+Black&family=Big+Shoulders+Stencil+Display:wght@700;800&family=Cormorant+SC:wght@500;600&display=swap">
+<!--
+  DESIGN — Plates
+  One quiet page, the way sankala.me already reads: Fraunces for names and headings,
+  DM Sans for everything else, ink on a near-white sheet, one blue for links.
+  The only colour on the page comes from the plates. The container never changes:
+  equal 4:5 plates, steady gutters, month / words / process in the same three lines.
+  Each filled plate is a process San has not used before (none of riso, cyanotype,
+  engraving, linocut, woodblock, gouache, origami, cross-stitch, letterpress,
+  screenprint, camcorder halftone or Swiss poster from the first samples):
+    Dec 2025  mezzotint            image burnished up out of a rocked black plate
+    Jan 2026  sumi ink wash        bristle strokes, wet bleed, dry brush, a vermilion date seal
+    Jul 2026  suminagashi          real floating-ink displacement maths, rings that keep drifting
+    Sep 2026  pochoir              hand-stencilled gouache, pompon dabbing, misregistration
+    Oct 2026  paper-cut collage    cut and torn paper, white torn cores, shadows that follow the light
+  Empty months stay empty: paper, pencil registration marks, the month. Nothing invented.
+  Refused: AI beige, decorative italics, side tabs, pulsing dots, glossy gradients,
+  shadowed cards, ratings, emoji. Type is the interface; links are underlined.
+-->
+<style>
+  :root {
+    --sheet: #f8f6f1;
+    --ink: #1c1b20;
+    --gray: #6e6a64;
+    --faint: #dcd6cb;
+    --link: #2440c2;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --gutter: clamp(18px, 4vw, 48px);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--sheet); color: var(--ink); font: 400 16px/1.6 var(--sans); padding-inline: var(--gutter); }
+  a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+  .page { max-width: 1120px; margin: 0 auto; padding-block: 28px 64px; display: grid; gap: 56px; }
+
+  .top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 28px; }
+  .name { font: 500 21px/1.2 var(--serif); color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+  .nav { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
+
+  .page-main { display: grid; gap: inherit; }
+  .intro { display: grid; gap: 10px; max-width: 38rem; }
+  h1 { font: 500 clamp(40px, 6vw, 60px)/1 var(--serif); letter-spacing: -0.025em; margin: 0; }
+  .updated { color: var(--gray); font-size: 14px; font-variant-numeric: tabular-nums; }
+  .intro p { margin: 0; font-size: 17px; }
+
+  .current { margin: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: end; }
+  .current .plate { width: 100%; }
+  .current figcaption { display: grid; gap: 12px; padding-bottom: 6px; }
+  .current .month { font: 500 15px/1.3 var(--sans); }
+  .current .say { font: 400 clamp(22px, 2.4vw, 28px)/1.3 var(--serif); letter-spacing: -0.01em; margin: 0; text-wrap: pretty; }
+  .current .process { color: var(--gray); font-size: 14px; }
+
+  .plate { position: relative; aspect-ratio: 4 / 5; max-width: 100%; background: var(--faint); overflow: hidden; }
+  .plate canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+  .year { display: grid; gap: 22px; }
+  .year-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; border-top: 1px solid var(--faint); padding-top: 18px; }
+  h2 { font: 500 26px/1.2 var(--serif); letter-spacing: -0.01em; margin: 0; }
+  .play { font: 500 15px/1.4 var(--sans); color: var(--link); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  .play:hover { text-decoration-thickness: 2px; }
+  .note { color: var(--gray); font-size: 14px; margin: 0; max-width: 44rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px 24px; list-style: none; margin: 0; padding: 0; }
+  .grid li { display: grid; gap: 10px; align-content: start; min-width: 0; }
+  .cap { display: grid; gap: 1px; font-size: 14px; line-height: 1.4; }
+  .cap .m { font-weight: 500; }
+  .cap .w { color: var(--ink); }
+  .cap .p { color: var(--gray); }
+  .grid li.empty .w { color: var(--gray); }
+
+  footer { border-top: 1px solid var(--faint); padding-top: 18px; color: var(--gray); font-size: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; }
+
+  .reel { position: fixed; inset: 0; z-index: 10; background: #000; }
+  .reel[hidden] { display: none; }
+  .reel canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .reel .close { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: 16px; font: 500 14px/1 var(--sans); color: #fff; background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.5); padding: 9px 12px; cursor: pointer; }
+
+  @media (max-width: 860px) {
+    .current { grid-template-columns: minmax(0, 1fr); }
+    .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 16px; }
+  }
+  @media (max-width: 520px) {
+    .page { gap: 44px; padding-block: 20px 48px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="name" href="https://www.sankala.me/">San Kala</a>
+    <nav class="nav" aria-label="Site">
+      <a href="https://www.sankala.me/writing">Writing</a>
+      <a href="https://www.sankala.me/projects">Projects</a>
+      <a href="https://www.sankala.me/research">Research</a>
+      <a href="https://www.sankala.me/about">About</a>
+      <a href="https://www.sankala.me/resume">CV</a>
+    </nav>
+  </header>
+
+  <main class="page-main">
+    <section class="intro" aria-labelledby="now-title">
+      <h1 id="now-title">Now</h1>
+      <div class="updated">Updated October 2026</div>
+      <p>What I’m doing this month, drawn by hand in code. One plate a month, each made in a process I haven’t tried before.</p>
+    </section>
+
+    <figure class="current">
+      <div class="plate" data-plate="2026-10" data-hero="1"><canvas role="img" aria-label="October 2026, paper-cut collage: cut and torn paper references — a book, stacked bowls, a watercolour tin, a film strip, a torn sun, a small cobalt robot head — gathered around a blank sheet, with scissors."></canvas></div>
+      <figcaption>
+        <div class="month">October 2026</div>
+        <p class="say">Working out what my taste actually is, and whether art drawn by hand in code belongs on my sites.</p>
+        <div class="process">Paper-cut collage, drawn in code</div>
+      </figcaption>
+    </figure>
+
+    <section class="year" aria-labelledby="year-title">
+      <div class="year-head">
+        <h2 id="year-title">The year in plates</h2>
+        <button class="play" type="button" id="play">Play the year</button>
+      </div>
+      <p class="note">One plate per month. Plates before October were drawn later, as a demonstration of the practice. Empty months stay empty.</p>
+      <ol class="grid" id="grid"></ol>
+    </section>
+  </main>
+
+  <footer>
+    <span>A /now page: what I’d tell a friend I hadn’t seen in a year.</span>
+    <span>san@sankala.me</span>
+  </footer>
+</div>
+
+<div class="reel" id="reel" hidden role="dialog" aria-modal="true" aria-label="The year in plates">
+  <canvas id="reel-canvas"></canvas>
+  <button class="close" type="button" id="reel-close">Close</button>
+</div>
+
+<script src="js/kit.js"></script>
+<script src="js/plate-mezzotint.js"></script>
+<script src="js/plate-sumi.js"></script>
+<script src="js/plate-marbling.js"></script>
+<script src="js/plate-pochoir.js"></script>
+<script src="js/plate-collage.js"></script>
+<script src="js/plate-blank.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

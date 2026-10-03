@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capricious God, the Opening</title>
+<meta name="description" content="The opening of How to Please a Capricious God (Paper Robots, film 02), re-staged as a 37-second scene drawn entirely in code in egg tempera and gold leaf.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500&family=Fraunces:opsz,wght@9..144,600;9..144,900&display=swap">
+<style>
+  /* A screening room: the dark is the panel's own bone-brown shadow, the film is
+     the only light. Controls are words, set like a caption, never on the picture. */
+  :root { --ground: #120d0a; --ink: #eee3cb; --muted: #a49580; --gold: #c9a24e; --rule: #2e241c; color-scheme: dark; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--ground); color: var(--ink); }
+  body { font: 400 17px/1.5 "EB Garamond", Georgia, "Times New Roman", serif; }
+  main { max-width: min(1312px, calc((100svh - 210px) * 16 / 9 + 32px)); min-width: min(100%, 720px); margin: 0 auto; padding: 32px 16px 44px; display: grid; gap: 16px; }
+  .label { font-variant: all-small-caps; letter-spacing: 0.08em; color: var(--muted); font-size: 1.02rem; }
+  h1 { font: 500 1.55rem/1.2 "EB Garamond", Georgia, serif; margin: 2px 0 0; text-wrap: balance; }
+  .film { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #0b0806; }
+  .film canvas { display: block; width: 100%; height: 100%; }
+  .status { position: absolute; inset: auto 0 0 0; padding: 0 0 16px; text-align: center; color: var(--muted); font-size: 0.95rem; }
+  .controls { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  button { background: none; border: 0; color: var(--ink); font: inherit; font-variant: all-small-caps; letter-spacing: 0.08em; font-size: 1.05rem; cursor: pointer; padding: 6px 0; text-decoration: underline; text-underline-offset: 0.22em; text-decoration-thickness: 1px; }
+  button:hover { color: #fff6df; text-decoration-thickness: 2px; }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  button[disabled] { opacity: 0.45; cursor: default; }
+  .scrub { flex: 1 1 220px; min-width: 0; accent-color: var(--gold); }
+  .time { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.95rem; }
+  .note { color: var(--muted); font-size: 0.97rem; max-width: 64ch; margin: 4px 0 0; }
+  .note a { color: var(--ink); }
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px 16px; }
+  .board figure { margin: 0; display: grid; gap: 6px; }
+  .board canvas { width: 100%; aspect-ratio: 16 / 9; display: block; background: #0b0806; }
+  .board figcaption { font-size: 0.93rem; color: var(--muted); }
+  .board figcaption strong { color: var(--ink); font-weight: 500; }
+  @media (max-width: 640px) {
+    main { padding: 20px 0 36px; gap: 14px; }
+    header, .controls, .note, .board { padding-inline: 16px; }
+  }
+  /* frame mode (?t=): only the picture, filling the viewport */
+  .frame main { max-width: none; padding: 0; min-height: 100vh; place-items: center; }
+  .frame header, .frame .controls, .frame .note, .frame .board, .frame .status { display: none; }
+  .frame .film { width: min(100vw, calc(100vh * 16 / 9)); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="label">Paper Robots · film 02 · the opening, re-staged</div>
+    <h1>How to Please a Capricious God</h1>
+  </header>
+
+  <div class="film">
+    <canvas id="film" width="1280" height="720" aria-label="The opening of How to Please a Capricious God: a small green one-eyed creature opens its eye; above it an enormous red eye opens in a field of gold; from above, a star of shadows spreads from its feet; the god's eye appears reflected in its pupil; it steps forward and raises its arms to the eye."></canvas>
+    <div class="status" id="status" role="status">Laying the gold…</div>
+  </div>
+
+  <div class="controls">
+    <button type="button" id="play" disabled>Play</button>
+    <button type="button" id="replay" disabled>From the start</button>
+    <input class="scrub" id="scrub" type="range" min="0" max="37.4" step="0.01" value="0" aria-label="Position in the scene" disabled>
+    <span class="time" id="time">0:00 / 0:37</span>
+  </div>
+
+  <p class="note">Drawn entirely in code: egg tempera on a gessoed panel and water-gilded gold leaf, simulated. The gold is the god, and its eye opens in the leaf. The words are the script’s first six sentences, timed to the recorded read. There is no sound in this study; the notes say where it would land.</p>
+
+  <section class="board" id="board" aria-label="Storyboard" hidden></section>
+</main>
+<script src="js/kit.js"></script>
+<script src="js/paint.js"></script>
+<script src="js/film.js"></script>
+<script src="js/player.js"></script>
+</body>
+</html>

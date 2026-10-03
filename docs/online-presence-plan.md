@@ -1,8 +1,42 @@
 # Online presence plan
 
-Created: 2026-09-05. Last discussed: 2026-09-09. Time zone: America/Los_Angeles.
+Created: 2026-09-05. Last discussed: 2026-10-02. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
+
+**October 2 — visual taste reading and code-drawn art samples:** San shared his
+`Visual Taste.html` reference collection (the content, not that page's styling,
+is the brief) and the "Still Point" animation, and asked what his references say
+about him and whether hand-coded animation could belong on his sites. He asked
+for the meta-analysis first ("why do I like this... what was I trying to get at")
+and noted that Allysen's homepage works because of its looping shadow video. The
+reading (hypotheses and predictions, not decisions) is in
+[`design/2026-10-02-visual-taste-analysis.md`](design/2026-10-02-visual-taste-analysis.md).
+Six pure-code samples (komorebi, four places, covers, a zine explainer for the
+EAI write-up, the robot in eight materials, a camcorder loop) are in
+`design/prototypes/2026-10-code-drawn-art/` and on a private gallery page:
+https://claude.ai/artifact/1YKiNyoiy3MaTwJ7bw7nJi. Open questions for San: which
+samples feel like him, whether image-generated Paper Robots art bothers him the way
+"too AI-made" did, and whether he will share a short phone clip of light in his own
+place for comparison. Nothing is placed on a live site.
+Same day: San liked most samples but rejected Komorebi as a literal copy and asked for a
+synthesis. Three proposals were built and added to the gallery: Four desks (homepage),
+Plates (monthly /now practice) and Paper Robots, made not generated (per-film kits).
+Recommended: Four desks for sankala.me. Awaiting San's reaction and his answers on what
+is actually on his desk and outside his window. Two further tests were added to the
+gallery before his decision: a 37-second code-drawn film scene from Capricious God
+(verdict: a full film is feasible in his staging style with weeks of tooling) and the
+EAI write-up as an essay with interactive hand-drawn figures.
+San's review (same day): covers adopted for all essays and work; every essay gets an
+interactive or media treatment in a style chosen for it; the landing page goes ahead as
+"four frames" in one style (ligne claire with gouache was chosen as the single style
+for legibility), full-page, with the art large and the text scrolling in a quiet lane;
+the film scene and Plates practice are not used; Paper Robots kits and the evidence
+loop as a full-page opening are for a later Paper Robots pass.
+Production work on the local branch `code-drawn-art` (uncommitted, not deployed): covers on
+/writing and /notes with share cards (not GPT-7), the hand-drawn figures in the EAI essay,
+"Chin" naming, the co-founder line, and light copy fixes in the EAI and StartR essays.
+Four frames v2 (one style, full page) is in the gallery for San's review.
 
 **September 9 — Web Analytics verified on both sites:** San requested Vercel
 Analytics and pasted the Next.js import. The personal site is Vite/React and

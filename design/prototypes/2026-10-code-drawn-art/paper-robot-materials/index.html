@@ -1,0 +1,2400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One Robot, Many Hands</title>
+<meta name="description" content="The Paper Robots robot holds still while the world is re-made around it in eight hand processes, drawn entirely in code.">
+<style>
+  html, body { margin: 0; height: 100%; background: #efe3c8; overflow: hidden; }
+  canvas { display: block; position: fixed; inset: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<h1 class="sr">One robot, many hands — the Paper Robots robot in eight hand processes</h1>
+<canvas id="art" role="img" aria-label="A small blue folded-paper robot with a red disc ear stands on a stone plinth before a sun. Every two seconds the whole picture is re-made in a different hand process: gouache, cyanotype, linocut, risograph, banknote engraving, origami, woodblock and cross-stitch, while the robot keeps blinking and glancing around."></canvas>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN — One robot, many hands                      Paper Robots · sting/hero
+
+   The idea
+   The Paper Robots robot holds one pose in one composition while the world
+   is re-made around it every two seconds by a different hand process. The
+   subject is the constant; the material is the voice. Every process is
+   simulated (how the ink or thread or light actually behaves), not a filter
+   over the same picture. Eight beats × 2 s = a seamless 16 s loop that ends
+   by cutting back to the house style. Thesis: every way to put a robot on
+   paper (and one on cloth).
+
+   The skeleton (defined once, in robot units — see SKELETON)
+   Cube head with a dog-eared white corner (top right), two round eyes, a
+   vermilion disc ear on the right side; neck, torso, arms, hands, legs, feet;
+   a stone plinth; a sun disc behind. Fixed oblique projection: top = lit,
+   front = middle, side = shade. Idle motion is shared by all eight: head
+   tilt, blinks, a saccade to a new glance at each cut, a small pop when the
+   world changes, the ear catching light.
+
+   The beats — the colour is the cut (each field differs from its neighbours)
+   1 GOUACHE      paper #efe3c8  cobalt #2a4db4 / top #5a80d8 / side #172e80
+                  vermilion #e3492a  sun #f2bc4e  stone #d9b070  hills #7c93d2
+                  bristle strokes, blotches, pigment pooled at edges, dry-brush,
+                  granulation; sunflowers from the channel banner.
+   2 CYANOTYPE    paper #f3f0e5  mid #4a78bb  deep #0f2c6c
+                  photogram: the robot is a paper cut-out (tissue tops, cartridge
+                  fronts, card sides), eyes are holes, the ear a cellophane
+                  window; ferns and grasses; brushed emulsion with dry ends;
+                  per-pixel exposure → Prussian blue density, lifted edges blur.
+   3 LINOCUT      paper #eeae2a  ink #1d1a2b
+                  one block: white-line separations, per-plane gouge hatching,
+                  rays cut from the sky; hand print with brayer streaks, paper
+                  tooth breaking the solids.
+   4 RISOGRAPH    paper #f3efe6  fluorescent pink #ff48b0  blue #0078bf
+                  two drums: grain dither for tints, AM halftone at 45° on the
+                  sun, blue drum out of register, multiply overprint to violet,
+                  starved floods.
+   5 ENGRAVING    paper #ebedd9  intaglio #1d3631  serial red #b4372b
+                  underprint #f2cfa6 → #bfe0d2
+                  burin lines that swell with tone, each plane cut in its own
+                  direction, cross-hatched shade; lathe-work oval, guilloche rope
+                  border, epitrochoid rosettes, microprinted ring.
+   6 ORIGAMI      wall #d4412a  floor #e2573c  kami #2747aa  kraft #c99c63
+                  a photographed paper model: Lambert-ish planes, edge light,
+                  pre-creases, white underside at the dog-ear, glued eyes with
+                  shadows, a folded sun, soft cast shadows, shallow depth of field.
+   7 WOODBLOCK    washi #eee3c9  sumi #2a2521  bero #24497f  shu #c94429
+                  mist #e7b9a3  hills #8ea0bf  green #7f9157  pine #3f5a3a
+                  key block + colour blocks with wood grain and baren swirl,
+                  bokashi wipes, registration drift, figure carved out of every
+                  block behind it, mist bands left unprinted, a seal.
+   8 CROSS-STITCH cloth #1b1a20  threads: cobalt #2f57c8 sky #86a9ee navy #1a2a78
+                  white #f3efe6 vermilion #e2492d gold #f4b53d green #4d8a3b
+                  black aida, modelled X stitches (bottom leg, top leg, strand
+                  twist), backstitch outlines and lettering, French knots; the
+                  head is re-stitched each frame, so it tilts and blinks stitch
+                  by stitch.
+
+   Rules
+   — One composition for every beat; only the hand changes.
+   — Each print carries its own edition mark ("n/8 PROCESS" · "PAPER ROBOTS")
+     in that medium's idiom: pencil, printed ink, engraving, backstitch.
+   — Seeded randomness everywhere; ?t=<seconds> renders one exact frame.
+   — No image files, no libraries: canvas 2D only, including the lettering
+     (a single-stroke alphabet drawn as polylines).
+
+   Refusals
+   No AI beige, no decorative italic serif, no side-tab borders, no pulsing
+   dots, no glossy gradients standing in for material, no interface chrome.
+   No borrowed characters: the figure is the Paper Robots robot.
+   ═══════════════════════════════════════════════════════════════════════════ */
+// ───────────────────────────────────────────────────────────── utilities
+const TAU = Math.PI * 2;
+const clamp = (v, a = 0, b = 1) => v < a ? a : v > b ? b : v;
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+const fract = v => v - Math.floor(v);
+
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function hash2(x, y, s = 0) {
+  let h = Math.imul(x | 0, 374761393) + Math.imul(y | 0, 668265263) + Math.imul(s | 0, 982451653);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  h ^= h >>> 16;
+  return (h >>> 0) / 4294967296;
+}
+function vnoise(x, y, s = 0) {
+  const xi = Math.floor(x), yi = Math.floor(y);
+  const xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = hash2(xi, yi, s), b = hash2(xi + 1, yi, s), c = hash2(xi, yi + 1, s), d = hash2(xi + 1, yi + 1, s);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+function fbm(x, y, oct = 4, s = 0, lac = 2.03, gain = 0.5) {
+  let sum = 0, amp = 0.5, norm = 0;
+  for (let i = 0; i < oct; i++) { sum += amp * vnoise(x, y, s + i * 17); norm += amp; x *= lac; y *= lac; amp *= gain; }
+  return sum / norm;
+}
+function hexRGB(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function rgba(c, a = 1) { return `rgba(${c[0] | 0},${c[1] | 0},${c[2] | 0},${a})`; }
+function mixRGB(a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
+function shadeRGB(c, k) { return k >= 0 ? mixRGB(c, [255, 255, 255], k) : mixRGB(c, [0, 0, 0], -k); }
+
+function makeCanvas(w, h) {
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.ceil(w)); c.height = Math.max(1, Math.ceil(h));
+  return c;
+}
+function ctxOf(c) { return c.getContext('2d', { willReadFrequently: false }); }
+
+// polygon helpers ---------------------------------------------------------
+function polyPath(ctx, pts, close = true) {
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  if (close) ctx.closePath();
+}
+function fillPoly(ctx, pts, style) { ctx.beginPath(); polyPath(ctx, pts); ctx.fillStyle = style; ctx.fill(); }
+function centroid(pts) { let x = 0, y = 0; for (const p of pts) { x += p[0]; y += p[1]; } return [x / pts.length, y / pts.length]; }
+function bboxOf(pts) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const p of pts) { if (p[0] < x0) x0 = p[0]; if (p[1] < y0) y0 = p[1]; if (p[0] > x1) x1 = p[0]; if (p[1] > y1) y1 = p[1]; }
+  return { x0, y0, x1, y1, w: x1 - x0, h: y1 - y0 };
+}
+function insidePoly(x, y, pts) {
+  let c = false;
+  for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+    const [xi, yi] = pts[i], [xj, yj] = pts[j];
+    if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) c = !c;
+  }
+  return c;
+}
+// subdivide each edge and jitter perpendicular: hand-cut / hand-carved edges
+function wobble(pts, step, amp, rnd, close = true) {
+  const out = [];
+  const n = pts.length;
+  for (let i = 0; i < (close ? n : n - 1); i++) {
+    const a = pts[i], b = pts[(i + 1) % n];
+    const dx = b[0] - a[0], dy = b[1] - a[1], len = Math.hypot(dx, dy);
+    const k = Math.max(1, Math.round(len / step));
+    const nx = -dy / (len || 1), ny = dx / (len || 1);
+    for (let j = 0; j < k; j++) {
+      const t = j / k;
+      const o = j === 0 ? amp * 0.3 * (rnd() - 0.5) : amp * (rnd() - 0.5);
+      out.push([a[0] + dx * t + nx * o, a[1] + dy * t + ny * o]);
+    }
+  }
+  if (!close) out.push(pts[n - 1]);
+  return out;
+}
+// inset polygon (convex, CW or CCW agnostic) by d
+function insetPoly(pts, d) {
+  const c = centroid(pts);
+  return pts.map(p => { const dx = p[0] - c[0], dy = p[1] - c[1], l = Math.hypot(dx, dy) || 1; return [p[0] - dx / l * d, p[1] - dy / l * d]; });
+}
+function lerpPt(a, b, t) { return [lerp(a[0], b[0], t), lerp(a[1], b[1], t)]; }
+function ellipsePts(cx, cy, rx, ry, n = 48, rot = 0) {
+  const out = [];
+  for (let i = 0; i < n; i++) { const a = i / n * TAU; const x = Math.cos(a) * rx, y = Math.sin(a) * ry; out.push([cx + x * Math.cos(rot) - y * Math.sin(rot), cy + x * Math.sin(rot) + y * Math.cos(rot)]); }
+  return out;
+}
+// clip a segment p0-p1 to convex/concave polygon via sampling (returns list of [t0,t1])
+function segInside(p0, p1, pts, samples = 80) {
+  const res = []; let start = -1;
+  for (let i = 0; i <= samples; i++) {
+    const t = i / samples, x = lerp(p0[0], p1[0], t), y = lerp(p0[1], p1[1], t);
+    const ins = insidePoly(x, y, pts);
+    if (ins && start < 0) start = t;
+    if ((!ins || i === samples) && start >= 0) { res.push([start, ins ? t : t - 1 / samples]); start = -1; }
+  }
+  return res;
+}
+
+// pixel helpers -----------------------------------------------------------
+// Generators yield to let the real-time scheduler slice heavy work across frames.
+function* pixelRows(h, fn) { for (let y = 0; y < h; y++) { fn(y); if ((y & 15) === 15) yield; } }
+// grayscale field into a canvas
+function* fieldToCanvas(c, fn) {
+  const w = c.width, h = c.height, ctx = ctxOf(c), img = ctx.createImageData(w, h), d = img.data;
+  yield* pixelRows(h, y => { for (let x = 0; x < w; x++) { const i = (y * w + x) * 4; const v = fn(x, y); d[i] = v[0]; d[i + 1] = v[1]; d[i + 2] = v[2]; d[i + 3] = v[3] === undefined ? 255 : v[3]; } });
+  ctx.putImageData(img, 0, 0);
+}
+function readAlpha(c) {
+  const d = ctxOf(c).getImageData(0, 0, c.width, c.height).data;
+  const a = new Float32Array(c.width * c.height);
+  for (let i = 0; i < a.length; i++) a[i] = d[i * 4 + 3] / 255;
+  return a;
+}
+function readGray(c) {
+  const d = ctxOf(c).getImageData(0, 0, c.width, c.height).data;
+  const a = new Float32Array(c.width * c.height);
+  for (let i = 0; i < a.length; i++) a[i] = d[i * 4] / 255;
+  return a;
+}
+// separable box blur on a float field (approx gaussian with 3 passes)
+function blurField(src, w, h, r) {
+  r = Math.max(1, Math.round(r));
+  let a = Float32Array.from(src), b = new Float32Array(src.length);
+  const pass = (inp, out, horiz) => {
+    const n = horiz ? w : h, m = horiz ? h : w, inv = 1 / (2 * r + 1);
+    for (let j = 0; j < m; j++) {
+      let acc = 0;
+      const idx = k => horiz ? j * w + clampI(k, 0, w - 1) : clampI(k, 0, h - 1) * w + j;
+      for (let k = -r; k <= r; k++) acc += inp[idx(k)];
+      for (let i = 0; i < n; i++) {
+        out[horiz ? j * w + i : i * w + j] = acc * inv;
+        acc += inp[idx(i + r + 1)] - inp[idx(i - r)];
+      }
+    }
+  };
+  for (let k = 0; k < 3; k++) { pass(a, b, true); pass(b, a, false); }
+  return a;
+}
+const clampI = (v, a, b) => v < a ? a : v > b ? b : v;
+// apply a multiply texture within existing alpha (keeps the layer's silhouette)
+function multiplyWithin(ctx, tex, sx = 0, sy = 0, alpha = 1) {
+  const c = ctx.canvas, keep = makeCanvas(c.width, c.height), k = ctxOf(keep);
+  k.drawImage(c, 0, 0);
+  ctx.save(); ctx.globalAlpha = alpha; ctx.globalCompositeOperation = 'multiply';
+  ctx.drawImage(tex, sx, sy, c.width, c.height, 0, 0, c.width, c.height);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(keep, 0, 0);
+  ctx.restore();
+}
+
+// ───────────────────────────────────────────── single-stroke hand lettering
+// Each glyph is drawn on a 4×6 grid as polylines; materials decide the hand:
+// pencil, thread, gouge, burin, chalk-white cyanotype pencil.
+const GLYPHS = {
+  A: [[0, 6, 2, 0, 4, 6], [0.8, 3.9, 3.2, 3.9]],
+  B: [[0, 6, 0, 0, 2.7, 0, 3.7, 0.8, 3.7, 2.2, 2.7, 3, 0, 3], [2.7, 3, 4, 3.9, 4, 5.1, 3, 6, 0, 6]],
+  C: [[4, 1, 3, 0, 1, 0, 0, 1, 0, 5, 1, 6, 3, 6, 4, 5]],
+  D: [[0, 0, 0, 6, 2.4, 6, 4, 4.4, 4, 1.6, 2.4, 0, 0, 0]],
+  E: [[4, 0, 0, 0, 0, 6, 4, 6], [0, 3, 3, 3]],
+  F: [[4, 0, 0, 0, 0, 6], [0, 3, 3, 3]],
+  G: [[4, 1, 3, 0, 1, 0, 0, 1, 0, 5, 1, 6, 3, 6, 4, 5, 4, 3.4, 2.2, 3.4]],
+  H: [[0, 0, 0, 6], [4, 0, 4, 6], [0, 3, 4, 3]],
+  I: [[1, 0, 3, 0], [2, 0, 2, 6], [1, 6, 3, 6]],
+  J: [[4, 0, 4, 5, 3, 6, 1, 6, 0, 5]],
+  K: [[0, 0, 0, 6], [4, 0, 0, 3.7], [1.3, 2.6, 4, 6]],
+  L: [[0, 0, 0, 6, 4, 6]],
+  M: [[0, 6, 0, 0, 2, 3.6, 4, 0, 4, 6]],
+  N: [[0, 6, 0, 0, 4, 6, 4, 0]],
+  O: [[1, 0, 3, 0, 4, 1, 4, 5, 3, 6, 1, 6, 0, 5, 0, 1, 1, 0]],
+  P: [[0, 6, 0, 0, 3, 0, 4, 1, 4, 2.4, 3, 3.4, 0, 3.4]],
+  Q: [[1, 0, 3, 0, 4, 1, 4, 5, 3, 6, 1, 6, 0, 5, 0, 1, 1, 0], [2.6, 4.6, 4.2, 6.4]],
+  R: [[0, 6, 0, 0, 3, 0, 4, 1, 4, 2.4, 3, 3.4, 0, 3.4], [2, 3.4, 4, 6]],
+  S: [[4, 1, 3, 0, 1, 0, 0, 1, 0, 2.2, 1, 3, 3, 3, 4, 3.8, 4, 5, 3, 6, 1, 6, 0, 5]],
+  T: [[0, 0, 4, 0], [2, 0, 2, 6]],
+  U: [[0, 0, 0, 5, 1, 6, 3, 6, 4, 5, 4, 0]],
+  V: [[0, 0, 2, 6, 4, 0]],
+  W: [[0, 0, 1, 6, 2, 2.4, 3, 6, 4, 0]],
+  X: [[0, 0, 4, 6], [4, 0, 0, 6]],
+  Y: [[0, 0, 2, 3], [4, 0, 2, 3, 2, 6]],
+  Z: [[0, 0, 4, 0, 0, 6, 4, 6]],
+  0: [[1, 0, 3, 0, 4, 1, 4, 5, 3, 6, 1, 6, 0, 5, 0, 1, 1, 0]],
+  1: [[0.8, 1.3, 2, 0, 2, 6], [1, 6, 3, 6]],
+  2: [[0, 1, 1, 0, 3, 0, 4, 1, 4, 2.4, 0, 6, 4, 6]],
+  3: [[0, 1, 1, 0, 3, 0, 4, 1, 4, 2, 3, 3, 1.6, 3], [3, 3, 4, 4, 4, 5, 3, 6, 1, 6, 0, 5]],
+  4: [[3, 6, 3, 0, 0, 4.2, 4, 4.2]],
+  5: [[4, 0, 0.4, 0, 0, 3, 2.8, 2.6, 4, 3.6, 4, 5, 3, 6, 1, 6, 0, 5]],
+  6: [[3.6, 0.4, 2.6, 0, 1, 0, 0, 1.4, 0, 5, 1, 6, 3, 6, 4, 5, 4, 3.6, 3, 2.8, 1, 2.8, 0, 3.8]],
+  7: [[0, 0, 4, 0, 1.4, 6]],
+  8: [[1, 3, 0, 2, 0, 1, 1, 0, 3, 0, 4, 1, 4, 2, 3, 3, 1, 3, 0, 4, 0, 5, 1, 6, 3, 6, 4, 5, 4, 4, 3, 3]],
+  9: [[4, 2.4, 3, 3.2, 1, 3.2, 0, 2.2, 0, 1, 1, 0, 3, 0, 4, 1, 4, 5, 3, 6, 1, 6, 0.4, 5.4]],
+  '/': [[0, 6.3, 4, -0.3]],
+  '-': [[0.8, 3, 3.2, 3]],
+  '+': [[2, 1.4, 2, 4.6], [0.4, 3, 3.6, 3]],
+  '|': [[2, 0, 2, 6]],
+  '.': [[1.7, 5.7, 2.3, 6]],
+  '·': [[1.7, 3, 2.3, 3]],
+  '&': [[4, 6, 1, 2, 1, 1, 2, 0, 3, 1, 3, 2, 0, 4, 0, 5, 1, 6, 2.6, 6, 4, 4]],
+};
+// returns polylines in px; size = cap height. tracking in glyph units.
+function textStrokes(str, x, y, size, tracking = 1.7, rnd = null, jitter = 0) {
+  const k = size / 6, lines = []; let cx = x;
+  for (const ch of str.toUpperCase()) {
+    if (ch === ' ') { cx += (4 + tracking) * k * 0.8; continue; }
+    const g = GLYPHS[ch]; if (!g) { cx += (4 + tracking) * k; continue; }
+    for (const s of g) {
+      const pl = [];
+      for (let i = 0; i < s.length; i += 2) pl.push([cx + s[i] * k + (rnd ? (rnd() - 0.5) * jitter : 0), y + s[i + 1] * k + (rnd ? (rnd() - 0.5) * jitter : 0)]);
+      lines.push(pl);
+    }
+    cx += (4 + tracking) * k;
+  }
+  return lines;
+}
+function textWidth(str, size, tracking = 1.7) {
+  const k = size / 6; let w = 0;
+  for (const ch of str.toUpperCase()) w += ch === ' ' ? (4 + tracking) * k * 0.8 : (4 + tracking) * k;
+  return w - tracking * k;
+}
+// resample polyline at even spacing
+function resample(pl, step) {
+  const out = [pl[0]];
+  for (let i = 1; i < pl.length; i++) {
+    const a = pl[i - 1], b = pl[i], l = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const n = Math.max(1, Math.ceil(l / step));
+    for (let j = 1; j <= n; j++) out.push(lerpPt(a, b, j / n));
+  }
+  return out;
+}
+// graphite pencil: several thin passes with grain gaps
+function pencil(ctx, lines, rnd, color = 'rgba(60,58,66,0.55)', w = 1.1) {
+  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const pl of lines) {
+    const pts = resample(pl, 1.6);
+    for (let pass = 0; pass < 3; pass++) {
+      ctx.beginPath();
+      let pen = false;
+      for (const p of pts) {
+        const gap = rnd() < 0.12;
+        const x = p[0] + (rnd() - 0.5) * w * 0.7, y = p[1] + (rnd() - 0.5) * w * 0.7;
+        if (gap) { pen = false; continue; }
+        if (!pen) { ctx.moveTo(x, y); pen = true; } else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = color; ctx.lineWidth = w * (0.6 + rnd() * 0.5); ctx.stroke();
+    }
+  }
+  ctx.restore();
+}
+// ───────────────────────────────────────────────────────────── the skeleton
+// The robot is defined ONCE, in robot units (feet at y = 0, head top ≈ −1.07,
+// x centred). A fixed oblique projection shows the front, the top and the right
+// side of every block: light comes from the upper left, so top = light,
+// front = middle, side = dark. Every material interprets these same faces.
+const DEPTH = [0.27, -0.21];               // screen offset per unit of depth
+
+function box(id, x, y, w, h, d, extra = {}) {
+  const dx = DEPTH[0] * d, dy = DEPTH[1] * d;
+  return Object.assign({
+    id, kind: 'box', x, y, w, h, d,
+    front: [[x, y], [x + w, y], [x + w, y + h], [x, y + h]],
+    top: [[x, y], [x + dx, y + dy], [x + w + dx, y + dy], [x + w, y]],
+    side: [[x + w, y], [x + w + dx, y + dy], [x + w + dx, y + h + dy], [x + w, y + h]],
+  }, extra);
+}
+
+const FACE_TONE = { top: 0.12, front: 0.42, side: 0.78 };   // 0 = lit, 1 = dark
+const PIVOT = [-0.005, -0.565];                               // neck top: head tilts here
+
+const SKELETON = (() => {
+  const parts = [
+    box('plinth', -0.40, 0.03, 0.74, 0.12, 0.34, { group: 'ground' }),
+    box('footL', -0.168, -0.055, 0.128, 0.055, 0.16, { group: 'body' }),
+    box('legL', -0.150, -0.240, 0.094, 0.190, 0.10, { group: 'body' }),
+    box('footR', 0.004, -0.055, 0.128, 0.055, 0.16, { group: 'body' }),
+    box('legR', 0.020, -0.240, 0.094, 0.190, 0.10, { group: 'body' }),
+    box('armL', -0.262, -0.498, 0.082, 0.200, 0.10, { group: 'body' }),
+    box('handL', -0.268, -0.312, 0.094, 0.072, 0.11, { group: 'body' }),
+    box('torso', -0.190, -0.510, 0.360, 0.290, 0.22, { group: 'body' }),
+    box('armR', 0.188, -0.505, 0.082, 0.200, 0.10, { group: 'body' }),
+    box('handR', 0.182, -0.318, 0.094, 0.072, 0.11, { group: 'body' }),
+    box('neck', -0.062, -0.590, 0.112, 0.080, 0.12, { group: 'body' }),
+    box('head', -0.300, -0.985, 0.550, 0.420, 0.42, { group: 'head' }),
+  ];
+  const head = parts[parts.length - 1];
+  // the folded corner: the head's top-front-right corner is dog-eared and its
+  // white underside faces us. hinge runs from a point on the top edge to a
+  // point down the side; the flap's tip lands back on the top face.
+  const hingeA = [0.150, -0.985], hingeB = [0.296, -0.835];
+  const tip = [0.318, -1.050];
+  const fold = { hingeA, hingeB, tip, flap: [hingeA, tip, hingeB],
+    // the patch of head the flap no longer covers (front corner + side corner)
+    gone: [hingeA, [0.25, -0.985], [0.25 + DEPTH[0] * 0.42 * 0.18, -0.985 + DEPTH[1] * 0.42 * 0.18], hingeB] };
+  const eyes = [{ cx: -0.142, cy: -0.748, r: 0.068 }, { cx: 0.030, cy: -0.748, r: 0.068 }];
+  const ear = { cx: 0.312, cy: -0.752, rx: 0.044, ry: 0.070, rim: 0.016 };
+  const sun = { cx: -0.035, cy: -0.735, r: 0.56 };
+  return { parts, head, fold, eyes, ear, sun, horizon: 0.15 };
+})();
+
+// faces in painter's order, with the semantic tone of each
+function facesOf(filter) {
+  const out = [];
+  for (const p of SKELETON.parts) {
+    if (filter && !filter(p)) continue;
+    for (const f of ['side', 'top', 'front']) out.push({ part: p, face: f, pts: p[f], tone: FACE_TONE[f] });
+  }
+  return out;
+}
+function silhouetteParts(group) { return SKELETON.parts.filter(p => group === undefined || p.group === group); }
+
+// ───────────────────────────────────────────────────────────── idle motion
+// All periodic in the 16-second loop, so the loop is seamless.
+const LOOP = 16, BEAT = 2;
+const BLINKS = [1.25, 5.62, 6.0, 10.35, 13.7];
+const LOOKS = [ // pupil target per beat (in eye-radius units): the robot glances at each new world
+  [0.30, 0.10], [0.36, -0.18], [-0.22, 0.12], [0.40, 0.22], [0.05, 0.28], [0.38, -0.05], [-0.18, -0.16], [0.30, 0.14]];
+function idle(t) {
+  t = ((t % LOOP) + LOOP) % LOOP;
+  const tilt = (2.1 * Math.sin(TAU * t * 2 / LOOP + 0.5) + 0.9 * Math.sin(TAU * t * 3 / LOOP + 2.1)) * Math.PI / 180;
+  let blink = 0;
+  for (const b of BLINKS) { const d = t - b; if (d > -0.09 && d < 0.13) blink = Math.max(blink, d < 0 ? 1 - Math.abs(d) / 0.09 : 1 - d / 0.13); }
+  blink = clamp(blink * 1.25);
+  const beat = Math.floor(t / BEAT) % 8, tb = t - beat * BEAT;
+  const prev = LOOKS[(beat + 7) % 8], cur = LOOKS[beat];
+  const k = smooth(0.02, 0.14, tb);                      // quick saccade just after the cut
+  const drift = 0.05 * Math.sin(TAU * t / LOOP * 5);
+  const look = [lerp(prev[0], cur[0], k) + drift, lerp(prev[1], cur[1], k) + drift * 0.5];
+  const glint = fract(t / LOOP);
+  // each cut lands like a small jolt: the head pops up and settles (damped)
+  const pop = 0.010 * Math.exp(-tb * 9) * Math.sin(Math.min(tb, 1) * 24);
+  const bob = 0.0025 * Math.sin(TAU * t * 4 / LOOP) - pop;
+  return { t, tilt, blink, look, glint, bob, beat, tb };
+}
+
+// ───────────────────────────────────────────────────────────── layout
+function makeLayout(W, H, R) {
+  const portrait = H > W * 1.05;
+  let s, ox, oy;
+  if (!portrait) {
+    s = Math.min(H * 0.70 / 1.23, W * 0.62 / 0.86);
+    ox = W * 0.5; oy = H * 0.865 - 0.15 * s;
+  } else {
+    s = Math.min(W * 0.86 / 0.86, H * 0.47 / 1.23);
+    ox = W * 0.5; oy = H * 0.755 - 0.15 * s;
+  }
+  // everything below is in device pixels
+  const S = s * R, OX = ox * R, OY = oy * R;
+  const P = p => [OX + p[0] * S, OY + p[1] * S];
+  const PP = pts => pts.map(P);
+  const L = { W: W * R, H: H * R, R, s: S, ox: OX, oy: OY, P, PP, portrait,
+    u: S / 500, // a unit that tracks the poster's scale
+    m: Math.min(W, H) * R * 0.045, // print margin
+  };
+  // head crop (generous margin: tilt + fold tip + ear)
+  const hb = bboxOf(PP([...SKELETON.head.top, ...SKELETON.head.front, ...SKELETON.head.side, SKELETON.fold.tip,
+    [SKELETON.ear.cx + SKELETON.ear.rx * 1.6, SKELETON.ear.cy]]));
+  const mg = 0.06 * S;
+  L.headCrop = { x: Math.floor(hb.x0 - mg), y: Math.floor(hb.y0 - mg), w: Math.ceil(hb.w + mg * 2), h: Math.ceil(hb.h + mg * 2) };
+  L.pivot = P(PIVOT);
+  return L;
+}
+// ───────────────────────────────────────────── shared surfaces and helpers
+const MATERIALS = [];
+function defMaterial(m) { MATERIALS.push(m); }
+
+// Paper: a low-frequency mottle (computed small, upscaled smooth), a full-res
+// tooth, and fibres. Returns an opaque canvas of the paper colour.
+function* makePaper(L, col, o = {}) {
+  const { mottle = 0.06, tooth = 0.05, fibres = 260, fibreCol = null, seed = 1, warm = 0 } = o;
+  const W = L.W, H = L.H, c = makeCanvas(W, H), ctx = ctxOf(c);
+  const sw = Math.ceil(W / 6), sh = Math.ceil(H / 6), small = makeCanvas(sw, sh);
+  const base = hexRGB(col);
+  yield* fieldToCanvas(small, (x, y) => {
+    const n = fbm(x / 34, y / 34, 4, seed) - 0.5, n2 = fbm(x / 9, y / 9, 2, seed + 5) - 0.5;
+    const k = n * mottle * 2.2 + n2 * mottle * 0.8;
+    return [base[0] * (1 + k) + warm * n, base[1] * (1 + k), base[2] * (1 + k) - warm * n];
+  });
+  ctx.imageSmoothingQuality = 'high';
+  ctx.drawImage(small, 0, 0, W, H);
+  // tooth: fine speckle via ImageData
+  const img = ctx.getImageData(0, 0, W, H), d = img.data;
+  yield* pixelRows(H, y => {
+    for (let x = 0; x < W; x++) {
+      const i = (y * W + x) * 4;
+      const g = (hash2(x, y, seed + 99) - 0.5) * tooth * 255 + (vnoise(x / 2.3, y / 2.3, seed + 3) - 0.5) * tooth * 180;
+      d[i] += g; d[i + 1] += g; d[i + 2] += g;
+    }
+  });
+  ctx.putImageData(img, 0, 0);
+  // fibres
+  const rnd = mulberry32(seed * 7 + 3), fc = fibreCol ? hexRGB(fibreCol) : shadeRGB(base, -0.12);
+  ctx.lineCap = 'round';
+  const n = Math.round(fibres * W * H / (1440 * 900));
+  for (let i = 0; i < n; i++) {
+    const x = rnd() * W, y = rnd() * H, a = rnd() * TAU, l = (6 + rnd() * 22) * L.u;
+    ctx.beginPath(); ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + Math.cos(a + 0.6) * l * 0.5, y + Math.sin(a + 0.6) * l * 0.5, x + Math.cos(a) * l, y + Math.sin(a) * l);
+    const light = rnd() < 0.5;
+    ctx.strokeStyle = light ? rgba(shadeRGB(base, 0.35), 0.35) : rgba(fc, 0.22);
+    ctx.lineWidth = (0.5 + rnd() * 0.7) * L.u; ctx.stroke();
+  }
+  return c;
+}
+
+// wobbly edges in device px for a polygon given in robot units
+function facePx(L, pts, rnd, step = 7, amp = 1.4) { return wobble(L.PP(pts), step * L.u, amp * L.u, rnd); }
+
+// a soft drop shadow shape (blurred) drawn onto ctx
+// rendered in a canvas the size of the shape, so the blur never touches the whole frame
+function softShadow(ctx, pts, color, blur) {
+  const bb = bboxOf(pts), m = Math.ceil(blur * 2.5), k = blur > 6 ? 0.5 : 1;
+  const w = Math.ceil((bb.w + m * 2) * k), h = Math.ceil((bb.h + m * 2) * k);
+  if (w < 1 || h < 1) return;
+  const c = makeCanvas(w, h), x = ctxOf(c);
+  x.filter = `blur(${Math.max(0.5, blur * k)}px)`;
+  x.scale(k, k); x.translate(-bb.x0 + m, -bb.y0 + m); fillPoly(x, pts, color);
+  ctx.drawImage(c, bb.x0 - m, bb.y0 - m, w / k, h / k);
+}
+
+// edition mark in the corner: "3/8  LINOCUT" left, "PAPER ROBOTS" right
+function editionLayout(L, size) {
+  const m = L.m, y = L.H - m - size;
+  return { left: [m, y], right: [L.W - m, y], size };
+}
+
+// Stroke polylines with a gouache brush (used by the painted look)
+function brushStroke(ctx, pl, w, col, alpha, rnd) {
+  const pts = resample(pl, Math.max(2, w * 0.4));
+  for (let pass = 0; pass < 3; pass++) {
+    ctx.beginPath();
+    pts.forEach((p, i) => { const x = p[0] + (rnd() - 0.5) * w * 0.25, y = p[1] + (rnd() - 0.5) * w * 0.25; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.strokeStyle = rgba(col, alpha * (0.6 + rnd() * 0.4)); ctx.lineWidth = w * (0.7 + rnd() * 0.45);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
+  }
+}
+
+// a wide blur done small: draw down, blur, draw back up (cheap, and soft anyway)
+function blurredCopy(src, r, alpha = 1) {
+  const k = r > 6 ? 0.25 : r > 2.5 ? 0.5 : 1;
+  const sw = Math.ceil(src.width * k), sh = Math.ceil(src.height * k), small = makeCanvas(sw, sh), sc = ctxOf(small);
+  sc.filter = `blur(${Math.max(0.5, r * k)}px)`; sc.drawImage(src, 0, 0, sw, sh);
+  const out = makeCanvas(src.width, src.height), oc = ctxOf(out);
+  oc.imageSmoothingQuality = 'high'; oc.globalAlpha = alpha; oc.drawImage(small, 0, 0, src.width, src.height);
+  return out;
+}
+// ═════════════════════════════════════════ 1 · PAINTED — the Paper Robots look
+// Gouache on cream paper. Opaque cobalt laid in directional strokes; pigment
+// pools at the edge of every face; dry-brush lets the paper show through.
+defMaterial({
+  key: 'painted', label: 'GOUACHE', field: '#efe3c8',
+  pal: {
+    paper: '#efe3c8', cobalt: '#2a4db4', cobaltTop: '#5a80d8', cobaltSide: '#172e80', ink: '#191b2b',
+    eye: '#f8f1df', eyeShade: '#d8c39b', ver: '#e3492a', verDark: '#a52d18', sun: '#f2bc4e', sunEdge: '#e19a2c',
+    stoneTop: '#eed6a2', stone: '#d9b070', stoneSide: '#b4864a', leaf: '#5f7d33', leafDark: '#3d5821', petal: '#f3b62e', seed: '#3f2412',
+    hill: '#7c93d2', hillTop: '#a8bae6', hillSide: '#5f75bb', ground: '#e8d3a0',
+  },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(11), u = L.u;
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.05, tooth: 0.05, fibres: 240, seed: 3, warm: 6 });
+    out.paperTex = paper;
+    const base = makeCanvas(L.W, L.H), b = ctxOf(base);
+    b.drawImage(paper, 0, 0);
+    const hy = L.P([0, -0.02])[1];
+
+    // sun disc: a flat coat with a darker tide-line where the wash dried
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    const sunPts = wobble(ellipsePts(scx, scy, sr, sr, 140), 9 * u, 2.4 * u, rnd);
+    paintFace(b, sunPts, hexRGB(P.sun), { angle: 0.1, rnd, u, strokes: 260, var: 0.05, edge: hexRGB(P.sunEdge), edgeW: 9, granule: 0.35, bristle: 0.7 });
+    yield;
+    // distant hills: a pale cobalt wash laid wet, so its top edge blooms soft
+    for (const [x0, x1, hgt, seed, k] of [[-0.2, 0.42, 0.13, 31, 0.62], [0.55, 1.2, 0.17, 37, 0.55], [0.18, 0.86, 0.08, 39, 0.72]]) {
+      const r2 = mulberry32(seed), pts = [[x0 * L.W, hy + 2]];
+      for (let i = 0; i <= 40; i++) { const t2 = i / 40; pts.push([lerp(x0, x1, t2) * L.W, hy - hgt * L.s * Math.pow(Math.sin(Math.PI * t2), 0.8) * (0.8 + 0.25 * fbm(t2 * 4, seed, 2, seed))]); }
+      pts.push([x1 * L.W, hy + 2]);
+      const c = mixRGB(hexRGB(P.hill), hexRGB(P.paper), k);
+      b.save(); b.filter = `blur(${3 * u}px)`; fillPoly(b, pts, rgba(c, 0.9)); b.restore();
+      paintFace(b, pts, c, { angle: 0.05, rnd, u, strokes: 60, var: 0.05, edge: shadeRGB(c, -0.08), edgeW: 6, granule: 0.6, blotch: 0.8, alpha: 0.75 });
+    }
+    yield;
+    // the ground plane, lighter towards the horizon
+    const ground = [[-10, hy], [L.W + 10, hy], [L.W + 10, L.H + 10], [-10, L.H + 10]];
+    paintFace(b, ground, hexRGB(P.ground), { angle: 0.0, rnd, u, strokes: 420, var: 0.05, edge: hexRGB(P.ground), edgeW: 0.1, granule: 0.6, blotch: 1.5 });
+    b.save(); const gg = b.createLinearGradient(0, hy, 0, L.H);
+    gg.addColorStop(0, 'rgba(239,227,200,0.55)'); gg.addColorStop(0.35, 'rgba(239,227,200,0)'); gg.addColorStop(1, 'rgba(170,120,60,0.18)');
+    b.fillStyle = gg; b.fillRect(0, hy, L.W, L.H - hy); b.restore();
+    for (let i = 0; i < 70; i++) { // a few long, soft field strokes
+      const yy = hy + Math.pow(rnd(), 1.4) * (L.H - hy), x = rnd() * L.W, k = (yy - hy) / (L.H - hy);
+      brushStroke(b, [[x, yy], [x + (40 + rnd() * 160) * u * (0.3 + k), yy + (rnd() - 0.5) * 2 * u]], (2 + rnd() * 5) * u * (0.4 + k), shadeRGB(hexRGB(P.ground), -0.06 - rnd() * 0.08), 0.22, rnd);
+    }
+    yield;
+
+    // plinth + cast shadows
+    softShadow(b, L.PP([[-0.40, 0.15], [0.34, 0.15], [0.62, 0.21], [-0.14, 0.22]]), 'rgba(120,80,35,0.32)', 9 * u);
+    const plinth = SKELETON.parts[0];
+    for (const f of ['side', 'top', 'front']) {
+      const col = hexRGB(f === 'top' ? P.stoneTop : f === 'front' ? P.stone : P.stoneSide);
+      paintFace(b, facePx(L, plinth[f], rnd), col, { angle: f === 'side' ? 1.3 : 0.05, rnd, u, strokes: 200, var: 0.07, edge: shadeRGB(col, -0.22), edgeW: 4, granule: 1.6 });
+    }
+    // stone pits
+    for (let i = 0; i < 90; i++) { const pt = L.P([-0.40 + rnd() * 0.74, 0.04 + rnd() * 0.1]); b.fillStyle = 'rgba(140,95,45,0.35)'; b.beginPath(); b.arc(pt[0], pt[1], (0.6 + rnd() * 1.6) * u, 0, TAU); b.fill(); }
+    softShadow(b, L.PP([[-0.17, -0.005], [0.13, -0.005], [0.32, -0.045], [0.03, -0.045]]), 'rgba(110,70,30,0.34)', 5 * u);
+    // sunflowers at the foot of the plinth
+    sunflower(b, L, P, -0.60, 0.25, 0.36, 1.25, mulberry32(21));
+    sunflower(b, L, P, -0.74, 0.30, 0.26, 1.0, mulberry32(22));
+    sunflower(b, L, P, 0.58, 0.27, 0.30, 1.15, mulberry32(23));
+    yield;
+
+    // the body (everything except the head)
+    for (const p of SKELETON.parts) if (p.group === 'body') paintBlock(b, L, p, P, rnd);
+    softShadow(b, L.PP([[-0.17, -0.51], [0.17, -0.51], [0.24, -0.56], [-0.10, -0.56]]), 'rgba(10,20,70,0.38)', 4 * u);
+    yield;
+    const E = editionLayout(L, 9 * u);
+    pencil(b, textStrokes('1/8  GOUACHE', E.left[0], E.left[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(70,62,60,0.6)', 1.1 * u);
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E.size);
+    pencil(b, textStrokes(wm, E.right[0] - ww, E.right[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(70,62,60,0.6)', 1.1 * u);
+    b.save(); b.globalCompositeOperation = 'multiply'; b.globalAlpha = 0.4; b.drawImage(paper, 0, 0); b.restore();
+    out.base = base;
+
+    // head (no eyes) on its own transparent layer
+    const C = L.headCrop, head = makeCanvas(C.w, C.h), h = ctxOf(head);
+    h.translate(-C.x, -C.y);
+    paintBlock(h, L, SKELETON.head, P, rnd, true);
+    paintFold(h, L, P, rnd);
+    paintEar(h, L, P, rnd);
+    h.setTransform(1, 0, 0, 1, 0, 0);
+    multiplyWithin(h, paper, C.x, C.y, 0.55);
+    out.head = head;
+    out.eyeWhite = (ctx, cx, cy, r) => paintEyeWhite(ctx, cx, cy, r, P, mulberry32(5), u);
+    out.pupilCol = P.ink; out.lidCol = 'rgba(12,26,90,0.95)';
+    yield;
+  },
+  glint(ctx, c, L, st) {
+    const e = SKELETON.ear, [cx, cy] = L.P([e.cx, e.cy]);
+    const a = st.glint * TAU, rx = e.rx * L.s, ry = e.ry * L.s;
+    ctx.save(); ctx.globalAlpha = 0.45 + 0.35 * Math.sin(a * 2);
+    ctx.fillStyle = '#fbd2b8';
+    ctx.beginPath(); ctx.ellipse(cx - rx * 0.28 + Math.cos(a) * rx * 0.18, cy - ry * 0.46 + Math.sin(a) * ry * 0.08, rx * 0.2, ry * 0.11, -0.5, 0, TAU); ctx.fill();
+    ctx.restore();
+  },
+});
+
+// fill a polygon (device px) as an opaque gouache coat
+function paintFace(ctx, pts, col, o) {
+  const { angle = 0, rnd, u, strokes = 220, var: vr = 0.06, edge = shadeRGB(col, -0.25), edgeW = 5, granule = 0.8, alpha = 1, blotch = 1, bristle = 1 } = o;
+  const bb = bboxOf(pts), diag = Math.hypot(bb.w, bb.h);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  fillPoly(ctx, pts, rgba(col));
+  ctx.beginPath(); polyPath(ctx, pts); ctx.clip();
+  // 1 · soft blotches: the coat was laid in two or three loads of paint
+  const nb = Math.round((4 + rnd() * 6) * blotch);
+  for (let i = 0; i < nb; i++) {
+    const r = (0.18 + rnd() * 0.4) * diag, x = bb.x0 + rnd() * bb.w, y = bb.y0 + rnd() * bb.h;
+    const c2 = shadeRGB(col, (rnd() - 0.5) * 2 * vr * 2.6), sq = 0.5 + rnd() * 0.5, rot = rnd() * 3;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.scale(1, sq);
+    const rg = ctx.createRadialGradient(0, 0, 0, 0, 0, r * 1.3);
+    rg.addColorStop(0, rgba(c2, 0.5)); rg.addColorStop(0.6, rgba(c2, 0.38)); rg.addColorStop(1, rgba(c2, 0));
+    ctx.fillStyle = rg; ctx.fillRect(-r * 1.3, -r * 1.3, r * 2.6, r * 2.6); ctx.restore();
+  }
+  // 1b · dabs: short loaded touches that leave a patchy, hand-laid surface
+  const nd = Math.round(Math.min(900, (bb.w * bb.h) / (90 * u * u)) * blotch * 0.5);
+  for (let i = 0; i < nd; i++) {
+    const x = bb.x0 + rnd() * bb.w, y = bb.y0 + rnd() * bb.h, r = (3 + rnd() * 9) * u;
+    ctx.beginPath(); ctx.ellipse(x, y, r, r * (0.35 + rnd() * 0.4), angle + (rnd() - 0.5) * 0.8, 0, TAU);
+    ctx.fillStyle = rgba(shadeRGB(col, (rnd() - 0.5) * 2 * vr * 1.8), 0.16 + rnd() * 0.14); ctx.fill();
+  }
+  // 2 · bristle strokes: each stroke is a bundle of hairs that thin out
+  const area = (bb.w * bb.h) / (160000 * u * u);
+  const n = Math.round(strokes * Math.min(1.6, Math.max(0.2, area)) * bristle);
+  const ca = Math.cos(angle), sa = Math.sin(angle);
+  ctx.lineCap = 'round';
+  for (let i = 0; i < n; i++) {
+    const x = bb.x0 + rnd() * bb.w, y = bb.y0 + rnd() * bb.h, l = (0.12 + rnd() * 0.45) * diag;
+    const w = (5 + rnd() * 12) * u, k = (rnd() - 0.5) * 2 * vr, hairs = 5 + (rnd() * 5 | 0);
+    const bend = (rnd() - 0.5) * 0.2 * l;
+    const c = shadeRGB(col, k), a0 = 0.10 + rnd() * 0.18;
+    for (let hI = 0; hI < hairs; hI++) {
+      const off = (hI / (hairs - 1) - 0.5) * w, ox = -sa * off, oy = ca * off;
+      const ll = l * (0.55 + rnd() * 0.45);
+      ctx.beginPath(); ctx.moveTo(x - ca * ll / 2 + ox, y - sa * ll / 2 + oy);
+      ctx.quadraticCurveTo(x - sa * bend + ox, y + ca * bend + oy, x + ca * ll / 2 + ox, y + sa * ll / 2 + oy);
+      ctx.strokeStyle = rgba(shadeRGB(c, (rnd() - 0.5) * vr), a0 * (0.5 + rnd())); ctx.lineWidth = w / hairs * (0.8 + rnd() * 0.9); ctx.stroke();
+    }
+  }
+  // 3 · dry-brush: broken strokes that skip over the paper's tooth
+  for (let i = 0; i < n * 0.1; i++) {
+    const x = bb.x0 + rnd() * bb.w, y = bb.y0 + rnd() * bb.h, l = (0.08 + rnd() * 0.25) * diag;
+    ctx.setLineDash([(0.6 + rnd() * 3) * u, (0.8 + rnd() * 2.5) * u]);
+    ctx.beginPath(); ctx.moveTo(x - ca * l / 2, y - sa * l / 2); ctx.lineTo(x + ca * l / 2, y + sa * l / 2);
+    ctx.strokeStyle = rgba(shadeRGB(col, 0.22), 0.28); ctx.lineWidth = (1 + rnd() * 2.5) * u; ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  // 4 · pigment pooled along the edge as it dried
+  ctx.lineJoin = 'round';
+  for (const [k, a] of [[2.2, 0.16], [1.5, 0.2], [0.9, 0.26], [0.45, 0.3]]) {
+    ctx.beginPath(); polyPath(ctx, pts); ctx.strokeStyle = rgba(edge, a); ctx.lineWidth = edgeW * u * k; ctx.stroke();
+  }
+  ctx.beginPath(); polyPath(ctx, pts); ctx.strokeStyle = rgba(edge, 0.35); ctx.lineWidth = 1.1 * u; ctx.stroke();
+  // 5 · granulation: pigment settles in the paper's pits
+  const g = Math.round(n * 4 * granule);
+  for (let i = 0; i < g; i++) {
+    const x = bb.x0 + rnd() * bb.w, y = bb.y0 + rnd() * bb.h;
+    ctx.fillStyle = rnd() < 0.65 ? rgba(shadeRGB(col, -0.35), 0.28) : rgba(shadeRGB(col, 0.35), 0.22);
+    const s = (0.5 + rnd() * 1.3) * u; ctx.fillRect(x, y, s, s);
+  }
+  ctx.restore();
+}
+
+function paintBlock(ctx, L, p, P, rnd, isHead = false) {
+  const cols = { top: hexRGB(P.cobaltTop), front: hexRGB(P.cobalt), side: hexRGB(P.cobaltSide) };
+  const angle = { top: -0.2, front: 0.12, side: 1.25 };
+  for (const f of ['side', 'top', 'front']) {
+    let pts = p[f];
+    paintFace(ctx, wobble(insetPoly(L.PP(pts), 1.1 * L.u), 6 * L.u, 1.2 * L.u, rnd), cols[f], { angle: angle[f] + (rnd() - 0.5) * 0.3, rnd, u: L.u, strokes: isHead ? 520 : 200, var: 0.08, edge: shadeRGB(cols[f], -0.35), edgeW: isHead ? 6 : 4, granule: 0.9 });
+  }
+  // paper edge catching light on the top-front edge
+  const e = L.PP([p.front[0], p.front[1]]);
+  ctx.save(); ctx.setLineDash([12 * L.u, 3 * L.u, 30 * L.u, 4 * L.u]);
+  ctx.beginPath(); ctx.moveTo(e[0][0], e[0][1]); ctx.lineTo(e[1][0], e[1][1]);
+  ctx.strokeStyle = rgba(hexRGB('#9fb6ec'), 0.55); ctx.lineWidth = 1.6 * L.u; ctx.stroke(); ctx.restore();
+}
+
+function paintFold(ctx, L, P, rnd) {
+  const F = SKELETON.fold, u = L.u;
+  // the uncovered corner shows the inside of the head: deep shadow
+  fillPoly(ctx, L.PP(F.gone), rgba(hexRGB('#0f1d55'), 1));
+  // the lifted flap throws a small shadow down and to the right
+  softShadow(ctx, L.PP(F.flap).map(p => [p[0] + 3 * u, p[1] + 5 * u]), 'rgba(8,16,60,0.55)', 3 * u);
+  const flap = facePx(L, F.flap, rnd, 5, 0.8);
+  paintFace(ctx, flap, hexRGB(P.eye), { angle: 0.8, rnd, u, strokes: 90, var: 0.04, edge: hexRGB(P.eyeShade), edgeW: 5, granule: 0.3 });
+  // shade the half of the flap nearest the hinge
+  const [A, T, B] = L.PP(F.flap), M = lerpPt(A, B, 0.5);
+  ctx.save(); ctx.beginPath(); polyPath(ctx, flap); ctx.clip();
+  const g = ctx.createLinearGradient(M[0], M[1], T[0], T[1]);
+  g.addColorStop(0, 'rgba(160,130,90,0.38)'); g.addColorStop(0.55, 'rgba(160,130,90,0.0)');
+  ctx.fillStyle = g; ctx.fillRect(Math.min(A[0], T[0], B[0]) - 5, Math.min(A[1], T[1]) - 5, 400 * u, 400 * u);
+  ctx.restore();
+  // crease
+  ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]);
+  ctx.strokeStyle = 'rgba(30,40,90,0.55)'; ctx.lineWidth = 1.4 * u; ctx.stroke();
+}
+
+function paintEar(ctx, L, P, rnd) {
+  const e = SKELETON.ear, [cx, cy] = L.P([e.cx, e.cy]), rx = e.rx * L.s, ry = e.ry * L.s, rim = e.rim * L.s, u = L.u;
+  // disc thickness (rim) then the face
+  const rimPts = wobble(ellipsePts(cx - rim, cy + rim * 0.15, rx, ry, 60), 5 * u, 0.8 * u, rnd);
+  paintFace(ctx, rimPts, hexRGB(P.verDark), { angle: 1.4, rnd, u, strokes: 60, var: 0.05, edge: hexRGB('#7c2010'), edgeW: 3, granule: 0.6 });
+  const facePts = wobble(ellipsePts(cx, cy, rx, ry, 60), 5 * u, 0.8 * u, rnd);
+  paintFace(ctx, facePts, hexRGB(P.ver), { angle: 1.2, rnd, u, strokes: 90, var: 0.07, edge: hexRGB('#b8341c'), edgeW: 4, granule: 0.6 });
+  // concentric pressed ring
+  ctx.beginPath(); ctx.ellipse(cx, cy, rx * 0.62, ry * 0.62, 0, 0, TAU);
+  ctx.strokeStyle = 'rgba(140,35,15,0.35)'; ctx.lineWidth = 1.4 * u; ctx.stroke();
+}
+
+function paintEyeWhite(ctx, cx, cy, r, P, rnd, u) {
+  const pts = wobble(ellipsePts(cx, cy, r, r, 64), 4 * u, 0.9 * u, rnd);
+  paintFace(ctx, pts, hexRGB(P.eye), { angle: 0.3, rnd, u, strokes: 50, var: 0.03, edge: hexRGB(P.eyeShade), edgeW: 5, granule: 0.2 });
+  // lower-left shading: the eye is a slightly domed disc
+  ctx.save(); ctx.beginPath(); polyPath(ctx, pts); ctx.clip();
+  const g = ctx.createRadialGradient(cx + r * 0.35, cy - r * 0.35, r * 0.2, cx, cy, r * 1.1);
+  g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(170,140,95,0.45)');
+  ctx.fillStyle = g; ctx.fillRect(cx - r, cy - r, r * 2, r * 2); ctx.restore();
+}
+
+function sunflower(ctx, L, P, x, y, h, scale, rnd) {
+  const u = L.u, [bx, by] = L.P([x, y]), top = L.P([x + 0.03, y - h]);
+  const mid = [lerp(bx, top[0], 0.5) - 8 * u * scale, lerp(by, top[1], 0.5)];
+  // stem: a loaded stroke, darker on the shaded side
+  brushStroke(ctx, [[bx, by + 0.06 * L.s], mid, top], 6 * u * scale, hexRGB(P.leaf), 0.95, rnd);
+  brushStroke(ctx, [[bx + 2 * u, by + 0.06 * L.s], [mid[0] + 2 * u, mid[1]], [top[0] + 2 * u, top[1]]], 2.2 * u * scale, hexRGB(P.leafDark), 0.8, rnd);
+  for (let i = 0; i < 3; i++) {   // broad heart-shaped leaves
+    const t = 0.28 + i * 0.22, px = lerp(bx, top[0], t), py = lerp(by, top[1], t), dir = i % 2 ? 1 : -1;
+    const lw = (34 + rnd() * 10) * u * scale, lh = 15 * u * scale;
+    ctx.save(); ctx.translate(px, py); ctx.rotate(dir > 0 ? -0.55 - rnd() * 0.3 : Math.PI + 0.55 + rnd() * 0.3);
+    const pts = []; for (let k = 0; k <= 24; k++) { const a = k / 24; pts.push([a * lw, -Math.pow(Math.sin(a * Math.PI), 0.8) * lh * (1 - a * 0.3)]); }
+    for (let k = 24; k >= 0; k--) { const a = k / 24; pts.push([a * lw, Math.pow(Math.sin(a * Math.PI), 0.8) * lh * 0.55 * (1 - a * 0.3)]); }
+    paintFace(ctx, pts, hexRGB(i === 1 ? P.leafDark : P.leaf), { angle: 0.2, rnd, u, strokes: 26, var: 0.1, edgeW: 3, granule: 0.5, blotch: 0.5 });
+    ctx.beginPath(); ctx.moveTo(0, 0); ctx.quadraticCurveTo(lw * 0.5, -lh * 0.15, lw * 0.92, -lh * 0.05); ctx.strokeStyle = 'rgba(40,60,20,0.6)'; ctx.lineWidth = 1 * u; ctx.stroke();
+    ctx.restore();
+  }
+  const R = 20 * u * scale;
+  for (let ring = 0; ring < 2; ring++) {      // petals, each its own touch of paint
+    const n = 16 + ring * 4;
+    for (let i = 0; i < n; i++) {
+      const a = i / n * TAU + ring * 0.17 + rnd() * 0.12, l = R * (1.05 + rnd() * 0.3 - ring * 0.15);
+      ctx.save(); ctx.translate(top[0], top[1]); ctx.rotate(a);
+      const pts = [];
+      for (let k = 0; k <= 10; k++) { const t = k / 10; pts.push([R * 0.5 + l * t, -Math.sin(Math.PI * Math.pow(t, 0.8)) * l * 0.2]); }
+      for (let k = 10; k >= 0; k--) { const t = k / 10; pts.push([R * 0.5 + l * t, Math.sin(Math.PI * Math.pow(t, 0.8)) * l * 0.2]); }
+      const col = shadeRGB(hexRGB(P.petal), ring ? -0.12 - rnd() * 0.12 : (rnd() - 0.3) * 0.16);
+      fillPoly(ctx, pts, rgba(col));
+      ctx.beginPath(); polyPath(ctx, pts); ctx.strokeStyle = rgba(shadeRGB(col, -0.25), 0.55); ctx.lineWidth = 0.9 * u; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(R * 0.55, 0); ctx.lineTo(R * 0.5 + l * 0.75, (rnd() - 0.5) * 2 * u); ctx.strokeStyle = 'rgba(200,120,20,0.45)'; ctx.lineWidth = 1 * u; ctx.stroke();
+      ctx.restore();
+    }
+  }
+  ctx.beginPath(); ctx.arc(top[0], top[1], R * 0.66, 0, TAU); ctx.fillStyle = P.seed; ctx.fill();
+  for (let i = 0; i < 110; i++) {             // the seed spiral
+    const a = i * 2.39996, rr = Math.sqrt(i / 110) * R * 0.62;
+    ctx.fillStyle = i % 3 ? 'rgba(130,78,32,0.75)' : 'rgba(20,10,5,0.75)';
+    ctx.beginPath(); ctx.arc(top[0] + Math.cos(a) * rr, top[1] + Math.sin(a) * rr, 1.1 * u, 0, TAU); ctx.fill();
+  }
+  ctx.beginPath(); ctx.arc(top[0] - R * 0.15, top[1] - R * 0.18, R * 0.3, 0, TAU); ctx.fillStyle = 'rgba(255,200,120,0.12)'; ctx.fill();
+}
+// ═════════════════════════════════════════ 2 · CYANOTYPE — a sun-print photogram
+// Paper brushed with iron salts, the robot laid on it as a paper cut-out, ferns
+// beside it, exposed to the sun and washed. Where the cut-out blocked the
+// light the paper stays white; thin tissue lets some through (pale blue); the
+// eyes are holes (deep blue) with paper pupils dropped in. Edges lift off the
+// paper and blur. The emulsion was brushed on, so its border is ragged.
+defMaterial({
+  key: 'cyanotype', label: 'CYANOTYPE', field: '#14387f',
+  pal: { paper: '#f3f0e5', mid: '#4a78bb', deep: '#0f2c6c', stain: '#d9dcc4' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(202), u = L.u, W = L.W, H = L.H;
+    const m = L.m * 1.1;
+    // ── emulsion: a brushed rectangle with streaky, ragged ends
+    const em = makeCanvas(W, H), e = ctxOf(em);
+    e.fillStyle = '#000'; e.fillRect(0, 0, W, H);
+    const top = m, bot = H - m * 1.95, left = m, right = W - m;
+    e.fillStyle = '#fff'; e.fillRect(left + 80 * u, top + 22 * u, right - left - 160 * u, bot - top - 44 * u);
+    e.lineCap = 'round';
+    const rows = Math.ceil((bot - top) / (20 * u));
+    for (let i = 0; i <= rows; i++) {           // horizontal brush passes, each a bundle of hairs
+      const t = i / rows, y = lerp(top + 6 * u, bot - 6 * u, t) + (rnd() - 0.5) * 6 * u;
+      const edgeRow = t < 0.04 || t > 0.96;
+      const xs = left + (fbm(t * 5, 1, 2, 5) - 0.5) * 44 * u + 26 * u, xe = right - (fbm(t * 5, 9, 2, 6) - 0.5) * 44 * u - 26 * u;
+      const w = (22 + rnd() * 12) * u, hairs = 18;
+      for (let hI = 0; hI < hairs; hI++) {
+        const off = (hI / (hairs - 1) - 0.5) * w, yy = y + off;
+        const a0 = xs - Math.pow(rnd(), 3) * 18 * u + rnd() * 8 * u, a1 = xe + Math.pow(rnd(), 3) * 18 * u - rnd() * 10 * u;
+        const al = (edgeRow ? 0.25 : 0.5) + rnd() * 0.45, lw = w / hairs * (0.8 + rnd() * 1.0);
+        e.strokeStyle = `rgba(255,255,255,${al})`; e.lineWidth = lw;
+        e.beginPath(); e.moveTo(a0 + 30 * u, yy); e.lineTo(a1 - 30 * u, yy + (rnd() - 0.5) * 3 * u); e.stroke();
+        // the bristles run dry at both ends: broken, fading marks
+        for (const [from, dir] of [[a0 + 30 * u, -1], [a1 - 30 * u, 1]]) {
+          let x = from;
+          while (Math.abs(x - from) < 26 * u) {
+            const seg = (2 + rnd() * 10) * u, gap = (1 + rnd() * 6) * u * (1 + Math.abs(x - from) / (14 * u));
+            e.globalAlpha = Math.max(0, 1 - Math.abs(x - from) / (26 * u));
+            e.beginPath(); e.moveTo(x, yy); e.lineTo(x + dir * seg, yy + (rnd() - 0.5) * u); e.stroke();
+            x += dir * (seg + gap);
+          }
+          e.globalAlpha = 1;
+        }
+      }
+    }
+    yield;
+    // ── object masks (white = blocks light). screen = layers add up.
+    const objW = makeCanvas(W, H), o = ctxOf(objW), objH = makeCanvas(W, H), oh = ctxOf(objH);
+    for (const c of [o, oh]) { c.fillStyle = '#000'; c.fillRect(0, 0, W, H); c.globalCompositeOperation = 'screen'; }
+    const g = v => { const k = Math.round(v * 255); return `rgb(${k},${k},${k})`; };
+    // sun: a round of tracing paper — fibrous, partly translucent
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    o.beginPath(); polyPath(o, wobble(ellipsePts(scx, scy, sr, sr, 160), 6 * u, 1.2 * u, rnd)); o.fillStyle = g(0.42); o.fill();
+    o.save(); o.beginPath(); o.arc(scx, scy, sr, 0, TAU); o.clip();
+    for (let i = 0; i < 900; i++) { // fibres in the tracing paper
+      const x = scx + (rnd() - 0.5) * 2 * sr, y = scy + (rnd() - 0.5) * 2 * sr, a = rnd() * TAU, l = (4 + rnd() * 16) * u;
+      o.beginPath(); o.moveTo(x, y); o.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); o.strokeStyle = g(0.10 + rnd() * 0.12); o.lineWidth = (0.6 + rnd()) * u; o.stroke();
+    }
+    o.restore();
+    // ferns and grasses (Atkins would approve), laid either side
+    fern(o, L, [-0.50, 0.16], -1.25, 0.95, mulberry32(7), g);
+    fern(o, L, [-0.64, 0.16], -1.75, 0.70, mulberry32(8), g);
+    fern(o, L, [0.48, 0.16], -1.85, 0.88, mulberry32(9), g);
+    grass(o, L, [0.66, 0.16], mulberry32(10), g);
+    grass(o, L, [-0.82, 0.16], mulberry32(12), g);
+    yield;
+    // plinth: thick card
+    const pl = SKELETON.parts[0];
+    for (const [f, v] of [['front', 0.97], ['top', 0.80], ['side', 0.99]]) {
+      o.beginPath(); polyPath(o, insetPoly(L.PP(pl[f]), -1.2 * u)); o.fillStyle = g(v); o.fill();
+    }
+    // the robot is cut from three papers: tissue (top faces), cartridge (fronts), card (sides)
+    const OP = { top: 0.62, front: 0.90, side: 0.985 };
+    const drawPart = (c, p) => { for (const f of ['side', 'top', 'front']) { c.beginPath(); polyPath(c, wobble(insetPoly(L.PP(p[f]), -1.4 * u), 8 * u, 0.8 * u, rnd)); c.fillStyle = g(OP[f]); c.fill(); } };
+    for (const p of SKELETON.parts) if (p.group === 'body') drawPart(o, p);
+    drawPart(oh, SKELETON.head);
+    // fold: a doubled layer of paper — whiter
+    oh.beginPath(); polyPath(oh, L.PP(SKELETON.fold.flap)); oh.fillStyle = g(0.9); oh.fill();
+    // ear: a hole in the card covered with red cellophane — half the light gets through
+    const ear = SKELETON.ear, [ex, ey] = L.P([ear.cx, ear.cy]);
+    oh.globalCompositeOperation = 'source-over';
+    oh.beginPath(); oh.ellipse(ex, ey, ear.rx * L.s, ear.ry * L.s, 0, 0, TAU); oh.fillStyle = g(0.42); oh.fill();
+    oh.beginPath(); oh.ellipse(ex, ey, ear.rx * L.s * 0.55, ear.ry * L.s * 0.55, 0, 0, TAU); oh.strokeStyle = g(0.62); oh.lineWidth = 1.6 * u; oh.stroke();
+    oh.beginPath(); oh.ellipse(ex, ey, ear.rx * L.s, ear.ry * L.s, 0, 0, TAU); oh.strokeStyle = g(0.8); oh.lineWidth = 2 * u; oh.stroke();
+    yield;
+
+    // ── expose and wash, per pixel
+    const blurCopy = (src, r) => { const c = makeCanvas(W, H), x = ctxOf(c); x.filter = `blur(${r}px)`; x.drawImage(src, 0, 0); return readGray(c); };
+    const E = blurCopy(em, 1.5 * u); yield;
+    const Ow1 = blurCopy(objW, 1.0 * u); yield;
+    const Ow2 = blurCopy(objW, 5 * u); yield;
+    const Oh1 = blurCopy(objH, 1.0 * u); yield;
+    const Oh2 = blurCopy(objH, 4.5 * u); yield;
+    const Hm = blurCopy(objH, 0.5 * u); yield;
+    const pap = hexRGB(P.paper), mid = hexRGB(P.mid), deep = hexRGB(P.deep), stain = hexRGB(P.stain);
+    const lift = (x, y) => smooth(0.35, 0.75, fbm(x / (160 * u), y / (160 * u), 2, 31)); // where the cut-out lifted
+    const colorAt = (x, y, Ex, O) => {
+      const streak = fbm(x / (220 * u), y / (9 * u), 3, 44) - 0.5, blot = fbm(x / (60 * u), y / (60 * u), 3, 45) - 0.5;
+      const tooth = hash2(x, y, 9) - 0.5;
+      const X = Ex * (1 - O);
+      let D = 1 - Math.exp(-3.2 * X * (1 + streak * 0.35 + blot * 0.25));
+      D = clamp(D * (0.94 + tooth * 0.12) + Ex * 0.05);
+      let c;
+      if (D < 0.5) c = mixRGB(Ex > 0.2 ? mixRGB(pap, stain, 0.25 * Ex * (1 - D * 2)) : pap, mid, smooth(0.02, 0.5, D));
+      else c = mixRGB(mid, deep, smooth(0.5, 0.97, D));
+      return c;
+    };
+    const base = makeCanvas(W, H);
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.03, tooth: 0.07, fibres: 200, seed: 21 });
+    const pd = ctxOf(paper).getImageData(0, 0, W, H).data;
+    const bctx = ctxOf(base), img = bctx.createImageData(W, H), d = img.data;
+    yield* pixelRows(H, y => {
+      for (let x = 0; x < W; x++) {
+        const i = y * W + x, k = lift(x, y), O = lerp(Ow1[i], Ow2[i], k);
+        const c = colorAt(x, y, E[i], O), pt = pd[i * 4] / pap[0];
+        d[i * 4] = c[0] * pt; d[i * 4 + 1] = c[1] * pt; d[i * 4 + 2] = c[2] * pt; d[i * 4 + 3] = 255;
+      }
+    });
+    bctx.putImageData(img, 0, 0);
+    // pencil on the white margin
+    const E2 = editionLayout(L, 9 * u);
+    pencil(bctx, textStrokes('2/8  CYANOTYPE', E2.left[0], E2.left[1], E2.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(70,70,80,0.6)', 1.1 * u);
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E2.size);
+    pencil(bctx, textStrokes(wm, E2.right[0] - ww, E2.right[1], E2.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(70,70,80,0.6)', 1.1 * u);
+    out.base = base;
+    yield;
+    // head layer: same exposure with the head's cut-out added, alpha = head mask
+    const C = L.headCrop, head = makeCanvas(C.w, C.h), hc = ctxOf(head), himg = hc.createImageData(C.w, C.h), hd = himg.data;
+    for (let y = 0; y < C.h; y++) for (let x = 0; x < C.w; x++) {
+      const X = x + C.x, Y = y + C.y; if (X < 0 || Y < 0 || X >= W || Y >= H) continue;
+      const i = Y * W + X, k = lift(X, Y);
+      const oh = lerp(Oh1[i], Oh2[i], k * 0.7), ow = lerp(Ow1[i], Ow2[i], k);
+      const a = clamp(Hm[i] * 4);
+      if (a <= 0) continue;
+      const O = 1 - (1 - oh) * (1 - ow);
+      const c = colorAt(X, Y, E[i], O), pt = pd[i * 4] / pap[0], j = (y * C.w + x) * 4;
+      hd[j] = c[0] * pt; hd[j + 1] = c[1] * pt; hd[j + 2] = c[2] * pt; hd[j + 3] = a * 255;
+    }
+    hc.putImageData(himg, 0, 0);
+    out.head = head;
+    // the eyes are holes: the light came through them
+    out.eyeWhite = (c, cx, cy, r) => {
+      c.filter = `blur(${1.2 * u}px)`;
+      c.beginPath(); c.arc(cx, cy, r * 0.97, 0, TAU); c.fillStyle = rgba(mixRGB(mid, deep, 0.55)); c.fill();
+      c.filter = 'none';
+      for (let i = 0; i < 160; i++) { const a = rnd() * TAU, rr = Math.sqrt(rnd()) * r * 0.9; c.fillStyle = rnd() < 0.5 ? 'rgba(10,30,90,0.25)' : 'rgba(110,150,210,0.18)'; c.fillRect(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, 1.2 * u, 1.2 * u); }
+    };
+    // pupils: little paper dots, slightly soft where they lift
+    out.pupil = (c, cx, cy, r) => { c.filter = `blur(${0.9 * u}px)`; c.beginPath(); c.arc(cx, cy, r * 0.92, 0, TAU); c.fillStyle = rgba(mixRGB(pap, mid, 0.08)); c.fill(); c.filter = 'none'; };
+    out.lidCol = rgba(mixRGB(mid, pap, 0.3), 0.9);
+  },
+});
+
+function fern(ctx, L, at, ang, len, rnd, g) {
+  const u = L.u, [x0, y0] = L.P(at), Ls = len * L.s * 0.55;
+  const bend = (rnd() - 0.5) * 0.9;
+  const pt = t => { const a = ang + bend * t; return [x0 + Math.cos(ang) * Ls * t + Math.cos(a + Math.PI / 2) * bend * Ls * 0.25 * t * t, y0 + Math.sin(ang) * Ls * t + Math.sin(a + Math.PI / 2) * bend * Ls * 0.25 * t * t]; };
+  ctx.beginPath(); for (let i = 0; i <= 40; i++) { const p = pt(i / 40); i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]); }
+  ctx.strokeStyle = g(0.95); ctx.lineWidth = 2.4 * u; ctx.lineCap = 'round'; ctx.stroke();
+  const n = 22;
+  for (let i = 2; i < n; i++) {
+    const t = i / n, p = pt(t), q = pt(t + 0.01), da = Math.atan2(q[1] - p[1], q[0] - p[0]);
+    for (const side of [-1, 1]) {
+      const pl = Ls * 0.32 * Math.sin(Math.PI * Math.min(1, t * 1.05)) * (1 - t * 0.55) * (0.85 + rnd() * 0.3);
+      const pa = da + side * (1.05 - t * 0.35);
+      // pinna: a row of rounded pinnules
+      const m = Math.max(3, Math.round(pl / (5 * u)));
+      for (let k = 0; k < m; k++) {
+        const s = (k + 0.5) / m, px = p[0] + Math.cos(pa) * pl * s, py = p[1] + Math.sin(pa) * pl * s;
+        const rr = (pl / m) * 0.75 * (1 - s * 0.6) + 0.8 * u;
+        ctx.beginPath(); ctx.ellipse(px, py, rr * 1.3, rr * 0.75, pa + side * 0.5, 0, TAU);
+        ctx.fillStyle = g(0.88 + rnd() * 0.1); ctx.fill();
+      }
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[0] + Math.cos(pa) * pl, p[1] + Math.sin(pa) * pl);
+      ctx.strokeStyle = g(0.5); ctx.lineWidth = 0.8 * u; ctx.stroke();
+    }
+  }
+}
+function grass(ctx, L, at, rnd, g) {
+  const u = L.u, [x0, y0] = L.P(at);
+  for (let i = 0; i < 9; i++) {
+    const h = (0.25 + rnd() * 0.35) * L.s, lean = (rnd() - 0.5) * 0.6 * h, x = x0 + (rnd() - 0.5) * 30 * u;
+    ctx.beginPath(); ctx.moveTo(x, y0); ctx.quadraticCurveTo(x + lean * 0.2, y0 - h * 0.6, x + lean, y0 - h);
+    ctx.strokeStyle = g(0.8); ctx.lineWidth = (1 + rnd()) * u; ctx.stroke();
+    if (rnd() < 0.6) for (let k = 0; k < 9; k++) { // seed head
+      const t = 0.8 + k * 0.025, sx = lerp(x, x + lean, t), sy = lerp(y0, y0 - h, t);
+      ctx.beginPath(); ctx.ellipse(sx + (k % 2 ? 3 : -3) * u, sy, 3.2 * u, 1.3 * u, (k % 2 ? -0.6 : 0.6) + lean / h, 0, TAU); ctx.fillStyle = g(0.75); ctx.fill();
+    }
+  }
+}
+// ═════════════════════════════════════════ 3 · LINOCUT — one block, one ink
+// Everything starts as ink. The picture is what the gouge took away: white
+// lines between faces, hatching that lightens the lit planes, a sun carved
+// clean with rays cut out of the sky. Then a hand print: the brayer leaves
+// streaks, the paper's tooth breaks the solids, shallow cuts catch ink.
+defMaterial({
+  key: 'linocut', label: 'LINOCUT', field: '#eeae2a',
+  pal: { paper: '#eeae2a', ink: '#1d1a2b', inkThin: '#4a3b34' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(303), u = L.u, W = L.W, H = L.H, m = L.m;
+    const blk = { x0: m, y0: m, x1: W - m, y1: H - m * 2.1 };
+    // carve mask: black = ink stays, white = cut away
+    const mk = () => { const c = makeCanvas(W, H), x = ctxOf(c); x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); return [c, x]; };
+    const [cv, k] = mk();
+    const blockPts = wobble([[blk.x0, blk.y0], [blk.x1, blk.y0], [blk.x1, blk.y1], [blk.x0, blk.y1]], 14 * u, 1.6 * u, rnd);
+    fillPoly(k, blockPts, '#000');
+    k.save(); k.beginPath(); polyPath(k, blockPts); k.clip();
+    const hy = L.P([0, -0.02])[1];
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    // sky: horizontal gouge lines, wider (lighter) near the sun
+    for (let y = blk.y0 + 6 * u; y < hy; y += (5.2 + rnd() * 1.2) * u) {
+      let x = blk.x0 - 10 * u;
+      while (x < blk.x1) {
+        const len = (40 + rnd() * 160) * u, mx = x + len / 2;
+        const dSun = Math.hypot(mx - scx, y - scy) / sr;
+        const near = clamp(1.6 - dSun * 0.8), fall = clamp((y - blk.y0) / (hy - blk.y0));
+        const w = (0.6 + near * 2.6 + fall * 1.2 + rnd() * 0.6) * u;
+        // the hand drifts: each cut tilts a little with a slow flow across the sky
+        const tilt = (fbm(mx / (260 * u), y / (180 * u), 2, 61) - 0.5) * 0.16 + (rnd() - 0.5) * 0.03;
+        if (rnd() < 0.86) gouge(k, [x, y - Math.sin(tilt) * len / 2], [x + len, y + Math.sin(tilt) * len / 2], w, rnd);
+        x += len + (3 + rnd() * 14) * u;
+      }
+    }
+    // sun: a carved halo, then rays gouged out radially
+    for (let i = 0; i < 64; i++) {
+      const a = i / 64 * TAU + (rnd() - 0.5) * 0.03, r0 = sr * 1.04, r1 = sr * (1.18 + (i % 2) * 0.16 + rnd() * 0.08);
+      gouge(k, [scx + Math.cos(a) * r0, scy + Math.sin(a) * r0], [scx + Math.cos(a) * r1, scy + Math.sin(a) * r1], (i % 2 ? 3.5 : 5.5) * u, rnd);
+    }
+    k.beginPath(); polyPath(k, wobble(ellipsePts(scx, scy, sr, sr, 120), 8 * u, 1.4 * u, rnd)); k.fillStyle = '#fff'; k.fill();
+    for (let i = 1; i < 6; i++) {   // uncut rings inside the sun
+      k.beginPath(); polyPath(k, wobble(ellipsePts(scx, scy, sr * (0.2 + i * 0.15), sr * (0.2 + i * 0.15), 90), 9 * u, 1.2 * u, rnd));
+      k.strokeStyle = '#000'; k.lineWidth = (1.0 + rnd() * 0.8) * u; k.stroke();
+    }
+    yield;
+    // ground: short curved cuts, sparser towards the viewer (darker foreground)
+    for (let i = 0; i < 1400 * (W * H) / (1440 * 900); i++) {
+      const y = hy + Math.pow(rnd(), 0.8) * (blk.y1 - hy), x = blk.x0 + rnd() * (blk.x1 - blk.x0);
+      const f = (y - hy) / (blk.y1 - hy); if (rnd() < f * 0.55) continue;
+      const l = (6 + rnd() * 18) * u * (1 - f * 0.3);
+      gouge(k, [x, y], [x + l, y + (rnd() - 0.5) * 3 * u], (1.2 + (1 - f) * 2) * u, rnd);
+    }
+    // horizon: a clean carved line
+    gouge(k, [blk.x0, hy], [blk.x1, hy + 1.5 * u], 2.6 * u, rnd);
+    yield;
+    // plinth
+    const pl = SKELETON.parts[0];
+    carveBlock(k, L, pl, rnd, { halo: 5 });
+    // shadow of robot on plinth top: leave it solid (no hatching)
+    fillPoly(k, L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]]), '#000');
+    // the body
+    for (const p of SKELETON.parts) if (p.group === 'body') carveBlock(k, L, p, rnd, { halo: 4.5 });
+    k.restore();
+    yield;
+    // pencil + print
+    const base = makeCanvas(W, H), b = ctxOf(base);
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.05, tooth: 0.06, fibres: 260, seed: 33, warm: 8 });
+    yield* printInk(b, cv, paper, L, P, 0, 0, W, H, null);
+    const E = editionLayout(L, 9 * u);
+    pencil(b, textStrokes('3/8  LINOCUT', E.left[0], E.left[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(50,38,30,0.6)', 1.1 * u);
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E.size);
+    pencil(b, textStrokes(wm, E.right[0] - ww, E.right[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(50,38,30,0.6)', 1.1 * u);
+    out.base = base;
+    yield;
+    // head block on its own (white outside, so alpha = carved halo + head)
+    const [hv, hk] = mk();
+    carveBlock(hk, L, SKELETON.head, rnd, { halo: 5, head: true });
+    // fold: carved clean, one uncut crease
+    const F = SKELETON.fold, fl = L.PP(F.flap);
+    fillPoly(hk, wobble(fl, 6 * u, 1 * u, rnd), '#fff');
+    hk.beginPath(); hk.moveTo(...fl[0]); hk.lineTo(...fl[2]); hk.strokeStyle = '#000'; hk.lineWidth = 2.2 * u; hk.stroke();
+    for (let i = 1; i < 4; i++) { const a = lerpPt(fl[0], fl[2], i / 4); hk.beginPath(); hk.moveTo(...a); hk.lineTo(...lerpPt(a, fl[1], 0.55)); hk.lineWidth = 1 * u; hk.stroke(); }
+    // ear: concentric uncut rings on a carved disc
+    const e = SKELETON.ear, [ex, ey] = L.P([e.cx, e.cy]);
+    hk.beginPath(); hk.ellipse(ex - e.rim * L.s * 0.6, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); hk.fillStyle = '#000'; hk.fill();
+    hk.beginPath(); hk.ellipse(ex, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); hk.fillStyle = '#fff'; hk.fill();
+    for (let i = 1; i <= 3; i++) { hk.beginPath(); hk.ellipse(ex, ey, e.rx * L.s * i / 3.6, e.ry * L.s * i / 3.6, 0, 0, TAU); hk.strokeStyle = '#000'; hk.lineWidth = 1.6 * u; hk.stroke(); }
+    hk.beginPath(); hk.ellipse(ex, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); hk.lineWidth = 2 * u; hk.stroke();
+    // alpha: the head silhouette plus its carved halo
+    const C = L.headCrop, head = makeCanvas(C.w, C.h), hc = ctxOf(head);
+    const sil = makeCanvas(W, H), sc = ctxOf(sil);
+    const hp = SKELETON.head;
+    sc.lineJoin = 'round';
+    for (const f of ['side', 'top', 'front']) { sc.beginPath(); polyPath(sc, L.PP(hp[f])); sc.fillStyle = '#000'; sc.fill(); sc.strokeStyle = '#000'; sc.lineWidth = 9 * u; sc.stroke(); }
+    sc.beginPath(); sc.ellipse(ex, ey, e.rx * L.s * 1.3, e.ry * L.s * 1.15, 0, 0, TAU); sc.fill();
+    sc.beginPath(); polyPath(sc, fl); sc.fill(); sc.stroke();
+    yield* printInk(hc, hv, paper, L, P, C.x, C.y, C.w, C.h, sil);
+    out.head = head;
+    out.eyeWhite = (c, cx, cy, r) => {
+      c.beginPath(); polyPath(c, wobble(ellipsePts(cx, cy, r * 1.0, r * 1.0, 50), 4 * u, 1 * u, rnd)); c.fillStyle = P.paper; c.fill();
+      // chatter: ink caught in a shallow cut
+      for (let i = 0; i < 26; i++) { const a = rnd() * TAU, rr = r * (0.75 + rnd() * 0.25); c.fillStyle = 'rgba(29,26,43,0.6)'; c.fillRect(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr, 1.4 * u, 1.4 * u); }
+      c.beginPath(); c.arc(cx, cy, r * 0.82, Math.PI * 0.62, Math.PI * 0.98); c.strokeStyle = P.ink; c.lineWidth = 1.4 * u; c.stroke();
+    };
+    out.pupil = (c, cx, cy, r) => {
+      c.beginPath(); polyPath(c, wobble(ellipsePts(cx, cy, r, r, 30), 3 * u, 0.7 * u, rnd)); c.fillStyle = P.ink; c.fill();
+      gouge(c, [cx + r * 0.05, cy - r * 0.45], [cx + r * 0.45, cy - r * 0.15], 1.6 * u, rnd, P.paper);
+    };
+    out.lidCol = P.ink;
+  },
+});
+
+// a V-gouge cut: pointed entry, swelling body, lifted exit
+function gouge(ctx, a, b, w, rnd, col = '#fff') {
+  const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1, nx = -dy / l, ny = dx / l;
+  const pk = 0.3 + rnd() * 0.3, n = Math.max(4, Math.round(l / 4));
+  const top = [], bot = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n, ww = w * 0.5 * Math.pow(Math.sin(Math.PI * Math.min(1, t < pk ? t / pk * 0.5 : 0.5 + (t - pk) / (1 - pk) * 0.5)), 0.6);
+    const j = (rnd() - 0.5) * w * 0.12;
+    top.push([a[0] + dx * t + nx * (ww + j), a[1] + dy * t + ny * (ww + j)]);
+    bot.push([a[0] + dx * t - nx * (ww - j), a[1] + dy * t - ny * (ww - j)]);
+  }
+  ctx.beginPath(); polyPath(ctx, top.concat(bot.reverse())); ctx.fillStyle = col; ctx.fill();
+}
+
+// carve one block: halo around it, then the faces with their own hatching
+function carveBlock(k, L, p, rnd, o = {}) {
+  const u = L.u;
+  const faces = { side: L.PP(p.side), top: L.PP(p.top), front: L.PP(p.front) };
+  // halo so the form separates from the textured ground behind
+  k.save(); k.lineJoin = 'round';
+  for (const f of ['side', 'top', 'front']) { k.beginPath(); polyPath(k, faces[f]); k.strokeStyle = '#fff'; k.lineWidth = o.halo * 2 * u; k.stroke(); k.fillStyle = '#fff'; k.fill(); }
+  k.restore();
+  for (const f of ['side', 'top', 'front']) fillPoly(k, wobble(faces[f], 9 * u, 0.9 * u, rnd), '#000');
+  // hatching per face: top = mostly cut away, front = medium, side = sparse
+  const spec = {
+    top: { ang: Math.atan2(DEPTH[1], DEPTH[0]), gap: 3.6, w: 2.4 },
+    front: { ang: 0, gap: o.head ? 6.2 : 6.8, w: 1.5 },
+    side: { ang: Math.PI / 2, gap: 9, w: 0.9 },
+  };
+  for (const f of ['top', 'front', 'side']) {
+    const s = spec[f], pts = insetPoly(faces[f], 2.6 * u), bb = bboxOf(pts);
+    k.save(); k.beginPath(); polyPath(k, pts); k.clip();
+    const ca = Math.cos(s.ang), sa = Math.sin(s.ang), diag = Math.hypot(bb.w, bb.h), cx = (bb.x0 + bb.x1) / 2, cy = (bb.y0 + bb.y1) / 2;
+    for (let d = -diag / 2; d < diag / 2; d += s.gap * u) {
+      const ox = cx - sa * d, oy = cy + ca * d;
+      // break each line into a few cuts, as a hand would
+      let t = -diag / 2;
+      while (t < diag / 2) {
+        const l = (0.25 + rnd() * 0.6) * diag;
+        if (rnd() < 0.9) gouge(k, [ox + ca * t, oy + sa * t], [ox + ca * (t + l), oy + sa * (t + l)], s.w * u * (0.7 + rnd() * 0.6), rnd);
+        t += l + rnd() * 6 * u;
+      }
+    }
+    k.restore();
+  }
+  // white lines between the faces
+  k.save(); k.lineJoin = 'round';
+  for (const f of ['top', 'side']) { k.beginPath(); polyPath(k, faces[f]); k.strokeStyle = '#fff'; k.lineWidth = 2.0 * u; k.stroke(); }
+  k.restore();
+}
+
+// hand-printing: ink = uncut block × brayer load × paper tooth
+function* printInk(ctx, carve, paper, L, P, x0, y0, w, h, silhouette) {
+  const u = L.u;
+  const cd = ctxOf(carve).getImageData(x0, y0, w, h).data;
+  const pd = ctxOf(paper).getImageData(x0, y0, w, h).data;
+  const sd = silhouette ? ctxOf(silhouette).getImageData(x0, y0, w, h).data : null;
+  const img = ctx.createImageData(w, h), d = img.data;
+  const ink = hexRGB(P.ink), thin = hexRGB(P.inkThin);
+  yield* pixelRows(h, y => {
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4, X = x + x0, Y = y + y0;
+      const block = 1 - cd[i] / 255;
+      const streak = fbm(X / (320 * u), Y / (16 * u), 3, 71) - 0.5, blot = vnoise(X / (55 * u), Y / (55 * u), 72) - 0.5;
+      const load = 0.98 + streak * 0.62 + blot * 0.3;
+      const tooth = hash2(X, Y, 73) * 0.6 + vnoise(X / (1.7 * u), Y / (1.7 * u), 74) * 0.4;
+      let cov = block * smooth(tooth * 0.55 + 0.2, tooth * 0.55 + 0.42, load);
+      const c = mixRGB(thin, ink, clamp(load * 1.1 - 0.1));
+      const pr = pd[i], pg = pd[i + 1], pb = pd[i + 2];
+      d[i] = lerp(pr, c[0], cov); d[i + 1] = lerp(pg, c[1], cov); d[i + 2] = lerp(pb, c[2], cov);
+      d[i + 3] = sd ? sd[i + 3] : 255;
+    }
+  });
+  ctx.putImageData(img, 0, 0);
+}
+// ═════════════════════════════════════════ 4 · RISOGRAPH — two drums, two inks
+// Fluorescent pink and blue, each its own stencil. Flat tints become riso
+// grain; the sun's gradient is an AM halftone at 45°. The blue drum is a hair
+// out of register, ink overprints (multiply) into violet, and big floods
+// starve a little in the middle.
+defMaterial({
+  key: 'riso', label: 'RISOGRAPH', field: '#ff5bb5',
+  pal: { paper: '#f3efe6', pink: '#ff48b0', blue: '#0078bf' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(404), u = L.u, W = L.W, H = L.H, m = L.m;
+    const mk = () => { const c = makeCanvas(W, H), x = ctxOf(c); x.fillStyle = '#000'; x.fillRect(0, 0, W, H); return [c, x]; };
+    const tone = v => { const k = Math.round(clamp(v) * 255); return `rgb(${k},${k},${k})`; };
+    const [pk, p] = mk(), [bk, b] = mk();
+    const hy = L.P([0, -0.02])[1];
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    // print area with a white border, as a riso can't print to the edge
+    const pa = { x0: m * 0.7, y0: m * 0.7, x1: W - m * 0.7, y1: H - m * 2.0 };
+    p.save(); p.beginPath(); p.rect(pa.x0, pa.y0, pa.x1 - pa.x0, pa.y1 - pa.y0); p.clip();
+    b.save(); b.beginPath(); b.rect(pa.x0, pa.y0, pa.x1 - pa.x0, pa.y1 - pa.y0); b.clip();
+    // pink: the field, flooded
+    p.fillStyle = tone(0.78); p.fillRect(0, 0, W, H);
+    // ground: pink stays, blue halftone lines make it violet towards us
+    b.fillStyle = tone(0.0); b.fillRect(0, hy, W, H);
+    for (let y = hy + 3 * u; y < H; y += 7 * u) {     // ruled lines get heavier towards the viewer
+      const k = (y - hy) / (pa.y1 - hy);
+      b.fillStyle = tone(1); b.fillRect(0, y, W, (0.6 + k * 4.2) * u);
+    }
+    // sun: solid pink, with a blue AM halftone rising up from its base
+    p.beginPath(); p.arc(scx, scy, sr, 0, TAU); p.fillStyle = tone(1); p.fill();
+    b.save(); b.beginPath(); b.arc(scx, scy, sr, 0, TAU); b.clip();
+    const cell = 8.5 * u, ang = Math.PI / 4, ca = Math.cos(ang), sa = Math.sin(ang);
+    for (let i = -80; i < 80; i++) for (let j = -80; j < 80; j++) {
+      const x = scx + (i * ca - j * sa) * cell, y = scy + (i * sa + j * ca) * cell;
+      if (Math.abs(x - scx) > sr + cell || Math.abs(y - scy) > sr + cell) continue;
+      const tv = smooth(scy - sr * 0.3, scy + sr, y);
+      if (tv <= 0.02) continue;
+      b.beginPath(); b.arc(x, y, Math.sqrt(tv) * cell * 0.62, 0, TAU); b.fillStyle = tone(1); b.fill();
+    }
+    b.restore();
+    // horizon band: a thin line of both inks
+    b.fillStyle = tone(1); b.fillRect(0, hy - 1.2 * u, W, 2.4 * u);
+    yield;
+    // plinth: pink knocks out where blue carries the form
+    const drawBlock = (p, b, part, pinkT, blueT, halo) => {
+      for (const f of ['side', 'top', 'front']) {
+        const pts = L.PP(part[f]);
+        // knock the field out a little wider than the shape (trap)
+        p.beginPath(); polyPath(p, pts); p.lineWidth = halo * u; p.strokeStyle = tone(pinkT[f]); p.lineJoin = 'round'; p.stroke();
+        p.fillStyle = tone(pinkT[f]); p.fill();
+        b.beginPath(); polyPath(b, pts); b.fillStyle = tone(blueT[f]); b.fill();
+      }
+    };
+    const plPink = { top: 0.22, front: 0.55, side: 0.95 }, plBlue = { top: 0.0, front: 0.18, side: 0.62 };
+    drawBlock(p, b, SKELETON.parts[0], plPink, plBlue, 0);
+    // halftone stone texture on the plinth front
+    for (let i = 0; i < 120; i++) { const pt = L.P([-0.40 + rnd() * 0.74, 0.04 + rnd() * 0.1]); b.beginPath(); b.arc(pt[0], pt[1], (0.8 + rnd() * 1.8) * u, 0, TAU); b.fillStyle = tone(1); b.fill(); }
+    // robot body: blue carries it; pink only in the shadow planes (violet)
+    const rbPink = { top: 0.0, front: 0.0, side: 0.5 }, rbBlue = { top: 0.42, front: 0.78, side: 1.0 };
+    for (const part of SKELETON.parts) if (part.group === 'body') drawBlock(p, b, part, rbPink, rbBlue, 3.2);
+    // seams between faces: knocked out of blue (paper lines)
+    const seams = (b, part) => { b.save(); b.lineJoin = 'round'; for (const f of ['top', 'side']) { b.beginPath(); polyPath(b, L.PP(part[f])); b.strokeStyle = tone(0); b.lineWidth = 1.6 * u; b.stroke(); } b.restore(); };
+    for (const part of SKELETON.parts) if (part.group === 'body') seams(b, part);
+    // cast shadow on plinth top: violet
+    p.beginPath(); polyPath(p, L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]])); p.fillStyle = tone(0.6); p.fill();
+    b.beginPath(); polyPath(b, L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]])); b.fillStyle = tone(0.45); b.fill();
+    p.restore(); b.restore();
+    // printed edition line, in blue ink, below the image
+    const E = editionLayout(L, 10 * u);
+    b.save(); b.lineCap = 'round'; b.lineJoin = 'round'; b.strokeStyle = tone(1); b.lineWidth = 1.6 * u;
+    for (const pl of textStrokes('4/8  RISOGRAPH  PINK + BLUE', E.left[0], E.left[1], E.size, 1.6)) { b.beginPath(); polyPath(b, pl, false); b.stroke(); }
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E.size, 1.6);
+    p.save(); p.lineCap = 'round'; p.strokeStyle = tone(1); p.lineWidth = 1.6 * u;
+    for (const pl of textStrokes(wm, E.right[0] - ww, E.right[1], E.size, 1.6)) { p.beginPath(); polyPath(p, pl, false); p.stroke(); }
+    p.restore(); b.restore();
+    yield;
+    // head: drawn on copies so the base keeps the field behind it
+    const [pk2, p2] = mk(), [bk2, b2] = mk();
+    p2.drawImage(pk, 0, 0); b2.drawImage(bk, 0, 0);
+    const hd = SKELETON.head;
+    drawBlock(p2, b2, hd, rbPink, rbBlue, 3.2); seams(b2, hd);
+    const F = SKELETON.fold, fl = L.PP(F.flap);
+    p2.beginPath(); polyPath(p2, fl); p2.fillStyle = tone(0); p2.fill(); b2.beginPath(); polyPath(b2, fl); b2.fillStyle = tone(0); b2.fill();
+    // fold underside: a pink halftone tint, the crease in blue
+    p2.save(); p2.beginPath(); polyPath(p2, fl); p2.clip();
+    for (let i = 0; i < 400; i++) { const x = fl[0][0] + (rnd() - 0.2) * 70 * u, y = fl[1][1] + rnd() * 70 * u; p2.beginPath(); p2.arc(Math.round(x / (5 * u)) * 5 * u, Math.round(y / (5 * u)) * 5 * u, 1.3 * u, 0, TAU); p2.fillStyle = tone(1); p2.fill(); }
+    p2.restore();
+    b2.beginPath(); b2.moveTo(...fl[0]); b2.lineTo(...fl[2]); b2.strokeStyle = tone(1); b2.lineWidth = 1.6 * u; b2.stroke();
+    // ear: pure fluorescent pink, blue knocked out, with a violet rim
+    const e = SKELETON.ear, [ex, ey] = L.P([e.cx, e.cy]);
+    b2.beginPath(); b2.ellipse(ex - e.rim * L.s * 0.5, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); b2.fillStyle = tone(0.9); b2.fill();
+    p2.beginPath(); p2.ellipse(ex - e.rim * L.s * 0.5, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); p2.fillStyle = tone(1); p2.fill();
+    b2.beginPath(); b2.ellipse(ex, ey, e.rx * L.s, e.ry * L.s, 0, 0, TAU); b2.fillStyle = tone(0); b2.fill();
+    yield;
+    // ── print: dither each drum, offset the blue, overprint
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.025, tooth: 0.04, fibres: 160, seed: 44 });
+    const reg = { dx: 2.6 * u, dy: -1.9 * u };
+    const print = function* (pinkC, blueC, x0, y0, w, h, alphaFn) {
+      const pd = ctxOf(pinkC).getImageData(0, 0, W, H).data, bd = ctxOf(blueC).getImageData(0, 0, W, H).data;
+      const pp = ctxOf(paper).getImageData(x0, y0, w, h).data;
+      const img = new ImageData(w, h), d = img.data, pc = hexRGB(P.pink), bc = hexRGB(P.blue);
+      const sample = (dd, x, y) => { const xi = clampI(Math.round(x), 0, W - 1), yi = clampI(Math.round(y), 0, H - 1); return dd[(yi * W + xi) * 4] / 255; };
+      yield* pixelRows(h, y => {
+        for (let x = 0; x < w; x++) {
+          const X = x + x0, Y = y + y0, i = (y * w + x) * 4;
+          const a = alphaFn ? alphaFn(X, Y) : 1; if (a <= 0) { d[i + 3] = 0; continue; }
+          const tp = sample(pd, X, Y), tb = sample(bd, X - reg.dx - (Y - H / 2) * 0.0026, Y - reg.dy + (X - W / 2) * 0.0026);
+          // grain threshold: two clumpy noise fields, one per drum
+          const gp = hash2(X, Y, 1) * 0.55 + vnoise(X / (1.25 * u), Y / (1.25 * u), 2) * 0.45;
+          const gb = hash2(X, Y, 3) * 0.55 + vnoise(X / (1.25 * u), Y / (1.25 * u), 4) * 0.45;
+          // drum density: banding along the drum + starvation in floods
+          const dp = 0.93 + 0.07 * Math.sin(X / (W) * 9.0 + 1.3) - 0.10 * smooth(0.45, 0.8, fbm(X / (420 * u), Y / (420 * u), 2, 8));
+          const db = 0.95 + 0.05 * Math.sin(X / (W) * 7.0) - 0.06 * smooth(0.5, 0.85, fbm(X / (380 * u), Y / (380 * u), 2, 9));
+          const cp = tp >= 0.995 ? dp : (tp > gp * 0.98 + 0.01 ? dp : 0);
+          const cb = tb >= 0.995 ? db : (tb > gb * 0.98 + 0.01 ? db : 0);
+          let r = pp[i], g = pp[i + 1], bl = pp[i + 2];
+          r *= 1 - cp * (1 - pc[0] / 255); g *= 1 - cp * (1 - pc[1] / 255); bl *= 1 - cp * (1 - pc[2] / 255);
+          r *= 1 - cb * (1 - bc[0] / 255); g *= 1 - cb * (1 - bc[1] / 255); bl *= 1 - cb * (1 - bc[2] / 255);
+          d[i] = r; d[i + 1] = g; d[i + 2] = bl; d[i + 3] = a * 255;
+        }
+      });
+      return img;
+    };
+    const base = makeCanvas(W, H);
+    ctxOf(base).putImageData(yield* print(pk, bk, 0, 0, W, H, null), 0, 0);
+    out.base = base;
+    // head: alpha = head silhouette dilated (covers the knock-out trap)
+    const C = L.headCrop, sil = makeCanvas(W, H), sc = ctxOf(sil);
+    sc.lineJoin = 'round';
+    for (const f of ['side', 'top', 'front']) { sc.beginPath(); polyPath(sc, L.PP(hd[f])); sc.fillStyle = '#fff'; sc.fill(); sc.strokeStyle = '#fff'; sc.lineWidth = 12 * u; sc.stroke(); }
+    sc.beginPath(); sc.ellipse(ex, ey, e.rx * L.s * 1.5, e.ry * L.s * 1.3, 0, 0, TAU); sc.fill();
+    sc.beginPath(); polyPath(sc, fl); sc.fill(); sc.stroke();
+    const sd = sc.getImageData(0, 0, W, H).data;
+    const head = makeCanvas(C.w, C.h);
+    ctxOf(head).putImageData(yield* print(pk2, bk2, C.x, C.y, C.w, C.h, (X, Y) => (X < 0 || Y < 0 || X >= W || Y >= H) ? 0 : sd[(Y * W + X) * 4 + 3] / 255), 0, 0);
+    out.head = head;
+    // eyes: knocked out of both drums; pupils in both inks (deep violet)
+    const pc = hexRGB(P.pink), bc = hexRGB(P.blue), pap = hexRGB(P.paper);
+    const violet = [pap[0] * pc[0] / 255 * bc[0] / 255 + 30, pap[1] * pc[1] / 255 * bc[1] / 255 + 8, pap[2] * pc[2] / 255 * bc[2] / 255 + 30];
+    out.eyeWhite = (c, cx, cy, r) => {
+      c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fillStyle = P.paper; c.fill();
+      // a misregistered sliver of blue on one edge
+      c.save(); c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.clip();
+      c.beginPath(); c.arc(cx - r * 2 + reg.dx * 0.7, cy - reg.dy * 0.7, r * 1.05, 0, TAU); c.fillStyle = rgba(bc, 0.85); c.fill(); c.restore();
+    };
+    out.pupil = (c, cx, cy, r) => {
+      c.beginPath(); c.arc(cx + reg.dx * 0.6, cy + reg.dy * 0.6, r, 0, TAU); c.fillStyle = rgba(pc); c.fill();
+      c.globalCompositeOperation = 'multiply';
+      c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fillStyle = rgba(bc); c.fill();
+      c.globalCompositeOperation = 'source-over';
+    };
+    out.lidCol = rgba(bc, 0.95);
+  },
+});
+// ═════════════════════════════════════════ 5 · ENGRAVING — intaglio, banknote style
+// Tone made only of lines: the burin swells a line to darken it. Each plane is
+// cut in its own direction (fronts across, sides along the depth, tops thin and
+// open), shadows cross-hatched. The portrait sits in an oval of lathe-work
+// guilloche; rosettes in the panels; a microprinted ring; offset underprint.
+defMaterial({
+  key: 'engraving', label: 'ENGRAVING', field: '#e6ead5',
+  pal: { paper: '#ebedd9', ink: '#1d3631', red: '#b4372b', under1: '#f2cfa6', under2: '#bfe0d2', underLine: '#7fb3a6' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(505), u = L.u, W = L.W, H = L.H, m = L.m;
+    const ink = hexRGB(P.ink);
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.025, tooth: 0.035, fibres: 120, seed: 55 });
+    const base = makeCanvas(W, H), b = ctxOf(base);
+    b.drawImage(paper, 0, 0);
+    // ── offset underprint: a soft rainbow and a field of fine sine lines
+    b.save(); b.globalCompositeOperation = 'multiply';
+    const ug = b.createLinearGradient(0, 0, W, H);
+    ug.addColorStop(0, P.under1); ug.addColorStop(0.5, '#f4f1dc'); ug.addColorStop(1, P.under2);
+    b.globalAlpha = 0.55; b.fillStyle = ug; b.fillRect(0, 0, W, H); b.globalAlpha = 1;
+    b.strokeStyle = rgba(hexRGB(P.underLine), 0.35); b.lineWidth = 0.6 * u;
+    for (let k = 0; k < 90; k++) {
+      b.beginPath();
+      for (let x = 0; x <= W; x += 6 * u) { const y = k * 12 * u - 60 * u + Math.sin(x / (38 * u) + k * 0.35) * 9 * u + Math.sin(x / (110 * u) - k * 0.2) * 14 * u; x ? b.lineTo(x, y) : b.moveTo(x, y); }
+      b.stroke();
+    }
+    b.restore();
+    yield;
+    // ── border: a guilloche rope around a rounded rectangle
+    const fr = { x0: m, y0: m, x1: W - m, y1: H - m * 1.0 }, band = Math.max(14 * u, m * 0.42);
+    ropeBorder(b, fr, band, u, ink);
+    // ── the oval
+    const cx = L.ox, cy = L.oy - 0.46 * L.s;
+    const rx = Math.min(0.60 * L.s, W / 2 - fr.x0 - band * 1.4), ry = Math.min(0.70 * L.s, (fr.y1 - fr.y0) / 2 - band * 1.2);
+    // lathe-work ring around the oval
+    b.save(); b.strokeStyle = rgba(ink, 0.85);
+    for (let fam = 0; fam < 2; fam++) for (let k = 0; k < 14; k++) {
+      b.beginPath();
+      for (let i = 0; i <= 720; i++) {
+        const a = i / 720 * TAU, n = fam ? 46 : 38, w = 9 * u + Math.sin(n * a + k * 0.45 + fam * 1.3) * 7 * u * Math.sin(3 * a + k * 0.2);
+        const x = cx + Math.cos(a) * (rx + 10 * u + w), y = cy + Math.sin(a) * (ry + 10 * u + w);
+        i ? b.lineTo(x, y) : b.moveTo(x, y);
+      }
+      b.lineWidth = 0.55 * u; b.stroke();
+    }
+    b.beginPath(); b.ellipse(cx, cy, rx + 2 * u, ry + 2 * u, 0, 0, TAU); b.lineWidth = 1.6 * u; b.stroke();
+    b.beginPath(); b.ellipse(cx, cy, rx + 27 * u, ry + 27 * u, 0, 0, TAU); b.lineWidth = 1.0 * u; b.stroke();
+    b.restore();
+    // inside the oval: paper, then the sky in horizontal lines
+    b.save(); b.beginPath(); b.ellipse(cx, cy, rx, ry, 0, 0, TAU); b.clip();
+    b.drawImage(paper, 0, 0);
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    const hy = L.P([0, -0.02])[1];
+    const sp = 3.3 * u;
+    for (let y = cy - ry; y < hy; y += sp) {
+      const pts = [];
+      for (let x = cx - rx - 4; x <= cx + rx + 4; x += 2.5 * u) pts.push([x, y + Math.sin(x / (60 * u)) * 0.6 * u]);
+      engraveLine(b, pts, (x, y) => {
+        const dv = Math.hypot((x - cx) / rx, (y - cy) / ry);           // vignette: darker to the rim
+        const ds = Math.hypot(x - scx, y - scy) / sr;
+        const t = 0.30 + 0.45 * smooth(0.55, 1.0, dv) - 0.28 * smooth(1.25, 0.9, ds) + 0.15 * (1 - (y - (cy - ry)) / (hy - cy + ry));
+        return clamp(t, 0.05, 0.95) * sp * 0.8;
+      }, ink);
+    }
+    // sun: lathe-cut concentric rings, finest in the centre
+    b.save(); b.beginPath(); b.arc(scx, scy, sr, 0, TAU); b.clip(); b.drawImage(paper, 0, 0);
+    for (let r = sr; r > 2; r -= 3.1 * u) {
+      const pts = []; for (let i = 0; i <= 200; i++) { const a = i / 200 * TAU; pts.push([scx + Math.cos(a) * r, scy + Math.sin(a) * r * (1 + 0.004 * Math.sin(a * 24))]); }
+      engraveLine(b, pts, () => (0.12 + 0.3 * Math.pow(r / sr, 2)) * 3.1 * u * 0.8, ink);
+    }
+    b.restore();
+    yield;
+    // ground: lines following the plane, closer and heavier towards us
+    for (let k = 0, y = hy + 2 * u; y < cy + ry; k++, y += sp * (0.9 + k * 0.04)) {
+      const pts = []; for (let x = cx - rx; x <= cx + rx; x += 2.5 * u) pts.push([x, y]);
+      engraveLine(b, pts, (x, yy) => clamp(0.35 + (yy - hy) / (ry * 0.9) * 0.5) * sp * 0.75, ink);
+    }
+    yield;
+    // plinth and body
+    const engravePart = (ctx, part) => { for (const f of ['side', 'top', 'front']) engraveFace(ctx, L, part, f, paper, ink, rnd); };
+    engravePart(b, SKELETON.parts[0]);
+    // cast shadow on plinth top: cross-hatch
+    const sh = L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]]);
+    hatch(b, sh, 0.5, 2.6 * u, () => 0.9 * u, ink); hatch(b, sh, -0.7, 2.6 * u, () => 0.6 * u, ink);
+    for (const part of SKELETON.parts) if (part.group === 'body') engravePart(b, part);
+    // head shadow on the torso top
+    const hs = L.PP([[-0.17, -0.51], [0.17, -0.51], [0.226, -0.556], [-0.13, -0.556]]);
+    hatch(b, hs, 0.9, 2.4 * u, () => 0.7 * u, ink);
+    // microprinting just inside the oval
+    microRing(b, cx, cy, rx - 6 * u, ry - 6 * u, 'PAPER ROBOTS · ', 3.2 * u, ink);
+    b.restore();
+    yield;
+    // ── panels: rosettes, title, serials
+    const left = { x0: fr.x0 + band, x1: cx - rx - 30 * u }, right = { x0: cx + rx + 30 * u, x1: fr.x1 - band };
+    if (!L.portrait && left.x1 - left.x0 > 120 * u) {
+      const lr = Math.min(0.32 * (left.x1 - left.x0), H * 0.13), rr = Math.min(0.36 * (right.x1 - right.x0), H * 0.16);
+      const lcx = (left.x0 + left.x1) / 2, rcx = (right.x0 + right.x1) / 2;
+      rosette(b, lcx, H * 0.33, lr, ink, 7, u);
+      monogram(b, lcx, H * 0.33, lr * 0.42, ink, u);
+      const ts = Math.min(24 * u, (left.x1 - left.x0) / 7.5);
+      engravedText(b, 'PAPER', lcx - textWidth('PAPER', ts) / 2, H * 0.58, ts, ink, u);
+      engravedText(b, 'ROBOTS', lcx - textWidth('ROBOTS', ts) / 2, H * 0.58 + ts * 1.7, ts, ink, u);
+      rosette(b, rcx, H * 0.45, rr, ink, 9, u);
+      b.beginPath(); b.arc(rcx, H * 0.45, rr * 0.4, 0, TAU); b.fillStyle = P.paper; b.fill(); b.strokeStyle = rgba(ink); b.lineWidth = 1.2 * u; b.stroke();
+      engravedText(b, '8', rcx - textWidth('8', rr * 0.46) / 2, H * 0.45 - rr * 0.23, rr * 0.46, ink, u);
+      serial(b, 'PR 0005 0008', rcx - textWidth('PR 0005 0008', 11 * u) / 2, H * 0.17, 11 * u, hexRGB(P.red), u);
+      serial(b, 'PR 0005 0008', lcx - textWidth('PR 0005 0008', 11 * u) / 2, H * 0.78, 11 * u, hexRGB(P.red), u);
+    } else {
+      const ts = Math.min(22 * u, (W - 2 * fr.x0) / 9);
+      const ty = (fr.y0 + band + (cy - ry - 30 * u)) / 2 - ts / 2;
+      engravedText(b, 'PAPER ROBOTS', W / 2 - textWidth('PAPER ROBOTS', ts) / 2, ty, ts, ink, u);
+      const rr = Math.min(W * 0.1, (cy - ry - fr.y0 - band) * 0.32);
+      serial(b, 'PR 0005 0008', W / 2 - textWidth('PR 0005 0008', 9 * u) / 2, cy + ry + 40 * u, 9 * u, hexRGB(P.red), u);
+      rosette(b, W / 2, (cy + ry + fr.y1 - band) / 2 + 14 * u, Math.min(rr * 1.3, (fr.y1 - band - cy - ry) * 0.3), ink, 7, u);
+    }
+    // edition line engraved in the bottom band
+    const E = editionLayout(L, 7.5 * u), ey = fr.y1 - band / 2 - E.size / 2;
+    const tw1 = textWidth('5/8  ENGRAVING', E.size, 1.8), tw2 = textWidth('PAPER ROBOTS', E.size, 1.8);
+    for (const [x, w] of [[fr.x0 + band * 1.6, tw1], [fr.x1 - band * 1.6 - tw2, tw2]]) { b.fillStyle = P.paper; b.fillRect(x - 6 * u, fr.y1 - band + 1.5 * u, w + 12 * u, band - 3 * u); }
+    serial(b, '5/8  ENGRAVING', fr.x0 + band * 1.6, ey, E.size, ink, u, true);
+    const wmE = 'PAPER ROBOTS'; serial(b, wmE, fr.x1 - band * 1.6 - textWidth(wmE, E.size, 1.8), ey, E.size, ink, u, true);
+    out.base = base;
+    yield;
+    // ── head
+    const C = L.headCrop, head = makeCanvas(C.w, C.h), h = ctxOf(head);
+    h.translate(-C.x, -C.y);
+    engravePart(h, SKELETON.head);
+    const F = SKELETON.fold, fl = L.PP(F.flap);
+    h.save(); h.beginPath(); polyPath(h, fl); h.clip(); h.drawImage(paper, 0, 0);
+    const M = lerpPt(fl[0], fl[2], 0.5);
+    hatch(h, fl, Math.atan2(fl[1][1] - M[1], fl[1][0] - M[0]) + Math.PI / 2, 2.6 * u, (x, y) => clamp(0.7 - Math.hypot(x - M[0], y - M[1]) / (60 * u)) * 1.4 * u, ink);
+    h.restore();
+    h.beginPath(); polyPath(h, fl); h.strokeStyle = rgba(ink); h.lineWidth = 1.0 * u; h.stroke();
+    const e = SKELETON.ear, [ex, ey2] = L.P([e.cx, e.cy]);
+    h.save(); h.beginPath(); h.ellipse(ex - e.rim * L.s * 0.6, ey2, e.rx * L.s, e.ry * L.s, 0, 0, TAU); h.clip(); h.drawImage(paper, 0, 0);
+    hatch(h, ellipsePts(ex - e.rim * L.s * 0.6, ey2, e.rx * L.s, e.ry * L.s), Math.PI / 2, 1.8 * u, () => 1.0 * u, ink); h.restore();
+    h.save(); h.beginPath(); h.ellipse(ex, ey2, e.rx * L.s, e.ry * L.s, 0, 0, TAU); h.clip(); h.drawImage(paper, 0, 0); h.restore();
+    for (let k = 1; k <= 7; k++) {   // lathe rings on the ear
+      const pts = ellipsePts(ex, ey2, e.rx * L.s * k / 7.2, e.ry * L.s * k / 7.2, 60); pts.push(pts[0]);
+      engraveLine(h, pts, (x, y) => (0.3 + 0.5 * clamp((x - ex) / (e.rx * L.s) + 0.5)) * 1.2 * u, ink);
+    }
+    h.beginPath(); h.ellipse(ex, ey2, e.rx * L.s, e.ry * L.s, 0, 0, TAU); h.strokeStyle = rgba(ink); h.lineWidth = 1.1 * u; h.stroke();
+    out.head = head;
+    out.eyeWhite = (c, cx2, cy2, r) => {
+      c.beginPath(); c.arc(cx2, cy2, r, 0, TAU); c.fillStyle = P.paper; c.fill();
+      for (let k = 0; k < 6; k++) { // contour lines describe the dome, lower-left
+        c.beginPath(); c.arc(cx2 + r * 0.12, cy2 - r * 0.12, r * (0.98 - k * 0.075), Math.PI * 0.45, Math.PI * 1.05);
+        c.strokeStyle = rgba(ink, 0.9 - k * 0.12); c.lineWidth = (0.9 - k * 0.1) * u; c.stroke();
+      }
+      c.beginPath(); c.arc(cx2, cy2, r, 0, TAU); c.strokeStyle = rgba(ink); c.lineWidth = 1.2 * u; c.stroke();
+    };
+    out.pupil = (c, x, y, r) => {
+      for (let k = 0; k < 9; k++) { c.beginPath(); c.arc(x, y, r * (1 - k * 0.1), 0, TAU); c.strokeStyle = rgba(ink); c.lineWidth = 1.3 * u; c.stroke(); }
+      c.beginPath(); c.arc(x, y, r * 0.3, 0, TAU); c.fillStyle = rgba(ink); c.fill();
+      c.beginPath(); c.arc(x + r * 0.3, y - r * 0.35, r * 0.2, 0, TAU); c.fillStyle = P.paper; c.fill();
+    };
+    out.lidCol = rgba(ink);
+  },
+});
+
+// a burin line: a polyline whose width follows widthFn(x, y), tapered at both ends
+function engraveLine(ctx, pts, widthFn, ink) {
+  if (pts.length < 2) return;
+  const top = [], bot = [], n = pts.length;
+  for (let i = 0; i < n; i++) {
+    const a = pts[Math.max(0, i - 1)], c = pts[Math.min(n - 1, i + 1)];
+    const dx = c[0] - a[0], dy = c[1] - a[1], l = Math.hypot(dx, dy) || 1;
+    const taper = Math.min(1, i / 3, (n - 1 - i) / 3);
+    const w = Math.max(0, widthFn(pts[i][0], pts[i][1])) * 0.5 * (0.35 + 0.65 * taper);
+    top.push([pts[i][0] - dy / l * w, pts[i][1] + dx / l * w]);
+    bot.push([pts[i][0] + dy / l * w, pts[i][1] - dx / l * w]);
+  }
+  ctx.beginPath(); polyPath(ctx, top.concat(bot.reverse())); ctx.fillStyle = rgba(ink); ctx.fill();
+}
+// parallel lines across a polygon at angle `ang`, clipped into runs
+function hatch(ctx, poly, ang, gap, widthFn, ink) {
+  const bb = bboxOf(poly), cx = (bb.x0 + bb.x1) / 2, cy = (bb.y0 + bb.y1) / 2, diag = Math.hypot(bb.w, bb.h) / 2 + 2;
+  const ca = Math.cos(ang), sa = Math.sin(ang), step = Math.max(1.5, gap * 0.6);
+  for (let d = -diag; d <= diag; d += gap) {
+    let run = [];
+    for (let t = -diag; t <= diag + step; t += step) {
+      const x = cx + ca * t - sa * d, y = cy + sa * t + ca * d;
+      if (t <= diag && insidePoly(x, y, poly)) run.push([x, y]);
+      else if (run.length) { engraveLine(ctx, run, widthFn, ink); run = []; }
+    }
+  }
+}
+function engraveFace(ctx, L, part, f, paper, ink, rnd) {
+  const u = L.u, poly = L.PP(part[f]), bb = bboxOf(poly);
+  ctx.save(); ctx.beginPath(); polyPath(ctx, poly); ctx.clip(); ctx.drawImage(paper, 0, 0);
+  const sp = (part.id === 'head' ? 3.0 : 2.8) * u;
+  const depthAng = Math.atan2(DEPTH[1], DEPTH[0]);
+  // local light: each plane darkens away from the upper-left
+  const tone = (x, y) => {
+    const fx = (x - bb.x0) / (bb.w || 1), fy = (y - bb.y0) / (bb.h || 1);
+    if (f === 'top') return 0.14 + 0.12 * fx;
+    if (f === 'front') return 0.36 + 0.18 * fy + 0.12 * fx;
+    return 0.66 + 0.18 * fy;
+  };
+  const ang = f === 'front' ? 0 : f === 'top' ? depthAng : Math.PI / 2;
+  hatch(ctx, poly, ang, sp, (x, y) => tone(x, y) * sp * 1.0, ink);
+  if (f === 'side') hatch(ctx, poly, depthAng, sp * 1.3, (x, y) => (tone(x, y) - 0.45) * sp * 0.8, ink);
+  if (f === 'front') hatch(ctx, poly, Math.PI * 0.36, sp * 1.6, (x, y) => Math.max(0, tone(x, y) - 0.5) * sp * 1.2, ink);
+  ctx.restore();
+  ctx.beginPath(); polyPath(ctx, poly); ctx.strokeStyle = rgba(ink); ctx.lineWidth = 0.9 * u; ctx.stroke();
+}
+function ropeBorder(ctx, fr, band, u, ink) {
+  const per = 2 * ((fr.x1 - fr.x0) + (fr.y1 - fr.y0) - 4 * band);
+  const ptAt = (s, off) => { // walk the rectangle's centreline, offset inward/outward
+    const x0 = fr.x0 + band / 2, y0 = fr.y0 + band / 2, x1 = fr.x1 - band / 2, y1 = fr.y1 - band / 2, w = x1 - x0, h = y1 - y0;
+    s = ((s % (2 * (w + h))) + 2 * (w + h)) % (2 * (w + h));
+    if (s < w) return [x0 + s, y0 - off]; s -= w;
+    if (s < h) return [x1 + off, y0 + s]; s -= h;
+    if (s < w) return [x1 - s, y1 + off]; s -= w;
+    return [x0 - off, y1 - s];
+  };
+  ctx.save(); ctx.strokeStyle = rgba(ink, 0.9); ctx.lineWidth = 0.55 * u;
+  const total = 2 * ((fr.x1 - fr.x0 - band) + (fr.y1 - fr.y0 - band)), per2 = 26 * u;
+  for (let k = 0; k < 10; k++) {
+    ctx.beginPath();
+    for (let s = 0; s <= total; s += 2 * u) {
+      const off = Math.sin(s / per2 * TAU + k * 0.63) * band * 0.38 * Math.cos(s / (per2 * 3.1) + k * 0.2);
+      const p = ptAt(s, off); s ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1]);
+    }
+    ctx.closePath(); ctx.stroke();
+  }
+  ctx.lineWidth = 1.4 * u; ctx.strokeRect(fr.x0, fr.y0, fr.x1 - fr.x0, fr.y1 - fr.y0);
+  ctx.lineWidth = 0.9 * u; ctx.strokeRect(fr.x0 + band, fr.y0 + band, fr.x1 - fr.x0 - 2 * band, fr.y1 - fr.y0 - 2 * band);
+  ctx.restore();
+}
+// spirograph rosette: hypotrochoid families
+function rosette(ctx, cx, cy, R, ink, petals, u) {
+  ctx.save(); ctx.strokeStyle = rgba(ink, 0.85); ctx.lineWidth = 0.45 * u;
+  // epitrochoid families with an integer ratio, so every curve closes on itself
+  const a = R * 0.5, bR = a / petals;
+  for (let k = 0; k < 24; k++) {
+    const d = bR * (1.6 + 0.9 * Math.sin(k / 24 * Math.PI)), ph = k / 24 * TAU / petals;
+    ctx.beginPath();
+    for (let i = 0; i <= 1200; i++) {
+      const t = i / 1200 * TAU;
+      const x = (a + bR) * Math.cos(t) - d * Math.cos((a + bR) / bR * t + ph * petals);
+      const y = (a + bR) * Math.sin(t) - d * Math.sin((a + bR) / bR * t + ph * petals);
+      const sc = R / (a + bR + d);
+      i ? ctx.lineTo(cx + x * sc, cy + y * sc) : ctx.moveTo(cx + x * sc, cy + y * sc);
+    }
+    ctx.stroke();
+  }
+  ctx.lineWidth = 1.1 * u; ctx.beginPath(); ctx.arc(cx, cy, R * 1.0, 0, TAU); ctx.stroke();
+  ctx.lineWidth = 0.7 * u; ctx.beginPath(); ctx.arc(cx, cy, R * 1.05, 0, TAU); ctx.stroke();
+  ctx.restore();
+}
+function monogram(ctx, cx, cy, r, ink, u) {
+  ctx.save(); ctx.beginPath(); ctx.arc(cx, cy, r, 0, TAU); ctx.fillStyle = '#ebedd9'; ctx.fill();
+  ctx.strokeStyle = rgba(ink); ctx.lineWidth = 1.2 * u; ctx.stroke(); ctx.restore();
+  engravedText(ctx, 'PR', cx - textWidth('PR', r * 0.8) / 2, cy - r * 0.4, r * 0.8, ink, u);
+}
+function engravedText(ctx, str, x, y, size, ink, u) {
+  ctx.save(); ctx.lineCap = 'square'; ctx.lineJoin = 'miter';
+  const lines = textStrokes(str, x, y, size, 1.9);
+  for (const pl of lines) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.strokeStyle = rgba(ink); ctx.lineWidth = size * 0.19; ctx.stroke(); }
+  for (const pl of lines) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.strokeStyle = 'rgba(235,237,217,0.9)'; ctx.lineWidth = size * 0.035; ctx.stroke(); }
+  ctx.restore();
+}
+function serial(ctx, str, x, y, size, col, u, thin = false) {
+  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const pl of textStrokes(str, x, y, size, 1.8)) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.strokeStyle = rgba(col); ctx.lineWidth = size * (thin ? 0.12 : 0.17); ctx.stroke(); }
+  ctx.restore();
+}
+function microRing(ctx, cx, cy, rx, ry, str, size, ink) {
+  const per = Math.PI * (3 * (rx + ry) - Math.sqrt((3 * rx + ry) * (rx + 3 * ry)));
+  const unit = textWidth(str, size, 1.4) + size * 0.8, reps = Math.floor(per / unit);
+  ctx.save(); ctx.strokeStyle = rgba(ink, 0.9); ctx.lineWidth = Math.max(0.5, size * 0.13); ctx.lineCap = 'round';
+  let a = -Math.PI / 2;
+  for (let r = 0; r < reps * str.length; r++) {
+    const ch = str[r % str.length];
+    const x = cx + Math.cos(a) * rx, y = cy + Math.sin(a) * ry;
+    const tang = Math.atan2(Math.cos(a) * ry, -Math.sin(a) * rx);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(tang);
+    for (const pl of textStrokes(ch, 0, -size, size, 1.4)) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.stroke(); }
+    ctx.restore();
+    const adv = (ch === ' ' ? 0.8 : 1) * (4 + 1.4) * size / 6;
+    a += adv / Math.hypot(Math.sin(a) * rx, Math.cos(a) * ry);
+    if (a > Math.PI * 1.5) break;
+  }
+  ctx.restore();
+}
+// ═════════════════════════════════════════ 6 · ORIGAMI — folded kami, photographed
+// The robot as an actual paper model on a paper sweep. Light from the upper
+// left and a little in front: tops bright, sides in shade, each plane bowing
+// slightly. Convex folds catch a line of light and show the paper's white
+// core; old pre-creases cross the faces. Everything casts a soft shadow onto
+// the vermilion backdrop, which curves from wall to floor.
+defMaterial({
+  key: 'origami', label: 'ORIGAMI', field: '#d6432b',
+  pal: { wall: '#d4412a', floor: '#e2573c', sun: '#f3a83a', kami: '#2747aa', kraft: '#c99c63', white: '#f6f1e6', black: '#1b1b22' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(606), u = L.u, W = L.W, H = L.H;
+    const hy = L.P([0, 0.05])[1];
+    // ── fine paper fibre texture for every sheet (multiplied in)
+    const tex = yield* makePaper(L, '#f2f2f2', { mottle: 0.05, tooth: 0.055, fibres: 1100, seed: 66, fibreCol: '#d6d6d6' });
+    const base = makeCanvas(W, H), b = ctxOf(base);
+    // the sweep: wall above, floor below, a soft bend where they meet
+    const wall = hexRGB(P.wall), floor = hexRGB(P.floor);
+    let g = b.createLinearGradient(0, 0, 0, hy);
+    g.addColorStop(0, rgba(shadeRGB(wall, -0.18))); g.addColorStop(0.7, rgba(wall)); g.addColorStop(1, rgba(shadeRGB(wall, 0.05)));
+    b.fillStyle = g; b.fillRect(0, 0, W, hy);
+    g = b.createLinearGradient(0, hy - 30 * u, 0, H);
+    g.addColorStop(0, rgba(shadeRGB(floor, 0.06))); g.addColorStop(0.08, rgba(shadeRGB(floor, 0.1))); g.addColorStop(1, rgba(shadeRGB(floor, -0.12)));
+    b.fillStyle = g; b.fillRect(0, hy, W, H - hy);
+    // the bend: a band of light, then the floor
+    g = b.createLinearGradient(0, hy - 40 * u, 0, hy + 30 * u);
+    g.addColorStop(0, 'rgba(255,190,150,0)'); g.addColorStop(0.55, 'rgba(255,190,150,0.28)'); g.addColorStop(1, 'rgba(255,190,150,0)');
+    b.fillStyle = g; b.fillRect(0, hy - 40 * u, W, 70 * u);
+    // light pool from the upper left, falloff to the corners
+    g = b.createRadialGradient(W * 0.32, H * 0.25, 0, W * 0.4, H * 0.4, Math.max(W, H) * 0.85);
+    g.addColorStop(0, 'rgba(255,220,190,0.22)'); g.addColorStop(0.5, 'rgba(255,220,190,0)'); g.addColorStop(1, 'rgba(40,0,0,0.35)');
+    b.fillStyle = g; b.fillRect(0, 0, W, H);
+    // two big creases in the backdrop sheet (one mountain, one valley)
+    // each crease leaves two planes at slightly different angles to the light
+    // planes facing the light are a touch brighter, with a soft gradient into each fold
+    const plane = (pts, a, b2, col0, col1) => { b.save(); b.beginPath(); polyPath(b, pts); b.clip(); const gg = b.createLinearGradient(a[0], a[1], b2[0], b2[1]); gg.addColorStop(0, col0); gg.addColorStop(1, col1); b.fillStyle = gg; b.fillRect(0, 0, W, H); b.restore(); };
+    plane([[-10, -10], [W * 0.08, -10], [W * 0.38, hy], [-10, hy]], [W * 0.23, hy * 0.5], [0, hy * 0.6], 'rgba(255,215,190,0.16)', 'rgba(255,215,190,0.02)');
+    plane([[W * 1.02, H * 0.12], [W + 10, H * 0.12], [W + 10, hy], [W * 0.70, hy]], [W * 0.86, hy * 0.6], [W, hy * 0.6], 'rgba(40,0,0,0.20)', 'rgba(40,0,0,0.06)');
+    plane([[W * 0.55, hy], [W + 10, hy], [W + 10, H + 10], [W * 0.92, H + 10]], [W * 0.74, H * 0.85], [W, H * 0.85], 'rgba(40,0,0,0.16)', 'rgba(40,0,0,0.04)');
+    crease(b, [W * 0.08, -10], [W * 0.38, hy], u, 1);
+    crease(b, [W * 1.02, H * 0.12], [W * 0.70, hy], u, -1);
+    crease(b, [W * 0.55, hy], [W * 0.92, H + 10], u, 1);
+    yield;
+    // sun: a paper circle cut with scissors (facetted), folded once across
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    const sunPts = []; let a = 0; while (a < TAU - 0.05) { const rr = sr * (1 + (rnd() - 0.5) * 0.008); sunPts.push([scx + Math.cos(a) * rr, scy + Math.sin(a) * rr]); a += 0.09 + rnd() * 0.07; }
+    softShadow(b, sunPts.map(p => [p[0] + 10 * u, p[1] + 12 * u]), 'rgba(70,0,0,0.38)', 9 * u);
+    yield;
+    fillPoly(b, sunPts, P.sun);
+    b.save(); b.beginPath(); polyPath(b, sunPts); b.clip();
+    const fa = -0.5, fx = Math.cos(fa), fy = Math.sin(fa);    // the fold line through the centre
+    b.beginPath(); b.moveTo(scx - fx * sr * 2, scy - fy * sr * 2); b.lineTo(scx + fx * sr * 2, scy + fy * sr * 2);
+    b.lineTo(scx + fx * sr * 2 + fy * sr * 3, scy + fy * sr * 2 - fx * sr * 3); b.lineTo(scx - fx * sr * 2 + fy * sr * 3, scy - fy * sr * 2 - fx * sr * 3); b.closePath();
+    b.fillStyle = 'rgba(255,240,200,0.18)'; b.fill();
+    g = b.createRadialGradient(scx - sr * 0.3, scy - sr * 0.4, sr * 0.1, scx, scy, sr * 1.05);
+    g.addColorStop(0, 'rgba(255,240,210,0.18)'); g.addColorStop(1, 'rgba(120,40,0,0.18)'); b.fillStyle = g; b.fillRect(scx - sr, scy - sr, sr * 2, sr * 2);
+    b.restore();
+    crease(b, [scx - fx * sr, scy - fy * sr], [scx + fx * sr, scy + fy * sr], u, 1, 0.7);
+    yield;
+    // ── shadows of plinth + robot on the wall and floor
+    const allParts = SKELETON.parts;
+    const shadowCanvas = makeCanvas(W, H), sc = ctxOf(shadowCanvas);
+    const off = [0.13 * L.s, 0.055 * L.s];
+    sc.fillStyle = '#000';
+    for (const p of allParts) for (const f of ['side', 'top', 'front']) { sc.beginPath(); polyPath(sc, L.PP(p[f]).map(q => [q[0] + off[0], q[1] + off[1]])); sc.fill(); }
+    b.drawImage(blurredCopy(shadowCanvas, 14 * u, 0.42), 0, 0);
+    // contact shadow under the plinth
+    softShadow(b, L.PP([[-0.42, 0.14], [0.36, 0.14], [0.47, 0.17], [-0.36, 0.175]]), 'rgba(60,0,0,0.55)', 4 * u);
+    yield;
+    // shallow depth of field: the backdrop sits behind the focal plane
+    { const c2 = blurredCopy(base, 1.6 * u); yield; b.drawImage(c2, 0, 0); }
+    // ── the plinth: a kraft-paper box
+    paperBox(b, L, SKELETON.parts[0], hexRGB(P.kraft), rnd, { pre: false });
+    yield;
+    softShadow(b, L.PP([[-0.17, -0.004], [0.13, -0.004], [0.26, -0.035], [0.0, -0.035]]), 'rgba(50,25,0,0.45)', 4 * u);
+    for (const p of SKELETON.parts) if (p.group === 'body') { paperBox(b, L, p, hexRGB(P.kami), rnd, { pre: p.id === 'torso' }); yield; }
+    // the head throws a shadow onto the shoulders
+    softShadow(b, L.PP([[-0.17, -0.51], [0.17, -0.51], [0.226, -0.556], [-0.11, -0.556]]), 'rgba(5,10,40,0.55)', 4 * u);
+    yield;
+    b.save(); b.globalCompositeOperation = 'multiply'; b.drawImage(tex, 0, 0); b.restore();
+    yield;
+    // a little photographic grain over the whole frame
+    { const gimg = b.getImageData(0, 0, W, H), gd = gimg.data;
+      yield* pixelRows(H, y => { for (let x = 0; x < W; x++) { const i = (y * W + x) * 4, n = (hash2(x, y, 61) - 0.5) * 9; gd[i] += n; gd[i + 1] += n; gd[i + 2] += n; } });
+      b.putImageData(gimg, 0, 0); }
+    // edition: pencil on the floor sheet
+    const E = editionLayout(L, 9 * u);
+    pencil(b, textStrokes('6/8  ORIGAMI', E.left[0], E.left[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(60,10,5,0.55)', 1.1 * u);
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E.size);
+    pencil(b, textStrokes(wm, E.right[0] - ww, E.right[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(60,10,5,0.55)', 1.1 * u);
+    out.base = base;
+    yield;
+    // ── head
+    const C = L.headCrop, head = makeCanvas(C.w, C.h), h = ctxOf(head);
+    h.translate(-C.x, -C.y);
+    paperBox(h, L, SKELETON.head, hexRGB(P.kami), rnd, { pre: true, head: true });
+    yield;
+    // the dog-ear: white underside, shading towards the hinge, its shadow first
+    const F = SKELETON.fold, fl = L.PP(F.flap);
+    fillPoly(h, L.PP(F.gone), '#0d1a4a');
+    softShadow(h, fl.map(p => [p[0] + 4 * u, p[1] + 6 * u]), 'rgba(0,5,30,0.6)', 3.5 * u);
+    fillPoly(h, fl, P.white);
+    h.save(); h.beginPath(); polyPath(h, fl); h.clip();
+    const Mh = lerpPt(fl[0], fl[2], 0.5);
+    g = h.createLinearGradient(Mh[0], Mh[1], fl[1][0], fl[1][1]);
+    g.addColorStop(0, 'rgba(110,90,70,0.45)'); g.addColorStop(0.5, 'rgba(110,90,70,0.05)'); g.addColorStop(1, 'rgba(255,255,255,0.2)');
+    h.fillStyle = g; h.fillRect(C.x, C.y, C.w, C.h); h.restore();
+    h.beginPath(); h.moveTo(...fl[1]); h.lineTo(...fl[2]); h.strokeStyle = 'rgba(255,255,255,0.9)'; h.lineWidth = 1.3 * u; h.stroke();
+    // ear: two discs of vermilion paper stacked, each with a shadow
+    const e = SKELETON.ear, [ex, ey] = L.P([e.cx, e.cy]), erx = e.rx * L.s, ery = e.ry * L.s;
+    softShadow(h, ellipsePts(ex + 3 * u, ey + 5 * u, erx, ery), 'rgba(0,5,30,0.55)', 3 * u);
+    fillPoly(h, ellipsePts(ex - e.rim * L.s * 0.5, ey, erx, ery, 40), '#9c2b17');
+    fillPoly(h, ellipsePts(ex, ey, erx, ery, 40), '#df4a2c');
+    g = h.createLinearGradient(ex - erx, ey - ery, ex + erx, ey + ery);
+    g.addColorStop(0, 'rgba(255,220,190,0.45)'); g.addColorStop(0.5, 'rgba(255,220,190,0)'); g.addColorStop(1, 'rgba(60,0,0,0.3)');
+    h.save(); h.beginPath(); h.ellipse(ex, ey, erx, ery, 0, 0, TAU); h.clip(); h.fillStyle = g; h.fillRect(ex - erx, ey - ery, erx * 2, ery * 2); h.restore();
+    softShadow(h, ellipsePts(ex + 1.5 * u, ey + 2.5 * u, erx * 0.55, ery * 0.55), 'rgba(60,0,0,0.5)', 2 * u);
+    fillPoly(h, ellipsePts(ex, ey, erx * 0.55, ery * 0.55, 30), '#e8583a');
+    h.setTransform(1, 0, 0, 1, 0, 0);
+    multiplyWithin(h, tex, C.x, C.y, 1);
+    out.head = head;
+    // eyes: white circles glued on; pupils of black paper — both throw shadows
+    out.eyeWhite = (c, cx, cy, r) => {
+      c.save(); c.filter = `blur(${3 * u}px)`; c.beginPath(); c.arc(cx + 3 * u, cy + 4.5 * u, r, 0, TAU); c.fillStyle = 'rgba(0,5,30,0.55)'; c.fill(); c.restore();
+      c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fillStyle = P.white; c.fill();
+      const gg = c.createLinearGradient(cx - r, cy - r, cx + r, cy + r);
+      gg.addColorStop(0, 'rgba(255,255,255,0.4)'); gg.addColorStop(1, 'rgba(120,105,90,0.32)');
+      c.fillStyle = gg; c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fill();
+      c.beginPath(); c.arc(cx, cy, r - 0.6 * u, Math.PI * 0.9, Math.PI * 1.6); c.strokeStyle = 'rgba(255,255,255,0.9)'; c.lineWidth = 1 * u; c.stroke();
+    };
+    out.pupil = (c, cx, cy, r) => {
+      c.save(); c.filter = `blur(${1.6 * u}px)`; c.beginPath(); c.arc(cx + 1.6 * u, cy + 2.4 * u, r, 0, TAU); c.fillStyle = 'rgba(40,30,20,0.6)'; c.fill(); c.restore();
+      c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fillStyle = P.black; c.fill();
+      c.beginPath(); c.arc(cx, cy, r - 0.5 * u, Math.PI * 1.0, Math.PI * 1.5); c.strokeStyle = 'rgba(255,255,255,0.35)'; c.lineWidth = 0.9 * u; c.stroke();
+    };
+    out.lidCol = 'rgba(10,20,60,0.95)';
+  },
+});
+
+// a crease in a sheet: a light side and a dark side, softened
+function crease(ctx, a, b, u, sign = 1, alpha = 1) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy), nx = -dy / l, ny = dx / l;
+  ctx.save();
+  for (const [w, k] of [[6, 0.35], [3.5, 0.6], [1.6, 1]]) {
+    ctx.beginPath(); ctx.moveTo(a[0] + nx * 2 * u * sign, a[1] + ny * 2 * u * sign); ctx.lineTo(b[0] + nx * 2 * u * sign, b[1] + ny * 2 * u * sign);
+    ctx.strokeStyle = `rgba(255,225,200,${0.12 * alpha * k})`; ctx.lineWidth = w * u; ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(a[0] - nx * 2 * u * sign, a[1] - ny * 2 * u * sign); ctx.lineTo(b[0] - nx * 2 * u * sign, b[1] - ny * 2 * u * sign);
+    ctx.strokeStyle = `rgba(60,0,0,${0.14 * alpha * k})`; ctx.lineWidth = w * u; ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// a box folded from one sheet: Lambert-ish planes, bowing, edge light, white core
+function paperBox(ctx, L, p, col, rnd, o = {}) {
+  const u = L.u;
+  const lit = { top: 0.22, front: 0.0, side: -0.32 };
+  const wob = {};
+  for (const f of ['side', 'top', 'front']) wob[f] = wobble(L.PP(p[f]), 22 * u, 0.7 * u, rnd);
+  for (const f of ['side', 'top', 'front']) {
+    const pts = wob[f], bb = bboxOf(pts), c = shadeRGB(col, lit[f]);
+    fillPoly(ctx, pts, rgba(c));
+    ctx.save(); ctx.beginPath(); polyPath(ctx, pts); ctx.clip();
+    // a plane that is not quite flat: brighter towards the light, falling off
+    const g = ctx.createLinearGradient(bb.x0, bb.y0, bb.x1, bb.y1);
+    g.addColorStop(0, rgba(shadeRGB(c, 0.10), 0.9)); g.addColorStop(0.55, rgba(c, 0)); g.addColorStop(1, rgba(shadeRGB(c, -0.16), 0.9));
+    ctx.fillStyle = g; ctx.fillRect(bb.x0, bb.y0, bb.w, bb.h);
+    // a soft bulge
+    const cc = centroid(pts), rg = ctx.createRadialGradient(cc[0] - bb.w * 0.15, cc[1] - bb.h * 0.15, 0, cc[0], cc[1], Math.max(bb.w, bb.h) * 0.7);
+    rg.addColorStop(0, 'rgba(255,255,255,0.07)'); rg.addColorStop(1, 'rgba(0,0,0,0.06)'); ctx.fillStyle = rg; ctx.fillRect(bb.x0, bb.y0, bb.w, bb.h);
+    // old creases from folding the sheet
+    if (o.pre && f === 'front') {
+      const [A, B, Cc, D] = pts;
+      for (const [s, e2, sg] of [[A, Cc, 1], [B, D, -1]]) creaseLine(ctx, s, e2, u, sg, 0.55);
+      if (o.head) creaseLine(ctx, lerpPt(A, D, 0.5), lerpPt(B, Cc, 0.5), u, 1, 0.4);
+    }
+    ctx.restore();
+  }
+  // convex edges: a line of light, the paper's white core peeking at the fold
+  const fr = L.PP(p.front), tp = L.PP(p.top), sd = L.PP(p.side);
+  const edgeLight = (a, b, w, al) => { ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.strokeStyle = `rgba(255,252,240,${al})`; ctx.lineWidth = w * u; ctx.stroke(); };
+  edgeLight(fr[0], fr[1], 2.0, 0.85);           // top-front edge: brightest
+  edgeLight(tp[1], tp[0], 1.0, 0.45);           // top-left edge
+  edgeLight(fr[1], fr[2], 1.0, 0.35);           // front-side edge
+  edgeLight(sd[1], sd[0], 0.8, 0.3);
+  // inside corner darkening where the side meets the front at the bottom
+  ctx.save();
+  for (const [w, a] of [[4, 0.08], [2.6, 0.12], [1.4, 0.18]]) {
+    ctx.beginPath(); ctx.moveTo(fr[3][0], fr[3][1]); ctx.lineTo(fr[2][0], fr[2][1]); ctx.lineTo(sd[2][0], sd[2][1]);
+    ctx.strokeStyle = `rgba(0,0,20,${a})`; ctx.lineWidth = w * u; ctx.stroke();
+  }
+  ctx.restore();
+}
+function creaseLine(ctx, a, b, u, sign, al) {
+  const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy), nx = -dy / l * sign, ny = dx / l * sign;
+  ctx.beginPath(); ctx.moveTo(a[0] + nx * 0.7 * u, a[1] + ny * 0.7 * u); ctx.lineTo(b[0] + nx * 0.7 * u, b[1] + ny * 0.7 * u);
+  ctx.strokeStyle = `rgba(255,255,255,${0.22 * al})`; ctx.lineWidth = 1.1 * u; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(a[0] - nx * 0.7 * u, a[1] - ny * 0.7 * u); ctx.lineTo(b[0] - nx * 0.7 * u, b[1] - ny * 0.7 * u);
+  ctx.strokeStyle = `rgba(0,0,30,${0.3 * al})`; ctx.lineWidth = 1.1 * u; ctx.stroke();
+}
+// ═════════════════════════════════════════ 7 · WOODBLOCK — moku-hanga
+// One key block of sumi lines and a block per colour, printed with water
+// pigment on kozo paper. Every colour carries the grain of its cherry block
+// and the swirl of the baren; the sky is wiped into a bokashi; colour blocks
+// sit a hair off their keylines. A pine reaches in, mist bands cross the sun.
+defMaterial({
+  key: 'woodblock', label: 'WOODBLOCK', field: '#efe4cc',
+  pal: { paper: '#eee3c9', sumi: '#2a2521', bero: '#24497f', beroTop: '#5577a8', beroSide: '#18325c', shu: '#c94429', mist: '#e7b9a3', hill: '#8ea0bf', green: '#7f9157', pine: '#3f5a3a', stone: '#a69d8a', stoneDark: '#7d7566' },
+  *build(L, out) {
+    const P = this.pal, rnd = mulberry32(707), u = L.u, W = L.W, H = L.H, m = L.m;
+    const paper = yield* makePaper(L, P.paper, { mottle: 0.04, tooth: 0.04, fibres: 900, seed: 77, fibreCol: '#d8ccb0', warm: 5 });
+    // wood grain density field (alpha), larger than the frame so blocks can shift
+    const GP = 160 * u, gw = Math.ceil(W + GP * 2), gh = Math.ceil(H + GP * 2), grain = makeCanvas(gw, gh);
+    {
+      const small = makeCanvas(Math.ceil(gw / 2), Math.ceil(gh / 2));
+      yield* fieldToCanvas(small, (x, y) => {
+        const X = x * 2, Y = y * 2;
+        const g = fbm(X / (420 * u), Y / (7 * u) + fbm(X / (300 * u), Y / (60 * u), 2, 91) * 6, 3, 90);
+        const ring = 0.5 + 0.5 * Math.sin(Y / (5.5 * u) + fbm(X / (200 * u), Y / (90 * u), 3, 92) * 14);
+        const baren = 0.5 + 0.5 * Math.sin(Math.hypot((X % (260 * u)) - 130 * u, (Y % (240 * u)) - 120 * u) / (9 * u));
+        const a = 0.80 + 0.12 * (g - 0.5) * 2 + 0.07 * (ring - 0.5) + 0.03 * (baren - 0.5);
+        return [255, 255, 255, clamp(a) * 255];
+      });
+      const gc = ctxOf(grain); gc.imageSmoothingQuality = 'high'; gc.drawImage(small, 0, 0, gw, gh);
+      // flecks where the fibres refused pigment
+      gc.globalCompositeOperation = 'destination-out'; gc.strokeStyle = 'rgba(0,0,0,0.55)'; gc.lineCap = 'round';
+      for (let i = 0; i < 1400 * (W * H) / (1440 * 900); i++) { const x = rnd() * gw, y = rnd() * gh, a = rnd() * TAU, l = (2 + rnd() * 9) * u; gc.beginPath(); gc.moveTo(x, y); gc.quadraticCurveTo(x + Math.cos(a + 1) * l * 0.5, y + Math.sin(a + 1) * l * 0.5, x + Math.cos(a) * l, y + Math.sin(a) * l); gc.lineWidth = (0.5 + rnd() * 0.8) * u; gc.stroke(); }
+      gc.globalCompositeOperation = 'source-over';
+    }
+    yield;
+    const tmp = makeCanvas(W, H), t = ctxOf(tmp);
+    // print one colour block: shape → grain → optional bokashi → multiply onto the sheet
+    const block = function* (target, drawShape, col, o = {}) {
+      const { alpha = 1, bokashi = null, reg = 1.6, knock = null } = o;
+      t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.clearRect(0, 0, W, H);
+      t.save(); t.translate((rnd() - 0.5) * 2 * reg * u, (rnd() - 0.5) * 2 * reg * u);
+      t.fillStyle = col; drawShape(t); t.restore();
+      if (knock) { t.save(); t.globalCompositeOperation = 'destination-out'; t.fillStyle = '#000'; knock(t); t.restore(); }
+      t.globalCompositeOperation = 'destination-in';
+      t.drawImage(grain, -GP + (rnd() - 0.5) * GP, -GP + (rnd() - 0.5) * GP);
+      if (bokashi) {
+        const [x0, y0, x1, y1, a0, a1] = bokashi, g = t.createLinearGradient(x0, y0, x1, y1);
+        g.addColorStop(0, `rgba(0,0,0,${a0})`); g.addColorStop(1, `rgba(0,0,0,${a1})`);
+        t.fillStyle = g; t.fillRect(0, 0, W, H);
+      }
+      target.save(); target.globalAlpha = alpha; target.globalCompositeOperation = 'multiply'; target.drawImage(tmp, 0, 0); target.restore();
+      yield;
+    };
+    const fillPts = pts => c => { c.beginPath(); polyPath(c, pts); c.fill(); };
+    const base = makeCanvas(W, H), b = ctxOf(base);
+    b.drawImage(paper, 0, 0);
+    const pr = { x0: m, y0: m, x1: W - m, y1: H - m * 2.0 };     // the printed image area
+    const hy = L.P([0, -0.02])[1];
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    b.save(); b.beginPath(); b.rect(pr.x0, pr.y0, pr.x1 - pr.x0, pr.y1 - pr.y0); b.clip();
+    // the block cutter clears the figure out of every background block (the head is
+    // printed on its own opaque layer, so the sky runs on behind it as it tilts)
+    const figure = c => { for (const p of SKELETON.parts) if (p.group !== 'head') for (const f of ['side', 'top', 'front']) { c.beginPath(); polyPath(c, insetPoly(L.PP(p[f]), -0.8 * u)); c.fill(); } };
+    const kh = 0.07 * L.s;
+    const k1 = [scx - 1.25 * sr, scy + 0.12 * sr, 2.0 * sr, kh, [[0, 0, 0.75], [0.18, 0.75, 0.8], [0.55, -0.6, 0.35]]];
+    const k2 = [pr.x0 - 20 * u, hy - 0.2 * L.s, (L.ox - pr.x0) * 0.85, kh * 0.9, [[0, 0, 0.8], [0.25, 0.8, 0.75]]];
+    const k3 = [L.ox + 0.55 * L.s, hy - 0.32 * L.s, (pr.x1 - L.ox) * 0.75, kh * 0.9, [[0.05, 0, 0.7], [0.3, 0.8, 0.7]]];
+    const kasumi = (x, y, w, hgt, steps) => c => {
+      for (const [dx, dy, ww] of steps) { const xx = x + dx * w, yy = y + dy * hgt, wd = ww * w; c.beginPath(); c.roundRect(xx, yy, wd, hgt, hgt / 2); c.fill(); }
+    };
+    const mists = c => { for (const k of [k1, k2, k3]) kasumi(...k)(c); };
+    // a pine branch reaching in from the upper left (cut out of the blocks behind it)
+    const pineCanvas = makeCanvas(W, H), pc = ctxOf(pineCanvas), pineKey = [];
+    pine(pc, pineKey, L, pr, rnd, P);
+    const bgKnock = c => { figure(c); mists(c); c.drawImage(pineCanvas, 0, 0); };
+    // sky bokashi: bero wiped from the top
+    yield* block(b, c => c.fillRect(pr.x0 - 10, pr.y0 - 10, pr.x1 - pr.x0 + 20, hy - pr.y0 + 10), P.bero, { bokashi: [0, pr.y0, 0, pr.y0 + (hy - pr.y0) * 0.55, 0.95, 0], reg: 0, knock: bgKnock });
+    // a second, faint pass towards the horizon
+    yield* block(b, c => c.fillRect(pr.x0 - 10, pr.y0, pr.x1 - pr.x0 + 20, hy - pr.y0), P.mist, { bokashi: [0, hy, 0, hy - (hy - pr.y0) * 0.5, 0.55, 0], reg: 0, knock: bgKnock });
+    // the sun in shu, darker bokashi on its lower edge
+    const sunPts = ellipsePts(scx, scy, sr, sr, 140);
+    yield* block(b, fillPts(sunPts), P.shu, { reg: 1.4, knock: bgKnock });
+    yield* block(b, fillPts(sunPts), P.shu, { bokashi: [0, scy + sr, 0, scy + sr * 0.2, 0.55, 0], reg: 0.5, knock: bgKnock });
+    yield;
+    // distant hills, pale indigo wiped from the top
+    const hills = []; { const n = 9; hills.push([pr.x0 - 10, hy]);
+      for (let i = 0; i <= n * 8; i++) { const x = lerp(pr.x0 - 10, pr.x1 + 10, i / (n * 8)); const k = i / (n * 8);
+        const hump = Math.pow(Math.abs(Math.sin(k * 11.0 + 0.6)), 0.7) * 0.10 + Math.pow(Math.abs(Math.sin(k * 5.3 + 2.0)), 1.5) * 0.08;
+        const yv = hy - L.s * (0.04 + hump) * (0.55 + 0.7 * Math.abs(k - 0.5) * 2);
+        hills.push([x, yv]); }
+      hills.push([pr.x1 + 10, hy]); }
+    yield* block(b, fillPts(hills), P.hill, { bokashi: [0, hy - 0.22 * L.s, 0, hy, 0.95, 0.25], knock: bgKnock });
+    // ground: green with a bokashi towards the viewer
+    yield* block(b, c => c.fillRect(pr.x0 - 10, hy, pr.x1 - pr.x0 + 20, pr.y1 - hy + 10), P.green, { bokashi: [0, hy, 0, pr.y1, 0.45, 0.95], knock: figure });
+    // mist bands (kasumi) are unprinted paper; only a faint blush along their base
+    yield* block(b, mists, P.mist, { alpha: 0.45, reg: 0.6, knock: figure });
+    yield;
+    yield* block(b, c => { c.drawImage(pineCanvas, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillRect(0, 0, W, H); c.globalCompositeOperation = 'source-over'; }, P.pine, { reg: 1.2 });
+    // plinth
+    const pl = SKELETON.parts[0];
+    for (const [f, col] of [['top', P.stone], ['front', P.stone], ['side', P.stoneDark]]) yield* block(b, fillPts(L.PP(pl[f])), col, { alpha: f === 'top' ? 0.6 : 0.9 });
+    yield* block(b, fillPts(L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]])), P.stoneDark, { alpha: 0.7 });
+    // body in bero
+    const bodyCols = { top: P.beroTop, front: P.bero, side: P.beroSide };
+    // three blocks for the figure: a pale bero over everything, a second pass on
+    // fronts and sides, a third on the sides — each with its own registration
+    const printFigure = function* (target, parts, knock) {
+      yield* block(target, c => { for (const p of parts) for (const f of ['side', 'top', 'front']) { c.beginPath(); polyPath(c, L.PP(p[f])); c.fill(); } }, P.beroTop, { reg: 0.8, knock });
+      yield* block(target, c => { for (const p of parts) for (const f of ['side', 'front']) { c.beginPath(); polyPath(c, L.PP(p[f])); c.fill(); } }, '#5a7ab0', { reg: 1.1, knock });
+      yield* block(target, c => { for (const p of parts) { c.beginPath(); polyPath(c, L.PP(p.side)); c.fill(); } }, '#53709f', { reg: 1.1, knock });
+    };
+    const bodyParts = SKELETON.parts.filter(p => p.group === 'body');
+    yield* printFigure(b, bodyParts);
+    yield* block(b, fillPts(L.PP([[-0.17, -0.51], [0.17, -0.51], [0.226, -0.556], [-0.11, -0.556]])), P.beroSide, { alpha: 0.6 });
+    yield;
+    // ── the key block: sumi lines with carved swell and the odd break
+    const key = makeCanvas(W, H), kc = ctxOf(key);
+    kc.strokeStyle = P.sumi; kc.fillStyle = P.sumi; kc.lineCap = 'round'; kc.lineJoin = 'round';
+    keyPoly(kc, sunPts, 1.6 * u, rnd, true);
+    for (const k of [k1, k2, k3]) { const [x, y, w, hgt, steps] = k; for (const [dx, dy, ww] of steps) { const rr = []; const xx = x + dx * w, yy = y + dy * hgt, wd = ww * w, r = hgt / 2;
+      for (let i = 0; i <= 12; i++) { const a = -Math.PI / 2 - i / 12 * Math.PI; rr.push([xx + r + Math.cos(a) * r, yy + r + Math.sin(a) * r]); }
+      for (let i = 0; i <= 12; i++) { const a = Math.PI / 2 - i / 12 * Math.PI; rr.push([xx + wd - r + Math.cos(a) * r, yy + r + Math.sin(a) * r]); }
+      keyPoly(kc, rr, 1.3 * u, rnd, true); } }
+    keyPoly(kc, hills.slice(1, -1), 1.5 * u, rnd, false);
+    for (const pl2 of pineKey) keyPoly(kc, pl2.pts, pl2.w, rnd, false);
+    keyPoly(kc, [[pr.x0, hy], [pr.x1, hy]], 1.2 * u, rnd, false);
+    for (let i = 0; i < 46; i++) {                       // grass in the foreground
+      const x = pr.x0 + rnd() * (pr.x1 - pr.x0), y = hy + 0.06 * L.s + Math.pow(rnd(), 0.7) * (pr.y1 - hy - 0.08 * L.s);
+      if (Math.abs(x - L.ox) < 0.45 * L.s && y < L.oy + 0.2 * L.s) continue;
+      const s = (5 + rnd() * 7) * u * (0.6 + (y - hy) / (pr.y1 - hy));
+      for (const dx of [-1, 0, 1]) keyPoly(kc, [[x + dx * s * 0.25, y], [x + dx * s * 0.75 + (rnd() - 0.5) * s * 0.3, y - s * (dx ? 0.8 : 1.2)]], 1.0 * u, rnd, false);
+    }
+    kc.save(); kc.globalCompositeOperation = 'destination-out'; kc.fillStyle = '#000'; figure(kc); kc.restore();
+    const keyBlock = (c, p) => { for (const f of ['side', 'top', 'front']) keyPoly(c, L.PP(p[f]), 1.7 * u, rnd, true); };
+    keyBlock(kc, pl);
+    for (const p of SKELETON.parts) if (p.group === 'body') keyBlock(kc, p);
+    // stone texture lines on the plinth
+    for (let i = 0; i < 14; i++) { const a = L.P([-0.38 + rnd() * 0.66, 0.05 + rnd() * 0.08]); keyPoly(kc, [a, [a[0] + (8 + rnd() * 18) * u, a[1] + (rnd() - 0.5) * 3 * u]], 0.9 * u, rnd, false); }
+    kc.globalCompositeOperation = 'destination-in'; kc.drawImage(grain, -GP, -GP);
+    b.drawImage(key, 0, 0);
+    b.restore();
+    // a red seal in the margin, and pencil marks
+    seal(b, pr.x1 - 34 * u, pr.y1 - 44 * u, 26 * u, P.shu, rnd, u);
+    const E = editionLayout(L, 9 * u);
+    pencil(b, textStrokes('7/8  WOODBLOCK', E.left[0], E.left[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(60,52,44,0.6)', 1.1 * u);
+    const wm = 'PAPER ROBOTS', ww = textWidth(wm, E.size);
+    pencil(b, textStrokes(wm, E.right[0] - ww, E.right[1], E.size, 1.7, rnd, 0.4 * u), rnd, 'rgba(60,52,44,0.6)', 1.1 * u);
+    out.base = base;
+    yield;
+    // ── head
+    const C = L.headCrop, sheet = makeCanvas(W, H), s = ctxOf(sheet);
+    const hd = SKELETON.head, F = SKELETON.fold, fl = L.PP(F.flap), e = SKELETON.ear, [ex, ey] = L.P([e.cx, e.cy]);
+    // paper inside the head silhouette, then its blocks, then its keylines
+    s.save(); s.beginPath(); for (const f of ['side', 'top', 'front']) polyPath(s, insetPoly(L.PP(hd[f]), -0.9 * u)); polyPath(s, fl); s.clip(); s.drawImage(paper, 0, 0); s.restore();
+    const earKnock = c => { c.beginPath(); c.ellipse(ex - e.rim * L.s * 0.5, ey, e.rx * L.s * 1.05, e.ry * L.s * 1.03, 0, 0, TAU); c.ellipse(ex, ey, e.rx * L.s * 1.03, e.ry * L.s * 1.03, 0, 0, TAU); c.fill(); };
+    yield* printFigure(s, [hd], earKnock);
+    s.save(); s.globalCompositeOperation = 'destination-out'; fillPoly(s, fl, '#000'); s.restore();
+    s.save(); s.beginPath(); polyPath(s, fl); s.clip(); s.drawImage(paper, 0, 0); s.restore();
+    yield* block(s, fillPts([fl[0], lerpPt(fl[1], fl[2], 0.45), fl[2]]), '#9b9384', { alpha: 0.35, reg: 0.4 });
+    yield* block(s, fillPts(ellipsePts(ex - e.rim * L.s * 0.5, ey, e.rx * L.s, e.ry * L.s)), '#8a2c1c', { reg: 0.6 });
+    yield* block(s, fillPts(ellipsePts(ex, ey, e.rx * L.s, e.ry * L.s)), P.shu, { reg: 0.8 });
+    const hkey = makeCanvas(W, H), hk = ctxOf(hkey); hk.strokeStyle = P.sumi; hk.lineCap = 'round'; hk.lineJoin = 'round';
+    keyBlock(hk, hd); keyPoly(hk, fl, 1.4 * u, rnd, true);
+    keyPoly(hk, ellipsePts(ex, ey, e.rx * L.s, e.ry * L.s, 40), 1.4 * u, rnd, true);
+    keyPoly(hk, ellipsePts(ex, ey, e.rx * L.s * 0.55, e.ry * L.s * 0.55, 30), 1.0 * u, rnd, true);
+    hk.globalCompositeOperation = 'destination-in'; hk.drawImage(grain, -GP, -GP);
+    s.drawImage(hkey, 0, 0);
+    const head = makeCanvas(C.w, C.h); ctxOf(head).drawImage(sheet, C.x, C.y, C.w, C.h, 0, 0, C.w, C.h);
+    out.head = head;
+    out.eyeWhite = (c, cx, cy, r) => {
+      c.save(); c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.clip(); c.drawImage(paper, -L.W * 0.3, -L.H * 0.3); c.restore();
+      c.strokeStyle = P.sumi; c.lineCap = 'round'; keyPoly(c, ellipsePts(cx, cy, r, r, 48), 1.6 * u, rnd, true);
+    };
+    out.pupil = (c, cx, cy, r) => { c.beginPath(); c.arc(cx, cy, r, 0, TAU); c.fillStyle = P.sumi; c.fill(); c.beginPath(); c.arc(cx + r * 0.32, cy - r * 0.34, r * 0.22, 0, TAU); c.fillStyle = P.paper; c.fill(); };
+    out.lidCol = P.sumi;
+  },
+});
+
+// a keyline: carved, so it swells and thins, with the occasional break
+function keyPoly(ctx, pts, w, rnd, close) {
+  const src = close ? pts.concat([pts[0]]) : pts;
+  const rs = resample(src, 3);
+  ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (let i = 1; i < rs.length; i++) {
+    if (rnd() < 0.006) { i += 2; continue; }
+    const k = 0.75 + 0.5 * vnoise(i * 0.08, 0, 5);
+    ctx.beginPath(); ctx.moveTo(rs[i - 1][0], rs[i - 1][1]); ctx.lineTo(rs[i][0], rs[i][1]);
+    ctx.lineWidth = w * k; ctx.stroke();
+  }
+  ctx.restore();
+}
+// a pine bough: a crooked branch and fans of needles
+function pine(ctx, key, L, pr, rnd, P) {
+  const u = L.u, s = L.s;
+  const start = [pr.x0 - 10 * u, pr.y0 + 0.16 * s];
+  const branch = [start]; let p = start, a = 0.12;
+  for (let i = 0; i < 11; i++) { a = clamp(a + (rnd() - 0.5) * 0.55, -0.15, 0.5); p = [p[0] + Math.cos(a) * 0.08 * s, p[1] + Math.sin(a) * 0.08 * s]; branch.push(p); }
+  // the bough itself (filled in brown-green, keyed in sumi)
+  ctx.fillStyle = '#000';
+  for (let i = 1; i < branch.length; i++) { ctx.beginPath(); ctx.moveTo(...branch[i - 1]); ctx.lineTo(...branch[i]); ctx.lineWidth = (9 - i * 0.7) * u; ctx.lineCap = 'round'; ctx.strokeStyle = '#000'; ctx.stroke(); }
+  key.push({ pts: branch, w: 1.6 * u });
+  // needle clusters: half-discs of radiating lines, filled
+  const clusters = [];
+  for (let i = 2; i < branch.length; i++) {
+    const c = branch[i], n = 2 + (rnd() * 2 | 0);
+    for (let k = 0; k < n; k++) clusters.push([c[0] + (rnd() - 0.4) * 0.11 * s, c[1] + (rnd() - 0.5) * 0.08 * s, (0.055 + rnd() * 0.035) * s]);
+  }
+  for (const [x, y, r] of clusters) {
+    ctx.beginPath(); ctx.moveTo(x - r, y); ctx.arc(x, y, r, Math.PI, TAU); ctx.closePath(); ctx.fill();
+    const lines = [];
+    for (let k = 0; k <= 14; k++) { const aa = Math.PI + k / 14 * Math.PI; key.push({ pts: [[x + Math.cos(aa) * r * 0.15, y], [x + Math.cos(aa) * r, y + Math.sin(aa) * r]], w: 0.8 * u }); }
+    key.push({ pts: [[x - r, y], [x + r, y]], w: 1.1 * u });
+  }
+}
+function seal(ctx, x, y, s, col, rnd, u) {
+  ctx.save(); ctx.globalCompositeOperation = 'multiply';
+  ctx.fillStyle = col; ctx.globalAlpha = 0.9;
+  ctx.beginPath(); polyPath(ctx, wobble([[x, y], [x + s, y], [x + s, y + s * 1.3], [x, y + s * 1.3]], 4 * u, 1.2 * u, rnd)); ctx.fill();
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  ctx.strokeStyle = '#eee3c9'; ctx.lineWidth = s * 0.08; ctx.lineCap = 'square';
+  for (const pl of textStrokes('P', x + s * 0.3, y + s * 0.12, s * 0.45, 1)) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.stroke(); }
+  for (const pl of textStrokes('R', x + s * 0.3, y + s * 0.68, s * 0.45, 1)) { ctx.beginPath(); polyPath(ctx, pl, false); ctx.stroke(); }
+  // ink starved spots
+  for (let i = 0; i < 40; i++) { ctx.fillStyle = 'rgba(238,227,201,0.7)'; ctx.fillRect(x + rnd() * s, y + rnd() * s * 1.3, 1.2 * u, 1.2 * u); }
+  ctx.restore();
+}
+// ═════════════════════════════════════════ 8 · CROSS-STITCH — on black aida
+// The picture quantised to the cloth's grid: every cell one X of stranded
+// cotton, bottom leg first, top leg over it, each with its twist of light.
+// Shading by thread choice; French knots for flowers; lettering backstitched
+// hole to hole. The head is re-stitched every frame, so its tilt and blink
+// happen a stitch at a time.
+defMaterial({
+  key: 'stitch', label: 'CROSS-STITCH', field: '#18171c',
+  pal: {
+    cloth: '#1b1a20', cobalt: '#2f57c8', sky: '#86a9ee', navy: '#1a2a78', back: '#0d1438', backSand: '#6d4c26', white: '#f3efe6', shade: '#c9c3b7', ver: '#e2492d', verDark: '#a2301c',
+    gold: '#f4b53d', amber: '#e48a2a', sand: '#dcb478', sandDark: '#ab8350', green: '#4d8a3b', greenDark: '#335f2a', ink: '#121216', pink: '#ee8fb0',
+  },
+  *build(L, out) {
+    const P = this.pal, u = L.u, W = L.W, H = L.H, rnd = mulberry32(808);
+    const cs = Math.max(5.5, Math.round(10.2 * u * 4) / 4);      // cell size (device px)
+    const cols = Math.ceil(W / cs) + 1, rows = Math.ceil(H / cs) + 1;
+    out.cs = cs;
+    // ── the cloth: an aida block per cell, holes at the corners
+    const tile = makeCanvas(cs, cs), tc = ctxOf(tile);
+    const cl = hexRGB(P.cloth);
+    tc.fillStyle = rgba(shadeRGB(cl, -0.35)); tc.fillRect(0, 0, cs, cs);
+    const g = tc.createLinearGradient(0, 0, cs, cs); g.addColorStop(0, rgba(shadeRGB(cl, 0.14))); g.addColorStop(1, rgba(shadeRGB(cl, -0.1)));
+    tc.fillStyle = g; tc.beginPath(); tc.roundRect(cs * 0.12, cs * 0.12, cs * 0.76, cs * 0.76, cs * 0.18); tc.fill();
+    tc.strokeStyle = rgba(shadeRGB(cl, 0.2), 0.35); tc.lineWidth = Math.max(0.5, cs * 0.05);
+    for (let k = 0; k < 3; k++) { tc.beginPath(); tc.moveTo(cs * 0.2, cs * (0.3 + k * 0.2)); tc.lineTo(cs * 0.8, cs * (0.3 + k * 0.2)); tc.stroke(); }
+    const base = makeCanvas(W, H), b = ctxOf(base);
+    b.fillStyle = b.createPattern(tile, 'repeat'); b.fillRect(0, 0, W, H);
+    // cloth irregularity and lint
+    b.save(); b.globalAlpha = 0.5;
+    for (let i = 0; i < 260; i++) { const x = rnd() * W, y = rnd() * H, l = (8 + rnd() * 30) * u, a = rnd() * TAU; b.beginPath(); b.moveTo(x, y); b.quadraticCurveTo(x + Math.cos(a + 1) * l / 2, y + Math.sin(a + 1) * l / 2, x + Math.cos(a) * l, y + Math.sin(a) * l); b.strokeStyle = 'rgba(120,115,130,0.25)'; b.lineWidth = 0.6 * u; b.stroke(); }
+    b.restore();
+    { const vg = b.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.75); vg.addColorStop(0, 'rgba(0,0,0,0)'); vg.addColorStop(1, 'rgba(0,0,0,0.45)'); b.fillStyle = vg; b.fillRect(0, 0, W, H); }
+    yield;
+    // ── stitch sprites: three tension variants per thread
+    const pad = Math.ceil(cs * 0.4), ss = cs + pad * 2;
+    const sprites = {};
+    const makeStitch = (hex, v, half = false) => {
+      const c = makeCanvas(ss, ss), x = ctxOf(c), col = hexRGB(hex), r = mulberry32(hash2(v, hex.length, 3) * 1e9);
+      const leg = (ax, ay, bx, by, top) => {
+        const w = cs * (0.30 + r() * 0.04);
+        // shadow on the cloth / on the leg below
+        x.save(); x.filter = `blur(${Math.max(0.5, cs * 0.08)}px)`; x.strokeStyle = 'rgba(0,0,0,0.55)'; x.lineWidth = w; x.lineCap = 'round';
+        x.beginPath(); x.moveTo(ax + cs * 0.06, ay + cs * 0.08); x.lineTo(bx + cs * 0.06, by + cs * 0.08); x.stroke(); x.restore();
+        x.lineCap = 'round';
+        x.strokeStyle = rgba(shadeRGB(col, -0.28)); x.lineWidth = w; x.beginPath(); x.moveTo(ax, ay); x.lineTo(bx, by); x.stroke();
+        x.strokeStyle = rgba(col); x.lineWidth = w * 0.78; x.beginPath(); x.moveTo(ax, ay); x.lineTo(bx, by); x.stroke();
+        // two strands, each with a twist: short bright dashes along the strand
+        const dx = bx - ax, dy = by - ay, l = Math.hypot(dx, dy), nx = -dy / l, ny = dx / l;
+        for (const s of [-1, 1]) {
+          const o = s * w * 0.2;
+          for (let k = 0; k < 4; k++) {
+            const t0 = 0.12 + k * 0.2 + r() * 0.03, t1 = t0 + 0.1;
+            x.beginPath(); x.moveTo(ax + dx * t0 + nx * (o - s * w * 0.08), ay + dy * t0 + ny * (o - s * w * 0.08)); x.lineTo(ax + dx * t1 + nx * (o + s * w * 0.08), ay + dy * t1 + ny * (o + s * w * 0.08));
+            x.strokeStyle = rgba(shadeRGB(col, 0.32 + (top ? 0.08 : 0)), 0.75); x.lineWidth = w * 0.16; x.stroke();
+          }
+        }
+      };
+      const j = () => (r() - 0.5) * cs * 0.06;
+      const p0 = pad + cs * 0.1, p1 = pad + cs * 0.9;
+      leg(p0 + j(), p1 + j(), p1 + j(), p0 + j(), false);      // bottom leg  /
+      if (!half) leg(p0 + j(), p0 + j(), p1 + j(), p1 + j(), true); // top leg  \
+      return c;
+    };
+    for (const k of Object.keys(P)) if (k !== 'cloth') sprites[k] = [0, 1, 2].map(v => makeStitch(P[k], v));
+    for (const k of ['amber', 'shade', 'navy', 'greenDark']) sprites[k + 'Half'] = [0, 1, 2].map(v => makeStitch(P[k], v, true));
+    out.sprites = sprites; out.pad = pad;
+    yield;
+    // ── chart the scene: one thread per cell
+    const sun = SKELETON.sun, [scx, scy] = L.P([sun.cx, sun.cy]), sr = sun.r * L.s;
+    const hy = L.P([0, -0.02])[1];
+    const bodyFaces = facesOf(p => p.group === 'body' || p.group === 'ground').map(f => ({ ...f, px: L.PP(f.pts) }));
+    const faceThread = (f) => f.part.group === 'ground' ? (f.face === 'side' ? 'sandDark' : f.face === 'top' ? 'sand' : 'sand') : (f.face === 'top' ? 'sky' : f.face === 'side' ? 'navy' : 'cobalt');
+    const tsz = cs * 3;
+    const bm = Math.round(L.m / cs), bottomM = L.portrait ? 14 : Math.round(L.m * 2.2 / cs);
+    const inside = (i, j) => i > bm && i < cols - bm - 2 && j > bm && j < rows - bottomM;
+    const chart = new Array(cols * rows).fill(null);
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+      if (!inside(i, j)) continue;
+      const x = (i + 0.5) * cs, y = (j + 0.5) * cs;
+      let th = null;
+      const ds = Math.hypot(x - scx, y - scy);
+      if (ds < sr) th = ds > sr - cs * 1.6 ? 'amber' : 'gold';
+      if (y > hy) th = (y - hy) < cs * 2 ? 'greenDark' : ((hash2(i, j, 5) < 0.12) ? 'greenDark' : 'green');
+      for (const f of bodyFaces) if (insidePoly(x, y, f.px)) th = faceThread(f);
+      chart[j * cols + i] = th;
+    }
+    // cast shadow on the plinth: shaded thread
+    const shp = L.PP([[-0.17, -0.005], [0.13, -0.005], [0.30, -0.04], [0.03, -0.04]]);
+    for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) if (inside(i, j) && insidePoly((i + 0.5) * cs, (j + 0.5) * cs, shp)) chart[j * cols + i] = 'sandDark';
+    // a border: a running stitch frame of gold and vermilion
+    for (let i = bm; i < cols - bm - 1; i++) for (const j of [bm, rows - bottomM]) chart[j * cols + i] = (i % 4 < 2) ? 'ver' : 'gold';
+    for (let j = bm; j <= rows - bottomM; j++) for (const i of [bm, cols - bm - 2]) chart[j * cols + i] = (j % 4 < 2) ? 'ver' : 'gold';
+    // sparkles in the night cloth
+    for (let n = 0; n < 26; n++) {
+      const i = bm + 3 + Math.floor(rnd() * (cols - bm * 2 - 8)), j = bm + 3 + Math.floor(rnd() * (Math.floor(hy / cs) - bm - 6));
+      if (chart[j * cols + i]) continue;
+      if (Math.hypot((i + 0.5) * cs - scx, (j + 0.5) * cs - scy) < sr + cs * 4) continue;
+      const big = rnd() < 0.35;
+      chart[j * cols + i] = 'white';
+      if (big) for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!chart[(j + dj) * cols + i + di]) chart[(j + dj) * cols + i + di] = 'shadeHalf';
+    }
+    // render chart
+    const drawCell = (ctx, i, j, th) => {
+      const set = sprites[th]; if (!set) return;
+      const v = (hash2(i, j, 11) * 3) | 0;
+      ctx.drawImage(set[v], i * cs - pad, j * cs - pad);
+    };
+    for (let j = 0; j < rows; j++) { for (let i = 0; i < cols; i++) { const th = chart[j * cols + i]; if (th) drawCell(b, i, j, th); } if ((j & 7) === 7) yield; }
+    // French knots: flowers in the grass
+    const knot = (x, y, hex) => {
+      b.save(); b.filter = `blur(${cs * 0.1}px)`; b.fillStyle = 'rgba(0,0,0,0.5)'; b.beginPath(); b.arc(x + cs * 0.12, y + cs * 0.14, cs * 0.42, 0, TAU); b.fill(); b.restore();
+      const col = hexRGB(hex);
+      b.fillStyle = rgba(shadeRGB(col, -0.25)); b.beginPath(); b.arc(x, y, cs * 0.42, 0, TAU); b.fill();
+      for (let k = 0; k < 3; k++) { b.beginPath(); b.arc(x, y, cs * (0.32 - k * 0.08), k * 2, k * 2 + 4.2); b.strokeStyle = rgba(shadeRGB(col, 0.1 + k * 0.15)); b.lineWidth = cs * 0.12; b.stroke(); }
+    };
+    for (let n = 0; n < 34; n++) {
+      const i = Math.floor(rnd() * cols), j = Math.floor(hy / cs) + 2 + Math.floor(rnd() * (rows - bottomM - Math.floor(hy / cs) - 3));
+      const x = i * cs, y = j * cs;
+      if (Math.abs(x - L.ox) < 0.48 * L.s && y < L.oy + 0.2 * L.s) continue;
+      if (!inside(i, j) || !inside(i + 1, j)) continue;
+      knot(x, y, n % 3 ? P.pink : P.white); if (rnd() < 0.6) knot(x + cs, y - cs * 0.4, n % 3 ? P.pink : P.white); knot(x + cs * 0.5, y + cs * 0.5, P.gold);
+    }
+    // backstitch lettering, hole to hole, below the border
+    const back = (str, x, y, size, hex) => {
+      const col = hexRGB(hex);
+      for (const pl of textStrokes(str.replace(/I/g, '|'), x, y, size, 2)) {
+        const h2 = cs / 2, sn = pl.map(p => [Math.round(p[0] / h2) * h2, Math.round(p[1] / h2) * h2]);
+        for (let k = 1; k < sn.length; k++) {
+          const [a, c] = [sn[k - 1], sn[k]]; if (a[0] === c[0] && a[1] === c[1]) continue;
+          b.save(); b.lineCap = 'round';
+          b.strokeStyle = 'rgba(0,0,0,0.5)'; b.lineWidth = cs * 0.34; b.beginPath(); b.moveTo(a[0] + cs * 0.08, a[1] + cs * 0.1); b.lineTo(c[0] + cs * 0.08, c[1] + cs * 0.1); b.stroke();
+          b.strokeStyle = rgba(shadeRGB(col, -0.2)); b.lineWidth = cs * 0.3; b.beginPath(); b.moveTo(a[0], a[1]); b.lineTo(c[0], c[1]); b.stroke();
+          b.strokeStyle = rgba(shadeRGB(col, 0.15)); b.lineWidth = cs * 0.12; b.setLineDash([cs * 0.25, cs * 0.2]); b.beginPath(); b.moveTo(a[0], a[1]); b.lineTo(c[0], c[1]); b.stroke();
+          b.restore();
+        }
+      }
+    };
+    const outline = (ctx, pts, hex) => backPath(ctx, pts.concat([pts[0]]), cs, hex);
+    const ts = tsz, ty = (rows - bottomM + 2) * cs - (L.portrait ? 0 : cs * 0.5), wm = 'PAPER ROBOTS';
+    if (L.portrait) {
+      back(wm, W / 2 - textWidth(wm, ts, 2) / 2, ty, ts, P.white);
+      back('8/8 CROSS-STITCH', W / 2 - textWidth('8/8 CROSS-STITCH', ts, 2) / 2, ty + ts * 1.9, ts, P.shade);
+    } else {
+      back('8/8 CROSS-STITCH', (bm + 1) * cs, ty, ts, P.white);
+      back(wm, (cols - bm - 2) * cs - textWidth(wm, ts, 2), ty, ts, P.white);
+    }
+    // backstitch outlines around every block of the figure and plinth
+    for (const f of bodyFaces) outline(b, f.px, f.part.group === 'ground' ? P.backSand : P.back);
+    out.base = base;
+    // head is stitched every frame; nothing else to prepare
+    out.head = makeCanvas(1, 1);
+  },
+  // re-chart the head in head-local space and stitch it
+  drawHead(ctx, c, L, st) {
+    const cs = c.cs, pad = c.pad, sp = c.sprites, hd = SKELETON.head, F = SKELETON.fold, e = SKELETON.ear;
+    const [px, py] = L.pivot, cosT = Math.cos(-st.tilt), sinT = Math.sin(-st.tilt);
+    const C = L.headCrop;
+    const i0 = Math.floor(C.x / cs) - 1, i1 = Math.ceil((C.x + C.w) / cs) + 1, j0 = Math.floor(C.y / cs) - 1, j1 = Math.ceil((C.y + C.h) / cs) + 1;
+    const toRobot = (x, y) => { // screen → head-local robot units
+      const dx = x - px, dy = y - (py + st.bob * L.s);
+      const rx = dx * cosT - dy * sinT + px, ry = dx * sinT + dy * cosT + py;
+      return [(rx - L.ox) / L.s, (ry - L.oy) / L.s];
+    };
+    const eyes = SKELETON.eyes, ni = i1 - i0 + 1, grid = new Array(ni * (j1 - j0 + 1)).fill(null);
+    const fwd = p => { const X = L.ox + p[0] * L.s - px, Y = L.oy + p[1] * L.s - py; const c2 = Math.cos(st.tilt), s2 = Math.sin(st.tilt); return [X * c2 - Y * s2 + px, X * s2 + Y * c2 + py + st.bob * L.s]; };
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+      const [x, y] = toRobot((i + 0.5) * cs, (j + 0.5) * cs);
+      let th = null;
+      if (insidePoly(x, y, hd.side)) th = 'navy';
+      if (insidePoly(x, y, hd.top)) th = 'sky';
+      if (insidePoly(x, y, hd.front)) th = 'cobalt';
+      if (th && y > hd.y + hd.h - 0.03 && insidePoly(x, y, hd.front)) th = (i + j) % 2 ? 'navy' : 'cobalt';
+      if (insidePoly(x, y, F.flap)) { const M = lerpPt(F.hingeA, F.hingeB, 0.5); th = Math.hypot(x - M[0], y - M[1]) < 0.055 ? 'shade' : 'white'; }
+      const ex = (x - e.cx) / e.rx, ey = (y - e.cy) / e.ry;
+      if (ex * ex + ey * ey < 1) th = ex < -0.45 ? 'verDark' : 'ver';
+      for (const eye of eyes) {
+        if (Math.hypot(x - eye.cx, y - eye.cy) < eye.r * 1.02) {
+          const lid = eye.cy - eye.r + 2 * eye.r * st.blink;
+          if (st.blink > 0.05 && y < lid) th = 'cobalt';
+          else if (st.blink > 0.05 && Math.abs(y - lid) < eye.r * 0.22) th = 'navy';
+          else th = 'white';
+        }
+      }
+      grid[(j - j0) * ni + (i - i0)] = th;
+    }
+    // pupils are charted, not rasterised: a 3×3 block with one highlight stitch
+    if (st.blink < 0.35) for (const eye of eyes) {
+      const [qx, qy] = fwd([eye.cx + st.look[0] * eye.r * 0.5, eye.cy + st.look[1] * eye.r * 0.5]);
+      const pi = Math.floor(qx / cs), pj = Math.floor(qy / cs);
+      for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+        const k = (pj + dj - j0) * ni + (pi + di - i0);
+        if (grid[k] === 'white') grid[k] = (di === 1 && dj === -1) ? 'white' : 'ink';
+      }
+    }
+    for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+      const th = grid[(j - j0) * ni + (i - i0)]; if (!th) continue;
+      const set = sp[th], v = (hash2(i, j, 11) * 3) | 0;
+      ctx.drawImage(set[v], i * cs - pad, j * cs - pad);
+    }
+    // backstitch around the head's faces, following the tilt
+    for (const f of ['side', 'top', 'front']) backPath(ctx, hd[f].concat([hd[f][0]]).map(fwd), cs, '#0d1438');
+    backPath(ctx, F.flap.concat([F.flap[0]]).map(fwd), cs, '#8f897d');
+  },
+});
+
+// backstitch along a path, snapped from hole to hole of the aida
+function backPath(b, pts, cs, hex) {
+  const col = hexRGB(hex), sn = [];
+  for (const p of resample(pts, cs * 0.5)) { const q = [Math.round(p[0] / cs) * cs, Math.round(p[1] / cs) * cs]; const l = sn[sn.length - 1]; if (!l || l[0] !== q[0] || l[1] !== q[1]) sn.push(q); }
+  b.save(); b.lineCap = 'round';
+  for (let k = 1; k < sn.length; k++) {
+    const a = sn[k - 1], c = sn[k];
+    b.strokeStyle = 'rgba(0,0,0,0.45)'; b.lineWidth = cs * 0.24; b.beginPath(); b.moveTo(a[0] + cs * 0.06, a[1] + cs * 0.08); b.lineTo(c[0] + cs * 0.06, c[1] + cs * 0.08); b.stroke();
+    b.strokeStyle = rgba(col); b.lineWidth = cs * 0.2; b.beginPath(); b.moveTo(a[0], a[1]); b.lineTo(c[0], c[1]); b.stroke();
+    b.strokeStyle = rgba(shadeRGB(col, 0.25), 0.7); b.lineWidth = cs * 0.07; b.beginPath(); b.moveTo(lerp(a[0], c[0], 0.2), lerp(a[1], c[1], 0.2)); b.lineTo(lerp(a[0], c[0], 0.6), lerp(a[1], c[1], 0.6)); b.stroke();
+  }
+  b.restore();
+}
+// ───────────────────────────────────────────────────────────── the engine
+// One canvas. Each material builds (once, sliced across frames) an opaque
+// base — world + body — and a transparent head layer without eyes. Per frame:
+// base, tilted head, eyes (look + blink), the ear's glint. The cut is hard.
+const ORDER = ['painted', 'cyanotype', 'linocut', 'riso', 'engraving', 'origami', 'woodblock', 'stitch'];
+const canvas = document.getElementById('art');
+const ctx = canvas.getContext('2d');
+const params = new URLSearchParams(location.search);
+const fixedT = params.has('t') ? parseFloat(params.get('t')) : null;
+const forceMat = params.get('m');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let L = null, cache = {}, queue = [], mats = [];
+
+function sortMaterials() {
+  mats = ORDER.map(k => MATERIALS.find(m => m.key === k)).filter(Boolean);
+  // while some materials are unfinished in development, repeat what exists
+  while (mats.length < 8) mats.push(mats[mats.length % Math.max(1, mats.length)]);
+}
+function setup() {
+  const R = Math.min(2, window.devicePixelRatio || 1);
+  const W = window.innerWidth, H = window.innerHeight;
+  const cap = Math.sqrt(4.2e6 / (W * H));
+  const r = Math.max(0.75, Math.min(R, cap));
+  canvas.width = Math.round(W * r); canvas.height = Math.round(H * r);
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  L = makeLayout(W, H, r);
+  L.W = canvas.width; L.H = canvas.height;
+  cache = {}; queue = [];
+}
+function startBuild(m) {
+  if (cache[m.key]) return cache[m.key];
+  const out = { ready: false };
+  out.gen = (function* () { yield* m.build(L, out); finishSprites(m, out); out.ready = true; })();
+  cache[m.key] = out;
+  return out;
+}
+function buildNow(m) { const c = startBuild(m); while (!c.ready) c.gen.next(); return c; }
+function pump(budgetMs) {
+  const t0 = performance.now();
+  while (queue.length && performance.now() - t0 < budgetMs) {
+    const c = startBuild(queue[0]);
+    if (c.ready) { queue.shift(); continue; }
+    c.gen.next();
+  }
+}
+function finishSprites(m, c) {
+  // eye white sprite rendered once at the eye's size
+  const r = SKELETON.eyes[0].r * L.s, pad = Math.ceil(r * 0.35), size = Math.ceil(r * 2 + pad * 2);
+  if (c.eyeWhite && typeof c.eyeWhite === 'function') {
+    const s = makeCanvas(size, size); c.eyeWhite(ctxOf(s), size / 2, size / 2, r); c.eyeSprite = s;
+  }
+  if (c.pupil && typeof c.pupil === 'function') {
+    const pr = r * 0.36, ps = Math.ceil(pr * 2 + pad * 2), s = makeCanvas(ps, ps);
+    c.pupil(ctxOf(s), ps / 2, ps / 2, pr); c.pupilSprite = s;
+  }
+}
+
+function drawEyes(ctx, m, c, st) {
+  for (const e of SKELETON.eyes) {
+    const [cx, cy] = L.P([e.cx, e.cy]), r = e.r * L.s;
+    if (m.drawEye) { m.drawEye(ctx, c, L, cx, cy, r, st); continue; }
+    if (c.eyeSprite) ctx.drawImage(c.eyeSprite, cx - c.eyeSprite.width / 2, cy - c.eyeSprite.height / 2);
+    const px = cx + st.look[0] * r * 0.55, py = cy + st.look[1] * r * 0.55;
+    if (c.pupilSprite) ctx.drawImage(c.pupilSprite, px - c.pupilSprite.width / 2, py - c.pupilSprite.height / 2);
+    else {
+      ctx.beginPath(); ctx.arc(px, py, r * 0.36, 0, TAU); ctx.fillStyle = c.pupilCol || '#111'; ctx.fill();
+      ctx.beginPath(); ctx.arc(px + r * 0.1, py - r * 0.12, r * 0.08, 0, TAU); ctx.fillStyle = c.glintCol || 'rgba(255,255,255,0.85)'; ctx.fill();
+    }
+    if (st.blink > 0.02) drawLid(ctx, c, cx, cy, r, st.blink);
+  }
+}
+// the eyelid is made of the head's own material: re-draw the eye-less head
+// inside the closing part of the eye, then a lid line in the material's ink.
+function drawLid(ctx, c, cx, cy, r, k) {
+  const C = L.headCrop, rr = r * 1.06;
+  const edge = cy - rr + 2 * rr * k;
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, rr, 0, TAU); ctx.clip();
+  ctx.beginPath(); ctx.moveTo(cx - rr, cy - rr - 2);
+  ctx.lineTo(cx + rr, cy - rr - 2); ctx.lineTo(cx + rr, edge);
+  ctx.quadraticCurveTo(cx, edge + rr * 0.45 * k, cx - rr, edge); ctx.closePath(); ctx.clip();
+  ctx.drawImage(c.head, C.x, C.y);
+  ctx.restore();
+  ctx.save();
+  ctx.beginPath(); ctx.arc(cx, cy, rr, 0, TAU); ctx.clip();
+  ctx.beginPath(); ctx.moveTo(cx - rr, edge); ctx.quadraticCurveTo(cx, edge + rr * 0.45 * k, cx + rr, edge);
+  ctx.strokeStyle = c.lidCol || 'rgba(20,20,30,0.9)'; ctx.lineWidth = Math.max(1, r * 0.09); ctx.lineCap = 'round'; ctx.stroke();
+  ctx.restore();
+  // fully shut: a lash line, so the eye reads as closed rather than gone
+  if (k > 0.75) {
+    ctx.save(); ctx.globalAlpha = smooth(0.75, 0.95, k);
+    ctx.beginPath(); ctx.moveTo(cx - r * 0.82, cy + r * 0.05); ctx.quadraticCurveTo(cx, cy + r * 0.5, cx + r * 0.82, cy + r * 0.05);
+    ctx.strokeStyle = c.lidCol || 'rgba(20,20,30,0.9)'; ctx.lineWidth = Math.max(1.2, r * 0.11); ctx.lineCap = 'round'; ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function frame(t) {
+  const st = idle(t);
+  let m = mats[st.beat];
+  if (forceMat) m = MATERIALS.find(x => x.key === forceMat) || m;
+  let c = cache[m.key];
+  if (!c || !c.ready) c = buildNow(m);
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.drawImage(c.base, 0, 0);
+  if (m.drawHead) m.drawHead(ctx, c, L, st);
+  else {
+    const [px, py] = L.pivot;
+    ctx.save();
+    ctx.translate(px, py + st.bob * L.s); ctx.rotate(st.tilt); ctx.translate(-px, -py);
+    ctx.drawImage(c.head, L.headCrop.x, L.headCrop.y);
+    drawEyes(ctx, m, c, st);
+    if (m.glint) m.glint(ctx, c, L, st);
+    ctx.restore();
+  }
+  if (m.post) m.post(ctx, c, L, st);
+  // queue the next materials so they are ready before their cut
+  const next = mats[(st.beat + 1) % 8], after = mats[(st.beat + 2) % 8];
+  for (const n of [next, after]) if (!cache[n.key] && !queue.includes(n)) queue.push(n);
+}
+
+function run() {
+  sortMaterials();
+  setup();
+  // for capture tools: draw one exact moment on demand
+  window.__renderAt = t => { frame(((t % LOOP) + LOOP) % LOOP); return true; };
+  if (fixedT !== null || reduced) {
+    const t = fixedT !== null ? fixedT : 0.6;
+    frame(t);
+    window.__ready = true;
+    return;
+  }
+  let acc = 0, last = performance.now(), visible = !document.hidden, first = true;
+  document.addEventListener('visibilitychange', () => { visible = !document.hidden; last = performance.now(); if (visible) requestAnimationFrame(tick); });
+  let resizeTimer = 0;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { setup(); }, 180); });
+  function tick(now) {
+    if (!visible) return;
+    acc += Math.min(0.1, (now - last) / 1000); last = now;
+    frame(acc % LOOP);
+    pump(6);
+    if (first) { window.__ready = true; first = false; }
+    requestAnimationFrame(tick);
+  }
+  // queue everything up front; the pump builds in slices while the first beat plays
+  for (const m of mats) if (!queue.includes(m)) queue.push(m);
+  requestAnimationFrame(tick);
+}
+run();
+</script>
+</body>
+</html>

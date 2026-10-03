@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>San Kala</title>
+<meta name="description" content="San Kala: language models at eBay; before that UC San Diego, Texas Instruments and NIT Karnataka. Writing, projects and research.">
+<!--
+DESIGN — "Four desks"
+  The still point: one desk, one window, one pinboard, always seen from the same seat. Scrolling
+  back through the years re-prints that same view in an older hand process, so material encodes
+  time. Only the present is in full colour, and only the present is live: its window follows San
+  Jose's real sky (sun, moon and stars by the hour), the lamp comes on after dark, and morning sun
+  lays the window's panes across the desk.
+    now   2024–   San Jose   gouache, lit by the real hour    plaster, oak, cobalt robot, vermilion ear
+    sd    2022–24 San Diego  three-drum risograph             riso blue #2f5bb5, fluoro pink #ff4fa8, yellow #ffde1f
+    blr   2019–22 Bengaluru  line engraving + red plate       green-black #1f2a2c, vermilion #b4432c, plate paper #f3efe4
+    nitk  2015–19 Surathkal  cyanotype with palm photograms   Prussian blue #173a6e → #3c6fae, paper #f4f2ea
+  Real photographs are the one thing not drawn: they are pinned to the board and printed in
+  each era's process, and shown true-colour beside the text.
+  The page around it is the existing sankala.me system: Fraunces + DM Sans, paper #faf9f5,
+  ink #202c38, muted #58616b, rule #d9d9d2, links underlined in #244f85.
+  Refuse: AI beige, decorative italics, side-tab borders, pulsing dots, glossy gradients, cards,
+  isometric room-portfolio gimmicks, text floating over a light loop, anything that reads as a
+  copy of a reference.
+  Hooks: ?t=<s> freezes one frame · ?hour=<0–24> sets San Jose time · ?era=now|sd|blr|nitk ·
+  ?roll=<0–1> with ?era shows the roller mid-pass.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Archivo:wght@400;600;800&family=Anton&family=Abril+Fatface&family=Old+Standard+TT:wght@400;700&family=Jost:wght@400;500;700&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+:root {
+  --paper: #faf9f5; --ink: #202c38; --muted: #58616b; --rule: #d9d9d2; --accent: #244f85; --stage: #efece4;
+  --serif: Fraunces, Georgia, serif; --sans: "DM Sans", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16px/1.6 var(--sans); }
+a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -.03em; line-height: 1.12; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+.site-header { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; max-width: 1440px; margin: 0 auto; padding: 26px 40px 22px; }
+.wordmark { font-family: var(--serif); font-size: 26px; letter-spacing: -.04em; color: var(--ink); text-decoration: none; }
+.site-nav { display: flex; gap: 22px; flex-wrap: wrap; font-size: 15px; }
+.site-nav a { color: var(--ink); }
+
+.story { display: grid; grid-template-columns: minmax(300px, 400px) minmax(0, 1fr); gap: 56px; max-width: 1440px; margin: 0 auto; padding: 0 40px; }
+.stage-wrap { grid-column: 2; grid-row: 1; position: sticky; top: 0; align-self: start; height: 100vh; display: flex; flex-direction: column; justify-content: center; padding-bottom: 28px; }
+#stage-canvas { display: block; width: min(100%, calc((100vh - 96px) * 1.6)); aspect-ratio: 16 / 10; height: auto; background: var(--stage); }
+.stage-caption { margin-top: 12px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.column { grid-column: 1; grid-row: 1; padding-bottom: 30vh; }
+
+.intro { padding-top: 22vh; min-height: 100vh; border-top: 0; }
+.intro h1 { font-size: 46px; }
+.intro .lede { margin-top: 22px; font-size: 19px; line-height: 1.55; }
+.intro .more { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15px; }
+.intro .mail { color: var(--muted); user-select: all; }
+.cue { margin-top: 48px; font-size: 13px; color: var(--muted); }
+
+.path-title { font-size: 34px; margin-bottom: 8px; }
+.era { min-height: 108vh; padding-top: 12px; border-top: 1px solid var(--rule); }
+.era + .era { margin-top: 0; }
+.era-head { display: flex; flex-direction: column; gap: 2px; padding-top: 18px; }
+.era-years { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.era-place { font-size: 30px; }
+.era-role { font-size: 15px; color: var(--muted); }
+.entries { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 18px; }
+.entries h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; letter-spacing: 0; line-height: 1.35; }
+.entries .when { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 2px; font-variant-numeric: tabular-nums; }
+.entries p { margin-top: 4px; font-size: 15px; color: #3b4651; }
+.entries .links { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+.photos { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 24px; }
+.photos figure { margin: 0; width: 150px; }
+.photos img { display: block; width: 100%; height: 104px; object-fit: cover; background: var(--stage); }
+.photos figcaption { margin-top: 6px; font-size: 12px; line-height: 1.35; color: var(--muted); }
+.phone-scene, .phone-caption { display: none; }
+
+.writing { max-width: 1440px; margin: 0 auto; padding: 56px 40px 40px; border-top: 1px solid var(--rule); }
+.writing-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
+.writing-head h2 { font-size: 34px; }
+.shelf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 36px 32px; }
+.cover { display: block; color: inherit; text-decoration: none; }
+.cover canvas { display: block; width: 100%; aspect-ratio: 2 / 3; height: auto; background: #dcd7cc; box-shadow: 0 .5px 1px rgba(40,32,20,.18), 0 10px 18px -12px rgba(40,32,20,.42); transition: transform .4s cubic-bezier(.2,.7,.2,1); }
+.cover:hover canvas, .cover:focus-visible canvas { transform: translateY(-4px); }
+.cover-title { display: block; margin-top: 14px; font-size: 14.5px; line-height: 1.32; }
+.cover:hover .cover-title { text-decoration: underline; text-underline-offset: .2em; }
+.cover-meta { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+
+.site-footer { max-width: 1440px; margin: 0 auto; padding: 40px 40px 64px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; align-items: center; }
+#colophon-robot { width: 72px; height: 96px; display: block; }
+.site-footer h3 { font-size: 22px; }
+.site-footer p { margin-top: 4px; font-size: 14.5px; color: var(--muted); }
+.site-footer .contact { text-align: right; font-size: 14px; color: var(--muted); }
+.site-footer .contact span { display: block; color: var(--ink); user-select: all; }
+.footnote { margin-top: 8px; font-size: 12.5px; }
+
+@media (max-width: 1100px) { .story { grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 36px; } .shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); } .shelf li:nth-child(5) { display: none; } }
+@media (max-width: 860px) {
+  .site-header { padding: 18px 16px 14px; flex-direction: column; gap: 8px; }
+  .site-nav { gap: 6px 18px; }
+  .story { display: block; padding: 0 16px; }
+  .stage-wrap { display: none; }
+  .column { padding-bottom: 24px; }
+  .phone-scene { display: block; width: calc(100% + 32px); margin: 0 -16px; aspect-ratio: 4 / 5; height: auto; background: var(--stage); }
+  .phone-caption { display: block; margin-top: 8px; font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .intro { padding-top: 0; min-height: 0; }
+  .intro h1 { font-size: 36px; margin-top: 22px; }
+  .intro .lede { font-size: 17px; }
+  .cue { margin-top: 28px; }
+  .era { min-height: 0; padding-bottom: 36px; margin-top: 28px; }
+  .era > .phone-scene { margin-bottom: 0; }
+  .era-place { font-size: 26px; }
+  .photos figure { width: calc(50% - 7px); }
+  .writing { padding: 40px 16px 32px; }
+  .writing-head h2 { font-size: 28px; }
+  .shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; }
+  .shelf li:nth-child(5) { display: block; }
+  .site-footer { padding: 32px 16px 48px; grid-template-columns: auto minmax(0, 1fr); }
+  .site-footer .contact { grid-column: 1 / -1; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) { .cover canvas { transition: none; } .cover:hover canvas { transform: none; } }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="wordmark" href="https://www.sankala.me/">San Kala</a>
+  <nav class="site-nav" aria-label="Main">
+    <a href="https://www.sankala.me/writing">Writing</a>
+    <a href="https://www.sankala.me/projects">Projects</a>
+    <a href="https://www.sankala.me/research">Research</a>
+    <a href="https://www.sankala.me/about">About</a>
+    <a href="https://www.sankala.me/resume">CV</a>
+  </nav>
+</header>
+
+<main class="story" id="main">
+  <div class="stage-wrap" aria-hidden="true">
+    <canvas id="stage-canvas"></canvas>
+    <p class="stage-caption" id="stage-caption">San Jose</p>
+  </div>
+
+  <div class="column">
+    <article class="intro era" data-era="now">
+      <canvas class="phone-scene" aria-label="San's desk in San Jose at the current time of day: a window onto Mt Hamilton, a pinboard of photographs, a laptop, books and a small paper robot."></canvas>
+      <p class="phone-caption"></p>
+      <h1>Hi, I’m San.</h1>
+      <p class="lede">I work on language models at eBay. Before that: UC San Diego, Texas Instruments, and NIT Karnataka. I also write, make things, and sometimes turn an idea into a film.</p>
+      <div class="more"><a href="https://www.sankala.me/about">More about me</a><span class="mail">san@sankala.me</span></div>
+      <p class="cue">The desk is drawn in code and follows the time of day in San Jose. Scroll down and it goes back through the places I’ve worked.</p>
+    </article>
+
+    <article class="era" data-era="now" id="path">
+      <h2 class="path-title">My path so far</h2>
+      <div class="era-head"><span class="era-years">2024 – now</span><h3 class="era-place">San Jose</h3><span class="era-role">Language models at eBay</span></div>
+      <ul class="entries">
+        <li><span class="when">December 2025</span><h3>First place at the NeurIPS EAI Challenge</h3><p>My brother Chin and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.</p><div class="links"><a href="https://www.sankala.me/notes/eai-challenge">Read the account</a><a href="https://www.sankala.me/history#history-eai-challenge">History</a></div></li>
+        <li><span class="when">April 2024</span><h3>Joined eBay as an AI researcher</h3><p>Joined eBay’s Knowledge Extraction team in April 2024. Researching and building language-model systems for information extraction. Promoted in October 2025.</p><div class="links"><a href="https://www.sankala.me/history#history-ebay-research">History</a></div></li>
+      </ul>
+      <div class="photos">
+        <figure><img src="photos/neurips-award.jpg" alt="San and his brother receiving the EAI Challenge award" loading="lazy"><figcaption>Receiving the EAI Challenge award</figcaption></figure>
+        <figure><img src="photos/ebay-headquarters.jpg" alt="San outside eBay headquarters in San Jose" loading="lazy"><figcaption>eBay headquarters, San Jose</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="era" data-era="sd">
+      <canvas class="phone-scene" aria-label="The same desk in San Diego as a riso print: the Geisel Library through the window, papers and a zine on the desk."></canvas>
+      <p class="phone-caption"></p>
+      <div class="era-head"><span class="era-years">2022 – 2024</span><h3 class="era-place">San Diego</h3><span class="era-role">MS in computer science, UC San Diego</span></div>
+      <ul class="entries">
+        <li><span class="when">March 2024</span><h3>Completed my MS at UC San Diego</h3><p>Worked with Julian McAuley’s group on AI music and language models, and TA’d recommender systems and data mining.</p></li>
+        <li><span class="when">October 2023</span><h3>A UIST award for turning papers into zines</h3><p>ZINify received an Honorable Mention at the UIST Student Innovation Contest.</p><div class="links"><a href="https://www.sankala.me/history#history-zinify">History</a></div></li>
+        <li><span class="when">October 2023</span><h3>A writing-assistant startup at UCSD’s StartR accelerator</h3><p>Glyp, a writing assistant for novelists. It did not make it to market; I wrote about what went wrong.</p><div class="links"><a href="https://www.sankala.me/notes/startr-postmortem">Read the post-mortem</a></div></li>
+        <li><span class="when">January 2023</span><h3>Won the eBay ML Challenge: first of 591 teams</h3><p>Extracting named entities from product titles. The result led to a summer research internship at eBay.</p></li>
+        <li><span class="when">September 2022</span><h3>Moved from chip design to computer science</h3><p>Started the MS at UC San Diego after three years in chip design.</p></li>
+      </ul>
+      <div class="photos">
+        <figure><img src="photos/ucsd-library.jpg" alt="San in front of the Geisel Library" loading="lazy"><figcaption>Starting at UC San Diego, 2022</figcaption></figure>
+        <figure><img src="photos/research-group.jpg" alt="Julian McAuley’s research group on a lawn" loading="lazy"><figcaption>With Julian McAuley’s research group, 2023</figcaption></figure>
+        <figure><img src="photos/uist-award.jpg" alt="The ZINify team holding the UIST award" loading="lazy"><figcaption>ZINify at UIST 2023</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="era" data-era="blr">
+      <canvas class="phone-scene" aria-label="The same desk in Bengaluru as an engraving: rooftops with water tanks and a flame tree through the window, a monitor showing a chip layout."></canvas>
+      <p class="phone-caption"></p>
+      <div class="era-head"><span class="era-years">2019 – 2022</span><h3 class="era-place">Bengaluru</h3><span class="era-role">ASIC design at Texas Instruments</span></div>
+      <ul class="entries">
+        <li><span class="when">July 2019 – July 2022</span><h3>Three years designing chips at Texas Instruments</h3><p>ASIC digital design at Texas Instruments: physical design, RTL, and getting actual chips out of the door. Four power-management ICs taped out.</p><div class="links"><a href="https://www.sankala.me/history#history-texas-instruments">History</a><a href="https://www.sankala.me/resume">Engineering background</a></div></li>
+      </ul>
+      <div class="photos">
+        <figure><img src="photos/ti-bengaluru.jpg" alt="San outside Texas Instruments in Bengaluru" loading="lazy"><figcaption>Texas Instruments, Bengaluru</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="era" data-era="nitk">
+      <canvas class="phone-scene" aria-label="The same desk in Surathkal as a cyanotype: palms and the lighthouse through the window, an oscilloscope showing a square wave, a breadboard and a planisphere."></canvas>
+      <p class="phone-caption"></p>
+      <div class="era-head"><span class="era-years">2015 – 2019</span><h3 class="era-place">Surathkal</h3><span class="era-role">Electrical engineering at NIT Karnataka</span></div>
+      <ul class="entries">
+        <li><span class="when">May 2019</span><h3>Electrical engineering at NIT Karnataka</h3><p>Graduated in electrical and electronics engineering. I got into deep learning through Kaggle, earning silver and bronze medals. My thesis on power-quality classification won a best-paper award at IEEE DISCOVER; the Amateur Astronomy Club gave me a place to explore space and astronomy.</p><div class="links"><a href="https://www.sankala.me/history#history-nitk">History</a><a href="https://kaggle.com/spsanps">Kaggle profile</a></div></li>
+      </ul>
+      <div class="photos">
+        <figure><img src="photos/nitk-lab.jpg" alt="An oscilloscope in the NITK electronics lab showing a square wave" loading="lazy"><figcaption>The electronics lab at NITK</figcaption></figure>
+      </div>
+    </article>
+  </div>
+</main>
+
+<section class="writing" aria-labelledby="writing-title">
+  <div class="writing-head"><h2 id="writing-title">Writing</h2><a href="https://www.sankala.me/writing">All writing</a></div>
+  <ul class="shelf" id="shelf"></ul>
+</section>
+
+<footer class="site-footer">
+  <canvas id="colophon-robot" aria-hidden="true"></canvas>
+  <div><h3>Paper Robots</h3><p>My essays, turned into painted films. <a href="https://www.paperrobots.studio/">paperrobots.studio</a></p><p class="footnote">Everything on this page is drawn in code, except the photographs.</p></div>
+  <div class="contact">Say hello<span>san@sankala.me</span></div>
+</footer>
+
+<script src="js/photos-data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/materials.js"></script>
+<script src="js/covers-kit.js"></script>
+<script src="js/stage.js"></script>
+</body>
+</html>

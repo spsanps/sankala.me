@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Komorebi</title>
+<meta name="description" content="Late sun through coconut palms onto a plaster wall, drawn entirely in code.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --shade: #55523d;   /* the wall in shade: what you see before the light arrives */
+    --ink: #fff9f0;     /* white survives motion */
+  }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--shade); }
+  body {
+    font: 16px/1.5 'DM Sans', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  canvas {
+    position: fixed; inset: 0; display: block;
+    width: 100vw; height: 100vh; height: 100dvh;
+    opacity: 0; transition: opacity .6s ease-out;
+  }
+  canvas.lit { opacity: 1; }
+  .frozen canvas { transition: none; }
+  .note {
+    position: fixed;
+    top: clamp(26px, 4.2vw, 44px);
+    left: clamp(22px, 3.1vw, 44px);
+    max-width: min(31em, calc(100vw - 44px));
+    /* doubled warm glow: protects the type without a scrim */
+    text-shadow: 0 0 1px rgba(34, 22, 9, .55), 0 0 14px rgba(34, 22, 9, .45);
+  }
+  .note p { margin: 0; }
+  .note ul { list-style: none; margin: 1.5em 0 0; padding: 0; }
+  .note a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .22em;
+  }
+  .note a:hover { text-decoration-thickness: 2px; }
+  .note a:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+  /* No WebGL2: keep the wall and the words. */
+  .nogl body, body.nogl {
+    background:
+      radial-gradient(120% 90% at 78% 72%, #b98d55 0%, #8a6f4a 38%, var(--shade) 75%);
+  }
+</style>
+</head>
+<body>
+<canvas id="wall" aria-hidden="true"></canvas>
+
+<main class="note">
+  <p>hi, i’m san.</p>
+  <p>i work on language models at eBay.</p>
+  <p>before that: uc san diego, texas instruments and nit karnataka.</p>
+  <ul>
+    <li><a href="https://www.sankala.me/writing">writing</a></li>
+    <li><a href="https://www.sankala.me/projects">projects</a></li>
+    <li><a href="https://www.sankala.me/research">research</a></li>
+    <li><a href="https://www.sankala.me/about">about</a></li>
+    <li><a href="https://www.sankala.me/resume">cv</a></li>
+  </ul>
+</main>
+
+<script>
+'use strict';
+/* ───────────────────────────────────────────────────────────────────────────
+   DESIGN — Komorebi: light through palms
+   One wall, one window, two palm crowns and a breeze. Everything you see is
+   computed: no image files.
+
+   Palette (as it lands on screen, after light × plaster):
+     shade wall      #55523d  olive umber; the page colour, the text sits on it
+     shadow in patch #5d5a49  frond shadow inside the window light (sky-lit)
+     half light      #9a7c55  penumbra, where the sun is partly covered
+     lit plaster     #e7b277  late-sun gold on lime plaster
+     sun coin core   #fbd6a0  the brightest pinhole images
+     ink             #fff9f0  type and links
+   Light model:
+     sun      3500 K-ish (1.00, .70, .40), angular radius .27°, limb-darkened
+     sky      cooler olive-grey (.14, .155, .135) through the window, plus room bounce
+     leaves   transmit ~8% green-gold light; four canopy depths (potted palm,
+              mid palm, two layers of far crowns)
+   Rules:
+     · The sun is a disc, not a point. Every gap in the canopy is a pinhole that
+       projects a sun-shaped image. Penumbra radius grows with the distance
+       between the caster and the wall: window < near frond < mid fronds < far crown.
+     · Low sun meets the wall obliquely, so sun images stretch along one axis.
+     · Plaster tooth only shows where the sun rakes across it.
+     · Filmed, not computed: motion comes from looping spline noise, never a
+       visible sine. Four layers — palms leaning, fronds swaying, flutter that
+       ripples out along each frond, tremble at the leaflet tips — plus leaflets
+       turning on their axis, so gaps open and close and the sun coins breathe,
+       merge and split. Gusts arrive from the right, reach each frond a little
+       later, and amplify every layer. Seamless at 40 s; nothing moves in step.
+     · Type sits in the shade wedge above the window light; legible in every frame.
+   Refusals: AI beige, gradients standing in for light, decorative italics,
+     scrims, blur panels, chrome, pulsing anything.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+const LOOP = 40;                       // seconds; seamless
+const TAU = Math.PI * 2;
+const query = new URLSearchParams(location.search);
+const FIXED_T = query.has('t') ? (parseFloat(query.get('t')) || 0) : null;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const STILL_T = 13.0;
+const DEBUG = query.get('debug');                  // the composed still for reduced motion
+const SEED = 20261002;
+/* ?sun=17.5 sets the hour (San Jose time); ?sun=now follows the real clock.
+   Without it, the light stays at the designed hour: late afternoon. */
+const SUN = sunState(query.get('sun'));
+
+/* Sun elevation over San Jose (37.34° N) for a local hour, from the usual
+   declination and hour-angle formulas. The wall faces west, so mornings show
+   the midday light; after sunset the direct light fades out. */
+function sunState(param) {
+  const DEFAULT = { col: [1.0, 0.53, 0.245], gain: 1.16, slant: 1, ell: 1.28 };   // late sun, ~3000 K
+  if (param === null) return DEFAULT;
+  const now = new Date();
+  let hour = parseFloat(param);
+  if (param === 'now' || !isFinite(hour)) {
+    const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+      .formatToParts(now).reduce((o, p) => (o[p.type] = p.value, o), {});
+    hour = (+parts.hour) + (+parts.minute) / 60;
+  }
+  const day = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 864e5);
+  const rad = Math.PI / 180, lat = 37.34 * rad;
+  const decl = 23.44 * rad * Math.sin(TAU * (284 + day) / 365);
+  const dst = day > 69 && day < 307 ? 1 : 0;                 // roughly March to early November
+  const B = TAU * (day - 81) / 364;
+  const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B);   // equation of time, minutes
+  const solarNoon = 12 + 1.89 / 15 - eot / 60 + dst;        // 121.89° W, 1.89° west of the Pacific meridian
+  const h = Math.max(hour, solarNoon);
+  const omega = 15 * rad * (h - solarNoon);
+  const elev = Math.asin(Math.sin(lat) * Math.sin(decl) + Math.cos(lat) * Math.cos(decl) * Math.cos(omega)) / rad;
+  const e = Math.max(0, Math.min(1, elev / 50));            // 0 at the horizon, 1 near the highest October sun
+  const fade = Math.max(0, Math.min(1, (elev + 1) / 4));    // twilight
+  // three keyframes: horizon, the designed late afternoon (≈18° → .36), high sun
+  const keys = [
+    [0.00, [1.0, 0.40, 0.14], 0.80, 1.28, 1.60],
+    [0.36, [1.0, 0.53, 0.245], 1.16, 1.00, 1.28],
+    [1.00, [1.0, 0.80, 0.60], 1.30, 0.62, 1.06],
+  ];
+  const i = e < keys[1][0] ? 0 : 1;
+  const a = keys[i], b = keys[i + 1], k = (e - a[0]) / (b[0] - a[0]);
+  const mix = (x, y) => x + (y - x) * k;
+  return {
+    col: a[1].map((c, j) => mix(c, b[1][j])),
+    gain: mix(a[2], b[2]) * fade,
+    slant: mix(a[3], b[3]),
+    ell: mix(a[4], b[4]),
+  };
+}
+
+const canvas = document.getElementById('wall');
+const note = document.querySelector('.note');
+if (FIXED_T !== null) document.documentElement.classList.add('frozen');
+
+/* ── deterministic randomness ─────────────────────────────────────────────── */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* ── WebGL2 ───────────────────────────────────────────────────────────────── */
+const gl = canvas.getContext('webgl2', {
+  alpha: false, antialias: false, depth: false, stencil: false,
+  premultipliedAlpha: false, preserveDrawingBuffer: FIXED_T !== null,
+  powerPreference: 'high-performance',
+});
+
+function fail() {
+  document.body.classList.add('nogl');
+  window.__ready = true;
+}
+
+/* ── shaders ──────────────────────────────────────────────────────────────── */
+const FULLSCREEN_VS = `#version 300 es
+void main() {
+  // one triangle that covers the screen
+  vec2 p = vec2((gl_VertexID << 1) & 2, gl_VertexID & 2);
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}`;
+
+/* Fronds: geometry in CSS pixels, y down. Each layer writes its occlusion into
+   one colour channel; blending keeps 1 − Π(1 − a) so overlaps never exceed 1. */
+const FROND_VS = `#version 300 es
+layout(location = 0) in vec2 aPos;
+uniform vec2 uView;
+void main() {
+  vec2 c = aPos / uView * 2.0 - 1.0;
+  gl_Position = vec4(c.x, -c.y, 0.0, 1.0);
+}`;
+const FROND_FS = `#version 300 es
+precision mediump float;
+uniform vec4 uMask;
+out vec4 o;
+void main() { o = uMask; }`;
+
+/* Shared GLSL: the window, projected onto the wall as a parallelogram. */
+const WINDOW_GLSL = `
+uniform vec2 uK;        // the patch's upper-left corner (CSS px)
+uniform vec2 uEdgeA;    // unit direction along the top edge (to the right)
+uniform vec2 uEdgeB;    // unit direction along the side edges (down)
+uniform vec2 uWinLen;   // patch length along A and along B
+uniform vec2 uMullion;  // mullion position (fraction along A), half-width (px)
+
+vec3 winCoords(vec2 p) {
+  vec2 d = p - uK;
+  float det = uEdgeA.x * uEdgeB.y - uEdgeA.y * uEdgeB.x;
+  float a = (d.x * uEdgeB.y - d.y * uEdgeB.x) / det;
+  float b = (uEdgeA.x * d.y - uEdgeA.y * d.x) / det;
+  return vec3(a, b, abs(det));
+}
+// Signed distance (px) to the nearest frame edge, ignoring the mullion.
+float winDist(vec2 p) {
+  vec3 c = winCoords(p);
+  return min(min(c.x, uWinLen.x - c.x), min(c.y, uWinLen.y - c.y)) * c.z;
+}
+// Openness with an anti-aliasing width; includes the mullion.
+float winOpen(vec2 p, float soft) {
+  vec3 c = winCoords(p);
+  float inA = min(c.x, uWinLen.x - c.x) * c.z;
+  float inB = min(c.y, uWinLen.y - c.y) * c.z;
+  float m = abs(c.x - uMullion.x * uWinLen.x) * c.z - uMullion.y;
+  return smoothstep(-soft, soft, inA) * smoothstep(-soft, soft, inB) * smoothstep(-soft, soft, m);
+}
+// The sky seen through the window: broad and soft, no mullion.
+float winSky(vec2 p, float soft) {
+  vec3 c = winCoords(p);
+  float inA = min(c.x, uWinLen.x - c.x) * c.z;
+  float inB = min(c.y, uWinLen.y - c.y) * c.z;
+  return smoothstep(-soft, soft, inA) * smoothstep(-soft, soft, inB);
+}`;
+
+/* Sun visibility. For every wall point, integrate over the solar disc: each
+   direction looks back through the three canopy layers, offset by that layer's
+   distance from the wall. Gaps become pinhole images of the sun. */
+const LIGHT_FS = `#version 300 es
+precision highp float;
+uniform sampler2D uLayers;   // r near frond, g mid fronds, b far canopy, a farthest canopy
+uniform vec2 uTexPx;         // target size in texels
+uniform vec2 uView;          // CSS px
+uniform vec4 uRad;           // penumbra radius (CSS px): near, mid, far, farthest
+uniform float uRadWin;       // penumbra radius of the window frame
+uniform vec4 uLod;           // pre-filter level per layer
+uniform mat2 uEll;           // oblique incidence: the sun disc becomes an ellipse
+uniform vec3 uLeafT;         // light transmitted through a leaflet
+${WINDOW_GLSL}
+out vec4 o;
+
+float ign(vec2 p) { return fract(52.9829189 * fract(dot(p, vec2(0.06711056, 0.00583715)))); }
+
+const int N = 32;
+void main() {
+  vec2 uv = gl_FragCoord.xy / uTexPx;
+  vec2 p = vec2(uv.x, 1.0 - uv.y) * uView;
+  if (winDist(p) < -(uRadWin * 1.6 + 2.0)) { o = vec4(0.0, 0.0, 0.0, 1.0); return; }
+
+  float rot = ign(gl_FragCoord.xy) * 6.2831853;
+  vec3 acc = vec3(0.0);
+  float wsum = 0.0;
+  float aa = max(0.5, uRadWin * 0.25);
+  for (int i = 0; i < N; i++) {
+    float fi = float(i) + 0.5;
+    float r2 = fi / float(N);
+    float r = sqrt(r2);
+    float th = fi * 2.39996323 + rot;
+    vec2 s = uEll * (r * vec2(cos(th), sin(th)));
+    // limb darkening: the sun's edge is dimmer than its centre
+    float limb = 1.0 - 0.56 * (1.0 - sqrt(1.0 - r2 * 0.995));
+    wsum += limb;
+    float w = winOpen(p + s * uRadWin, aa);
+    if (w <= 0.0) continue;
+    vec2 off = vec2(s.x, -s.y) / uView;
+    float on = textureLod(uLayers, uv + off * uRad.x, uLod.x).r;
+    float om = textureLod(uLayers, uv + off * uRad.y, uLod.y).g;
+    float of = textureLod(uLayers, uv + off * uRad.z, uLod.z).b;
+    float ox = textureLod(uLayers, uv + off * uRad.w, uLod.w).a;
+    vec3 t = (1.0 - on * (1.0 - uLeafT)) * (1.0 - om * (1.0 - uLeafT))
+           * (1.0 - of * (1.0 - uLeafT * 0.6)) * (1.0 - ox * (1.0 - uLeafT * 0.4));
+    acc += t * (w * limb);
+  }
+  o = vec4(acc / wsum, 1.0);
+}`;
+
+/* Lime plaster: computed once per size. rg = normal, b = albedo, a = cavity. */
+const PLASTER_FS = `#version 300 es
+precision highp float;
+uniform vec2 uTexPx;
+uniform vec2 uView;
+out vec4 o;
+
+uint pcg(uint v) {
+  uint s = v * 747796405u + 2891336453u;
+  uint w = ((s >> ((s >> 28u) + 4u)) ^ s) * 277803737u;
+  return (w >> 22u) ^ w;
+}
+vec2 grad(vec2 i) {
+  uvec2 q = uvec2(ivec2(i) + 65536);
+  uint h = pcg(q.x ^ pcg(q.y + 0x9e37u));
+  float a = float(h) * (6.2831853 / 4294967295.0);
+  return vec2(cos(a), sin(a));
+}
+float rnd(vec2 i) {
+  uvec2 q = uvec2(ivec2(i) + 65536);
+  return float(pcg(q.y ^ pcg(q.x + 0x51edu))) / 4294967295.0;
+}
+float gnoise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  vec2 u = f * f * f * (f * (f * 6.0 - 15.0) + 10.0);
+  float a = dot(grad(i), f);
+  float b = dot(grad(i + vec2(1, 0)), f - vec2(1, 0));
+  float c = dot(grad(i + vec2(0, 1)), f - vec2(0, 1));
+  float d = dot(grad(i + vec2(1, 1)), f - vec2(1, 1));
+  return mix(mix(a, b, u.x), mix(c, d, u.x), u.y) * 1.4;
+}
+float fbm(vec2 p, int oct) {
+  float s = 0.0, a = 0.5;
+  mat2 m = mat2(1.6, 1.2, -1.2, 1.6);
+  for (int i = 0; i < 6; i++) { if (i >= oct) break; s += a * gnoise(p); p = m * p; a *= 0.5; }
+  return s;
+}
+// Small pits left by sand grains pulled out by the trowel.
+float pits(vec2 p) {
+  vec2 cell = floor(p / 7.0);
+  float d = 0.0;
+  for (int y = -1; y <= 1; y++) for (int x = -1; x <= 1; x++) {
+    vec2 c = cell + vec2(x, y);
+    float h = rnd(c);
+    if (h > 0.22) continue;
+    vec2 q = (c + vec2(rnd(c + 17.0), rnd(c + 31.0))) * 7.0;
+    float rad = 0.6 + 1.3 * rnd(c + 53.0);
+    d = max(d, 1.0 - smoothstep(rad * 0.4, rad, length(p - q)));
+  }
+  return d;
+}
+float height(vec2 p) {
+  float h = 0.0;
+  h += 1.10 * fbm(p / 300.0, 4);                                   // trowel undulation
+  float ang = 3.0 * fbm(p / 520.0 + 7.3, 2);
+  mat2 r = mat2(cos(ang), -sin(ang), sin(ang), cos(ang));
+  vec2 q = r * p;
+  h += 0.13 * fbm(vec2(q.x / 140.0, q.y / 34.0), 3);                // skim-coat strokes
+  h += 0.22 * fbm(p / 4.2, 3);                                     // sand tooth
+  h += 0.08 * gnoise(p / 1.3);
+  h -= 0.30 * pits(p);
+  return h;
+}
+void main() {
+  vec2 p = vec2(gl_FragCoord.x, uTexPx.y - gl_FragCoord.y) * (uView.x / uTexPx.x);
+  float e = 0.8;
+  float h0 = height(p);
+  float hx = height(p + vec2(e, 0.0));
+  float hy = height(p + vec2(0.0, e));
+  vec2 g = vec2(hx - h0, hy - h0) / e;
+  vec3 n = normalize(vec3(-g * 0.95, 1.0));
+  float alb = 1.0 + 0.045 * fbm(p / 210.0 + 3.1, 4) + 0.022 * fbm(p / 34.0 - 9.0, 3);
+  alb -= 0.06 * pits(p);
+  float cav = clamp(0.62 + 0.9 * (h0 - fbm(p / 300.0, 4) * 1.10), 0.0, 1.0);
+  o = vec4(n.xy * 0.5 + 0.5, alb * 0.5, cav);
+}`;
+
+const COMPOSITE_FS = `#version 300 es
+precision highp float;
+uniform sampler2D uLight;
+uniform sampler2D uPlaster;
+uniform vec2 uTexPx;     // canvas px
+uniform vec2 uView;      // CSS px
+uniform float uDiag;
+uniform float uGlowLod;
+uniform float uSeed;
+uniform float uSunGain;
+uniform float uGrain;
+uniform vec3 uSunCol;
+${WINDOW_GLSL}
+out vec4 o;
+
+float hash(vec2 p) {
+  vec3 q = fract(vec3(p.xyx) * 0.1031);
+  q += dot(q, q.yzx + 33.33);
+  return fract((q.x + q.y) * q.z);
+}
+vec3 aces(vec3 x) { return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), 0.0, 1.0); }
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / uTexPx;
+  vec2 p = vec2(uv.x, 1.0 - uv.y) * uView;
+
+  vec3 vis = texture(uLight, uv).rgb;                 // direct sun reaching the wall
+  vec3 glow = textureLod(uLight, uv, uGlowLod).rgb;  // the lit patch warming its surroundings
+  vec4 pl = texture(uPlaster, uv);
+  vec3 n = normalize(vec3(pl.rg * 2.0 - 1.0, 1.0));
+  float alb = pl.b * 2.0;
+  float cav = pl.a;
+
+  vec3 albedo = vec3(0.705, 0.585, 0.445) * alb;     // lime plaster, warm
+  vec3 Ld = normalize(vec3(0.60, -0.40, 0.50));      // low sun, upper right (y down)
+  float rake = max(dot(n, Ld), 0.0) / Ld.z;
+
+  vec3 sun = uSunCol * uSunGain;
+  float sky = winSky(p, uDiag * 0.16);
+  vec3 ambient = mix(vec3(0.118, 0.126, 0.116), vec3(0.136, 0.148, 0.137), sky);
+  ambient *= mix(0.86, 1.0, cav) * (0.96 + 0.04 * n.z);
+
+  vec3 E = sun * vis * rake + ambient + sun * glow * 0.05;
+  vec3 c = albedo * E;
+
+  // gentle lens falloff
+  vec2 vq = (uv - 0.5) * vec2(uView.x / uView.y, 1.0);
+  c *= 1.0 - 0.16 * smoothstep(0.35, 1.25, length(vq));
+
+  c = aces(c * 1.12);
+  // grade: shadows lean olive, highlights lean amber
+  float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+  c += (vec3(-0.004, 0.006, -0.002) * (1.0 - l) + vec3(0.010, 0.002, -0.012) * l);
+  c = pow(max(c, 0.0), vec3(1.0 / 2.2));
+
+  // film grain, strongest in the mid-tones, plus a dither against banding
+  float g = hash(gl_FragCoord.xy + uSeed * 37.0) - 0.5;
+  float d = hash(gl_FragCoord.yx * 1.37 + 11.0) + hash(gl_FragCoord.xy * 0.73 - 5.0) - 1.0;
+  c += uGrain * (g * 0.032 * (0.35 + 0.65 * 4.0 * l * (1.0 - l)) + d / 255.0);
+  o = vec4(c, 1.0);
+}`;
+
+function compile(type, src) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(s));
+    throw new Error('shader');
+  }
+  return s;
+}
+function program(vs, fs) {
+  const p = gl.createProgram();
+  gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(p));
+    throw new Error('link');
+  }
+  const u = {};
+  const n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+  for (let i = 0; i < n; i++) {
+    const info = gl.getActiveUniform(p, i);
+    u[info.name] = gl.getUniformLocation(p, info.name);
+  }
+  return { p, u };
+}
+
+/* ── scene: window, palms, wind ───────────────────────────────────────────── */
+let scene = null;
+
+/* Looping 1-D noise: a Hermite spline through random values and slopes, with
+   `cells` knots per loop. No forced zeros, so there is no hidden metronome;
+   any phase offset still loops exactly. */
+class LoopNoise {
+  constructor(R, cells) {
+    this.n = cells;
+    this.v = new Float32Array(cells);
+    this.m = new Float32Array(cells);
+    for (let i = 0; i < cells; i++) { this.v[i] = R() * 2 - 1; this.m[i] = (R() * 2 - 1) * 1.6; }
+  }
+  at(x) {
+    const n = this.n;
+    let i = Math.floor(x);
+    const f = x - i;
+    i = ((i % n) + n) % n;
+    const j = i + 1 === n ? 0 : i + 1;
+    const f2 = f * f, f3 = f2 * f;
+    return (2 * f3 - 3 * f2 + 1) * this.v[i] + (f3 - 2 * f2 + f) * this.m[i]
+         + (3 * f2 - 2 * f3) * this.v[j] + (f3 - f2) * this.m[j];
+  }
+}
+
+/* The wind's voices, from slowest to fastest (knots per 40 s loop). */
+let NZ = null;
+function makeNoise() {
+  const R = mulberry32(SEED ^ 0x5eed);
+  NZ = {
+    trunk: new LoopNoise(R, 4),     // whole palms leaning
+    s1: new LoopNoise(R, 5),        // frond sway
+    s2: new LoopNoise(R, 11),
+    s3: new LoopNoise(R, 23),
+    gust: new LoopNoise(R, 7),      // gusts that travel across the canopy
+    gust2: new LoopNoise(R, 13),
+    fl1: new LoopNoise(R, 37),      // leaflet flutter, rippling along the frond
+    fl2: new LoopNoise(R, 53),      // and each leaflet's own
+    twist: new LoopNoise(R, 31),    // leaflets turning on their axis: projected width
+    trem: new LoopNoise(R, 101),    // tips trembling
+    trem2: new LoopNoise(R, 149),
+    haze: new LoopNoise(R, 3),      // thin haze crossing the sun
+  };
+}
+
+/* Gust strength (0..1) at loop phase `ph`, arriving `lag` knots late. Mostly
+   calm, with a few uneven gusts per loop. */
+function gustAt(ph, lag) {
+  const a = NZ.gust.at(ph * 7 - lag);
+  const b = NZ.gust2.at(ph * 13 - lag * 1.3 + 4.7);
+  const g = Math.max(0, (a - 0.18) / 0.62) ** 1.5 + 0.45 * Math.max(0, (b - 0.35) / 0.55) ** 2;
+  return Math.min(1, g);
+}
+
+/* Width of a leaflet along its length: narrow stalk, broad blade, sharp tip. */
+function bladeShape(u) {
+  const rise = u < 0.22 ? 0.42 + 0.58 * Math.sin((u / 0.22) * Math.PI * 0.5) : 1;
+  return rise * Math.pow(1 - u, 0.62);
+}
+/* Leaflet length along the frond: short at the base and tip, longest past the middle. */
+function leafProfile(s) {
+  return Math.max(0.12, Math.pow(Math.sin(Math.PI * Math.min(1, 0.08 + 0.97 * s)), 0.62));
+}
+
+function makeFrond(R, o) {
+  const leaves = [];
+  for (const side of [-1, 1]) {
+    for (let j = 0; j < o.n; j++) {
+      if (R() < o.missing) continue;
+      const s = 0.07 + 0.91 * Math.pow((j + 0.25 + R() * 0.5) / o.n, 0.95);
+      const rank = j % 2;                       // coconut leaflets sit in a shallow V: two ranks
+      leaves.push({
+        s, side,
+        a: o.alpha + (rank ? 0.14 : -0.07) + (R() - 0.5) * 0.17,
+        len: 0.84 + R() * 0.3,
+        w: 0.78 + R() * 0.44,
+        droop: o.droop * (0.65 + R() * 0.7),
+        o1: R() * 0.6, o2: R() * 500, o3: R() * 500, o4: R() * 500, o5: R() * 500,
+        split: R() < o.split ? (R() < 0.5 ? -1 : 1) : 0,
+      });
+    }
+  }
+  return { ...o, leaves, off: [R() * 500, R() * 500, R() * 500, R() * 500, R() * 500] };
+}
+
+function buildScene() {
+  const W = innerWidth, H = innerHeight, D = Math.hypot(W, H);
+  const rect = note.getBoundingClientRect();
+  const R = mulberry32(SEED);
+
+  /* The window light. The top edge rises to the right; the side edges lean,
+     because the sun comes in low and from the side. */
+  const portrait = H > W * 1.15;
+  const lean = (portrait ? 0.24 : 0.36) * SUN.slant, rise = (portrait ? 0.22 : 0.30) * SUN.slant;
+  const A = norm(1, -rise), B = norm(-lean, 1);
+  const m = Math.max(22, 0.030 * D);
+  const Kx = Math.min(rect.right + m, (portrait ? 0.30 : 0.56) * W);
+  const dxr = Kx - rect.right;
+  let Ky = dxr >= 0 ? rect.bottom + m - dxr / lean : rect.bottom + m - rise * dxr;
+  Ky = Math.max(Ky, 0.12 * H);
+  const xRb = (portrait ? 1.04 : 0.84) * W;             // right frame edge at the bottom of the screen
+  const xRatK = xRb + lean * (H - Ky);
+  const lenA = (xRatK - Kx) / A[0];
+  const win = { K: [Kx, Ky], A, B, len: [lenA, 4 * H], mullion: [0.5, -1e4] };
+
+  /* Canopy depths, as penumbra radii (CSS px). Farther from the wall, softer.
+     window 4.5 m · potted palm 2.8 m · palms outside 9 m and 30 m (roughly). */
+  const rad = { near: 0.0019 * D, mid: 0.0068 * D, far: 0.020 * D, farthest: 0.040 * D, win: 0.0030 * D };
+
+  const g = norm(-0.18, 1);                           // gravity, as cast on the wall
+  const fronds = { near: [], mid: [], far: [], farthest: [] };
+
+  /* The palms outside, seen from below through the window: fronds from
+     several crowns criss-cross, so their openings are irregular polygons. Each
+     opening projects a soft sun coin. Denser over the left of the light, near
+     the words; thinner to the right, where the potted palm plays. */
+  const scatter = (count, opts) => {
+    const out = [];
+    for (let i = 0; i < count; i++) {
+      const u = Math.pow(R(), opts.bias);                // 0 = left edge of the light
+      const v = R();
+      const cy = Ky - 0.12 * H + v * (H - Ky + 0.20 * H);
+      const cx = Kx - lean * (cy - Ky) + u * opts.spread * W;   // follow the leaning left edge
+      const ang = R() * TAU;
+      const len = opts.len * D * (0.7 + R() * 0.5);
+      const ca = Math.cos(ang), sa = Math.sin(ang);
+      out.push(makeFrond(R, {
+        layer: opts.layer, x: cx - ca * len * 0.5, y: cy - sa * len * 0.5,
+        ang, len, curv: (R() < 0.5 ? -1 : 1) * (0.05 + R() * 0.12),
+        n: 30, segs: 4, alpha: 0.95, droop: 0.30, missing: opts.missing, split: 0.05,
+        leafLen: opts.leafLen * D, leafW: opts.leafW * D, rachisW: 0.008 * D,
+        sway: opts.sway, swayMix: [1, 0.85, 0.5], push: opts.push, flutter: opts.flutter, tremble: 0.06,
+        trunk: opts.trunk * D, crownOff: (i % 4) * 97.3, g,
+      }));
+    }
+    return out;
+  };
+  fronds.farthest = scatter(15, { layer: 3, bias: 1.4, spread: 0.62, len: 0.30, leafLen: 0.085, leafW: 0.030, missing: 0.10, sway: 0.085, push: 0.10, flutter: 0.24, trunk: 0.020 });
+  fronds.far = scatter(10, { layer: 2, bias: 1.1, spread: 0.70, len: 0.24, leafLen: 0.065, leafW: 0.018, missing: 0.12, sway: 0.065, push: 0.08, flutter: 0.20, trunk: 0.013 });
+  // Mid fronds: a crown just beyond the right edge, reaching across the light.
+  const mc = { x: W + 0.05 * D, y: Ky - 0.05 * D };
+  const midAngles = [2.62, 2.92, 3.22, 3.55, 2.30];
+  const midOff = R() * 500;
+  for (const a0 of midAngles) {
+    const ang = a0 + (R() - 0.5) * 0.12;
+    fronds.mid.push(makeFrond(R, {
+      layer: 1, x: mc.x + (R() - 0.5) * 0.03 * D, y: mc.y + (R() - 0.5) * 0.03 * D,
+      ang, len: 0.40 * D * (0.85 + R() * 0.3), curv: Math.sign(Math.cos(ang)) * (0.08 + R() * 0.08),
+      n: 40, segs: 5, alpha: 0.92, droop: 0.30, missing: 0.05, split: 0.07,
+      leafLen: 0.075 * D, leafW: 0.0105 * D, rachisW: 0.0045 * D,
+      sway: 0.040, push: 0.05, flutter: 0.11, tremble: 0.04,
+      trunk: 0.004 * D, crownOff: midOff, g,
+    }));
+  }
+  // Near frond: the signature. One long frond arching down across the light.
+  fronds.near.push(makeFrond(R, {
+    layer: 0, x: W * 0.96 + 0.06 * D, y: Ky - 0.16 * D,
+    ang: 2.42, len: 0.62 * D, curv: 0.13,
+    n: 40, segs: 6, alpha: 0.90, droop: 0.34, missing: 0.035, split: 0.08,
+    leafLen: 0.105 * D, leafW: 0.0082 * D, rachisW: 0.0050 * D,
+    sway: 0.034, push: 0.045, flutter: 0.09, tremble: 0.05,
+    trunk: 0.0, crownOff: 0, g,
+  }));
+  fronds.near.push(makeFrond(R, {
+    layer: 0, x: W * 1.02, y: H * 0.98,
+    ang: 3.62, len: 0.30 * D, curv: -0.10,
+    n: 26, segs: 6, alpha: 0.95, droop: 0.30, missing: 0.04, split: 0.08,
+    leafLen: 0.085 * D, leafW: 0.0078 * D, rachisW: 0.0040 * D,
+    sway: 0.032, push: 0.04, flutter: 0.10, tremble: 0.05,
+    trunk: 0.0, crownOff: 0, g,
+  }));
+
+  // Vertex/index budgets per layer.
+  const layers = [fronds.near, fronds.mid, fronds.far, fronds.farthest];
+  const ranges = [];
+  const idx = [];
+  let vcount = 0;
+  const pushStrip = (segs) => {
+    for (let k = 0; k < segs; k++) {
+      const v = vcount + k * 2;
+      idx.push(v, v + 1, v + 2, v + 1, v + 3, v + 2);
+    }
+    vcount += (segs + 1) * 2;
+  };
+  for (const layer of layers) {
+    const start = idx.length;
+    for (const f of layer) {
+      pushStrip(14);                                   // rachis
+      for (const L of f.leaves) {
+        pushStrip(f.segs);
+        if (L.split) pushStrip(f.segs);
+      }
+    }
+    ranges.push([start, idx.length - start]);
+  }
+
+  scene = {
+    W, H, D, win, rad, layers, ranges,
+    verts: new Float32Array(vcount * 2),
+    indices: new Uint32Array(idx),
+  };
+}
+
+function norm(x, y) { const l = Math.hypot(x, y); return [x / l, y / l]; }
+
+/* One frond at loop time t. Four layers of motion, none of them in step:
+   the palm leaning (trunk), the frond swaying, a ripple of flutter running
+   out along the leaflets, and a fine tremble at the tips. Gusts arrive from
+   the right, reach each frond a little later than the last, and amplify all four. */
+const SWAY_MIX = [1, 0.55, 0.3];
+function writeFrond(f, t, out, o) {
+  const ph = t / LOOP;
+  const lag = (1 - f.x / scene.W) * 0.32;                 // knots of delay, right → left
+  const gust = gustAt(ph, lag);
+  const side = Math.sin(f.ang) >= 0 ? 1 : -1;
+  const mix = f.swayMix || SWAY_MIX;
+  const sway = mix[0] * NZ.s1.at(ph * 5 + f.off[0]) + mix[1] * NZ.s2.at(ph * 11 + f.off[1]) + mix[2] * NZ.s3.at(ph * 23 + f.off[2]);
+  const ang = f.ang + f.sway * sway + side * f.push * gust;
+  const curv = f.curv * (1 + 0.16 * NZ.s2.at(ph * 11 + f.off[3]) + 0.30 * gust);
+  // the trunk leans the whole crown together
+  const lean = f.trunk * (NZ.trunk.at(ph * 4 + f.crownOff) + 0.9 * gust);
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  const P0x = f.x - lean, P0y = f.y + lean * 0.15;
+  const P2x = P0x + ca * f.len, P2y = P0y + sa * f.len;
+  const P1x = (P0x + P2x) / 2 - sa * curv * f.len;
+  const P1y = (P0y + P2y) / 2 + ca * curv * f.len;
+  const gx = f.g[0], gy = f.g[1];
+
+  // rachis
+  const RS = 14;
+  for (let k = 0; k <= RS; k++) {
+    const s = k / RS, u = 1 - s;
+    const x = u * u * P0x + 2 * u * s * P1x + s * s * P2x;
+    const y = u * u * P0y + 2 * u * s * P1y + s * s * P2y;
+    let tx = 2 * u * (P1x - P0x) + 2 * s * (P2x - P1x);
+    let ty = 2 * u * (P1y - P0y) + 2 * s * (P2y - P1y);
+    const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+    const hw = 0.5 * f.rachisW * (1 - 0.78 * s);
+    out[o++] = x - ty * hw; out[o++] = y + tx * hw;
+    out[o++] = x + ty * hw; out[o++] = y - tx * hw;
+  }
+
+  // leaflets
+  const segs = f.segs;
+  const flAmp = f.flutter * (1 + 1.8 * gust);
+  const trAmp = f.tremble * (0.6 + 2.8 * gust);
+  for (const L of f.leaves) {
+    const s = L.s, u = 1 - s;
+    const ax = u * u * P0x + 2 * u * s * P1x + s * s * P2x;
+    const ay = u * u * P0y + 2 * u * s * P1y + s * s * P2y;
+    let tx = 2 * u * (P1x - P0x) + 2 * s * (P2x - P1x);
+    let ty = 2 * u * (P1y - P0y) + 2 * s * (P2y - P1y);
+    const tl = Math.hypot(tx, ty) || 1; tx /= tl; ty /= tl;
+    const nx = -ty * L.side, ny = tx * L.side;
+    // flutter: a ripple travelling out along the frond, plus the leaflet's own
+    const ripple = NZ.fl1.at(ph * 37 + f.off[4] - s * 1.7 + L.o1);
+    const own = NZ.fl2.at(ph * 53 + L.o2);
+    const flutter = flAmp * (0.6 * ripple + 0.4 * own) * (0.55 + 0.6 * s);
+    const twist = 0.72 + 0.28 * NZ.twist.at(ph * 31 + L.o3) - 0.10 * gust;
+    const trem = trAmp * (0.6 * NZ.trem.at(ph * 101 + L.o4) + 0.4 * NZ.trem2.at(ph * 149 + L.o5));
+    const prof = leafProfile(s);
+    const len = f.leafLen * L.len * prof;
+    const width = f.leafW * L.w * (0.6 + 0.4 * prof) * twist;
+    const droop = L.droop * (0.45 + 0.9 * s) * (1 - 0.25 * gust);
+    const count = L.split ? 2 : 1;
+    for (let c = 0; c < count; c++) {
+      const a = L.a + flutter + (L.split ? (c ? 0.07 : -0.05) * L.split : 0);
+      const dx = Math.cos(a) * tx + Math.sin(a) * nx;
+      const dy = Math.cos(a) * ty + Math.sin(a) * ny;
+      const lenC = L.split ? len * (c ? 0.92 : 1.0) : len;
+      const wC = L.split ? width * 0.52 : width;
+      const trC = L.split && c ? -trem : trem;
+      for (let k = 0; k <= segs; k++) {
+        const q = k / segs;
+        const bend = trC * q * q * q;                        // only the tip trembles
+        const cx = ax + dx * lenC * q + gx * lenC * droop * q * q - dy * lenC * bend;
+        const cy = ay + dy * lenC * q + gy * lenC * droop * q * q + dx * lenC * bend;
+        let ddx = dx + 2 * gx * droop * q, ddy = dy + 2 * gy * droop * q;
+        const dl = Math.hypot(ddx, ddy) || 1; ddx /= dl; ddy /= dl;
+        const hw = 0.5 * wC * bladeShape(q);
+        out[o++] = cx - ddy * hw; out[o++] = cy + ddx * hw;
+        out[o++] = cx + ddy * hw; out[o++] = cy - ddx * hw;
+      }
+    }
+  }
+  return o;
+}
+
+/* ── GPU resources ────────────────────────────────────────────────────────── */
+let progs, vao, vbo, ibo, targets = null, plasterTex = null, plasterFbo = null;
+let layerScale = 1;
+
+function texture(w, h, mip) {
+  const t = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, t);
+  const levels = mip ? Math.floor(Math.log2(Math.max(w, h))) + 1 : 1;
+  gl.texStorage2D(gl.TEXTURE_2D, levels, gl.RGBA8, w, h);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mip ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return t;
+}
+function fboFor(tex) {
+  const f = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, f);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+  return f;
+}
+function deleteTargets() {
+  if (!targets) return;
+  for (const t of [targets.layerTex, targets.lightTex]) gl.deleteTexture(t);
+  for (const f of [targets.layerFbo, targets.lightFbo, targets.msFbo]) if (f) gl.deleteFramebuffer(f);
+  if (targets.msRbo) gl.deleteRenderbuffer(targets.msRbo);
+  targets = null;
+}
+
+function makeTargets() {
+  deleteTargets();
+  const W = scene.W, H = scene.H;
+  const budget = Math.min(1, Math.sqrt(400000 / (W * H)));
+  const s = budget * layerScale;
+  const lw = Math.max(64, Math.round(W * s)), lh = Math.max(64, Math.round(H * s));
+  const layerTex = texture(lw, lh, true);
+  const layerFbo = fboFor(layerTex);
+  const lightTex = texture(lw, lh, true);
+  const lightFbo = fboFor(lightTex);
+  let msFbo = null, msRbo = null;
+  const samples = Math.min(4, gl.getParameter(gl.MAX_SAMPLES) || 0);
+  if (samples > 1) {
+    msRbo = gl.createRenderbuffer();
+    gl.bindRenderbuffer(gl.RENDERBUFFER, msRbo);
+    gl.renderbufferStorageMultisample(gl.RENDERBUFFER, samples, gl.RGBA8, lw, lh);
+    msFbo = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, msFbo);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.RENDERBUFFER, msRbo);
+    if (gl.checkFramebufferStatus(gl.FRAMEBUFFER) !== gl.FRAMEBUFFER_COMPLETE) {
+      gl.deleteFramebuffer(msFbo); gl.deleteRenderbuffer(msRbo); msFbo = msRbo = null;
+    }
+  }
+  targets = { lw, lh, layerTex, layerFbo, lightTex, lightFbo, msFbo, msRbo };
+}
+
+function makePlaster() {
+  if (plasterTex) { gl.deleteTexture(plasterTex); gl.deleteFramebuffer(plasterFbo); }
+  const cw = canvas.width, ch = canvas.height;
+  plasterTex = texture(cw, ch, false);
+  plasterFbo = fboFor(plasterTex);
+  gl.viewport(0, 0, cw, ch);
+  gl.useProgram(progs.plaster.p);
+  gl.uniform2f(progs.plaster.u.uTexPx, cw, ch);
+  gl.uniform2f(progs.plaster.u.uView, scene.W, scene.H);
+  gl.bindVertexArray(null);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+function setWindowUniforms(u) {
+  const w = scene.win;
+  gl.uniform2f(u.uK, w.K[0], w.K[1]);
+  gl.uniform2f(u.uEdgeA, w.A[0], w.A[1]);
+  gl.uniform2f(u.uEdgeB, w.B[0], w.B[1]);
+  gl.uniform2f(u.uWinLen, w.len[0], w.len[1]);
+  gl.uniform2f(u.uMullion, w.mullion[0], w.mullion[1]);
+}
+
+function resize() {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  canvas.width = Math.max(1, Math.round(innerWidth * dpr));
+  canvas.height = Math.max(1, Math.round(innerHeight * dpr));
+  buildScene();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.bufferData(gl.ARRAY_BUFFER, scene.verts.byteLength, gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+  gl.bindVertexArray(vao);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, scene.indices, gl.STATIC_DRAW);
+  gl.bindVertexArray(null);
+  makeTargets();
+  makePlaster();
+}
+
+/* ── one frame ────────────────────────────────────────────────────────────── */
+function render(t) {
+  t = ((t % LOOP) + LOOP) % LOOP;
+  const S = scene, T = targets;
+
+  // 1. fronds → occlusion layers
+  let o = 0;
+  for (const layer of S.layers) for (const f of layer) o = writeFrond(f, t, S.verts, o);
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.bufferSubData(gl.ARRAY_BUFFER, 0, S.verts);
+
+  gl.bindFramebuffer(gl.FRAMEBUFFER, T.msFbo || T.layerFbo);
+  gl.viewport(0, 0, T.lw, T.lh);
+  gl.clearColor(0, 0, 0, 0);
+  gl.colorMask(true, true, true, true);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.useProgram(progs.frond.p);
+  gl.uniform2f(progs.frond.u.uView, S.W, S.H);
+  gl.bindVertexArray(vao);
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_COLOR);
+  const masks = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]];
+  for (let i = 0; i < 4; i++) {
+    gl.uniform4fv(progs.frond.u.uMask, masks[i]);
+    const [start, count] = S.ranges[i];
+    if (count) gl.drawElements(gl.TRIANGLES, count, gl.UNSIGNED_INT, start * 4);
+  }
+  gl.disable(gl.BLEND);
+  gl.bindVertexArray(null);
+  if (T.msFbo) {
+    gl.bindFramebuffer(gl.READ_FRAMEBUFFER, T.msFbo);
+    gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, T.layerFbo);
+    gl.blitFramebuffer(0, 0, T.lw, T.lh, 0, 0, T.lw, T.lh, gl.COLOR_BUFFER_BIT, gl.NEAREST);
+  }
+  gl.bindTexture(gl.TEXTURE_2D, T.layerTex);
+  gl.generateMipmap(gl.TEXTURE_2D);
+
+  // 2. integrate the solar disc → sun visibility
+  gl.bindFramebuffer(gl.FRAMEBUFFER, T.lightFbo);
+  gl.viewport(0, 0, T.lw, T.lh);
+  const L = progs.light;
+  gl.useProgram(L.p);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, T.layerTex);
+  gl.uniform1i(L.u.uLayers, 0);
+  gl.uniform2f(L.u.uTexPx, T.lw, T.lh);
+  gl.uniform2f(L.u.uView, S.W, S.H);
+  gl.uniform4f(L.u.uRad, S.rad.near, S.rad.mid, S.rad.far, S.rad.farthest);
+  gl.uniform1f(L.u.uRadWin, S.rad.win);
+  const texPerCss = T.lw / S.W;
+  const lod = (r) => Math.max(0, Math.log2(Math.max(1, r * texPerCss * Math.sqrt(Math.PI / 32) * 0.75)));
+  gl.uniform4f(L.u.uLod, lod(S.rad.near), lod(S.rad.mid), lod(S.rad.far), lod(S.rad.farthest));
+  const th = -0.30, e = SUN.ell, c = Math.cos(th), s = Math.sin(th);
+  // R(th) · diag(e, 1) · R(−th), column-major
+  const m00 = c * c * e + s * s, m11 = s * s * e + c * c, m01 = c * s * (e - 1);
+  gl.uniformMatrix2fv(L.u.uEll, false, [m00, m01, m01, m11]);
+  gl.uniform3f(L.u.uLeafT, 0.085, 0.10, 0.025);
+  setWindowUniforms(L.u);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.bindTexture(gl.TEXTURE_2D, T.lightTex);
+  gl.generateMipmap(gl.TEXTURE_2D);
+
+  // 3. light × plaster → screen
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  const C = progs.composite;
+  gl.useProgram(C.p);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, T.lightTex);
+  gl.uniform1i(C.u.uLight, 0);
+  gl.activeTexture(gl.TEXTURE1);
+  gl.bindTexture(gl.TEXTURE_2D, plasterTex);
+  gl.uniform1i(C.u.uPlaster, 1);
+  gl.uniform2f(C.u.uTexPx, canvas.width, canvas.height);
+  gl.uniform2f(C.u.uView, S.W, S.H);
+  gl.uniform1f(C.u.uDiag, S.D);
+  gl.uniform1f(C.u.uGlowLod, Math.log2(Math.max(2, 0.045 * S.D * texPerCss)));
+  gl.uniform1f(C.u.uSeed, Math.floor(t * 24) % 997);
+  gl.uniform1f(C.u.uGrain, query.get('grain') === '0' ? 0 : 1);
+  gl.uniform1f(C.u.uSunGain, SUN.gain * (1 + 0.035 * NZ.haze.at(t / LOOP * 3 + 1.3)));
+  gl.uniform3f(C.u.uSunCol, SUN.col[0], SUN.col[1], SUN.col[2]);
+  setWindowUniforms(C.u);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.activeTexture(gl.TEXTURE0);
+  if (DEBUG) {                                   // ?debug=layers|light: inspect the intermediate maps
+    gl.bindFramebuffer(gl.READ_FRAMEBUFFER, DEBUG === 'light' ? T.lightFbo : T.layerFbo);
+    gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER, null);
+    gl.blitFramebuffer(0, 0, T.lw, T.lh, 0, 0, canvas.width, canvas.height, gl.COLOR_BUFFER_BIT, gl.LINEAR);
+  }
+}
+
+/* ── run ──────────────────────────────────────────────────────────────────── */
+let raf = 0, started = 0, pausedAt = 0, hiddenOffset = 0, frames = 0, slowFrames = 0, last = 0;
+
+function frame(now) {
+  raf = requestAnimationFrame(frame);
+  const t = (now - started - hiddenOffset) / 1000;
+  render(t);
+  if (!frames++) { canvas.classList.add('lit'); window.__ready = true; }
+  // governor: protect the frame rate on slower GPUs
+  const dt = now - last; last = now;
+  if (frames > 30 && dt > 24 && dt < 200) {
+    if (++slowFrames > 45 && layerScale > 0.34) { layerScale *= 0.84; makeTargets(); slowFrames = 0; }
+  } else if (slowFrames > 0) slowFrames--;
+}
+
+function start() {
+  if (!gl) return fail();
+  try {
+    progs = {
+      frond: program(FROND_VS, FROND_FS),
+      light: program(FULLSCREEN_VS, LIGHT_FS),
+      plaster: program(FULLSCREEN_VS, PLASTER_FS),
+      composite: program(FULLSCREEN_VS, COMPOSITE_FS),
+    };
+  } catch (e) { return fail(); }
+  vao = gl.createVertexArray();
+  vbo = gl.createBuffer();
+  ibo = gl.createBuffer();
+  gl.bindVertexArray(vao);
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+  gl.enableVertexAttribArray(0);
+  gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+  gl.bindVertexArray(null);
+  makeNoise();
+  resize();
+
+  if (FIXED_T !== null || REDUCED) {
+    render(FIXED_T !== null ? FIXED_T : STILL_T);
+    window.__renderAt = (t) => render(t);   // for frame-by-frame review
+    canvas.classList.add('lit');
+    window.__ready = true;
+    let pending = 0;
+    addEventListener('resize', () => {
+      cancelAnimationFrame(pending);
+      pending = requestAnimationFrame(() => { resize(); render(FIXED_T !== null ? FIXED_T : STILL_T); });
+    });
+    return;
+  }
+  started = performance.now(); last = started;
+  raf = requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) { cancelAnimationFrame(raf); pausedAt = performance.now(); }
+    else { hiddenOffset += performance.now() - pausedAt; last = performance.now(); raf = requestAnimationFrame(frame); }
+  });
+  let pending = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(pending); pending = requestAnimationFrame(resize); });
+}
+
+// The light waits for the type to settle (its size shapes the window), with an escape hatch.
+Promise.race([
+  document.fonts ? document.fonts.ready : Promise.resolve(),
+  new Promise((r) => setTimeout(r, 1500)),
+]).then(start);
+</script>
+</body>
+</html>

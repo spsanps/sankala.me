@@ -1,0 +1,207 @@
+<title>Code-Drawn Art Studies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+  /* One reading lane on warm paper, the way San's references do it: the art is the
+     only colour; the container is serif type, gray metadata and plain blue links. */
+  :root {
+    --paper: #fff4ea;
+    --ink: #1f1c2b;
+    --muted: #776d63;
+    --link: #1d3fbf;
+    --link-hover: #0f2a8c;
+    --rule: #ead8c6;
+    --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+    --measure: 40rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #18161f; --ink: #ede6dc; --muted: #a1978b; --link: #9db6ff; --link-hover: #c3d2ff; --rule: #2e2a36;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #18161f; --ink: #ede6dc; --muted: #a1978b; --link: #9db6ff; --link-hover: #c3d2ff; --rule: #2e2a36;
+    color-scheme: dark;
+  }
+  body { background: var(--paper); color: var(--ink); font: 400 1.0625rem/1.6 var(--serif); padding-inline: 18px; }
+  main { max-width: var(--measure); margin: 0 auto; padding-block: 3.5rem 4rem; display: grid; gap: 4rem; }
+  a { color: var(--link); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+  a:hover { color: var(--link-hover); text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 2px; }
+  .label { font-variant: all-small-caps; letter-spacing: 0.06em; color: var(--muted); font-size: 1.05rem; }
+  h1 { font-size: 2.1rem; line-height: 1.15; font-weight: 600; margin: 0.35rem 0 1rem; text-wrap: balance; }
+  h2 { font-size: 1.35rem; line-height: 1.25; font-weight: 600; margin: 0; text-wrap: balance; }
+  p { margin: 0; }
+  .intro { display: grid; gap: 1rem; }
+  .read { display: grid; gap: 0.6rem; padding-left: 0; margin: 0.25rem 0 0; list-style: none; }
+  .read li { padding-left: 1.1rem; position: relative; }
+  .read li::before { content: "/"; position: absolute; left: 0; color: var(--muted); }
+  .samples { display: grid; gap: 4rem; }
+  article { display: grid; gap: 0.9rem; }
+  .art { display: block; aspect-ratio: 16 / 10; max-width: 100%; border: 1px solid var(--rule); overflow: hidden; background: var(--rule); }
+  .art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .meta { color: var(--muted); font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .section-title { font-size: 1.6rem; line-height: 1.2; font-weight: 600; margin: 0; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+  .together { display: grid; gap: 2.75rem; }
+  .block { display: grid; gap: 0.9rem; }
+  .said { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .said li { padding-left: 1.1rem; border-left: 2px solid var(--rule); }
+  .thesis { font-size: 1.3rem; line-height: 1.45; text-wrap: pretty; }
+  .proposals { gap: 2.75rem; }
+  .proposal { display: grid; gap: 0.8rem; }
+  h3 { font-size: 1.2rem; line-height: 1.3; font-weight: 600; margin: 0; text-wrap: balance; }
+  .where { font-weight: 400; color: var(--muted); }
+  .eras { margin: 0; padding-left: 1.2rem; display: grid; gap: 0.4rem; }
+  .pending-art { display: grid; place-items: center; color: var(--muted); font-size: 0.95rem; text-align: center; padding: 1rem; }
+  footer { color: var(--muted); font-size: 0.95rem; border-top: 1px solid var(--rule); padding-top: 1.25rem; }
+  code { font-size: 0.9em; overflow-wrap: anywhere; }
+</style>
+
+<main>
+  <header class="intro">
+    <div>
+      <div class="label">For San · design study · 2 October 2026</div>
+      <h1>Code-drawn art</h1>
+    </div>
+    <p>First, everything put together: what you told me, what it adds up to, and three proposals. The first six samples follow, and one of them is the copy you rejected. Everything here is drawn in code. The only exception is the real photographs in Four desks.</p>
+  </header>
+
+  <section class="together" aria-labelledby="latest-title">
+    <h2 id="latest-title" class="section-title">Latest: Four frames v2</h2>
+    <article class="proposal">
+      <a class="art" href="four-frames/index.html"><img src="previews/thumbs/four-frames.jpg" alt="A full-page clear-line drawing of San's desk in San Jose: a window onto the valley and the Lick domes, a red desk lamp, a laptop, the paper robot and a telescope, a pinboard of real photographs and a shelf of books, with the introduction on the plain wall to the left." width="1200" height="750"></a>
+      <h3><a href="four-frames/index.html">Four frames v2</a> <span class="where">· the sankala.me landing page, from your feedback</span></h3>
+      <p>One style throughout: clean ink line with warm gouache. The painting is the whole page and stays put. Your words scroll in a narrow lane on the plain wall. As you scroll, the same desk changes by hand from San Jose to San Diego, Bengaluru and Surathkal: prints come off the board, the shelf restocks, the laptop closes, the view outside pans past and the light changes. San Jose follows the real time there. Your covers shelf and a plain, motion-free version are below.</p>
+      <p class="meta">Includes your new intro (what you did at each place, and the startup) and Chin by name · weakest parts: the eucalyptus and the Bengaluru skyline are thin, and floor objects are cropped on phones · performance not yet measured on a real device</p>
+    </article>
+  </section>
+
+  <section class="together" aria-labelledby="together-title">
+    <h2 id="together-title" class="section-title">Putting it together</h2>
+
+    <div class="block">
+      <div class="label">What you told me (today, lightly edited)</div>
+      <ul class="said">
+        <li>“Taste is figuring out what you like and then pushing that frontier.”</li>
+        <li>“The future is a lot of animated and hand-drawn art.”</li>
+        <li>“Animations and art written through code, done with a lot of effort. Maybe thousands of lines just to write a frame.”</li>
+        <li>“The background is a video that is moving in that shadow. That loop is what she got right.”</li>
+        <li>“What was I trying to get at? What was inside me?”</li>
+        <li>“That was just a literal copy. I was hoping it inspires you with something.”</li>
+      </ul>
+      <p class="meta">From September, in the project notes: the site felt too AI-made. A cover made two days of work look like your whole identity. Show your longer life and the people along the way. Be ambitious, not an ordinary blog. Keep your own conversational voice.</p>
+    </div>
+
+    <div class="block">
+      <div class="label">What it adds up to</div>
+      <p class="thesis">You want your sites made the way the things you love are made: by a particular person, by hand, over time. The frame stays quiet, and inside it one thing is alive and visibly cared for.</p>
+      <p>Code is how you, an engineer, get to make things by hand. So the art shouldn’t decorate the site. It should carry your actual life: your places, your years and your ideas, and it should keep moving in real time. Real things stay real, so your photographs remain photographs. Code draws the world around them and everything a camera can’t capture.</p>
+    </div>
+
+    <div class="block proposals">
+      <div class="label">Three proposals</div>
+
+      <article class="proposal" id="four-desks">
+        <a class="art" href="four-desks/index.html"><img src="previews/thumbs/four-desks.jpg" alt="The same desk, window and pinboard four times: painted in colour in San Jose, as a risograph in San Diego, as a line engraving in Bengaluru, and as a cyanotype in Surathkal with an oscilloscope showing a square wave." width="1200" height="750"></a>
+        <h3>1. <a href="four-desks/index.html">Four desks</a> <span class="where">· sankala.me homepage and history</span></h3>
+        <p>One desk, seen from the same spot, in four places. Each era is printed in its own hand, so older memories get older processes:</p>
+        <ul class="eras">
+          <li><strong>Surathkal, 2015–19:</strong> cyanotype. The oscilloscope from your real NITK photo shows its square wave, and palm fronds are laid on the paper as sun prints.</li>
+          <li><strong>Bengaluru, 2019–22:</strong> engraving, precise as a chip layout.</li>
+          <li><strong>San Diego, 2022–24:</strong> risograph, the zine years.</li>
+          <li><strong>San Jose, now:</strong> live colour on San Jose’s real clock. Afternoon sun crosses the desk, the lamp comes on at night, and stars rise over the Lick domes.</li>
+        </ul>
+        <p>Your real photographs are pinned on the wall, printed in each era’s ink. Your covers sit on the shelf and the paper robot sits on the desk.</p>
+        <p class="meta"><strong>Open it and scroll.</strong> The cover follows the real time in San Jose, so it looks different in the morning, at sunset and at night. Weakest parts so far: the painted present is a little clean, and the riso Geisel Library reads as a stepped shape. The cyanotype and engraving are the strongest.</p>
+        <p class="meta">Takes from: Allysen (time you can see becomes real time) · the Still Point (one subject, many hands becomes one desk, many years) · Lee Robinson (place) · Kate Sparkle (the cut becomes a print pass) · the reading list (the shelf) · Made in SF (hand processes)</p>
+      </article>
+
+      <article class="proposal">
+        <a class="art" href="plates/index.html"><img src="previews/thumbs/plates.jpg" alt="Five monthly plates: an October paper-cut collage of a half-made picture with the paper robot, scissors, a red book, bowls and a watercolour tin; a December mezzotint of robot arms lifting a laurel; a January sumi ink bee; a July marbled target; a September pochoir cinema showing the eye." width="1200" height="750"></a>
+        <h3>2. <a href="plates/index.html">Plates</a> <span class="where">· a monthly practice on sankala.me</span></h3>
+        <p>One code-drawn plate a month showing what you’re doing, thinking or reading, like a /now page in pictures. Each plate uses a hand process you haven’t tried yet, so the collection is a record of you pushing your frontier. The plates sit in a strict grid. After a year they play in sequence as your own montage.</p>
+        <p class="meta"><strong>Built as a /now page.</strong> October is a paper-cut collage of this month: a half-made picture with the paper robot, surrounded by things from your references. Four earlier plates show the grid filling in, each labelled “drawn later” and each in a new process: mezzotint, sumi ink, marbling and pochoir. Empty months stay blank. “Play the year” runs them as a montage. The captions are drafts for you to rewrite in your own words.</p>
+        <p class="meta">Takes from: Sivers’ /now · the reading list · Kate Sparkle’s years of drawings · your definition of taste</p>
+      </article>
+
+      <article class="proposal">
+        <a class="art" href="paper-robots-made/index.html"><img src="previews/thumbs/paper-robots-made.jpg" alt="Posters and YouTube thumbnails for both Paper Robots films: a blue and ochre linocut of the many-armed robot for The Coming Robotics Revolution, and egg tempera on gold leaf with a giant eye and small green agents for How to Please a Capricious God." width="1200" height="750"></a>
+        <h3>3. <a href="paper-robots-made/index.html">Paper Robots, made not generated</a> <span class="where">· paperrobots.studio and the films</span></h3>
+        <p>Paper Robots moves from image-model art to art drawn in code. The robot exists once, as a single skeleton in code. Each film picks its own process, such as linocut for one and gouache for another. Posters, thumbnails, Shorts loops and title cards all come from the same code. <a href="paper-robot-materials/index.html">One robot, many hands</a> and the <a href="evidence-loop/index.html">evidence loop</a> are the first two pieces.</p>
+        <p class="meta"><strong>Built for your two real films.</strong> <cite>The Coming Robotics Revolution</cite> is a three-block reduction linocut. <cite>How to Please a Capricious God</cite> is egg tempera on gold leaf, where the gold is the god and the eye opens in it. Each film gets a poster, a YouTube thumbnail checked at phone size, a Shorts loop and a title card, all from the same code. The text comes from your site and the existing thumbnail.</p>
+        <p class="meta">Takes from: the Still Point · Space Bunnies · Kate Sparkle’s posters · the open question of whether generated art bothers you</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="together" aria-labelledby="tests-title">
+    <h2 id="tests-title" class="section-title">Two more, before you decide</h2>
+    <p>These test the parts of the plan that are still unproven: whether code-drawn art can carry your films, and what your essays become when their figures are drawn by hand.</p>
+
+    <article class="proposal">
+      <a class="art" href="essay-by-hand/index.html"><img src="previews/thumbs/essay-by-hand.jpg" alt="A zine-style figure of the evaluator loop with an error log opened, reading Fridge is closed, plus two smaller hand-drawn figures: tasks stamping cards into a dataset, and bars comparing official BEHAVIOR scores." width="1200" height="750"></a>
+      <h3><a href="essay-by-hand/index.html">An essay, explained by hand</a> <span class="where">· sankala.me writing</span></h3>
+      <p>Your <cite>Winning by Overfitting</cite> write-up, in your own words, with three hand-drawn figures you can drive. Step through the evaluator loop and open each error log. Run tasks and watch hard ones fill the dataset, then distil it into the 0.6B model. Tap the official BEHAVIOR scores to see each gap.</p>
+      <p class="meta">Tests the translation idea in its real home · the scores are the real numbers from the write-up · the apple task and the task counts are labelled as illustrative · the captions are drafts for your voice</p>
+    </article>
+
+    <article class="proposal" id="film-scene">
+      <a class="art" href="film-scene/index.html"><img src="previews/thumbs/film-scene.jpg" alt="Four frames from the code-drawn film: a close-up of the small green one-eyed agent, the god's red eye opening in the gold above it, the agent's eye reflecting the god, and a wide shot of the agent raising its arms beneath the eye." width="1200" height="750"></a>
+      <h3><a href="film-scene/index.html">A scene, drawn in code</a> <span class="where">· Paper Robots films</span></h3>
+      <p>The opening of <cite>How to Please a Capricious God</cite>, re-staged in tempera and gold leaf with real film grammar and the script’s real lines as subtitles. It tests whether proposal 3 can carry a film, not only posters.</p>
+      <p class="meta"><strong>37 seconds, six shots</strong>, with cuts landing on the script’s words and the first six lines as subtitles. There’s no sound yet. Verdict: a full film is possible in your style of silhouettes, held frames, hard cuts and directed light. It would need a posable character rig, shots described as data, a 4K renderer and a sound-synced timeline, which is roughly weeks of tooling. Crowds and hands handling objects are the expensive parts.</p>
+    </article>
+  </section>
+
+  <h2 class="section-title">The first samples</h2>
+
+  <section class="samples" aria-label="Samples">
+    <article>
+      <a class="art" href="places/index.html"><img src="previews/thumbs/places.jpg" alt="A tall riso-printed panel of four places stacked newest first: the Lick domes over San Jose, the Geisel Library at sunset, a chip die drawn as a city, and the Surathkal lighthouse among palms." width="1200" height="750"></a>
+      <h2><a href="places/index.html">Four places</a></h2>
+      <p>Surathkal, Bengaluru, San Diego and San Jose as one riso print, beside your dates. A red route runs from a telescope on the Surathkal beach to the domes on Mt Hamilton.</p>
+      <p class="meta">Answers Lee Robinson’s “illustration carries place” · could live on History or About · four inks with halftone, 30-second loop</p>
+    </article>
+
+    <article>
+      <a class="art" href="covers/index.html"><img src="previews/thumbs/covers.jpg" alt="A quiet grid of nine equal book covers for San's works, each in a different printing style: a gouache film poster, an art-deco lithograph, a Swiss typographic poster, a woodblock print, a linocut, letterpress, a screenprint, a riso zine and a technical journal." width="1200" height="750"></a>
+      <h2><a href="covers/index.html">Covers</a></h2>
+      <p>Your nine works as a shelf of covers, newest first. Each one is printed in a style that suits its subject, from a Swiss poster for <cite>Winning by Overfitting</cite> to a woodblock print for <cite>A Clauiet Life</cite>, and each has one slow living detail. The page around them stays still.</p>
+      <p class="meta">Answers Allysen’s reading list: “let the covers make the palette” · could become /writing and /notes · nine covers, real titles and dates</p>
+    </article>
+
+    <article>
+      <a class="art" href="explainer/index.html"><img src="previews/thumbs/explainer.jpg" alt="A three-ink zine figure: a yellow sprout-headed model writes a plan, an evaluator kitchen runs it, a pink error ticket returns, and passing plans drop into a gold data tray." width="1200" height="750"></a>
+      <h2><a href="explainer/index.html">Loop. Loop. Loop.</a></h2>
+      <p>The evaluator loop from <cite>Winning by Overfitting</cite>, drawn as a living zine page. Two real failure types from the write-up, then a pass that becomes training data. The apple task is made up for the figure.</p>
+      <p class="meta">Tests the translation idea: ZINify, the GPT-7 figures · could be a figure in the EAI write-up · hand-lettered in code</p>
+    </article>
+
+    <article>
+      <a class="art" href="evidence-loop/index.html"><img src="previews/thumbs/evidence-loop.jpg" alt="Three vertical camcorder frames in deep blue: the paper robot gasping, a reticle locking onto a distant asteroid, and a folded-paper asteroid with tiny green one-eyed riders." width="1200" height="750"></a>
+      <h2><a href="evidence-loop/index.html">Evidence loop</a></h2>
+      <p>A camcorder finds the paper robot, then a giant folded-paper asteroid with tiny riders. One slips. Six colours, never black, with halftone for shade, and the REC overlay carries the plot.</p>
+      <p class="meta">Answers the Space Bunnies reel · a Paper Robots Reels/Shorts loop · vertical, 8-second loop</p>
+    </article>
+
+    <article>
+      <a class="art" href="paper-robot-materials/index.html"><img src="previews/thumbs/paper-robot-materials.jpg" alt="The Paper Robots robot in the same pose four times: as a gold and indigo linocut, a pink and blue risograph, a banknote engraving and a cyanotype." width="1200" height="750"></a>
+      <h2><a href="paper-robot-materials/index.html">One robot, many hands</a></h2>
+      <p>The paper robot holds one pose while the picture is remade every two seconds in a different hand process: gouache, cyanotype, linocut, risograph, banknote engraving, origami, woodblock and cross-stitch. Its blinks and head tilt carry across every cut.</p>
+      <p class="meta">Answers the Still Point and “the colour is the cut” · a paperrobots.studio hero or film intro sting · eight materials, 16-second loop</p>
+    </article>
+
+    <article>
+      <a class="art" href="komorebi/index.html"><img src="previews/thumbs/komorebi.jpg" alt="Shadows of palm fronds and soft coins of sunlight on a warm plaster wall, with a small white lowercase introduction in the shade." width="1200" height="750"></a>
+      <h2><a href="komorebi/index.html">Komorebi</a></h2>
+      <p>Late sun through coconut palms on a plaster wall, with your intro line in the shade. The motion is the point: layered sway, flutter and gusts, and sun-shaped coins that breathe as gaps open and close.</p>
+      <p class="meta"><strong>Rejected:</strong> you called this a literal copy. It took Allysen’s surface instead of her idea. Four desks takes the idea: time you can see, made real by San Jose’s clock.</p>
+    </article>
+  </section>
+
+  <footer>
+    <p>These are samples for your reaction. None is approved or placed on a live site. Source files are in <code>design/prototypes/2026-10-code-drawn-art/</code>.</p>
+  </footer>
+</main>
