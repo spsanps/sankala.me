@@ -3607,7 +3607,37 @@
     fade(EA, 1 - clamp((tau - ps) / 0.08));
     fade(EB, clamp((tau - ps - TOTAL) / 0.1));
   }
+  function frameMask(st) {
+    const c = st.ctx, p = st.panel;
+    if (!c || !p) return;
+    const W = st.canvas.width, H = st.canvas.height, d = st.dpr;
+    c.save();
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.fillStyle = st.wallCss;
+    c.beginPath();
+    c.rect(0, 0, W, H);
+    c.rect(p.x, p.y, p.w, p.h);
+    c.fill("evenodd");
+    const sh = c.createLinearGradient(0, p.y, 0, p.y + 10 * d);
+    sh.addColorStop(0, "rgba(40,32,20,.22)");
+    sh.addColorStop(1, "rgba(40,32,20,0)");
+    c.fillStyle = sh;
+    c.fillRect(p.x, p.y, p.w, 10 * d);
+    const sv = c.createLinearGradient(p.x, 0, p.x + 8 * d, 0);
+    sv.addColorStop(0, "rgba(40,32,20,.16)");
+    sv.addColorStop(1, "rgba(40,32,20,0)");
+    c.fillStyle = sv;
+    c.fillRect(p.x, p.y, 8 * d, p.h);
+    c.strokeStyle = "rgba(48,40,28,.45)";
+    c.lineWidth = Math.max(1, d);
+    c.strokeRect(p.x + 0.5 * d, p.y + 0.5 * d, p.w - d, p.h - d);
+    c.restore();
+  }
   function render(st, t) {
+    renderInner(st, t);
+    frameMask(st);
+  }
+  function renderInner(st, t) {
     const c = st.ctx;
     if (!c) return;
     const pos = clamp(st.pos, 0, 3), i = Math.min(2, Math.floor(pos)), tau = pos >= 3 ? 1 : pos - i;
@@ -3653,8 +3683,8 @@
       out[key] = im;
     }))).then(() => out);
   }
-  function prepare(st, mode, w, h, dpr) {
-    st.L = layoutFor(mode, w, h);
+  function prepare(st, mode, w, h, dpr, bounds) {
+    st.L = layoutFor(mode, w, h, bounds);
     st.dpr = dpr;
     st.cssW = w;
     st.cssH = h;
@@ -3703,7 +3733,6 @@
       if (!w || !h) return;
       const alive = () => !disposed && id === building;
       st.ready = false;
-      prepare(st, mode, w, h, dpr);
       if (mode === "wide" && laneEl) {
         const lr = laneEl.getBoundingClientRect();
         st.laneCss = lr.right - r.left;
@@ -3712,6 +3741,26 @@
         st.laneCss = null;
         st.laneDev = null;
       }
+      st.wallCss = getComputedStyle(stageEl).backgroundColor || "#ece3cb";
+      const hd = document.querySelector(".site-header");
+      let pc, bounds;
+      if (mode === "wide") {
+        const top = Math.max(18, hd ? hd.getBoundingClientRect().bottom - r.top + 10 : 18), m = 28;
+        pc = { x: (st.laneCss ?? 0) + 36, y: top };
+        pc.w = w - pc.x - m;
+        pc.h = h - pc.y - m;
+        const u = Math.max(Math.min(pc.h, pc.w), 200) / 1e3;
+        const xMin = 1e3 - (pc.x + pc.w) / u, yMin = 1e3 - (pc.y + pc.h) / u;
+        bounds = { u, xMin, xMax: xMin + w / u, yMin, yMax: yMin + h / u };
+      } else {
+        const m = 12;
+        pc = { x: m, y: m, w: w - 2 * m, h: h - 2 * m };
+        const u = Math.min(pc.w / 700, pc.h / 790);
+        const xMin = 350 - (pc.x + pc.w / 2) / u, yMin = 742 - (pc.y + pc.h) / u;
+        bounds = { u, xMin, xMax: xMin + w / u, yMin, yMax: yMin + h / u };
+      }
+      prepare(st, mode, w, h, dpr, bounds);
+      st.panel = { x: Math.round(pc.x * dpr), y: Math.round(pc.y * dpr), w: Math.round(pc.w * dpr), h: Math.round(pc.h * dpr) };
       await nextTask();
       if (!alive()) return;
       const first = hooks.era && ERAS.includes(hooks.era) ? hooks.era : hooks.pos != null ? ERAS[Math.min(3, Math.floor(hooks.pos))] : ERAS[Math.min(3, Math.round(scrollPos(st)))];
