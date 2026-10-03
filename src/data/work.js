@@ -2,6 +2,8 @@ import { notesData } from './site-content.js';
 export { default as topics } from './topics.js';
 
 export const formatNames = { research: 'Research', writing: 'Essay / note', film: 'Film', experiment: 'Experiment' };
+// A work can name its own kind where the format's name would be wrong (a poem is not an essay).
+export const formatName = work => work.formatLabel || formatNames[work.formats[0]];
 const classification = {
   'another-sky': [['worlds'], ['experiment'], '2026-09'],
   'gpt7-will-have-arms': [['ai'], ['writing', 'film'], '2025-12'],
@@ -20,8 +22,11 @@ const introductions = {
   'startr-postmortem': ['What went wrong with my writing-assistant startup', 'The story of building a tool for novelists through UCSD’s StartR accelerator, and why it never made it to market.'],
   'zinify': ['Turning research papers into illustrated zines', 'ZINify uses language models to turn academic papers into visual zines. UIST 2023 Student Innovation Contest Honorable Mention.'],
   'power-quality': ['Recognizing electrical disturbances with neural networks', 'Research on classifying power-quality events using recurrent neural networks. IEEE DISCOVER 2019 Best Paper Award.'],
+  'nobody-owes-anything-now': ['A poem about a potter in a space habitat', 'Life in an O’Neill cylinder after AI made money stop mattering, told by a potter who makes cups by hand.'],
 };
 export const works = [
+  { slug: 'nobody-owes-anything-now', title: 'Nobody Owes Anything Now', date: 'October 2026', sortDate: '2026-10-03',
+    url: '/notes/nobody-owes-anything-now', topics: ['worlds', 'ai'], formats: ['writing'], formatLabel: 'Poem' },
   { slug: 'capricious-god', title: 'How to Please a Capricious God', date: 'September 8, 2026', sortDate: '2026-09-08', url: 'https://www.paperrobots.studio/films/capricious-god/', filmUrl: 'https://www.youtube.com/watch?v=wswbqJNMFBw', topics: ['ai'], formats: ['film'] },
   ...notesData.map(note => ({
     slug: note.slug, title: note.title, date: note.date, description: note.excerpt,

@@ -10,6 +10,7 @@ export const coverLoaders = {
   'dyson-swarm': () => import('./dyson-swarm.js'),
   'zinify': () => import('./zinify.js'),
   'power-quality': () => import('./power-quality.js'),
+  'nobody-owes-anything-now': () => import('./nobody-owes-anything-now.js'),
 };
 
 export const coverDescriptions = {
@@ -22,6 +23,7 @@ export const coverDescriptions = {
   'dyson-swarm': 'A screenprint of solar collectors orbiting an orange sun while Mercury is taken apart.',
   'zinify': 'A pink and blue risograph zine cover: a research paper turning into a zine.',
   'power-quality': 'A technical journal cover with an oscilloscope showing a sagging waveform.',
+  'nobody-owes-anything-now': 'A sgraffito slab, white slip scratched through to red clay: a ring of land seen end-on, with a house marked POTTERY at the bottom, an orchard hanging overhead, and a cup in the middle.',
 };
 
 export const hasCover = slug => Object.prototype.hasOwnProperty.call(coverLoaders, slug);

@@ -11,9 +11,12 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
    check passed; merged to main. Next: send San the draft prose list in design/reviews/2026-10-03-essays/README.md
    for him to rewrite in his own words, and answer his question about "we, at NIT Karnataka".
 2. San's poem "Nobody Owes Anything Now" (source: C:\Users\sanps\Downloads\message (5).txt, submitted to
-   Exastential): San said he is fine publishing it on sankala.me now. Build a poem page in its own art style
-   (idea: a hand-thrown cup turning on a wheel; text is the hero), list it under Writing & projects with a
-   cover, RSS, sitemap, llms mirror. It is set in an O'Neill cylinder, so link it from Another Sky later.
+   Exastential): built on branch `poem` (not merged) at /notes/nobody-owes-anything-now in a new style,
+   sgraffito on red earthenware: a cup turning on a banding wheel with the habitat scratched round its side,
+   beside the poem (above it on phones), and a brushed-slab cover that is also the share card. Listed under
+   Writing & projects as a poem, on the homepage shelf, in RSS, the sitemap and llms.txt, with a Markdown
+   mirror. Review: design/reviews/2026-10-03-poem/. Open for San: the date (October 2026 for now), the
+   one-line description, and linking it from Another Sky (not done).
 3. Dyson Swarm reinvention: San asked to see ALL three ideas as samples, being built by three agents in
    /home/san/Projects/dysonswarm/site/_design/prototypes/2026-10-reinvention/ (uncommitted):
    travel-bureau/ (1970s airbrush travel posters), swarm-sky/ (glass-plate astronomy with a dated log, the swarm

@@ -10,7 +10,7 @@
 <script type="module">
 import { printCover } from '/src/components/art/covers/renderer.js';
 import { coverSocialImage } from '/src/components/art/covers/registry.js';
-import { works, formatNames } from '/src/data/work.js';
+import { works, formatName } from '/src/data/work.js';
 
 const SITE_FONTS = [['Fraunces', 600, '/fonts/fraunces-3.woff2'], ['DM Sans', 400, '/fonts/dm-sans-1.woff2'], ['DM Sans', 500, '/fonts/dm-sans-2.woff2']];
 const fontsReady = Promise.all(SITE_FONTS.map(([family, weight, url]) => new FontFace(family, `url(${url})`, { weight: String(weight) }).load().then(face => document.fonts.add(face))));
@@ -39,7 +39,7 @@ function shareCard(cover, work) {
   x.font = '400 28px "DM Sans"'; const subLines = wrap(x, work.displayTitle, tw).slice(0, 2);
   const blockH = 34 + titleLines.length * 68 + 22 + subLines.length * 38;
   let y = (H - blockH) / 2 + 6;
-  x.fillStyle = '#58616b'; x.font = '500 22px "DM Sans"'; x.fillText(`San Kala · ${formatNames[work.formats[0]].replace(' / note', '')} · ${work.date}`, tx, y); y += 34 + 52;
+  x.fillStyle = '#58616b'; x.font = '500 22px "DM Sans"'; x.fillText(`San Kala · ${formatName(work).replace(' / note', '')} · ${work.date}`, tx, y); y += 34 + 52;
   x.fillStyle = '#202c38'; x.font = '600 62px Fraunces'; for (const l of titleLines) { x.fillText(l, tx, y); y += 68; }
   y += 22 - 68 + 38;
   x.fillStyle = '#58616b'; x.font = '400 28px "DM Sans"'; for (const l of subLines) { x.fillText(l, tx, y); y += 38; }

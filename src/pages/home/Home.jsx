@@ -2,7 +2,7 @@ import Metadata from '../../components/site/Metadata';
 import { SiteLink } from '../../components/site/Elements';
 import Cover from '../../components/art/covers/Cover';
 import { hasCover } from '../../components/art/covers/registry';
-import { works, formatNames } from '../../data/work';
+import { works, formatName } from '../../data/work';
 import { paperRobotsUrl } from '../../data/links';
 import FourFrames from './FourFrames';
 import '../../styles/home.css';
@@ -30,7 +30,7 @@ export default function Home() {
           <Cover slug={work.slug} title={work.title} variant="still" alt="" sizes="(max-width: 700px) 30vw, 180px" />
           <span className="home-cover-title">{work.title}</span>
         </SiteLink>
-        <span className="home-cover-meta">{formatNames[work.formats[0]]} · {year(work)}</span>
+        <span className="home-cover-meta">{formatName(work)} · {year(work)}</span>
       </li>)}</ol>
     </section>
 

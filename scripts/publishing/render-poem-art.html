@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Poem art harness</title>
+<!-- Loaded by scripts/publishing/render-poem-art.mjs through the Vite dev server. It draws the
+     sgraffito cup on its wheel with the same code as /notes/nobody-owes-anything-now and hands
+     the stills back as data URLs. Opened directly, ?t=<seconds>&w=<css width> shows one frame. -->
+<style>html, body { margin: 0; background: #faf9f5; } canvas { display: block; }</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<script type="module">
+import { createRenderer, DW, DH } from '/src/pages/notes/nobody-owes-anything-now/art/wheel.js';
+
+const q = new URLSearchParams(location.search);
+const cssW = Number(q.get('w') || 1000), dpr = Math.min(2, window.devicePixelRatio || 1);
+const view = document.getElementById('view');
+const t0 = performance.now();
+const pxW = Math.round(cssW * dpr), pxH = Math.round(cssW * DH / DW * dpr);
+view.style.width = cssW + 'px'; view.style.height = Math.round(cssW * DH / DW) + 'px';
+const renderer = await createRenderer({ canvas: view, width: pxW, height: pxH });
+const built = performance.now() - t0;
+const t = q.has('t') ? Number(q.get('t')) : renderer.still;
+const t1 = performance.now(); renderer.draw(t, true); const frame = performance.now() - t1;
+console.log(`built in ${built.toFixed(0)} ms, frame ${frame.toFixed(1)} ms`);
+window.__timing = { built, frame };
+
+// Stills for the page: the same frame at two widths.
+window.renderStill = async width => {
+  const c = document.createElement('canvas'), h = Math.round(width * DH / DW);
+  const r = await createRenderer({ canvas: c, width, height: h });
+  r.draw(r.still, true);
+  return c.toDataURL('image/webp', .9);
+};
+window.__ready = true;
+</script>
+</body>
+</html>

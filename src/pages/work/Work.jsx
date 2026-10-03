@@ -37,7 +37,7 @@ const items = works.map(work => {
   // Research-only works have no page of their own (their URL is an anchor on this page); their details are here.
   const href = /^\/(work|research)#/.test(work.url) ? null : work.url;
   const actions = [];
-  if (work.formats.includes('writing')) actions.push([work.url, work.slug === 'eai-challenge' ? 'Read the write-up' : 'Read the essay']);
+  if (work.formats.includes('writing')) actions.push([work.url, work.slug === 'eai-challenge' ? 'Read the write-up' : work.formatLabel === 'Poem' ? 'Read the poem' : 'Read the essay']);
   if (work.formats.includes('experiment')) actions.push([work.url, projectActions[work.slug] || 'Open the project']);
   if (work.formats.includes('film')) {
     if (work.filmUrl) actions.push([work.filmUrl, 'Watch the film'], [work.url, 'On Paper Robots']);
@@ -45,7 +45,7 @@ const items = works.map(work => {
   }
   for (const [linkHref, label] of paper?.links || []) if (!actions.some(([h]) => h === linkHref)) actions.push([linkHref, label]);
   const search = [work.title, work.displayTitle, work.description, ...work.topics.map(id => topics.find(t => t.id === id)?.name), paper?.title, paper?.authors, paper?.venue, paper?.note].filter(Boolean).join(' ').toLowerCase();
-  return { ...work, paper, href, actions, search, readTime: /min read/.test(note?.readTime || '') ? note.readTime : null, kinds: work.formats.map(f => kindNames[f]).join(' · ') };
+  return { ...work, paper, href, actions, search, readTime: /min read/.test(note?.readTime || '') ? note.readTime : null, kinds: work.formatLabel || work.formats.map(f => kindNames[f]).join(' · ') };
 });
 
 export default function Work({ preset = 'all' }) {

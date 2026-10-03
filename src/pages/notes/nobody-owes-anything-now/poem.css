@@ -1,0 +1,40 @@
+/* The poem on clean paper, one reading lane; the cup turns quietly beside it (above it on
+   phones). Stanzas keep San's shape: each opens at the margin, its other lines stand in, and
+   a line too long for a phone wraps deeper still, so a wrap never looks like a new line. */
+.personal-site .poem-layout { display: grid; grid-template-columns: minmax(0, 1fr) 480px; grid-template-areas: 'head fig' 'poem fig' 'colo fig'; column-gap: 80px; align-items: start; padding-bottom: 96px; }
+.personal-site .poem-heading { grid-area: head; padding-bottom: 40px; }
+.personal-site .poem-heading h1 { font-size: clamp(44px, 5vw, 66px); max-width: 12em; text-wrap: balance; }
+.personal-site .poem-figure { grid-area: fig; position: sticky; top: max(24px, calc(50vh - 250px)); margin-top: 48px; }
+.personal-site .poem-wheel { aspect-ratio: 5 / 4; width: 100%; }
+.personal-site .poem-figure figcaption { margin: 6px auto 0; max-width: 340px; color: var(--muted); font-size: 13px; line-height: 1.55; text-align: center; }
+
+.personal-site .poem { grid-area: poem; max-width: 34em; font-family: Georgia, 'Times New Roman', serif; font-size: 20px; line-height: 1.62; color: var(--ink); font-variant-ligatures: common-ligatures; hanging-punctuation: first; }
+.personal-site .poem .stanza { margin: 0 0 1.2em; }
+.personal-site .poem .line { display: block; padding-left: 2.4em; text-indent: -2.4em; }
+.personal-site .poem .line.turn { margin-left: 1.2em; }
+.personal-site .poem br { display: none; }
+
+.personal-site .poem-colophon { grid-area: colo; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px; align-items: start; max-width: 34em; margin-top: 36px; padding-top: 32px; border-top: 1px solid var(--line); }
+.personal-site .poem-colophon > div > p { color: var(--muted); font-size: 15px; }
+.personal-site .poem-colophon .actions { margin-top: 12px; gap: 10px 22px; }
+.personal-site .poem-cover .cover-art { width: 96px; }
+
+@media (max-width: 1000px) {
+  .personal-site .poem-layout { grid-template-columns: minmax(0, 1fr) 320px; column-gap: 48px; }
+  .personal-site .poem-figure { top: max(20px, calc(50vh - 170px)); }
+}
+@media (max-width: 760px) {
+  .personal-site .poem-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'fig' 'head' 'poem' 'colo'; padding-bottom: 64px; }
+  .personal-site .poem-figure { position: static; margin: 20px auto 0; width: min(100%, 320px); }
+  .personal-site .poem-figure figcaption { font-size: 12px; margin-top: 2px; }
+  .personal-site .poem-heading { padding-block: 22px 28px; }
+  .personal-site .poem { font-size: 18.5px; line-height: 1.6; }
+  .personal-site .poem .line { padding-left: 2.2em; text-indent: -2.2em; }
+  .personal-site .poem .line.turn { margin-left: 1em; }
+  .personal-site .poem-colophon { grid-template-columns: 76px minmax(0, 1fr); gap: 18px; }
+  .personal-site .poem-cover .cover-art { width: 76px; }
+}
+@media (max-width: 360px) {
+  .personal-site .poem { font-size: 17.5px; }
+  .personal-site .poem-heading h1 { font-size: 40px; }
+}

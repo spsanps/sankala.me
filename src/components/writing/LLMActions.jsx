@@ -8,9 +8,9 @@ import { Copy, Check, FileText } from 'lucide-react';
  *  - `markdownUrl`: a plain-text markdown mirror (also linked as "Markdown"), or
  *  - `getMarkdown`: a function returning the markdown string directly.
  *
- * `variant` switches styling between light and dark page backgrounds.
+ * `variant` switches styling between light and dark page backgrounds; `label` names the copy button.
  */
-export default function LLMActions({ markdownUrl, getMarkdown, variant = 'light', className = '' }) {
+export default function LLMActions({ markdownUrl, getMarkdown, variant = 'light', className = '', label = 'Copy article text' }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = useCallback(async () => {
@@ -35,11 +35,11 @@ export default function LLMActions({ markdownUrl, getMarkdown, variant = 'light'
       <button
         type="button"
         onClick={handleCopy}
-        title="Copy the full article as Markdown"
+        title={label === 'Copy article text' ? 'Copy the full article as Markdown' : label}
         className={`inline-flex items-center gap-1.5 px-2.5 py-1 border rounded transition-colors ${tone}`}
       >
         {copied ? <Check size={12} /> : <Copy size={12} />}
-        {copied ? 'Copied' : 'Copy article text'}
+        {copied ? 'Copied' : label}
       </button>
       {markdownUrl && (
         <a

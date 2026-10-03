@@ -12,7 +12,7 @@ const template = shell.replace(/<title\b[^>]*>[\s\S]*?<\/title>/g, '').replace(/
 // /writing, /projects, /research, /notes and /lab are the Work page, filtered; they are prerendered
 // so old links load instantly, but only /work goes in the sitemap.
 const aliases = ['/writing', '/projects', '/notes', '/research', '/lab'];
-const paths = ['/', '/work', ...aliases, '/history', '/about', '/resume', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/404'];
+const paths = ['/', '/work', ...aliases, '/history', '/about', '/resume', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/404'];
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', ssr: { noExternal: ['react-helmet-async'], resolve: { externalConditions: ['module-sync'] } } });
 try {
   const { render } = await server.ssrLoadModule('/src/entry-server.jsx');

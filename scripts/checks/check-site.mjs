@@ -7,6 +7,8 @@ import { chromium } from 'playwright';
 import { preview } from 'vite';
 import handler from '../../api/og.js';
 import { works } from '../../src/data/work.js';
+import { coverLoaders } from '../../src/components/art/covers/registry.js';
+import { LINES as POEM_LINES, STANZAS as POEM_STANZAS } from '../../src/pages/notes/nobody-owes-anything-now/poem.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const server = await preview({
@@ -16,11 +18,12 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const POEM = '/notes/nobody-owes-anything-now';
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
-const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas']];
+const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
-const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
+const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
 
@@ -60,6 +63,18 @@ try {
       await page.waitForFunction(sel => { const c = document.querySelector(sel); return c && c.clientWidth > 100 && c.width >= c.clientWidth * 0.9 && c.height >= c.clientHeight * 0.9; }, selector, { timeout: 15000 });
       assert.deepEqual(errors, [], `Figure errors: ${route} at ${width}`);
     }
+    // The poem: every line of it, in San's stanzas, with its cover below it.
+    await page.goto(origin + POEM, { waitUntil: 'networkidle' });
+    const poemLines = (await page.locator('.poem').innerText()).split('\n').map(line => line.trim()).filter(Boolean);
+    assert.deepEqual(poemLines, POEM_LINES.map(line => line.trim()), `The whole poem, line by line, at ${width}`);
+    assert.equal(await page.locator('.poem .stanza').count(), POEM_STANZAS.length, `Every stanza at ${width}`);
+    assert.equal(await page.locator('.poem .line.turn').count(), POEM_LINES.filter(line => line.startsWith(' ')).length, `Continuation lines stand in at ${width}`);
+    const poemCover = page.locator('.poem-cover img');
+    await poemCover.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => { const img = document.querySelector('.poem-cover img'); return img && img.complete && img.naturalWidth > 0; }, null, { timeout: 10000 });
+    assert.ok((await poemCover.getAttribute('src')).includes('/images/covers/nobody-owes-anything-now'), `The poem's cover at ${width}`);
+    assert.ok(await page.locator('.poem-figure img').evaluate(image => image.complete && image.naturalWidth > 0), `The poem's still figure loads at ${width}`);
+
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
     await page.goto(origin + '/work');
     assert.equal(await page.locator('[data-work]').count(), works.length, 'Every work on the Work page');
@@ -101,7 +116,7 @@ try {
     assert.ok(await page.getByRole('dialog',{name:'Photograph'}).isVisible(),'Photo enlarges');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('dialog[open]').count(),0,'Photo closes with Escape');
-    assert.equal(await page.locator('.home-covers li').count(),9,'Every cover on the homepage shelf');
+    assert.equal(await page.locator('.home-covers li').count(),works.filter(work => work.slug in coverLoaders).length,'Every cover on the homepage shelf');
     for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     assert.equal(await nav.getByRole('link').count(), 4, `Four destinations in the menu at ${width}`);
@@ -136,6 +151,17 @@ try {
     assert.equal((html.match(/<title\b/g) || []).length, 1, `One server-rendered title: ${route}`);
     assert.ok(html.includes('rel="canonical"'), `Canonical in initial HTML: ${route}`);
   }
+  // Crawlers and readers without JavaScript get the whole poem, its share card and its Markdown mirror.
+  const poemHtml = await (await fetch(origin + POEM + '/')).text();
+  for (const line of POEM_LINES) assert.ok(poemHtml.includes('>' + line.trim() + '<'), `Prerendered poem line: ${line.trim()}`);
+  assert.ok(poemHtml.includes('/images/covers/nobody-owes-anything-now-social.jpg'), 'Poem share card');
+  assert.ok(poemHtml.includes('/images/covers/nobody-owes-anything-now-360.webp'), 'Poem cover in the prerendered page');
+  const poemMarkdown = await (await fetch(origin + POEM + '.md')).text();
+  for (const line of POEM_LINES) assert.ok(poemMarkdown.includes(line.trim()), `Markdown mirror line: ${line.trim()}`);
+  const feed = await (await fetch(origin + '/feed.xml')).text(), sitemap = await (await fetch(origin + '/sitemap.xml')).text();
+  assert.ok(feed.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the RSS feed');
+  assert.ok(sitemap.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the sitemap');
+
   const workHtml = await (await fetch(origin + '/work/')).text();
   assert.ok(workHtml.includes('<h1>Writing &amp; projects</h1>'), 'Prerendered Work page');
   for (const work of works) assert.ok(workHtml.includes(work.displayTitle.replaceAll('&', '&amp;')), `Prerendered Work page lists: ${work.title}`);
