@@ -19,9 +19,9 @@ export function ChatCard({ messages }) {
   </blockquote>;
 }
 
-export function PromptCard({ label, text }) {
+export function PromptCard({ label, to, text }) {
   return <blockquote className="ijp-prompt">
-    <p className="ijp-card-head"><span className="ijp-card-label">{label}</span><span className="ijp-card-to">to Claude Code</span></p>
+    <p className="ijp-card-head"><span className={`ijp-card-label${/\.md$/.test(label) ? ' is-file' : ''}`}>{label}</span><span className="ijp-card-to">{to}</span></p>
     <div className="ijp-prompt-text">{text.split('\n\n').map((para, i) => <p key={i}><span className="ijp-caret" aria-hidden="true">›</span><Text>{para}</Text></p>)}</div>
   </blockquote>;
 }

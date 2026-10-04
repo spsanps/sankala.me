@@ -45,9 +45,10 @@ function classify(text, before) {
   const paras = text.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
   if (paras.every(p => MESSAGE.test(p))) return { type: 'chat', messages: paras.map(p => ({ sender: MESSAGE.exec(p)[1], text: p.replace(MESSAGE, '') })) };
   if (paras.every(p => NOTE.test(p))) return { type: 'notes', notes: paras.map(p => ({ title: NOTE.exec(p)[1], text: p.replace(NOTE, '') })) };
-  // a prompt is named by the paragraph that introduces it
-  const lead = [...before].reverse().find(p => p.type === 'md')?.text.split('\n\n').pop() || '';
-  return { type: 'prompt', label: /goal/i.test(lead) ? 'Standing goal' : 'Prompt', text: paras.join('\n\n') };
+  // a prompt is named by the bold words of the paragraph that introduces it
+  const lead = ([...before].reverse().find(p => p.type === 'md')?.text.split('\n\n').pop() || '').match(/^\*\*([^*]+)\*\*/)?.[1] || '';
+  const [label, to] = /CLAUDE\.md|instructions/i.test(lead) ? ['CLAUDE.md', 'at the top of the file'] : /skill/i.test(lead) ? ['Skill', 'written by Claude'] : /goal/i.test(lead) ? ['Standing goal', 'to Claude Code'] : ['Prompt', 'to Claude Code'];
+  return { type: 'prompt', label, to, text: paras.join('\n\n') };
 }
 
 // For the section markers: how far through the essay each section starts, and the reading

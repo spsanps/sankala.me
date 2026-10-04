@@ -29,7 +29,7 @@ const components = { a: ({ href = '', children }) => <SiteLink href={href}>{chil
 
 function Piece({ piece }) {
   if (piece.type === 'chat') return <ChatCard messages={piece.messages} />;
-  if (piece.type === 'prompt') return <PromptCard label={piece.label} text={piece.text} />;
+  if (piece.type === 'prompt') return <PromptCard label={piece.label} to={piece.to} text={piece.text} />;
   if (piece.type === 'notes') return <NotesCard notes={piece.notes} />;
   if (piece.type === 'figure') return <FlightFigure />;
   return <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>{piece.text}</ReactMarkdown>;
