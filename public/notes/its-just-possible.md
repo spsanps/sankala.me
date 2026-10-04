@@ -27,7 +27,7 @@ I wasn't the one writing the code. I directed AI agents that wrote and tested it
 
 The RealPDE development phase closed at midnight UTC on Sunday, September 27. That weekend I was flying to Pittsburgh for IROS.
 
-Scores in RealPDE sit around 82 out of 100, a mix of accuracy, speed and how well a model knows its own uncertainty. At 2 pm UTC on Sunday, my agents reported where we stood: 9th on one track and 5th on the other, about a quarter of a point behind first on each. By 6:10 pm we were first on both.
+Scores in RealPDE sit around 82 out of 100, a mix of accuracy, speed and how well a model knows its own uncertainty. On the last day, my agents reported where we stood: 9th on one track and 5th on the other, about a quarter of a point behind first on each. A few hours later we were first on both.
 
 All weekend I worked through one long Claude Code session running Opus 5.5, remotely, some of it over airplane wifi. From that session I directed roughly 200 helper agents in all, using as many as 17 rented GPUs at once. The push cost about $1,200 all in, for GPUs, my Claude subscription and some credits. If first place holds on both tracks, the prize is $12,000.
 
