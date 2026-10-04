@@ -42,6 +42,7 @@ so the destinations are now Another Sky, The Swarm, Terraforming Venus (/venus/)
 (/orbital-ring/) and compute clusters on Triton (/triton/, San's "maybe"); Mars and Over Venus are dropped.
 Triton's style (San, October 3): cloisonné enamel, the gold wire as the moon's thinking network; soft pastel and the SF paperback are dropped.
 Orbital Ring (San, October 3): realistic slide film only; the screenprint mode is dropped. Triton grows from one hall to the whole moon by about 2085–90.
+Venus (San, October 3): the poster look he first chose is "pretty bad" live; the painting look comes back as the only look, optimized for Windows Chrome.
 He judged the airbrush posters below the quality of the Dyson Swarm and Another Sky covers, so the bureau's
 posters are now cover-quality prints, each in its own print style, made in the sankala.me cover system.
 Dyson Swarm positioning (San, October 3): the collection is "a marriage of space futurism and AI futurism":
