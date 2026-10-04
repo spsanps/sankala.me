@@ -32,3 +32,51 @@
   .personal-site .iros-table :is(th, td) { padding-right: 8px; }
   .personal-site .iros-table td:first-child { white-space: normal; }
 }
+
+/* The diagram sheet's lettering (the cover's face), for the step numbers on the page. */
+@font-face { font-family: 'Zen Maru Gothic'; font-style: normal; font-weight: 700; font-display: swap; src: url(/fonts/covers/zen-maru-gothic-700.woff2) format('woff2'); }
+
+/* Section breaks as steps of a diagram sheet: a step number in a circle and a dashed valley-fold line across the
+   column. The references are the back of the sheet: a dot-dash mountain-fold line and the "turn over" symbol. */
+.personal-site .iros-body { counter-reset: iros-step; }
+.personal-site .iros-body .prose h2.iros-step, .personal-site .iros-body .prose h2.iros-turn { position: relative; margin-top: 80px; padding-top: 50px; }
+.personal-site .iros-body .prose h2.iros-step { counter-increment: iros-step; }
+.personal-site .iros-body .prose h2.iros-step::before, .personal-site .iros-body .prose h2.iros-turn::before { content: ''; position: absolute; left: 46px; right: 0; top: 15px; height: 1.2px; opacity: .5; }
+.personal-site .iros-body .prose h2.iros-step::before { background: repeating-linear-gradient(90deg, var(--ink) 0 8px, transparent 8px 13px); }
+.personal-site .iros-body .prose h2.iros-turn::before { left: 52px; background: repeating-linear-gradient(90deg, var(--ink) 0 10px, transparent 10px 13.5px, var(--ink) 13.5px 15px, transparent 15px 18.5px, var(--ink) 18.5px 20px, transparent 20px 23.5px); }
+.personal-site .iros-body .prose h2.iros-step::after { content: counter(iros-step); position: absolute; left: 0; top: 0; box-sizing: border-box; width: 31px; height: 31px; border: 1.3px solid var(--ink); border-radius: 50%; font: 700 15px/28px 'Zen Maru Gothic', 'DM Sans', sans-serif; letter-spacing: 0; text-align: center; color: var(--ink); }
+.personal-site .iros-body .prose h2.iros-turn::after { content: ''; position: absolute; left: 0; top: 2px; width: 40px; height: 26px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Cpath d='M3 22C3 11 10 5 17 6.5C23 8 23.5 15.5 18.5 15.5C13.5 15.5 14 7.5 23 6.2C28 5.5 32 8 34.5 12' fill='none' stroke='%23202c38' stroke-width='1.4' stroke-linecap='round'/%3E%3Cpath d='M37 15.6L30.6 13.2L35.6 9.4Z' fill='%23202c38'/%3E%3C/svg%3E") left top / contain no-repeat; }
+
+/* Lifting a corner: a small vignette on the page's paper. */
+.personal-site .iros-lift { max-width: 560px; margin-block: 36px 48px; }
+.personal-site .iros-lift-art { aspect-ratio: 460 / 300; width: 100%; }
+
+/* The five folds: the drawing on the page's paper, the steps below it like the numbers of a diagram sheet. */
+.personal-site .iros-folds { max-width: 840px; }
+.personal-site .folds-stage { position: relative; aspect-ratio: 640 / 430; }
+.personal-site .folds-stage picture, .personal-site .folds-stage img, .personal-site .folds-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.personal-site .folds-stage canvas { opacity: 0; }
+.personal-site .folds-stage.is-live canvas { opacity: 1; }
+.personal-site .folds-stage.is-live picture { visibility: hidden; }
+.personal-site .folds-steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; max-width: 640px; margin: 6px auto 0; }
+.personal-site .folds-steps button { display: grid; justify-items: center; gap: 4px; padding: 6px 2px 4px; border: 0; background: transparent; color: var(--ink); font: 500 13px/1.2 'DM Sans', sans-serif; cursor: pointer; }
+.personal-site .folds-steps button:disabled { cursor: default; }
+.personal-site .folds-num { display: grid; place-items: center; box-sizing: border-box; width: 32px; height: 32px; border: 1.3px solid currentColor; border-radius: 50%; font: 700 15px/1 'Zen Maru Gothic', 'DM Sans', sans-serif; transition: background .2s, color .2s; }
+.personal-site .folds-steps .is-not { color: #8c9096; }
+.personal-site .folds-steps .is-not .folds-num { border-style: dashed; }
+.personal-site .folds-steps button[aria-current='step'] .folds-num { background: var(--ink); border-color: var(--ink); border-style: solid; color: var(--paper); }
+.personal-site .folds-steps button:not(:disabled):hover .folds-num { border-style: solid; }
+.personal-site .folds-steps button:focus-visible { outline: 2px solid var(--sheet-blue); outline-offset: 2px; }
+.personal-site .folds-foot { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 20px; flex-wrap: wrap; max-width: 640px; margin: 10px auto 0; }
+.personal-site .folds-foot p { flex: 1 1 300px; margin: 0; font-size: 15px; line-height: 1.5; color: var(--ink); min-height: 3em; }
+.personal-site .folds-foot button { padding: 8px 14px; border: 1.3px solid var(--ink); background: transparent; color: var(--ink); font: 500 13.5px/1 'DM Sans', sans-serif; border-radius: 999px; }
+.personal-site .folds-foot button:not(:disabled):hover { background: var(--ink); color: var(--paper); }
+.personal-site .folds-foot button:disabled { opacity: .5; cursor: default; }
+@media (max-width: 600px) {
+  .personal-site .folds-stage { aspect-ratio: 548 / 430; }
+  .personal-site .folds-steps button { font-size: 12px; }
+  .personal-site .folds-foot, .personal-site .iros-folds figcaption { padding-inline: 6px; }
+  .personal-site .folds-foot p { font-size: 14px; min-height: 4.5em; }
+  .personal-site .iros-body .prose h2.iros-step, .personal-site .iros-body .prose h2.iros-turn { margin-top: 60px; padding-top: 46px; }
+}

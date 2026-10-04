@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IROS essay art harness</title>
+<!-- Loaded by scripts/publishing/render-iros-art.mjs through the Vite dev server. It draws the essay's figures with
+     the same code as /notes/iros-2026-origami and hands the stills back as data URLs.
+     Opened directly: ?show=hands (a study sheet of the robot hands), ?show=folds&stage=1&t=2.4&w=640, ?show=lift&t=5 -->
+<style>html, body { margin: 0; background: #f4efe4; } canvas { display: block; }</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<script type="module">
+import { robotHand, POSES, PALETTE } from '/src/pages/notes/iros-2026-origami/art/diagram.js';
+import { loadCoverFonts } from '/src/components/art/covers/fonts.js';
+import { drawFolds, LAYOUTS, DURATION, STILL_T } from '/src/pages/notes/iros-2026-origami/art/folds.js';
+import { drawLift, DW as LW, DH as LH } from '/src/pages/notes/iros-2026-origami/art/lift.js';
+
+await loadCoverFonts(['zen-maru-gothic-500', 'zen-maru-gothic-700']);
+const q = new URLSearchParams(location.search), show = q.get('show') || 'hands';
+const view = document.getElementById('view'), dpr = 2;
+function sheet(w, h) { view.width = w * dpr; view.height = h * dpr; view.style.width = w + 'px'; view.style.height = h + 'px'; const c = view.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.fillStyle = PALETTE.paper; c.fillRect(0, 0, w, h); return c; }
+
+if (show === 'hand') {
+  const c = sheet(700, 520), pose = q.get('pose') || 'press';
+  robotHand(c, { at: [250, 120], angle: 0, scale: 3.4, pose: POSES[pose], anchor: q.get('anchor') || 'index' });
+  robotHand(c, { at: [560, 200], angle: -.9, scale: 2.2, side: 'left', pose: POSES[q.get('pose2') || 'pin'], anchor: 'pin' });
+}
+if (show === 'folds') {
+  const L = LAYOUTS[q.get('layout') || 'wide'], w = Number(q.get('w') || L.w), k = w / L.w, c = sheet(w, L.h * k);
+  c.scale(k, k); drawFolds(c, L, Number(q.get('stage') || 1) - 1, q.has('t') ? Number(q.get('t')) : STILL_T);
+}
+if (show === 'strip') {
+  // every 0.6 s of one stage, small, for reviewing the motion
+  const L = LAYOUTS.wide, st = Number(q.get('stage') || 1) - 1, n = Math.ceil(DURATION[st] / .6) + 1, cols = 4, cw = 320, k = cw / L.w, ch = L.h * k;
+  const c = sheet(cols * cw, Math.ceil(n / cols) * ch);
+  for (let j = 0; j < n; j++) { c.save(); c.translate((j % cols) * cw, Math.floor(j / cols) * ch); c.scale(k, k); drawFolds(c, L, st, Math.min(DURATION[st], j * .6)); c.restore(); c.fillStyle = '#c33'; c.font = '11px sans-serif'; c.fillText((j * .6).toFixed(1) + 's', (j % cols) * cw + 280, Math.floor(j / cols) * ch + 14); }
+}
+if (show === 'lift') {
+  const w = Number(q.get('w') || LW), k = w / LW, c = sheet(w, LH * k); c.scale(k, k); drawLift(c, q.has('t') ? Number(q.get('t')) : 4.7);
+}
+if (show === 'liftstrip') {
+  const cw = 390, k = cw / LW, ch = LH * k, c = sheet(4 * cw, 4 * ch);
+  for (let j = 0; j < 16; j++) { c.save(); c.translate((j % 4) * cw, Math.floor(j / 4) * ch); c.scale(k, k); drawLift(c, j * .5); c.restore(); c.fillStyle = '#c33'; c.font = '11px sans-serif'; c.fillText((j * .5).toFixed(1) + 's', (j % 4) * cw + 350, Math.floor(j / 4) * ch + 14); }
+}
+if (show === 'cover') {
+  // the cover at several moments of its living detail
+  const { printCover } = await import('/src/components/art/covers/renderer.js');
+  const times = (q.get('t') || '2,8.8,10,12').split(',').map(Number), w = 300, h = 450;
+  const c = sheet(times.length * (w + 10), h);
+  for (const [j, t] of times.entries()) { const cv = document.createElement('canvas'); const r = await printCover('iros-2026-origami', cv, w * 2, h * 2); r.draw(t, true); c.drawImage(cv, j * (w + 10), 0, w, h); }
+}
+if (show === 'hands') {
+  const c = sheet(900, 520), names = Object.keys(POSES);
+  names.forEach((name, i) => {
+    const x = 90 + (i % 6) * 145, y = 150;
+    robotHand(c, { at: [x, y], angle: 0, scale: 1.25, pose: POSES[name], anchor: name === 'pin' ? 'pin' : name === 'pinch' ? 'pinch' : 'index' });
+    c.fillStyle = '#1f2328'; c.font = '12px sans-serif'; c.fillText(name, x - 20, 40);
+  });
+  robotHand(c, { at: [300, 420], angle: -1.1, scale: 1.6, side: 'right', pose: POSES.press });
+  robotHand(c, { at: [600, 430], angle: 1.0, scale: 1.6, side: 'left', pose: POSES.pin, anchor: 'pin' });
+}
+// Stills for the page, on a clear background (the page's paper shows through): the five folds' first step in both
+// layouts, and the corner vignette.
+window.renderStill = (kind, width) => {
+  const c = document.createElement('canvas'), x = c.getContext('2d');
+  if (kind === 'lift') { const k = width / LW; c.width = width; c.height = Math.round(LH * k); x.scale(k, k); drawLift(x, 4.7); }
+  else { const L = LAYOUTS[kind], k = width / L.w; c.width = width; c.height = Math.round(L.h * k); x.scale(k, k); drawFolds(x, L, 0, STILL_T); }
+  return c.toDataURL('image/webp', .9);
+};
+window.__ready = true;
+</script>
+</body>
+</html>

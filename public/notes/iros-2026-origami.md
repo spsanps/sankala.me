@@ -29,6 +29,8 @@ The robot is a pair of arms with [Sharpa](https://www.sharpa.com) hands, and the
 
 Paper is a nasty material for a robot. Even lifting a corner, something we do without thinking, is hard: the people in the demonstrations press or pinch the other side so the corner rises a little, then slide a fingertip under it. Paper is thin, it slides, it springs back, and a fold only counts when the crease is pressed exactly where it should be. And unlike a rigid object, every fold changes what the paper is.
 
+**Figure: lifting a corner.** A diagram on the page: one robot hand presses the sheet near a corner and pushes toward it, so the corner rises a little; the other slides a fingertip under it.
+
 ## The result
 
 Fifteen teams were on the scoring sheet. Five scored at all, and nobody finished the plane.
@@ -40,6 +42,8 @@ Fifteen teams were on the scoring sheet. Five scored at all, and nobody finished
 | TriDex (UC San Diego) | clean | assisted | – | 30 |
 | ATeam | clean | – | – | 20 |
 | PixelPaper | assisted | – | – | 10 |
+
+**Figure: the five folds.** On the page, the plane’s five stages are origami instruction diagrams that fold: the two corners, the centre and the two wings. Stage 1: my policy, clean. Stage 2: my policy, with one assist. Stage 3: only the winning team got here. Stages 4 and 5: nobody got here.
 
 The organizers announced AxisTilted2 as second.
 
@@ -105,7 +109,7 @@ None of the parts is new. The architecture is assembled from known ideas: ACT, D
 - Oquab et al. *DINOv2: Learning Robust Visual Features without Supervision.* 2023. [arXiv:2304.07193](https://arxiv.org/abs/2304.07193). I used the ViT-S/14 model ([code](https://github.com/facebookresearch/dinov2), Apache 2.0).
 - TRI LBM Team. *A Careful Examination of Large Behavior Models for Multitask Dexterous Manipulation.* 2025. [arXiv:2507.05331](https://arxiv.org/abs/2507.05331). The source of the lower learning rate for the vision encoder.
 
-**Problems I ran into, and where they're described**
+**Problems I ran into, and where they’re described**
 
 - The copycat problem, a policy leaning on its own past actions: Wen et al., *Fighting Copycat Agents in Behavioral Cloning from Observation Histories*, NeurIPS 2020, [arXiv:2010.14876](https://arxiv.org/abs/2010.14876); de Haan, Jayaraman and Levine, *Causal Confusion in Imitation Learning*, NeurIPS 2019, [arXiv:1905.11979](https://arxiv.org/abs/1905.11979).
 - The large touch-aware model I compared against: FTP-1 ([arXiv:2606.13102](https://arxiv.org/abs/2606.13102)), built on π0.5 ([arXiv:2504.16054](https://arxiv.org/abs/2504.16054)).

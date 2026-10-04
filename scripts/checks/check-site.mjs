@@ -33,9 +33,9 @@ const essay = parseEssay(await readFile(new URL('../../src/pages/notes/its-just-
 const essayParagraphs = essay.body.split('\n\n').filter(block => /^[A-Z]/.test(block) && !/[*[`]/.test(block));
 const essayParts = essayPieces(essay.body), partCount = type => essayParts.filter(piece => piece.type === type).length;
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
-const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas'], [ESSAY, '#flight canvas']];
+const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas'], [ESSAY, '#flight canvas'], [IROS, '.iros-folds canvas'], [IROS, '.iros-lift canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
-const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/notes/its-just-possible.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html', '/notes/iros-2026-origami.md']);
+const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/notes/its-just-possible.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html', '/notes/iros-2026-origami.md', MODEL_URL, VIDEO.poster]);
 const report = [];
 let browser;
 
@@ -243,6 +243,10 @@ try {
   }
   assert.ok(irosHtml.includes(`src="${VIDEO.src}"`) && irosHtml.includes(`poster="${VIDEO.poster}"`), 'IROS video with its poster');
   assert.ok(irosHtml.includes(`src="${MODEL_URL}?embed"`), 'IROS 3D model embedded');
+  // its two diagrams are in the first paint as stills, with the five folds' words and steps
+  for (const still of ['folds-wide-1280.webp', 'folds-narrow-548.webp', 'lift-920.webp']) assert.ok(irosHtml.includes('/images/notes/iros-2026-origami/' + still), `IROS diagram still: ${still}`);
+  assert.equal((irosHtml.match(/data-step/g) || []).length, 5, 'The five folds, step by step');
+  assert.ok(irosHtml.includes('Only the winning team got here') && irosHtml.includes('My policy, with one assist'), 'Who got how far, in the five folds');
   assert.ok(irosHtml.includes('/images/covers/iros-2026-origami-social.jpg'), 'IROS share card');
   const irosMarkdown = await (await fetch(origin + IROS + '.md')).text();
   assert.equal(irosMarkdown, markdownMirror(irosEssay), 'IROS Markdown mirror is current (node scripts/essays/generate-iros-mirror.mjs)');
