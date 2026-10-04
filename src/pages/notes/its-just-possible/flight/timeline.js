@@ -7,26 +7,21 @@ const at = (day, h, m) => (day - 25) * 1440 + h * 60 + m;
 
 // Our best leaderboard entries and ranks as reported at the time; null where we don't know.
 export const TRACK1 = [
-  { t: at(25, 0, 17), score: '81.679', rank: null },
   { t: at(26, 0, 48), score: '81.895', rank: 'Top 10' },
   { t: at(27, 14, 0), score: '81.895', rank: '#9' },
   { t: at(27, 17, 50), score: '82.218', rank: '#1' },
 ];
 export const TRACK2 = [
-  { t: at(25, 20, 4), score: '81.993', rank: '~#7' },
   { t: at(26, 22, 50), score: '82.194', rank: '#2' },
   { t: at(27, 14, 0), score: '82.194', rank: '#5' },
   { t: at(27, 18, 10), score: '82.491', rank: '#1' },
 ];
 export const GPUS = [
-  { t: 0, n: '~4' }, { t: at(26, 3, 5), n: '13' }, { t: at(26, 23, 29), n: '15' }, { t: at(27, 12, 10), n: '17' },
+  { t: at(26, 3, 5), n: '13' }, { t: at(26, 23, 29), n: '15' }, { t: at(27, 12, 10), n: '17' },
 ];
 
 // The waypoints: my messages, the agent's, and what changed. kind: 'chat' | 'fleet' | 'board'
 export const WAYPOINTS = [
-  { t: at(25, 17, 28), kind: 'chat', lines: [['Agent', 'No lever left… 82.3 is not reachable.']] },
-  { t: at(25, 20, 6), kind: 'chat', lines: [['Me', 'there is always ways to improve… if you think can’t then you can’t']] },
-  { t: at(25, 22, 28), kind: 'chat', lines: [['Agent', 'None of them is a robust #1.'], ['Me', 'stooppp!!!']] },
   { t: at(26, 3, 5), kind: 'fleet', lines: [['Fleet', 'I add 9 GPUs: 13 online']] },
   { t: at(26, 22, 47), kind: 'chat', lines: [['Agent', 'local optimum'], ['Me', 'Believe we can.']] },
   { t: at(27, 4, 11), kind: 'chat', lines: [['Me', 'Ok I am gonna leave you to it']] },
@@ -52,7 +47,7 @@ const latest = (list, t) => { let v = null; for (const e of list) if (e.t <= t) 
 // Everything the screen shows at minute t.
 export function stateAt(t) {
   let wp = -1; WAYPOINTS.forEach((w, i) => { if (w.t <= t) wp = i; });
-  return { t, clock: clock(t), toGo: toGo(t), track1: latest(TRACK1, t), track2: latest(TRACK2, t), gpus: latest(GPUS, t)?.n ?? '~4', waypoint: wp };
+  return { t, clock: clock(t), toGo: toGo(t), track1: latest(TRACK1, t), track2: latest(TRACK2, t), gpus: latest(GPUS, t)?.n ?? '—', waypoint: wp };
 }
 
 // The whole weekend as plain lines of text, for the figure's text version and the Markdown mirror.

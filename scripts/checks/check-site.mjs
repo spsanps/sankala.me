@@ -107,9 +107,9 @@ try {
     assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('#1'), `The panel reads first place at ${width}`);
     await flight.locator('input[type=range]').focus();
     await page.keyboard.press('Home');
-    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Fri 25 Sep · 00:00'), `Home flies back to Friday at ${width}`);
+    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Fri 25 Sep · 00:00'), `Home flies back to the start at ${width}`);
     await flight.locator('button[aria-label="Next waypoint"]').click();
-    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('82.3 is not reachable'), `The first waypoint's message at ${width}`);
+    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('9 GPUs'), `The first waypoint's message at ${width}`);
     assert.ok((await flight.locator('figcaption').innerText()).includes('The plane’s position is time, not GPS.'), `The figure's caption at ${width}`);
 
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
