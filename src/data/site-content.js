@@ -9,8 +9,8 @@ export const notesData = [
       slug: "its-just-possible",
       date: "Oct 2026",
       title: "It's just possible",
-      excerpt: "How I steered a fleet of AI agents to #1 on both tracks of a NeurIPS competition while flying to IROS, and what I think has changed about competitive ML.",
-      readTime: "12 min read",
+      excerpt: "How I steered a fleet of AI agents to first place in a NeurIPS competition, and the one attitude that mattered most.",
+      readTime: "8 min read",
       tags: ["AI", "Agents", "NeurIPS", "Competitions"],
       ogImage: "/images/covers/its-just-possible-social.jpg",
       // The essay's text is src/pages/notes/its-just-possible/essay.md; its page has its own route.

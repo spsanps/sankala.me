@@ -5,7 +5,7 @@
 // After editing, run: npm run generate:essay-static -- its-just-possible
 export const SLUG = 'its-just-possible';
 export const PATH = `/notes/${SLUG}`;
-export const READ_TIME = '12 min read';
+export const READ_TIME = '8 min read';
 export const SOCIAL_IMAGE = `/images/covers/${SLUG}-social.jpg`;
 export const PUBLISHED = '2026-10';
 

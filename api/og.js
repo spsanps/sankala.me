@@ -38,13 +38,13 @@ const PAGES = {
   'its-just-possible': {
     url: `${SITE}/notes/its-just-possible`,
     title: "It's just possible",
-    description: 'How I steered a fleet of AI agents to #1 on both tracks of a NeurIPS competition while flying to IROS, and what I think has changed about competitive ML.',
+    description: 'How I steered a fleet of AI agents to first place in a NeurIPS competition, and the one attitude that mattered most.',
     ogImage: `${SITE}/images/covers/its-just-possible-social.jpg`,
     alternativeHeadline: 'Steering a fleet of AI agents to #1 on both tracks of the NeurIPS 2026 RealPDE competition',
     datePublished: '2026-10',
     markdownUrl: `${SITE}/notes/its-just-possible.md`,
-    byline: 'By <a href="' + SITE + '">San Kala</a> · October 2026 · 12 min read',
-    subtitleHtml: '<em>How I steered a fleet of AI agents to #1 on both tracks of a NeurIPS competition while flying to IROS, and what I think has changed about competitive ML.</em>',
+    byline: 'By <a href="' + SITE + '">San Kala</a> · October 2026 · 8 min read',
+    subtitleHtml: '<em>How I steered a fleet of AI agents to first place in a NeurIPS competition, and the one attitude that mattered most.</em>',
     article: justPossibleArticleHtml,
     // Readers get the prerendered page rather than the bare app shell.
     shell: '/notes/its-just-possible/index.html',
