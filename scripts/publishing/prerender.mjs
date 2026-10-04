@@ -16,11 +16,23 @@ const paths = ['/', '/work', ...aliases, '/history', '/about', '/resume', '/note
 const server = await createServer({ root, logLevel: 'error', server: { middlewareMode: true }, appType: 'custom', ssr: { noExternal: ['react-helmet-async'], resolve: { externalConditions: ['module-sync'] } } });
 try {
   const { render } = await server.ssrLoadModule('/src/entry-server.jsx');
+  const { headScript } = await server.ssrLoadModule('/src/pages/home/mosaic/first-paint.js');
   for (const path of paths) {
     const { html, head } = await render('https://www.sankala.me' + path);
     const output = path === '/404' ? resolve(dist, '404.html') : resolve(dist, '.' + path, 'index.html');
     await mkdir(resolve(output, '..'), { recursive: true });
-    await writeFile(output, template.replace('</head>', head + '\n</head>').replace('<div id="root"></div>', () => `<div id="root">${html}</div>`));
+    let page = template.replace('</head>', head + '\n</head>').replace('<div id="root"></div>', () => `<div id="root">${html}</div>`);
+    // The homepage reads and looks finished without the app's script (its stills and words are in this
+    // HTML), so on a slow network its pictures and fonts come first: the script is fetched once they
+    // are in (loadAppLater in mosaic/first-paint.js, from html[data-app]). Its conch still depends on
+    // the time in San Jose, so a small script asks for it before the stylesheet has loaded.
+    if (path === '/') {
+      const app = /<script type="module" crossorigin src="([^"]+)"><\/script>\s*/.exec(page);
+      if (!app) throw new Error('prerender: the homepage has no app script to defer');
+      page = page.replace(app[0], '').replace('<html lang="en">', `<html lang="en" data-app="${app[1]}">`)
+        .replace('<link rel="stylesheet"', () => `<script>${headScript()}</script>\n    <link rel="stylesheet"`);
+    }
+    await writeFile(output, page);
   }
 } finally { await server.close(); }
 const esc = s => String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');

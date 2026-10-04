@@ -11,14 +11,16 @@ export default function Cover({ slug, title, variant = 'shelf', sizes = '(max-wi
   const createRenderer = useMemo(() => variant === 'shelf' ? coverRenderer(slug) : null, [slug, variant]);
   if (variant === 'thumb') {
     return <span className={`cover-art cover-thumb${className ? ' ' + className : ''}`}>
-      <img src={coverImage(slug, 'thumb')} alt="" width="160" height="240" loading="lazy" decoding="async" />
+      <img loading="lazy" decoding="async" src={coverImage(slug, 'thumb')} alt="" width="160" height="240" />
     </span>;
   }
   // A still print at shelf size, for places where one other drawing is already alive.
   if (variant === 'still') {
     return <span className={`cover-art cover-still${className ? ' ' + className : ''}`}>
-      <img src={coverImage(slug, '360')} srcSet={`${coverImage(slug, '360')} 360w, ${coverImage(slug)} 720w`} sizes={sizes}
-        alt={alt ?? `Cover of “${title}”: ${coverDescriptions[slug]}`} width="360" height="540" loading="lazy" decoding="async" />
+      {/* loading first: the app renders on the client, and React sets attributes in this order (an img
+          that gets its src before loading="lazy" starts downloading at once) */}
+      <img loading="lazy" decoding="async" sizes={sizes} srcSet={`${coverImage(slug, '360')} 360w, ${coverImage(slug)} 720w`} src={coverImage(slug, '360')}
+        alt={alt ?? `Cover of “${title}”: ${coverDescriptions[slug]}`} width="360" height="540" />
     </span>;
   }
   const image = {

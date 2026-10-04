@@ -65,20 +65,29 @@ plaster, and a mosaic footer (`MosaicFooter.jsx`). How it stays fast:
   and the share card into `public/images/home/`. The numbers they were printed with
   (`mosaic/layout.js`, `mosaic/stills.json`) become CSS custom properties (`mosaic/style.js`), and
   `styles/home.css` places everything from the viewport, so the stills are already composed on the
-  first paint with no script. Two inline scripts (`mosaic/first-paint.js`) pick San Jose's moment
-  before the apse is parsed and hold the apse back (at most 1.5 s) until its stills and fonts are
-  decoded, so its first visible frame is finished. The stele and tablets are pure CSS (marble, a
-  `border-image` frame, a printed round head), so they fit any text.
+  first paint with no script. Small inline scripts (`mosaic/first-paint.js`) ask for the conch's
+  still from `<head>`, pick San Jose's moment before the apse is parsed and hold the apse back (at
+  most 1.5 s) until its stills and fonts are decoded, so its first visible frame is finished; a still
+  that misses the hold fades in whole once decoded. The other first-paint stills are preloaded, and
+  the app's script is fetched only once they are in (`scripts/publishing/prerender.mjs`). The stele
+  and tablets are pure CSS (marble, a `border-image` frame, a printed round head), so they fit any
+  text.
+- **Two apses, chosen before any live code loads** (`mosaic/mode.js`). Phones, devices with 4 GB of
+  memory or 4 cores or fewer, slow or metered connections, reduced motion and browsers without
+  OffscreenCanvas get the simple apse: the stills only, switched per place, with no canvas or
+  worker. Everything else gets the live layer, which is watched: if its first place isn't laid in
+  3 s, frames get slow or a long task runs, or the worker fails or a canvas loses its context, it
+  stops and the page stays on its stills (`window.__mosaicPerf.fallback`).
 - **Live work happens off the main thread.** When the browser is idle, `mosaic/live.js` reads the
   apse's box back from the page and hands two canvases to a worker (`mosaic/worker.js`, running
   `mosaic/stage.js`): it lays each place in slices, paints their layers on the CPU, draws the moving
   stones over the still, re-lays the conch in a wave as the words reach each place, and lights the
   gold and glass in WebGL (`mosaic/glint.js`, the wall's stones from `glint-<class>.bin`). Browsers
-  without OffscreenCanvas run the same stage on the main thread in idle slices. Reduced motion and
-  `?plain=1` get the stills only, switched per place.
+  without OffscreenCanvas run the same stage on the main thread in idle slices.
 - After changing the drawing, the places or the layout numbers, run `npm run render:home` (about
   two minutes) and keep the images. Review hooks: `?hour=0–24` (San Jose's moment and the clock),
-  `?t=<s>&pos=0–3` (freeze one moment, also between places), `?light=x,y`, `?glint=off`, `?plain=1`.
+  `?t=<s>&pos=0–3` (freeze one moment, also between places), `?light=x,y`, `?glint=off`, and
+  `?simple=1` (or `?plain=1`) / `?live=1` to force either apse.
 
 Website images and downloads live in `public/`. Draft manuscripts and reviews
 live in `content/`, outside the website source.

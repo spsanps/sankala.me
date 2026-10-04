@@ -34,21 +34,21 @@
   "bytes": 101300
  },
  "wall-band-1x.webp": {
-  "bytes": 41022,
-  "width": 760,
-  "height": 833,
-  "layMs": 345,
-  "stones": 14915
+  "bytes": 60212,
+  "width": 1000,
+  "height": 868,
+  "layMs": 542,
+  "stones": 23181
  },
  "wall-band-2x.webp": {
-  "bytes": 100476,
-  "width": 1520,
-  "height": 1666,
-  "layMs": 322,
-  "stones": 14915
+  "bytes": 152596,
+  "width": 2000,
+  "height": 1736,
+  "layMs": 542,
+  "stones": 23181
  },
  "glint-band.bin": {
-  "bytes": 23014
+  "bytes": 30190
  },
  "conch-fine-now-golden-am-1x.webp": {
   "bytes": 156050,
@@ -417,36 +417,6 @@
   "width": 200,
   "height": 200
  },
- "stele-phone-296.webp": {
-  "bytes": 14354,
-  "width": 592,
-  "height": 156
- },
- "stele-phone-336.webp": {
-  "bytes": 16122,
-  "width": 672,
-  "height": 168
- },
- "stele-phone-351.webp": {
-  "bytes": 16556,
-  "width": 702,
-  "height": 168
- },
- "stele-phone-366.webp": {
-  "bytes": 17008,
-  "width": 732,
-  "height": 168
- },
- "stele-phone-388.webp": {
-  "bytes": 17858,
-  "width": 776,
-  "height": 170
- },
- "stele-phone-406.webp": {
-  "bytes": 18558,
-  "width": 812,
-  "height": 170
- },
  "frieze-phone.webp": {
   "bytes": 4600,
   "width": 240,
@@ -479,5 +449,35 @@
  },
  "social.jpg": {
   "bytes": 194290
+ },
+ "stele-phone-288.webp": {
+  "bytes": 13964,
+  "width": 576,
+  "height": 154
+ },
+ "stele-phone-328.webp": {
+  "bytes": 15856,
+  "width": 656,
+  "height": 166
+ },
+ "stele-phone-343.webp": {
+  "bytes": 16406,
+  "width": 686,
+  "height": 168
+ },
+ "stele-phone-358.webp": {
+  "bytes": 16808,
+  "width": 716,
+  "height": 168
+ },
+ "stele-phone-380.webp": {
+  "bytes": 17650,
+  "width": 760,
+  "height": 170
+ },
+ "stele-phone-398.webp": {
+  "bytes": 18056,
+  "width": 796,
+  "height": 170
  }
 }

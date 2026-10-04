@@ -7,14 +7,14 @@ import { works, formatName } from '../../data/work';
 import { paperRobotsUrl } from '../../data/links';
 import MosaicApse from './MosaicApse';
 import MosaicFooter from './MosaicFooter';
-import { mosaicCss } from './mosaic/style';
+import { mosaicCss, stillPreloads } from './mosaic/style';
 import { beforeApseScript, afterApseScript } from './mosaic/first-paint';
 import '../../styles/home.css';
 
 // Newest first, every work that has a code-drawn cover.
 const shelf = [...works].filter(work => hasCover(work.slug)).sort((a, b) => String(b.sortDate).localeCompare(String(a.sortDate)));
 const year = work => String(work.sortDate).slice(0, 4);
-const CSS = mosaicCss(), BEFORE = beforeApseScript(), AFTER = afterApseScript();
+const CSS = mosaicCss(), BEFORE = beforeApseScript(), AFTER = afterApseScript(), PRELOADS = stillPreloads();
 
 /* The homepage is one building: the mosaic apse with San's words on a stele and his path on marble
    tablets (MosaicApse), then the covers shelf and the colophon on plaster, then a mosaic footer. */
@@ -24,8 +24,13 @@ export default function Home() {
       image="/images/home/social.jpg"
       schema={{ '@context': 'https://schema.org', '@type': 'Person', name: 'San Kala', url: 'https://www.sankala.me/', image: 'https://www.sankala.me/images/identity/san-kala.webp', jobTitle: 'Applied Researcher', worksFor: { '@type': 'Organization', name: 'eBay' }, sameAs: ['https://github.com/spsanps', 'https://linkedin.com/in/sanjayanps', 'https://kaggle.com/spsanps'] }} />
     <Helmet>
+      {/* the page is drawn light on purpose: browsers that darken pages on their own would leave the
+          words pale on the marble */}
+      <meta name="color-scheme" content="only light" />
       <link rel="preload" href="/fonts/home/eb-garamond.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
       <link rel="preload" href="/fonts/home/marcellus-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      {/* the first screen's stills, ahead of the scripts (as CSS backgrounds they would come last) */}
+      {PRELOADS.map(({ href, media }) => <link key={href} rel="preload" as="image" href={href} {...(media ? { media } : {})} fetchPriority="high" />)}
     </Helmet>
     {/* The numbers the stills were printed with, and the first-paint scripts (mosaic/first-paint.js). */}
     <style dangerouslySetInnerHTML={{ __html: CSS }} />

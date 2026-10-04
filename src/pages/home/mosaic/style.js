@@ -30,9 +30,23 @@ function steleVars(kind, width) {
     + `--stele-head:${img(`stele-${kind}-${width}.webp`)};--frame:${img(`frame-${kind}.webp`)};--frieze:${img(`frieze-${kind}.webp`)};--frieze-top:${img(`frieze-${kind}-top.webp`)};`
     + `--loose:${img(`loose-${kind}.webp`)};--loose-top:${img(`loose-${kind}-top.webp`)};--stele-clip:${steleClip(width, kind)};`;
 }
-/* type sizes by stele width: the intro's body, its heading */
-const TYPE = { 296: [18, 36], 336: [18.5, 38], 351: [19, 40], 366: [19, 40], 388: [19.5, 42], 406: [20, 44], 480: [20.5, 46], 520: [21.5, 52], 580: [23, 60] };
-const typeVars = width => `--lede:${TYPE[width][0]}px;--h1:${TYPE[width][1]}px;`;
+/* type sizes by stele width: the intro's body, its heading and (on phones) the tablets' body.
+   Phones get larger words than before (19.5–21 px, headings 40–46 px) beside a smaller apse. */
+const TYPE = { 288: [19.5, 40, 19.5], 328: [20, 42, 19.5], 343: [20.5, 44, 20], 358: [20.5, 44, 20], 380: [21, 46, 20.5], 398: [21, 46, 20.5], 480: [20.5, 46], 520: [21.5, 52], 580: [23, 60] };
+const typeVars = width => `--lede:${TYPE[width][0]}px;--h1:${TYPE[width][1]}px;${TYPE[width][2] ? `--body:${TYPE[width][2]}px;` : ''}`;
+
+/** The first paint's stills that don't depend on San Jose's moment or the stele's width, each with
+    the media query that selects it in mosaicCss: Home.jsx preloads them at a high priority, so a phone
+    on a slow network gets the pictures before the scripts (the conch is preloaded by the first-paint
+    script; the stele's small head comes with the CSS). */
+export function stillPreloads() {
+  const MID = `${NOT_BAND} and (max-width: 1099.98px), ${NOT_BAND} and (max-aspect-ratio: 6/5)`;
+  return [
+    { href: '/images/home/courses.webp' }, { href: '/images/home/marble.webp' },
+    { href: '/images/home/wall-band-1x.webp', media: BAND }, { href: '/images/home/wall-mid-1x.webp', media: MID }, { href: '/images/home/wall-side-1x.webp', media: SIDE },
+    { href: '/images/home/frame-phone.webp', media: `${BAND}, (max-width: 639.98px)` }, { href: '/images/home/frame-wide.webp', media: `${NOT_BAND} and (min-width: 640px)` },
+  ];
+}
 
 export function mosaicCss() {
   const rules = [];

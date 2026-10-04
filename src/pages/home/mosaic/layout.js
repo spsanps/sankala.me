@@ -24,7 +24,9 @@ export const FAMILIES = {
 export const SHEETS = {
   side: { family: 'fine', x0: -1560, x1: 626, y0: -776 },
   mid: { family: 'fine', x0: -1010, x1: 1010, y0: -820 },
-  band: { family: 'coarse', x0: -760, x1: 760, y0: -980 },
+  // phones: the apse is drawn at 47% of the screen's height, so the sheet must reach the sides and
+  // the top of any phone at the smallest scale home.css allows (u >= 100cqw / 1960 and 0.2 px)
+  band: { family: 'coarse', x0: -1000, x1: 1000, y0: -1050 },
 };
 export const CLASSES = Object.keys(SHEETS);
 /** which class a viewport falls in; keep in step with the media queries in MosaicStyle.jsx */
@@ -42,7 +44,8 @@ export const qOf = family => SHEET_STONE / FAMILIES[family].stone;
    Two sizes: wide screens and phones. The stele's round head is a still per width. */
 export const FRAMES = {
   wide: { stone: 6.5, widths: [480, 520, 580], riseMax: 104 },
-  phone: { stone: 5, widths: [296, 336, 351, 366, 388, 406], riseMax: 64 },
+  // phones: the screen width less two 16 px gutters (320, 360, 375, 390, 412 and 430 px screens)
+  phone: { stone: 5, widths: [288, 328, 343, 358, 380, 398], riseMax: 64 },
 };
 export const steleRise = (w, kind) => Math.round(Math.min(w * .2, FRAMES[kind].riseMax));
 export const HEAD_EXTRA = 2;         // the head still runs this many stones below the inner shoulder

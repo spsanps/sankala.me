@@ -33,6 +33,9 @@ export function createStage({ conchCanvas, glintCanvas, post = () => {}, pause, 
   // GPU never has to fill tens of thousands of small paths in one go while the page scrolls
   const cc = conchCanvas.getContext('2d', { willReadFrequently: true });
   let glint = null, disposed = false;
+  // anything that goes wrong here is reported, and the page goes back to its stills (live.js)
+  const fail = (what, error) => { if (disposed) return; disposed = true; st.gen++; post({ type: 'error', what, message: String(error?.message || error || '') }); };
+  conchCanvas.addEventListener?.('contextlost', () => fail('context-lost'));
   const t0 = now();
   const request = raf || (cb => setTimeout(() => cb(now()), 16));
 
@@ -101,7 +104,7 @@ export function createStage({ conchCanvas, glintCanvas, post = () => {}, pause, 
         st.dirty = true; kick();
         await pause();
       }
-    } finally { st.laying = false; }
+    } catch (e) { fail('lay', e); } finally { st.laying = false; }
   }
   const showing = i => Math.abs(st.pos - i) < .5;
 
@@ -242,6 +245,9 @@ export function createStage({ conchCanvas, glintCanvas, post = () => {}, pause, 
   let pending = false;
   function kick() { if (!pending && !disposed && st.visible && !st.hidden && st.G && st.hooks.t == null) { pending = true; request(frame); } }
   function frame() {
+    try { drawFrame(); } catch (e) { fail('frame', e); }
+  }
+  function drawFrame() {
     pending = false;
     if (disposed || !st.visible || st.hidden) return;
     const n = now(), time = (n - t0) / 1000;
@@ -263,6 +269,10 @@ export function createStage({ conchCanvas, glintCanvas, post = () => {}, pause, 
 
   /* ───────── messages ───────── */
   function handle(msg) {
+    if (disposed && msg.type !== 'destroy') return;
+    try { handleMessage(msg); } catch (e) { fail(msg.type, e); }
+  }
+  function handleMessage(msg) {
     switch (msg.type) {
       case 'init': {
         st.family = msg.family; st.F = FAMILIES[msg.family].F; st.box = conchBox(st.F);
@@ -276,14 +286,15 @@ export function createStage({ conchCanvas, glintCanvas, post = () => {}, pause, 
       case 'pos': if (msg.pos !== st.pos) { st.pos = msg.pos; if (wanted()[0] === placeAt(st.pos)) layLoop(); kick(); } break;
       case 'pointer': st.target = msg.at; st.pointerAt = now(); kick(); break;
       case 'tilt': st.tilt = msg.at; kick(); break;
-      case 'visible': st.visible = msg.on; kick(); break;
-      case 'hidden': st.hidden = msg.on; kick(); break;
+      // back on screen: draw afresh (a phone may have dropped the canvas's last frame meanwhile)
+      case 'visible': st.visible = msg.on; if (msg.on) { st.dirty = true; st.lastLight = null; } kick(); break;
+      case 'hidden': st.hidden = msg.on; if (!msg.on) { st.dirty = true; st.lastLight = null; } kick(); break;
       case 'moment': if (msg.moment !== st.moment) { st.moment = msg.moment; layLoop(); } break;
       case 'wall': st.wall = decodeWallGlint(msg.buffer); if (glint) glint.upload('wall', st.wall); kick(); break;
       case 'glint': {
         if (msg.on && !glint && glintCanvas) {
           glint = createGlint(glintCanvas);
-          if (glint) { if (st.wall) glint.upload('wall', st.wall); st.places.forEach((E, i) => E && glint.upload('place' + i, glintPack(E.stones, E.q, E.panel, true))); }
+          if (glint) { glint.onLost(() => fail('context-lost')); if (st.wall) glint.upload('wall', st.wall); st.places.forEach((E, i) => E && glint.upload('place' + i, glintPack(E.stones, E.q, E.panel, true))); }
           post({ type: 'glint', ok: !!glint });
         }
         st.glintOn = !!msg.on && !!glint; st.lastLight = null;

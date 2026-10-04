@@ -17,7 +17,13 @@
 @font-face { font-family: 'Marcellus SC'; font-style: normal; font-weight: 400; font-display: swap; src: url(/fonts/home/marcellus-sc-400.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 .personal-site.home-page { background: #142152; }
+/* the skip link in the page's own serif, so the homepage never waits on DM Sans for it */
+.personal-site.home-page .skip { font-family: 'EB Garamond', Georgia, serif; }
 html.apse-wait .apse { visibility: hidden; }
+/* if the hold gave up before a still was decoded (a slow network), that part waits unseen and then
+   fades in whole, instead of showing half an image (mosaic/first-paint.js) */
+html.apse-wait-art .apse-wall, html.apse-wait-art .apse-conch, html.apse-wait-stele .stele::before, html.apse-wait-stele .stele::after { opacity: 0; }
+.apse-wall, .apse-conch, .stele::before, .stele::after { transition: opacity .4s ease-out; }
 
 .home {
   container-type: inline-size;
@@ -38,6 +44,11 @@ html.apse-wait .apse { visibility: hidden; }
 }
 @supports (height: 100svh) { .home { --vh100: 100svh; } }
 @media (min-width: 700px) and (min-aspect-ratio: 31/50) { .home { --mt: 80px; --gut: clamp(24px, 4cqw, 48px); } }
+/* band (phones): the apse ends at about 47% of the screen's height, so the words come first. It
+   never gets smaller than 0.2 px a unit, or than the wall sheet's width allows (layout.js). */
+@media (max-aspect-ratio: 31/50) {
+  .home { --u: min(calc((100cqw - 18px) / 1092), max(calc((var(--vh100) * .47 - var(--mt)) / (592 + var(--F))), calc(100cqw / 1960), .2px)); }
+}
 /* side: wide screens; the stele in a column on the left, the apse at the right, full height */
 @media (min-width: 1100px) and (min-aspect-ratio: 6/5) {
   .home {
@@ -167,4 +178,21 @@ html.apse-wait .apse { visibility: hidden; }
 .home .mf-small { text-wrap: balance; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(132, 38, 31, .3); color: var(--ink-soft); font-size: calc(var(--lede) - 3px); }
 .mosaic-footer .stele a { color: var(--link); }
 
-@media (prefers-reduced-motion: reduce) { .home-cover .cover-art { transition: none; } .home-cover:hover .cover-art { transform: none; } }
+/* ───────── phones: larger words, 16 px gutters ───────── */
+@media (max-width: 639px) {
+  .apse-lane { padding-inline: 16px; }
+  .stele-text { padding-inline: calc(var(--fw) + 10px); }
+  .home .wall-note { font-size: 20px; }
+  .home .path { font-size: 34px !important; }
+  .tab { padding: 24px 10px 30px; }
+  .place-years { font-size: 16px; }
+  .home .place-head h2 { font-size: 40px; }
+  .place-role { font-size: 20.5px; }
+  .entries time { font-size: 15.5px; }
+  .home .entries h3 { font-size: 23px; }
+  .home .entries p { font-size: var(--body, 19.5px); line-height: 1.55; }
+  .entry-links { font-size: var(--body, 19.5px) !important; }
+  .mf-wall { padding-inline: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) { .home-cover .cover-art { transition: none; } .home-cover:hover .cover-art { transform: none; } .apse-wall, .apse-conch, .stele::before, .stele::after { transition: none; } }

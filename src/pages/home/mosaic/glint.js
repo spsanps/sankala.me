@@ -9,28 +9,37 @@
    Glass (the lapis, the gems, the screen) only takes a small, sharp, white glint; matte stone none.
    Stones never move; only their light changes. Stones are uploaded once, in apse units, and placed on
    the canvas by a uniform, so a resize never re-uploads them; stones left of `minX` (the words'
-   column) are never lit. */
+   column) are never lit.
+   Phone GPUs compute `mediump` at half precision (largest number 65504), where the squared distance
+   from a stone to the light in device pixels overflows and every direction comes out zero: the gold
+   went flat and the light never moved. So the fragment shader asks for `highp` where the GPU has it,
+   and the light is worked out in units of 1024 device px (uK), which half precision can hold. */
 
 const VS = `
 attribute vec2 aPos; attribute vec2 aCen; attribute vec2 aN; attribute vec2 aB; attribute vec3 aCol; attribute vec2 aMat;
-uniform vec2 uRes; uniform int uMode; uniform float uLo; uniform float uHi; uniform vec3 uXf; uniform float uMinX;
-varying vec2 vCen; varying vec2 vN; varying vec2 vB; varying vec3 vCol; varying float vMat; varying vec2 vPos;
+uniform vec2 uRes; uniform int uMode; uniform float uLo; uniform float uHi; uniform vec3 uXf; uniform float uMinX; uniform float uK;
+varying vec2 vCen; varying vec2 vN; varying vec2 vB; varying vec3 vCol; varying float vMat; varying vec2 vWob;
 void main() {
   // stones arrive in apse units; uXf = (device px per unit, origin x, origin y)
   vec2 pos = aPos * uXf.x + uXf.yz, cen = aCen * uXf.x + uXf.yz;
   bool hide = (uMode == 1 && aMat.y <= uHi) || (uMode == 2 && aMat.y >= uLo) || cen.x < uMinX;
   vec2 p = hide ? vec2(-9.0) : (pos / uRes * 2.0 - 1.0) * vec2(1.0, -1.0);
-  vCen = cen; vN = aN; vB = aB; vCol = aCol; vMat = aMat.x; vPos = cen + (pos - cen) * (0.72 / max(uXf.x, 0.2));
+  vCen = cen * uK; vN = aN; vB = aB; vCol = aCol; vMat = aMat.x;
+  vWob = (pos - cen) * (0.72 / max(uXf.x, 0.2)) * 0.010;     // a hair of unevenness across the stone's face
   gl_Position = vec4(p, 0.0, 1.0);
 }`;
 const FS = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
 precision mediump float;
+#endif
 uniform vec3 uLight; uniform vec3 uView; uniform float uGain;
-varying vec2 vCen; varying vec2 vN; varying vec2 vB; varying vec3 vCol; varying float vMat; varying vec2 vPos;
+varying vec2 vCen; varying vec2 vN; varying vec2 vB; varying vec3 vCol; varying float vMat; varying vec2 vWob;
 void main() {
   // the sheen follows the wall's broad shape (the concave conch, the patchy setting); the glint
   // follows each stone's own tilt, plus a hair of unevenness across its face
-  vec2 wob = (vPos - vCen) * 0.010;
+  vec2 wob = vWob;
   vec3 N = normalize(vec3(vN + wob, 1.0)), NB = normalize(vec3(vB, 1.0));
   vec3 P = vec3(vCen, 0.0);
   vec3 L = normalize(uLight - P), V = normalize(uView - P), H = normalize(L + V);
@@ -70,7 +79,9 @@ export function createGlint(canvas) {
   gl.useProgram(prog);
   const A = n => gl.getAttribLocation(prog, n), U = n => gl.getUniformLocation(prog, n);
   const at = { pos: A('aPos'), cen: A('aCen'), n: A('aN'), b: A('aB'), col: A('aCol'), mat: A('aMat') };
-  const un = { res: U('uRes'), mode: U('uMode'), lo: U('uLo'), hi: U('uHi'), light: U('uLight'), view: U('uView'), gain: U('uGain'), xf: U('uXf'), minX: U('uMinX') };
+  const un = { res: U('uRes'), mode: U('uMode'), lo: U('uLo'), hi: U('uHi'), light: U('uLight'), view: U('uView'), gain: U('uGain'), xf: U('uXf'), minX: U('uMinX'), k: U('uK') };
+  const K = 1 / 1024;   // the light's units (see the note at the top)
+  gl.uniform1f(un.k, K);
   const bufs = new Map();
   gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
   const STRIDE = 13;
@@ -100,7 +111,7 @@ export function createGlint(canvas) {
       gl.viewport(0, 0, canvas.width, canvas.height);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.uniform2f(un.res, canvas.width, canvas.height);
-      gl.uniform3f(un.light, light[0], light[1], light[2]); gl.uniform3f(un.view, view[0], view[1], view[2]); gl.uniform1f(un.gain, gain);
+      gl.uniform3f(un.light, light[0] * K, light[1] * K, light[2] * K); gl.uniform3f(un.view, view[0] * K, view[1] * K, view[2] * K); gl.uniform1f(un.gain, gain);
       gl.uniform3f(un.xf, xf[0], xf[1], xf[2]); gl.uniform1f(un.minX, minX);
       for (const d of draws) {
         const b = bufs.get(d.key); if (!b) continue;
@@ -117,5 +128,7 @@ export function createGlint(canvas) {
       }
     },
     lost: () => gl.isContextLost(),
+    /** call `fn` if the GPU takes the context away */
+    onLost(fn) { canvas.addEventListener?.('webglcontextlost', e => { e.preventDefault?.(); fn(); }); },
   };
 }

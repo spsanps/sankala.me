@@ -166,6 +166,8 @@ try {
     assert.ok(stills.ok.every(Boolean), `Static pictures of the apse load: ${JSON.stringify(stills)}`);
     await page.waitForFunction(() => !document.documentElement.classList.contains('apse-wait'), null, { timeout: 5000 });
     assert.ok(await page.locator('.apse').isVisible(), 'The apse is shown');
+    // the app's script comes after the pictures (loadAppLater): wait for it before using the page
+    await page.waitForFunction(() => document.querySelector('.wall-clock')?.textContent.trim(), null, { timeout: 10000 });
     assert.equal(await page.locator('.tab-print').count(),careerPhotos,'Career photos on the homepage');
     assert.equal(await page.locator('nav[aria-label="Footer"] a').count(), 6, `The mosaic footer's links at ${width}`);
     await page.locator('.tab-print').first().evaluate(link => link.click());
@@ -197,6 +199,37 @@ try {
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-milestone]').count(), milestones.length, 'History remains easy to reach from About');
     await page.close();
+  }
+
+  // The homepage's two apses (src/pages/home/mosaic/mode.js): phones get the stills only, with no
+  // canvas or worker, and still see the whole picture; a desktop gets the live layer; ?simple=1 forces
+  // the stills anywhere.
+  for (const [label, options, path, want] of [
+    ['phone', { viewport: { width: 390, height: 844 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true }, '/', 'simple'],
+    ['phone at 360 px', { viewport: { width: 360, height: 800 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }, '/', 'simple'],
+    ['desktop', { viewport: { width: 1440, height: 900 } }, '/', 'live'],
+    ['desktop, ?simple=1', { viewport: { width: 1440, height: 900 } }, '/?simple=1', 'simple'],
+  ]) {
+    const context = await browser.newContext(options);
+    const page = await context.newPage();
+    const errors = [];
+    page.on('pageerror', error => errors.push(error.message));
+    await page.route('**/*', route => new URL(route.request().url()).origin === origin ? route.continue() : route.abort());
+    await page.goto(origin + path, { waitUntil: 'load' });
+    await page.waitForFunction(() => window.__ready === true, null, { timeout: 15000 });
+    const state = await page.evaluate(async () => {
+      const bg = sel => /url\(["']?([^"')]+)/.exec(getComputedStyle(document.querySelector(sel)).backgroundImage)?.[1];
+      const loads = await Promise.all(['.apse-conch', '.apse-back .apse-wall'].map(sel => { const img = new Image(); img.src = bg(sel); return img.decode().then(() => img.naturalWidth > 0, () => false); }));
+      const conch = document.querySelector('.apse-conch').getBoundingClientRect();
+      return { mode: document.documentElement.dataset.mosaic, canvases: document.querySelectorAll('.apse canvas').length, loads, conchW: conch.width, wait: document.documentElement.className };
+    });
+    assert.equal(state.mode, want, `The ${want} apse for a ${label}: ${JSON.stringify(state)}`);
+    assert.equal(state.canvases, want === 'live' ? 2 : 0, `Canvases in the ${want} apse (${label})`);
+    assert.ok(state.loads.every(Boolean) && state.conchW > 100, `The apse's stills show for a ${label}: ${JSON.stringify(state)}`);
+    assert.ok(!/apse-wait/.test(state.wait), `Nothing of the apse is held back for a ${label}: ${state.wait}`);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `No horizontal overflow on the homepage for a ${label}`);
+    assert.deepEqual(errors, [], `Browser errors on the homepage for a ${label}`);
+    await context.close();
   }
 
   // The preview server only reaches <route>/index.html with a trailing slash (Vercel uses rewrites),
@@ -246,6 +279,11 @@ try {
   assert.ok(homeHtml.includes('data-sj') && homeHtml.includes('apse-wait'), 'First-paint scripts in the prerendered homepage');
   assert.ok(homeHtml.includes('/images/home/wall-side-1x.webp') && homeHtml.includes('/images/home/conch-fine-now-'), 'Homepage stills in the prerendered CSS');
   assert.equal((homeHtml.match(/data-milestone/g) || []).length, milestones.length, 'Every milestone in the prerendered homepage');
+  // on a slow network the pictures come before the app's script: the conch is asked for from <head>,
+  // the other first-paint stills are preloaded, and the script is fetched once they are in
+  assert.ok(homeHtml.indexOf("'/images/home/conch-'") > 0 && homeHtml.indexOf("'/images/home/conch-'") < homeHtml.indexOf('rel="stylesheet"'), 'The conch still is asked for before the stylesheet');
+  assert.ok(/<link[^>]+rel="preload"[^>]+as="image"[^>]+wall-band-1x\.webp/.test(homeHtml), 'First-paint stills preloaded');
+  assert.ok(/<html lang="en" data-app="\/assets\/index-[\w-]+\.js">/.test(homeHtml) && !homeHtml.includes('<script type="module"'), "The homepage's script waits for its pictures");
 
   // The IROS essay: every paragraph in the prerendered page, its video and 3D model, an up-to-date Markdown mirror,
   // the share card, the feed and the sitemap.

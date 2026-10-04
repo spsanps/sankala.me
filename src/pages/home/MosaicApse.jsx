@@ -6,6 +6,7 @@ import { ERA_LIST, monthYear } from './eras';
 import { PLACE_NAMES, PLACE_CAPTIONS } from './mosaic/layout';
 import { sanJoseMoment, clockLabel as realClock, sanJoseDate, DEFAULT_MOMENT } from './mosaic/moments';
 import { holdApse } from './mosaic/first-paint';
+import { chooseMode } from './mosaic/mode';
 import stills from './mosaic/stills.json';
 
 // Milestone descriptions are plain text with optional [label](https://…) links.
@@ -24,14 +25,15 @@ const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayout
 /* The first screen is one mosaic wall: lapis strewn with gold stars, a great gold apse with San's
    desk and its things in it, and his words on a marble stele set into the same wall. Every picture
    here is a still printed beforehand (scripts/publishing/render-home.mjs) and placed by CSS, so the
-   first paint is already finished; the live layer (mosaic/live.js) then works off the main thread:
-   the light on the gold, the small things that move, and the conch re-laid for each place as the
-   words scroll past it. */
+   first paint is already finished. Where the device can afford it (mosaic/mode.js; not on phones) the
+   live layer (mosaic/live.js) then works off the main thread: the light on the gold, the small things
+   that move, and the conch re-laid for each place as the words scroll past it. Elsewhere the stills
+   stay, switched per place. */
 export default function MosaicApse() {
   const rootRef = useRef(null), dialogRef = useRef(null);
   const [place, setPlace] = useState({ key: 'now', moment: null });
   const [clock, setClock] = useState('');
-  const [plain, setPlain] = useState(false);
+  const [simple, setSimple] = useState(false);
   const [tilt, setTilt] = useState(null);
   const [run, setRun] = useState(0);
   const [photo, setPhoto] = useState(null);
@@ -47,17 +49,21 @@ export default function MosaicApse() {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setPlain(params.get('plain') === '1');
+    // decided before any of the live layer's code is fetched: the simple apse never downloads it
+    const { mode, why } = chooseMode(window.location.search);
+    setSimple(mode !== 'live');
     setClock(clockLabel());
     let live = null, disposed = false;
     const id = (window.requestIdleCallback || (fn => setTimeout(fn, 200)))(async () => {
-      const { startMosaic } = await import('./mosaic/live.js');
+      let startMosaic;
+      try { ({ startMosaic } = await import('./mosaic/live.js')); } catch (e) { return; /* the stills stay */ }
       if (disposed || !rootRef.current) return;
       live = startMosaic(rootRef.current, {
+        mode, why,
         onPlace: next => { setPlace({ key: next.key, moment: next.moment }); setClock(clockLabel()); },
         onTilt: ask => setTilt(() => ask),
         onRestart: () => setRun(n => n + 1),
+        onMode: next => setSimple(next !== 'live'),
       });
     }, { timeout: 1500 });
     return () => {
@@ -93,7 +99,7 @@ export default function MosaicApse() {
           <div className="stele-text">
             <h1 id="hello">Hi, I’m San.</h1>
             <p className="stele-lede">I work on language models at eBay. Before that: computer science at UC San Diego, chip design at Texas Instruments, and electrical engineering at NIT Karnataka. Along the way I co-founded <SiteLink href="/notes/startr-postmortem">a startup that didn’t make&nbsp;it</SiteLink>. I also write, make things, and sometimes turn an idea into a film.</p>
-            <p className="stele-more"><SiteLink href="/about">More about me</SiteLink><span className="stele-mail">san@sankala.me</span>{plain ? <a href="/">Living version</a> : <a href="/?plain=1">Still version</a>}</p>
+            <p className="stele-more"><SiteLink href="/about">More about me</SiteLink><span className="stele-mail">san@sankala.me</span>{simple ? <a href="/?live=1">Living version</a> : <a href="/?simple=1">Still version</a>}</p>
           </div>
         </section>
       </div>
@@ -111,7 +117,8 @@ export default function MosaicApse() {
           <p>{withLinks(m.description)}</p>
           {m.links.length > 0 && <p className="entry-links">{m.links.map(([href, label]) => <SiteLink key={href} href={href}>{label}</SiteLink>)}</p>}
           {m.images.map(image => <a key={image.src} className="tab-print" href={image.src} onClick={event => openPhoto(event, image)} aria-label={`Enlarge photograph: ${image.caption}`}>
-            <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+            {/* loading before src: the app renders on the client, and an img given its src first starts loading at once */}
+            <img loading="lazy" decoding="async" src={image.src} alt={image.alt} />
           </a>)}
         </li>)}</ol>
       </section>)}
