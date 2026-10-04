@@ -114,12 +114,13 @@ html.apse-wait .apse { visibility: hidden; }
 .place-years { font: 400 clamp(15.5px, 1.05cqw, 19px)/1.2 'Marcellus SC', serif; letter-spacing: .18em; color: var(--porphyry); font-variant-numeric: lining-nums; }
 .home .place-head h2 { font-size: clamp(36px, 2.9cqw, 52px); color: var(--title); letter-spacing: .03em; }
 .place-role { font-size: clamp(19px, 1.3cqw, 23px); color: var(--ink-soft); font-style: italic; }
-.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 30px; text-align: center; }
+.entries li + li::before { content: ""; display: block; width: 46px; height: 6px; margin: 0 auto 26px; background: radial-gradient(circle, #c99a3c 0 2.6px, transparent 3px) 0 0 / 16px 6px repeat-x; opacity: .9; }
 .entries time { display: block; margin-bottom: 4px; font: 400 clamp(14.5px, 1cqw, 18px)/1.3 'Marcellus SC', serif; letter-spacing: .13em; color: var(--porphyry); font-variant-numeric: lining-nums; }
 .home .entries h3 { font: 600 clamp(21px, 1.45cqw, 26px)/1.25 'EB Garamond', serif; letter-spacing: 0; color: var(--title); }
-.home .entries p { margin-top: 6px; font-size: clamp(18.5px, 1.3cqw, 22.5px); line-height: 1.55; }
-.entry-links { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: clamp(18px, 1.2cqw, 21px) !important; }
-.tab-print { display: block; width: min(300px, 86%); margin-top: 14px; padding: 4px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); box-shadow: 0 3px 8px -3px rgba(40, 28, 10, .5); }
+.home .entries p { margin-top: 6px; font-size: clamp(18.5px, 1.3cqw, 22.5px); line-height: 1.55; text-wrap: pretty; }
+.entry-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 20px; font-size: clamp(18px, 1.2cqw, 21px) !important; }
+.tab-print { display: block; width: min(300px, 86%); margin: 14px auto 0; padding: 4px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); box-shadow: 0 3px 8px -3px rgba(40, 28, 10, .5); }
 .tab a.tab-print { text-decoration: none; }
 .tab-print img { display: block; width: 100%; height: auto; outline: 1px solid rgba(40, 28, 10, .4); }
 .tab-print:hover { filter: brightness(1.06); }

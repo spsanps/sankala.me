@@ -93,7 +93,7 @@ try {
     for (const [route, label, count] of [['/writing', 'Writing', writingCount], ['/projects', 'Projects', 3], ['/lab', 'Projects', 3], ['/research', 'Research', 3], ['/notes', 'All', works.length], ['/work#films', 'Films', 2]]) {
       await page.goto(origin + route, { waitUntil: 'networkidle' });
       await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, count, { timeout: 5000 });
-      assert.equal((await page.locator('h1').innerText()).trim(), 'Writing & projects', `Old route shows the Writing & projects page: ${route}`);
+      assert.equal((await page.locator('h1').innerText()).trim(), 'Writing & Projects', `Old route shows the Writing & Projects page: ${route}`);
       assert.equal(await page.getByRole('button', { name: new RegExp('^' + label) }).getAttribute('aria-pressed'), 'true', `Old route is pre-filtered: ${route}`);
       assert.equal(await page.locator('link[rel="canonical"]').getAttribute('href'), 'https://www.sankala.me/work', `Old route points search engines at /work: ${route}`);
     }
@@ -131,10 +131,10 @@ try {
     for (const hash of ['history','writing','projects','latest']) assert.equal(await page.locator(`#${hash}`).count(),1,`Legacy home anchor: #${hash}`);
     const nav = page.getByRole('navigation', { name: 'Main', exact: true });
     assert.equal(await nav.getByRole('link').count(), 4, `Four destinations in the menu at ${width}`);
-    for (const label of ['Writing & projects', 'Timeline', 'About', 'CV']) {
+    for (const label of ['Writing & Projects', 'Timeline', 'About', 'CV']) {
       assert.ok(await nav.getByRole('link', { name: label, exact: true }).isVisible(), `Visible destination: ${label} at ${width}`);
     }
-    await nav.getByRole('link', { name: 'Writing & projects', exact: true }).click();
+    await nav.getByRole('link', { name: 'Writing & Projects', exact: true }).click();
     await page.locator('[data-work]').first().waitFor();
     await page.getByRole('button', { name: /^Writing/ }).click();
     await page.waitForFunction(n => document.querySelectorAll('[data-work]').length === n, writingCount, { timeout: 5000 });
@@ -181,7 +181,7 @@ try {
   assert.equal((homeHtml.match(/data-milestone/g) || []).length, 10, 'Every milestone in the prerendered homepage');
 
   const workHtml = await (await fetch(origin + '/work/')).text();
-  assert.ok(workHtml.includes('<h1>Writing &amp; projects</h1>'), 'Prerendered Work page');
+  assert.ok(workHtml.includes('<h1>Writing &amp; Projects</h1>'), 'Prerendered Work page');
   for (const work of works) assert.ok(workHtml.includes(work.displayTitle.replaceAll('&', '&amp;')), `Prerendered Work page lists: ${work.title}`);
 
   for (const asset of assets) {

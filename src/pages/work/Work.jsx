@@ -74,10 +74,10 @@ export default function Work({ preset = 'all' }) {
     setParams(next, { replace: true, preventScrollReset: true });
   }
 
-  const title = type === 'all' ? 'Writing & projects — San Kala' : `${filter.label} — San Kala`;
+  const title = type === 'all' ? 'Writing & Projects — San Kala' : `${filter.label} — San Kala`;
   return <main id="main" className="shell work-page">
     <Metadata title={title} description="Essays, research, projects and films by San Kala, newest first: AI and robotics, simulated worlds, and notes on building things." path="/work" />
-    <header className="page-heading"><h1>Writing & projects</h1><p>Essays, research, projects and films, newest first. Each one has its own cover, drawn in code.</p><p className="work-why">AI has opened a new medium, and this is me exploring it. Each piece here, from the covers drawn in code to the worlds you can walk around in, tries something new with it.</p></header>
+    <header className="page-heading"><h1>Writing & Projects</h1><p>Essays, research, projects and films, newest first. Each one has its own cover, drawn in code.</p><p className="work-why">AI has opened a new medium, and this is me exploring it. Each piece here, from the covers drawn in code to the worlds you can walk around in, tries something new with it.</p></header>
 
     <div className="work-tools">
       <div className="work-chips" role="group" aria-label="Show">
