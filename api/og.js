@@ -135,7 +135,10 @@ ${page.article}
   // Rich essay routes use the clean shell, rather than the prerendered homepage; an essay
   // with its own prerendered page uses that, falling back to the shell if it is missing.
   const shell = PAGES[url.searchParams.get('page')]?.shell;
-  let indexResponse = shell ? await fetch(new URL(shell, url.origin).toString(), { headers: { 'x-skip-og': 'true' } }) : null;
+  let indexResponse = null;
+  if (shell) {
+    try { indexResponse = await fetch(new URL(shell, url.origin).toString(), { headers: { 'x-skip-og': 'true' } }); } catch { indexResponse = null; }
+  }
   if (!indexResponse || !indexResponse.ok) {
     indexResponse = await fetch(new URL('/app.html', url.origin).toString(), {
       headers: { 'x-skip-og': 'true' }
