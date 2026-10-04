@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { queueBuild } from '../../../../components/art/build-queue';
-import { WAYPOINTS, SPAN, OPENING, stateAt, stamp, eventLog } from '../flight/timeline';
+import { WAYPOINTS, SPAN, SUNDAY, OPENING, stateAt, stamp, eventLog } from '../flight/timeline';
 import { PLANE_PATH } from './Leg';
 
-// "The last 72 hours, as a flight": a seatback moving map. The map's still is in the HTML;
+// "The final weekend, as a flight": a seatback moving map. The map's still is in the HTML;
 // once the figure is near the screen and the browser is idle, the same map is drawn live in a
 // canvas over it (src/pages/notes/its-just-possible/flight/). The panel, messages and controls
 // are real HTML, so they work before the canvas arrives, without it, and for screen readers.
 const ART = '/images/notes/its-just-possible';
 const LAST = WAYPOINTS[WAYPOINTS.length - 1].t;
-const RATE = 150;          // minutes of the weekend per second of playback
+const RATE = 80;           // minutes of the weekend per second of playback
 const DWELL = 1.6;         // seconds held at each waypoint
 const SENDER = { Agent: 'Agent', Me: 'Me', Fleet: 'GPUs', Leaderboard: 'Leaderboard' };
-const describe = s => `${s.clock.day} ${s.clock.date}, ${s.clock.time} UTC. Track 1 ${s.track1?.rank || 'rank unknown'}, Track 2 ${s.track2?.rank || 'no upload yet'}, ${s.gpus} GPUs online.`;
+const describe = s => `${s.clock.day} ${s.clock.date}, ${s.clock.time} UTC. Track 1 ${s.track1.rank}, Track 2 ${s.track2.rank}, ${s.gpus} GPUs online.`;
 
 function Readout({ label, value, sub, className = '' }) {
   return <div className={`ijp-readout ${className}`}>
@@ -104,7 +104,7 @@ export default function FlightFigure() {
           <picture>
             <source media="(max-width: 600px)" srcSet={`${ART}/flight-map-phone-760.webp`} />
             <img src={`${ART}/flight-map-1400.webp`} srcSet={`${ART}/flight-map-700.webp 700w, ${ART}/flight-map-1400.webp 1400w`} sizes="(max-width: 1060px) 70vw, 720px"
-              width="1400" height="933" alt="An in-flight map of the United States: a glowing route from San Jose to Pittsburgh, flown almost to the end, with waypoints along it for the messages and results of the final 72 hours." />
+              width="1400" height="933" alt="An in-flight map of the United States: a glowing route from San Jose to Pittsburgh, flown to the end, with waypoints along it for the messages and results of the final weekend." />
           </picture>
           <canvas ref={canvas} className={live ? 'is-live' : ''} aria-hidden="true" />
         </div>
@@ -112,8 +112,8 @@ export default function FlightFigure() {
         <div className="ijp-side">
           <div className="ijp-readouts">
             <Readout className="ijp-wide" label="Time (UTC)" value={`${s.clock.day} ${s.clock.date} · ${s.clock.time}`} />
-            <Readout className="ijp-rank" label="Track 1" value={s.track1?.rank || '—'} sub={s.track1 ? `score ${s.track1.score}` : 'no upload yet'} />
-            <Readout className="ijp-rank" label="Track 2" value={s.track2?.rank || '—'} sub={s.track2 ? `score ${s.track2.score}` : 'no upload yet'} />
+            <Readout className="ijp-rank" label="Track 1" value={s.track1.rank} sub={`score ${s.track1.score}`} />
+            <Readout className="ijp-rank" label="Track 2" value={s.track2.rank} sub={`score ${s.track2.score}`} />
             <Readout label="GPUs online" value={s.gpus} />
             <Readout label="Time to deadline" value={s.toGo} />
           </div>
@@ -128,7 +128,7 @@ export default function FlightFigure() {
             </div>
             <div className="ijp-message-body" aria-live="polite">
               {wp ? wp.lines.map(([who, text], i) => <p key={i} className={`ijp-line is-${who.toLowerCase()}`}><span className="ijp-who">{SENDER[who]}</span><span className="ijp-said">{text}</span></p>)
-                : <p className="ijp-line is-quiet"><span className="ijp-said">Friday, 00:00 UTC. 72 hours to the deadline.</span></p>}
+                : <p className="ijp-line is-quiet"><span className="ijp-said">Saturday morning: 13 GPUs online, Track 1 in the top 10, Track 2 about 7th.</span></p>}
             </div>
           </div>
         </div>
@@ -136,27 +136,27 @@ export default function FlightFigure() {
         <div className="ijp-bar">
           <button type="button" className="ijp-play" onClick={() => setPlaying(p => !p)} aria-pressed={playing}>
             <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">{playing ? <path d="M3 2h3.5v12H3zM9.5 2H13v12H9.5z" /> : <path d="M3.5 1.8 14 8 3.5 14.2z" />}</svg>
-            <span>{playing ? 'Pause' : atEnd ? 'Replay the 72 hours' : 'Play'}</span>
+            <span>{playing ? 'Pause' : atEnd ? 'Replay' : 'Play'}</span>
           </button>
           <span className="ijp-code">SJC</span>
           <div className="ijp-track" style={{ '--at': pct(t) }}>
             <span className="ijp-track-flown" aria-hidden="true" />
             {WAYPOINTS.map(w => <span key={w.t} className={`ijp-tick is-${w.kind}${w.t <= t ? ' is-passed' : ''}`} style={{ left: pct(w.t) }} aria-hidden="true" />)}
-            {[['Sat', 1440], ['Sun', 2880]].map(([d, v]) => <span key={d} className="ijp-day" style={{ left: pct(v) }} aria-hidden="true">{d}</span>)}
+            <span className="ijp-day" style={{ left: pct(SUNDAY) }} aria-hidden="true">Sun</span>
             <span className="ijp-thumb" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="24" height="24"><path d={PLANE_PATH} /></svg></span>
             <input type="range" min="0" max={SPAN} step="1" value={Math.round(t)} onChange={event => go(Number(event.target.value))} onKeyDown={onKey}
-              aria-label="Time through the final 72 hours" aria-valuetext={describe(s)} />
+              aria-label="Time through the final weekend" aria-valuetext={describe(s)} />
           </div>
           <span className="ijp-code">PIT</span>
         </div>
       </div>
     </div>
     <figcaption>
-      <strong>The last 72 hours, as a flight.</strong> Our leaderboard positions over the final 72 hours of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane’s position is time, not GPS. Times UTC.
+      <strong>The final weekend, as a flight.</strong> Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane’s position is time, not GPS. Times UTC.
       <span className="ijp-legend" aria-hidden="true"><i className="is-chat" /> messages <i className="is-fleet" /> GPUs <i className="is-board" /> leaderboard</span>
     </figcaption>
     <details className="ijp-log">
-      <summary>The 72 hours as text</summary>
+      <summary>The weekend as text</summary>
       <ol>{eventLog().map(e => <li key={e.t + e.text}><time>{e.when}</time> {e.text}</li>)}</ol>
     </details>
   </figure>;

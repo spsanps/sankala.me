@@ -31,17 +31,11 @@ Scores in RealPDE sit around 82 out of 100, a mix of accuracy, speed and how wel
 
 All weekend I worked through one long Claude Code session running Opus 5.5, remotely, some of it over airplane wifi. From that session I directed roughly 200 helper agents in all, using as many as 17 rented GPUs at once. The push cost about $1,200 all in, for GPUs, my Claude subscription and some credits. If first place holds on both tracks, the prize is $12,000.
 
-**Figure: The last 72 hours, as a flight.** Our leaderboard positions over the final 72 hours of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](https://www.sankala.me/notes/its-just-possible#flight) has the interactive map; here it is as a list:
+**Figure: The final weekend, as a flight.** Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](https://www.sankala.me/notes/its-just-possible#flight) has the interactive map; here it is as a list:
 
-- Fri 00:17: Track 1 upload: 81.679.
-- Fri 17:28: Agent: “No lever left… 82.3 is not reachable.”
-- Fri 20:04: Track 2 upload: 81.993 (about 7th).
-- Fri 20:06: Me: “there is always ways to improve… if you think can’t then you can’t”
-- Fri 22:28: Agent: “None of them is a robust #1.” Me: “stooppp!!!”
-- Sat 00:48: Track 1 upload: 81.895 (top 10).
-- Sat 03:05: I add 9 GPUs: 13 online.
+- Sat 07:00: Where we start: Track 1 81.895 (top 10), Track 2 81.993 (about 7th), 13 GPUs online.
 - Sat 22:47: Agent: “local optimum” Me: “Believe we can.”
-- Sat 22:50: Track 2 upload: 82.194 (#2).
+- Sat 22:50: Track 2: 82.194, second.
 - Sat 23:29: 15 GPUs online.
 - Sun 04:11: Me: “Ok I am gonna leave you to it”
 - Sun 12:10: The last four-hour push: 17 GPUs.
@@ -49,7 +43,6 @@ All weekend I worked through one long Claude Code session running Opus 5.5, remo
 - Sun 14:39: Me: “why freeze early when we can continue pushing?”
 - Sun 17:50: Track 1: first, 82.218.
 - Sun 18:10: Track 2: first, 82.491.
-- Mon 00:00: The development phase closes.
 
 ## The main thing: don't stop
 

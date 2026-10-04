@@ -36,6 +36,7 @@
 /* ── prompts and notes: the text I typed, as a system prompt ── */
 .personal-site .ijp-page .prose .ijp-card-head { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 11px 20px 10px; border-bottom: 1px solid var(--ijp-rule); background: rgba(127, 220, 255, .07); font: 700 12px/1 var(--ijp-ui); letter-spacing: .16em; text-transform: uppercase; }
 .personal-site .ijp-page .ijp-card-label { color: var(--ijp-amber); }
+.personal-site .ijp-page .ijp-card-label.is-file { text-transform: none; letter-spacing: .08em; }
 .personal-site .ijp-page .ijp-card-to { color: var(--ijp-muted); }
 .personal-site .ijp-page .ijp-prompt-text, .personal-site .ijp-page .prose .ijp-note-list { position: relative; z-index: 1; padding: 16px 22px 18px; font: 400 15.5px/1.7 'JetBrains Mono', ui-monospace, monospace; color: #f4f7fc; }
 .personal-site .ijp-page .prose .ijp-prompt-text p { margin: 0 0 10px; padding-left: 1.3em; text-indent: -1.3em; }
@@ -118,7 +119,7 @@
   .personal-site .ijp-page .ijp-side { border-left: 0; border-top: 1px solid var(--ijp-rule); }
   .personal-site .ijp-page .ijp-readouts { grid-template-columns: 1.3fr 1fr 1fr; }
   .personal-site .ijp-page .ijp-readouts > :nth-child(2), .personal-site .ijp-page .ijp-readouts > :nth-child(4) { border-right: 0; }
-  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(.ijp-wide) { border-right: 1px solid rgba(127, 220, 255, .12); }
+  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(:nth-child(3)) { border-right: 1px solid rgba(127, 220, 255, .12); }
   .personal-site .ijp-page .ijp-wide { grid-column: auto; }
   .personal-site .ijp-page .ijp-message-body { min-height: 128px; }
 }
@@ -136,7 +137,7 @@
   .personal-site .ijp-page .ijp-lcd { border-radius: 8px; }
   .personal-site .ijp-page .ijp-readouts { grid-template-columns: 1fr 1fr; }
   .personal-site .ijp-page .ijp-wide { grid-column: 1 / -1; }
-  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(.ijp-wide) { border-right: 0; }
+  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(:nth-child(3)) { border-right: 0; }
   .personal-site .ijp-page .ijp-readouts > :nth-child(2), .personal-site .ijp-page .ijp-readouts > :nth-child(4) { border-right: 1px solid rgba(127, 220, 255, .12); }
   .personal-site .ijp-page .ijp-rank .ijp-val { font-size: 32px; }
   .personal-site .ijp-page .ijp-bar { gap: 10px; padding: 12px 12px 24px; }

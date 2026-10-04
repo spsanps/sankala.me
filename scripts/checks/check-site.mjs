@@ -103,13 +103,16 @@ try {
     const flight = page.locator('#flight');
     await flight.scrollIntoViewIfNeeded();
     assert.ok(await flight.locator('img').evaluate(image => image.complete && image.naturalWidth > 0), `The flight map's still loads at ${width}`);
-    assert.equal(await flight.locator('input[type=range]').inputValue(), String(FLIGHT_OPENING), `The figure opens on Sunday 18:10 at ${width}`);
+    assert.equal(await flight.locator('input[type=range]').inputValue(), String(FLIGHT_OPENING), `The figure opens when both tracks were first at ${width}`);
+    // only the final weekend: nothing from the weekdays before it
+    const flightText = await flight.innerText() + await flight.locator('.ijp-log').textContent();
+    assert.ok(!/\b(Mon|Tue|Wed|Thu|Fri)\b|25 Sep|82\.3 is not|stooppp|robust #1/.test(flightText), `The figure covers only the final weekend at ${width}`);
     assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('#1'), `The panel reads first place at ${width}`);
     await flight.locator('input[type=range]').focus();
     await page.keyboard.press('Home');
-    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Fri 25 Sep · 00:00'), `Home flies back to Friday at ${width}`);
+    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Sat 26 Sep · 07:00'), `Home flies back to Saturday morning at ${width}`);
     await flight.locator('button[aria-label="Next waypoint"]').click();
-    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('82.3 is not reachable'), `The first waypoint's message at ${width}`);
+    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('local optimum'), `The first waypoint's message at ${width}`);
     assert.ok((await flight.locator('figcaption').innerText()).includes('The plane’s position is time, not GPS.'), `The figure's caption at ${width}`);
 
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
@@ -220,7 +223,9 @@ try {
   }
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-social.jpg'), 'Essay share card');
   assert.ok(essayHtml.includes('/images/notes/its-just-possible/flight-map-1400.webp') && essayHtml.includes('class="ijp-chat"'), 'The flight map still and the message cards in the prerendered page');
-  assert.ok(essayMarkdown.includes('Figure: The last 72 hours, as a flight') && essayMarkdown.includes('Track 2: first, 82.491.'), 'The flight figure as text in the Markdown mirror');
+  assert.ok(essayMarkdown.includes('Figure: The final weekend, as a flight') && essayMarkdown.includes('Track 2: first, 82.491.'), 'The flight figure as text in the Markdown mirror');
+  const figureText = essayMarkdown.slice(essayMarkdown.indexOf('Figure: The final weekend'), essayMarkdown.indexOf('## ', essayMarkdown.indexOf('Figure: The final weekend')));
+  assert.ok(!/\b(Mon|Tue|Wed|Thu|Fri)\b|82\.3 is not|stooppp/.test(figureText), 'The figure text covers only the final weekend');
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-360.webp'), 'Essay cover in the prerendered page');
   assert.ok(feed.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the sitemap');

@@ -16,10 +16,10 @@ import { eventLog } from '../../src/pages/notes/its-just-possible/flight/timelin
 const SITE = 'https://www.sankala.me';
 const source = await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8');
 const { meta, body } = parseEssay(source);
-// The figure, "The last 72 hours, as a flight", as text, where it sits on the page: at the end of
+// The figure, "The final weekend, as a flight", as text, where it sits on the page: at the end of
 // the section "The weekend".
 
-const figure = `**Figure: The last 72 hours, as a flight.** Our leaderboard positions over the final 72 hours of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](${SITE}${PATH}#flight) has the interactive map; here it is as a list:
+const figure = `**Figure: The final weekend, as a flight.** Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](${SITE}${PATH}#flight) has the interactive map; here it is as a list:
 
 ${eventLog().map(e => `- ${e.when}: ${e.text}`).join('\n')}
 `;
