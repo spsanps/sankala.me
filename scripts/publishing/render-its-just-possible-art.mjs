@@ -1,5 +1,5 @@
 // Print the stills of the flight-map figure in "It's just possible", with the same code the page
-// runs once the figure is on screen (the opening moment, Sunday 18:10 UTC):
+// runs once the figure is on screen (the opening: the last stop, both tracks first):
 //
 //   public/images/notes/its-just-possible/flight-map-1400.webp   desktop, 2x
 //   public/images/notes/its-just-possible/flight-map-700.webp    desktop, 1x

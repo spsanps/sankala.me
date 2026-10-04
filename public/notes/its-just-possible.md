@@ -31,18 +31,18 @@ Scores in RealPDE sit around 82 out of 100, a mix of accuracy, speed and how wel
 
 All weekend I worked through one long Claude Code session running Opus 5.5, remotely, some of it over airplane wifi. From that session I directed roughly 200 helper agents in all, using as many as 17 rented GPUs at once. The push cost about $1,200 all in, for GPUs, my Claude subscription and some credits. If first place holds on both tracks, the prize is $12,000.
 
-**Figure: The final weekend, as a flight.** Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](https://www.sankala.me/notes/its-just-possible#flight) has the interactive map; here it is as a list:
+**Figure: The final push, as a flight.** How the final push of RealPDE went, drawn as an in-flight map of my trip to Pittsburgh. Each stop is a moment, in order; the map isn't to time. The [web edition](https://www.sankala.me/notes/its-just-possible#flight) has the interactive map; here it is as a list.
 
-- Sat 07:00: Where we start: Track 1 81.895 (top 10), Track 2 81.993 (about 7th), 13 GPUs online.
-- Sat 22:47: Agent: “local optimum” Me: “Believe we can.”
-- Sat 22:50: Track 2: 82.194, second.
-- Sat 23:29: 15 GPUs online.
-- Sun 04:11: Me: “Ok I am gonna leave you to it”
-- Sun 12:10: The last four-hour push: 17 GPUs.
-- Sun 14:00: 9th on Track 1, 5th on Track 2.
-- Sun 14:39: Me: “why freeze early when we can continue pushing?”
-- Sun 17:50: Track 1: first, 82.218.
-- Sun 18:10: Track 2: first, 82.491.
+Where we start: Track 1 81.895 (top 10), Track 2 81.993 (about 7th), 13 GPUs online.
+
+1. Agent: “local optimum” Me: “Believe we can.”
+2. Track 2: 82.194, second.
+3. Me: “Ok I am gonna leave you to it” 15 GPUs online.
+4. The last push: 17 GPUs.
+5. 9th on Track 1, 5th on Track 2.
+6. Me: “why freeze early when we can continue pushing?”
+7. Track 1: first, 82.218.
+8. Track 2: first, 82.491.
 
 ## The main thing: don't stop
 

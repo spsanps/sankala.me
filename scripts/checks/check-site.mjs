@@ -32,6 +32,9 @@ const ESSAY = '/notes/its-just-possible';
 const essay = parseEssay(await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8'));
 const essayParagraphs = essay.body.split('\n\n').filter(block => /^[A-Z]/.test(block) && !/[*[`]/.test(block));
 const essayParts = essayPieces(essay.body), partCount = type => essayParts.filter(piece => piece.type === type).length;
+// The flight figure is a sequence of moments, not a clock: no times, dates, days or durations, and
+// nothing from before the final weekend, in the figure, its text list or its Markdown section.
+const TIMELESS = /\d{1,2}:\d{2}|UTC|\b(Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day\b|\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b|\bhours?\b|\d+\s?h\b|\bSep\b|82\.3 is not|stooppp|robust #1/i;
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
 const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas'], [ESSAY, '#flight canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
@@ -105,15 +108,17 @@ try {
     assert.ok(await flight.locator('img').evaluate(image => image.complete && image.naturalWidth > 0), `The flight map's still loads at ${width}`);
     assert.equal(await flight.locator('input[type=range]').inputValue(), String(FLIGHT_OPENING), `The figure opens when both tracks were first at ${width}`);
     // only the final weekend: nothing from the weekdays before it
-    const flightText = await flight.innerText() + await flight.locator('.ijp-log').textContent();
-    assert.ok(!/\b(Mon|Tue|Wed|Thu|Fri)\b|25 Sep|82\.3 is not|stooppp|robust #1/.test(flightText), `The figure covers only the final weekend at ${width}`);
+    const flightText = await flight.innerText() + ' ' + await flight.locator('.ijp-log').textContent() + ' ' + await flight.locator('input[type=range]').getAttribute('aria-valuetext');
+    assert.ok(!TIMELESS.test(flightText), `The figure shows no times at ${width}: ${flightText.match(TIMELESS)?.[0]}`);
     assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('#1'), `The panel reads first place at ${width}`);
     await flight.locator('input[type=range]').focus();
     await page.keyboard.press('Home');
-    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Sat 26 Sep · 07:00'), `Home flies back to Saturday morning at ${width}`);
-    await flight.locator('button[aria-label="Next waypoint"]').click();
-    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('local optimum'), `The first waypoint's message at ${width}`);
-    assert.ok((await flight.locator('figcaption').innerText()).includes('The plane’s position is time, not GPS.'), `The figure's caption at ${width}`);
+    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('Where we start'), `Home flies back to the start at ${width}`);
+    await page.keyboard.press('ArrowRight');
+    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('local optimum'), `The arrow key steps to the first stop at ${width}`);
+    await flight.locator('button[aria-label="Next stop"]').click();
+    assert.ok((await flight.locator('.ijp-message-head').innerText()).toLowerCase().includes('stop 2 of 8'), `The next-stop button at ${width}`);
+    assert.ok((await flight.locator('figcaption').innerText()).includes('Each stop is a moment, in order; the map isn’t to time.'), `The figure's caption at ${width}`);
 
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
     await page.goto(origin + '/work');
@@ -223,9 +228,12 @@ try {
   }
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-social.jpg'), 'Essay share card');
   assert.ok(essayHtml.includes('/images/notes/its-just-possible/flight-map-1400.webp') && essayHtml.includes('class="ijp-chat"'), 'The flight map still and the message cards in the prerendered page');
-  assert.ok(essayMarkdown.includes('Figure: The final weekend, as a flight') && essayMarkdown.includes('Track 2: first, 82.491.'), 'The flight figure as text in the Markdown mirror');
-  const figureText = essayMarkdown.slice(essayMarkdown.indexOf('Figure: The final weekend'), essayMarkdown.indexOf('## ', essayMarkdown.indexOf('Figure: The final weekend')));
-  assert.ok(!/\b(Mon|Tue|Wed|Thu|Fri)\b|82\.3 is not|stooppp/.test(figureText), 'The figure text covers only the final weekend');
+  assert.ok(essayMarkdown.includes('Figure: The final push, as a flight') && essayMarkdown.includes('Track 2: first, 82.491.'), 'The flight figure as text in the Markdown mirror');
+  const figureText = essayMarkdown.slice(essayMarkdown.indexOf('Figure: The final push'), essayMarkdown.indexOf('## ', essayMarkdown.indexOf('Figure: The final push')));
+  assert.ok(figureText.length > 200 && !TIMELESS.test(figureText), `The figure's Markdown shows no times: ${figureText.match(TIMELESS)?.[0]}`);
+  const crawlerFigure = (await import('../../server/essay-previews/generated/its-just-possible.js')).justPossibleArticleHtml;
+  const crawlerText = crawlerFigure.slice(crawlerFigure.indexOf('Figure: The final push'), crawlerFigure.indexOf('<h2', crawlerFigure.indexOf('Figure: The final push')));
+  assert.ok(crawlerText.length > 200 && !TIMELESS.test(crawlerText), `The figure's crawler HTML shows no times: ${crawlerText.match(TIMELESS)?.[0]}`);
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-360.webp'), 'Essay cover in the prerendered page');
   assert.ok(feed.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the sitemap');
