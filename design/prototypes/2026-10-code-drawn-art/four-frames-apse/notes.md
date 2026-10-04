@@ -1,7 +1,8 @@
 # The apse: a homepage designed for mosaic from the start
 
 October 3, 2026. The last mosaic test, built so San can choose between it and the live clear-line
-homepage. Not committed. The first version is kept in `archive/v1/`.
+homepage. The first version is kept in `archive/v1/`. San chose v2 the same day; the production build
+is `src/pages/home/` (branch `home-mosaic`, see `design/reviews/2026-10-03-mosaic-home/`).
 
 ## v2 (this version)
 

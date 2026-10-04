@@ -51,6 +51,13 @@ The real-time swarm plate (sample 2) is rejected. The habitat window
 (sample 3) is "good"; its placement is open (proposed: the front door of Another Sky). The poem is now linked
 from Another Sky. The arch mosaic needs a v3 (window centred and bigger, a wider fade taking about half the
 page, a legible San Jose, a truer Geisel Library, lighter night scenes) before he picks the landing style.
+Homepage decision (San, 2026-10-03): the mosaic apse (v2) becomes the sankala.me homepage ("Yeah I
+like this version"), with two asks: fix the slow, glitchy first render (the words sat in a bare box
+before the mosaic appeared) and give the page a tile footer. Built on branch `home-mosaic`: the first
+paint is pre-rendered stills (`npm run render:home`), the stele and tablets are CSS from printed tiles,
+all live laying and the gold light run in a worker, and the page ends in a mosaic footer. Measurements
+and review images: `design/reviews/2026-10-03-mosaic-home/`. The clear-line Four frames is now the
+earlier homepage; History and 404 keep their clear-line vignettes. Not yet deployed.
 Rule (San, 2026-10-03): every essay, figure and project gets its OWN unique art style and
 creative idea. Never reuse another piece's visual style or engine look (he rejected the ZINify
 draft for reusing the EAI riso style). Check the style register in

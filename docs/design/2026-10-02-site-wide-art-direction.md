@@ -75,6 +75,15 @@ proposals for San; only the items marked as his decisions are decided.
 4. Projects as animated posters; History grouped by place; 404 vignette; remove italics.
 5. Paper Robots pass (evidence loop opening, film kits), then Dyson Swarm posters.
 
+## The homepage becomes the mosaic apse (San, October 3, 2026)
+
+San chose the mosaic apse (v2, `design/prototypes/2026-10-code-drawn-art/four-frames-apse/`) as the
+homepage: "Yeah I like this version." He asked for the slow, glitchy first render to be fixed (the
+words appeared in a bare box before the mosaic) and for a tile footer. The production build keeps
+v2's design and makes the first paint a set of pre-rendered stills, with all live work in a worker;
+see `design/reviews/2026-10-03-mosaic-home/`. The mosaic is the homepage's one style; the shelf and
+colophon use its plaster language. Other pages keep their own art.
+
 ## Rule: every piece has its own art (San, October 3, 2026)
 
 Every essay, figure and project gets a unique art style and creative idea. Never reuse another
@@ -87,15 +96,16 @@ and add the new style to it.
 
 | Where | Style |
 | --- | --- |
-| Homepage (Four frames, live) | Clear ink line with warm gouache |
+| Homepage (the mosaic apse, chosen by San on October 3; built on branch `home-mosaic`) | Byzantine mosaic laid in code: a lapis wall with gold stars, a gold apse with a jewelled archivolt holding San's desk, the words on marble stelae and tablets framed in tesserae (dark, gold, porphyry, gold), Marcellus and EB Garamond, gold light that follows the pointer; the covers shelf on plaster; a mosaic footer |
+| Earlier homepage (Four frames, live until the mosaic apse ships) | Clear ink line with warm gouache |
 | Winning by Overfitting figures | Three-ink risograph zine, hand-lettered, characters |
 | Power quality idea | A realistic bench oscilloscope (instrument UI) |
 | Covers | Polish gouache film poster; art-deco railway lithograph; Swiss typographic poster; woodblock on washi; linocut paperback; letterpress broadside with blue pencil; screenprint; riso zine; technical journal |
 | Paper Robots kits | Three-block reduction linocut; egg tempera and gold leaf |
-| History vignettes, 404 | Clear line with gouache (homepage family) |
+| History vignettes, 404 | Clear line with gouache (the earlier homepage's family) |
 | ZINify idea (v2) | Photocopier zine: black toner on coloured copy paper, ransom-note lettering, copies of copies |
 | Glyp idea (v2) | 1960s lithographed board game with spinner, tokens and cards |
-| Landing comparisons | Living stone mosaic (andamento); muted halftone-dot print in five inks |
+| Landing comparisons | Living stone mosaic (andamento, now the homepage's medium); muted halftone-dot print in five inks |
 | Nobody Owes Anything Now (poem) | Sgraffito on red earthenware: white slip scratched through to the clay, with burrs, crumbs and throwing lines. The figure is a lit, thrown cup turning on a banding wheel, the habitat wrapped round its side; the cover is a brushed slab |
 | Paper Robots homepage proposal | Evidence-loop camcorder opening (blue-violet halftone space, folded-paper screen) leading into each film's own title card |
 | Dyson Swarm samples (proposals) | 1970s airbrush and frisket travel posters; astronomical glass-plate negative with ink and grease-pencil annotations; plein-air watercolour over a graphite underdrawing |

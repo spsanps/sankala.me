@@ -4,35 +4,20 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
-**October 3, night — handoff before a second compaction (open work):**
-- NEW, not started: San won **second place in the Robotic Origami Challenge at IROS 2026** (leaderboard
-  https://robotic-origami-leaderboard.vercel.app; challenge site robotic-origami-challenge.github.io; his project repo
-  /mnt/c/Users/sanps/Desktop/Projects/robot-origami-unified, where another Claude session works; assets: 2 photos and 9
-  phone videos from Sept 28–30 in C:\Users\sanps\Desktop\iros-assets). He asked for: (1) an essay on sankala.me in its
-  own art style with a cover, (2) a Timeline milestone (src/data/history.json) and homepage/latest updates, (3) a short
-  social video showcase of IROS and the win cut from his clips (vertical for socials, maybe also in the essay). Gather
-  facts first (team, approach, result, venue) from the repo docs, leaderboard and challenge site; don't invent.
-- Running agents (results arrive as notifications): Terraforming Venus experience (dysonswarm worktree
-  /home/san/work/ds-mars, branch venus; also a ?style=poster constructivist mode); Orbital Ring ride
-  (/home/san/work/ds-orbital-ring; plus a ?style=poster op-art mode); Triton v2 "a moon that thinks"
-  (/home/san/work/ds-triton2, branch triton-v2) currently rendering three STYLE FRAMES (cloisonné enamel, soft pastel on
-  black, 1970s paperback) for San to pick before the full build (enamel looks strongest); Dyson Swarm landing rebuilt as a
-  living full-page Dyson Swarm screenprint poster + short about (space futurism × AI futurism, ~50 years out) + the five
-  posters (/home/san/work/ds-collection-home, branch collection-home); sankala.me mosaic apse homepage going to
-  production with instant pre-rendered first paint, background laying, a mosaic footer
-  (/home/san/work/sk-home-mosaic, branch home-mosaic). Review each, then deploy (Dyson homepage only together with the
-  Venus/Ring/Triton worlds; mosaic homepage after review).
-- Live today: Paper Robots evidence-loop homepage, intro fix (plays on fresh visits/reloads), subpages folded/upgraded
-  (/follow/→/about/#follow, /essays/→/#reading), About "Exploring a new medium." (no eBay mention); sankala.me essays,
-  poem, "Writing & projects", AI-as-medium lines; Another Sky window front door; Triton clay v1 at /triton/ (rejected,
-  unlinked; v2 replaces it). Posters for Venus, Orbital Ring and Triton are drawn as sankala.me covers on branches
-  cover-terraforming-venus / cover-orbital-ring / cover-triton-cluster (worktrees /home/san/work/sk-cover-*), not merged
-  into sankala.me main yet (merge when those works are listed).
-- Rules learned today (also in memory): AI is a new medium San explores as a high-agency frontier explorer; never imply
-  handmade/not-AI. Art and page must be one designed world. Dyson Swarm worlds need awe, exploration and one creative idea
-  at true scale; settle the art style with style frames before building.
-- Pending San decisions: Triton style; Venus/Ring realistic vs poster mode; Paper Robots GPT-7 essay copy (keep vs
-  redirect to sankala.me); Triton name/geyser; Another Sky night start and "constellations" line.
+**October 3, late — status after the agents landed:**
+- The mosaic apse is the homepage (branch `home-mosaic`, merged and deployed October 3). It paints pre-rendered stills first, does the laying, waves and gold light in a worker, and ends in a mosaic footer. Measurements, review images and open questions: `design/reviews/2026-10-03-mosaic-home/README.md`.
+- Dyson Swarm (all on branches, not deployed):
+  - Terraforming Venus: `venus`, `bc26836`.
+  - Orbital Ring: `orbital-ring`, `86335aa`.
+  - The living-poster homepage with its about draft: `collection-home`, `c8f1206`.
+  - Triton: San chose cloisonné enamel; the full build is running on `triton-v2`.
+  - Waiting on San: the about copy, the Venus and Ring defaults (poster/screenprint recommended), and whether to launch with Triton marked "arriving soon".
+- IROS 2026 Robotic Origami Challenge: San confirmed sole 2nd place, as a solo entry (AxisTilted2). The organizer in the rig photo is Santiago Pravisani (BitRobot).
+- Two essays are in progress:
+  - the IROS essay, with policy-3d.html as the model render; only kami gets released, later;
+  - an agents/mindset essay on RealPDE (#1 on both dev-phase tracks), Tartan IMU (5th; that model was built by Codex) and IROS.
+  - Fact briefs are in the session scratchpad (`research/*-brief.md`).
+- A social video cut is in progress: `C:\Users\sanps\Desktop\iros-assets\edits\`.
 
 **October 3, evening — state after the compaction:**
 - Live on www.sankala.me: the three essays (/notes/zinify, /notes/power-quality, the Glyp board game on

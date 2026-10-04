@@ -104,15 +104,26 @@ try {
     await page.goto(origin + '/this-route-does-not-exist', { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
-    // The homepage: the desk in four places, all ten milestones with their photographs, the covers.
+    // The homepage: the mosaic apse with the desk in four places, all ten milestones with their
+    // photographs, the covers, and the mosaic footer.
     await page.goto(origin + '/');
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-frame]').count(),4,'Four places on the homepage');
     assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
     for (const id of ['eai-challenge','ebay-research','ucsd-graduation','zinify','startr','ebay-internship','ebay-ml-challenge','ucsd-start','texas-instruments','nitk']) assert.equal(await page.locator(`#history-${id}`).count(),1,`History anchor kept: ${id}`);
-    assert.ok(await page.locator('.ff-still').evaluate(image => image.complete && image.naturalWidth > 0),'Static picture of the desk loads');
-    assert.equal(await page.locator('.ff-print').count(),8,'Career photos on the homepage');
-    await page.locator('.ff-print').first().evaluate(link => link.click());
+    // the first paint's stills (wall, conch, the stele's marble, head and frame) all load, and the apse is shown
+    const stills = await page.evaluate(async () => {
+      const url = (sel, pseudo, prop) => { const el = document.querySelector(sel); const m = el && /url\(["']?([^"')]+)/.exec(getComputedStyle(el, pseudo)[prop]); return m ? m[1] : null; };
+      const urls = [url('.apse-back .apse-wall', null, 'backgroundImage'), url('.apse-conch', null, 'backgroundImage'), url('.stele', null, 'backgroundImage'), url('.stele', '::before', 'backgroundImage'), url('.stele', '::after', 'borderImageSource'), url('.apse-back', null, 'backgroundImage')];
+      const ok = await Promise.all(urls.map(u => { if (!u) return false; const img = new Image(); img.src = u; return img.decode().then(() => img.naturalWidth > 0, () => false); }));
+      return { urls, ok };
+    });
+    assert.ok(stills.ok.every(Boolean), `Static pictures of the apse load: ${JSON.stringify(stills)}`);
+    await page.waitForFunction(() => !document.documentElement.classList.contains('apse-wait'), null, { timeout: 5000 });
+    assert.ok(await page.locator('.apse').isVisible(), 'The apse is shown');
+    assert.equal(await page.locator('.tab-print').count(),8,'Career photos on the homepage');
+    assert.equal(await page.locator('nav[aria-label="Footer"] a').count(), 6, `The mosaic footer's links at ${width}`);
+    await page.locator('.tab-print').first().evaluate(link => link.click());
     assert.ok(await page.getByRole('dialog',{name:'Photograph'}).isVisible(),'Photo enlarges');
     await page.keyboard.press('Escape');
     assert.equal(await page.locator('dialog[open]').count(),0,'Photo closes with Escape');
@@ -161,6 +172,13 @@ try {
   const feed = await (await fetch(origin + '/feed.xml')).text(), sitemap = await (await fetch(origin + '/sitemap.xml')).text();
   assert.ok(feed.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the sitemap');
+
+  // The homepage's first paint: its stills and the scripts that choose San Jose's moment and hold
+  // the apse until its pictures are in are in the prerendered HTML, with every milestone.
+  const homeHtml = await (await fetch(origin + '/')).text();
+  assert.ok(homeHtml.includes('data-sj') && homeHtml.includes('apse-wait'), 'First-paint scripts in the prerendered homepage');
+  assert.ok(homeHtml.includes('/images/home/wall-side-1x.webp') && homeHtml.includes('/images/home/conch-fine-now-'), 'Homepage stills in the prerendered CSS');
+  assert.equal((homeHtml.match(/data-milestone/g) || []).length, 10, 'Every milestone in the prerendered homepage');
 
   const workHtml = await (await fetch(origin + '/work/')).text();
   assert.ok(workHtml.includes('<h1>Writing &amp; projects</h1>'), 'Prerendered Work page');

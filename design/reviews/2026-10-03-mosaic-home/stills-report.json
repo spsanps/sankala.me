@@ -1,0 +1,483 @@
+{
+ "wall-side-1x.webp": {
+  "bytes": 136576,
+  "width": 1749,
+  "height": 1010,
+  "layMs": 1501,
+  "stones": 66049
+ },
+ "wall-side-2x.webp": {
+  "bytes": 351046,
+  "width": 3498,
+  "height": 2019,
+  "layMs": 1248,
+  "stones": 66049
+ },
+ "glint-side.bin": {
+  "bytes": 105122
+ },
+ "wall-mid-1x.webp": {
+  "bytes": 115794,
+  "width": 1616,
+  "height": 1045,
+  "layMs": 1299,
+  "stones": 63795
+ },
+ "wall-mid-2x.webp": {
+  "bytes": 304732,
+  "width": 3232,
+  "height": 2090,
+  "layMs": 1145,
+  "stones": 63795
+ },
+ "glint-mid.bin": {
+  "bytes": 101300
+ },
+ "wall-band-1x.webp": {
+  "bytes": 41022,
+  "width": 760,
+  "height": 833,
+  "layMs": 345,
+  "stones": 14915
+ },
+ "wall-band-2x.webp": {
+  "bytes": 100476,
+  "width": 1520,
+  "height": 1666,
+  "layMs": 322,
+  "stones": 14915
+ },
+ "glint-band.bin": {
+  "bytes": 23014
+ },
+ "conch-fine-now-golden-am-1x.webp": {
+  "bytes": 156050,
+  "width": 810,
+  "height": 762,
+  "layMs": 880,
+  "stones": 30828
+ },
+ "conch-fine-now-golden-am-2x.webp": {
+  "bytes": 386272,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 731,
+  "stones": 30828
+ },
+ "conch-fine-now-morning-1x.webp": {
+  "bytes": 157822,
+  "width": 810,
+  "height": 762,
+  "layMs": 1274,
+  "stones": 30802
+ },
+ "conch-fine-now-morning-2x.webp": {
+  "bytes": 387650,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 640,
+  "stones": 30802
+ },
+ "conch-fine-now-midday-1x.webp": {
+  "bytes": 157960,
+  "width": 810,
+  "height": 762,
+  "layMs": 732,
+  "stones": 31021
+ },
+ "conch-fine-now-midday-2x.webp": {
+  "bytes": 389436,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 583,
+  "stones": 31021
+ },
+ "conch-fine-now-afternoon-1x.webp": {
+  "bytes": 157726,
+  "width": 810,
+  "height": 762,
+  "layMs": 667,
+  "stones": 30827
+ },
+ "conch-fine-now-afternoon-2x.webp": {
+  "bytes": 387056,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 584,
+  "stones": 30827
+ },
+ "conch-fine-now-golden-pm-1x.webp": {
+  "bytes": 156262,
+  "width": 810,
+  "height": 762,
+  "layMs": 725,
+  "stones": 30838
+ },
+ "conch-fine-now-golden-pm-2x.webp": {
+  "bytes": 387590,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 586,
+  "stones": 30838
+ },
+ "conch-fine-now-twilight-1x.webp": {
+  "bytes": 140918,
+  "width": 810,
+  "height": 762,
+  "layMs": 738,
+  "stones": 30862
+ },
+ "conch-fine-now-twilight-2x.webp": {
+  "bytes": 358370,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 602,
+  "stones": 30862
+ },
+ "conch-fine-now-night-1x.webp": {
+  "bytes": 145032,
+  "width": 810,
+  "height": 762,
+  "layMs": 776,
+  "stones": 31165
+ },
+ "conch-fine-now-night-2x.webp": {
+  "bytes": 373432,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 636,
+  "stones": 31165
+ },
+ "conch-fine-now-night-wax-1x.webp": {
+  "bytes": 145040,
+  "width": 810,
+  "height": 762,
+  "layMs": 667,
+  "stones": 31202
+ },
+ "conch-fine-now-night-wax-2x.webp": {
+  "bytes": 368976,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 642,
+  "stones": 31202
+ },
+ "conch-fine-now-night-full-1x.webp": {
+  "bytes": 145518,
+  "width": 810,
+  "height": 762,
+  "layMs": 668,
+  "stones": 31201
+ },
+ "conch-fine-now-night-full-2x.webp": {
+  "bytes": 377420,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 607,
+  "stones": 31201
+ },
+ "conch-fine-now-night-wane-1x.webp": {
+  "bytes": 145448,
+  "width": 810,
+  "height": 762,
+  "layMs": 639,
+  "stones": 31186
+ },
+ "conch-fine-now-night-wane-2x.webp": {
+  "bytes": 369540,
+  "width": 1619,
+  "height": 1523,
+  "layMs": 600,
+  "stones": 31186
+ },
+ "conch-fine-sd-1x.webp": {
+  "bytes": 148182,
+  "width": 810,
+  "height": 762,
+  "layMs": 558,
+  "stones": 29261
+ },
+ "conch-fine-blr-1x.webp": {
+  "bytes": 159994,
+  "width": 810,
+  "height": 762,
+  "layMs": 598,
+  "stones": 29569
+ },
+ "conch-fine-nitk-1x.webp": {
+  "bytes": 146574,
+  "width": 810,
+  "height": 762,
+  "layMs": 625,
+  "stones": 29740
+ },
+ "conch-coarse-now-golden-am-1x.webp": {
+  "bytes": 77680,
+  "width": 506,
+  "height": 576,
+  "layMs": 239,
+  "stones": 10939
+ },
+ "conch-coarse-now-golden-am-2x.webp": {
+  "bytes": 185026,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 249,
+  "stones": 10939
+ },
+ "conch-coarse-now-morning-1x.webp": {
+  "bytes": 79198,
+  "width": 506,
+  "height": 576,
+  "layMs": 233,
+  "stones": 10924
+ },
+ "conch-coarse-now-morning-2x.webp": {
+  "bytes": 186086,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 223,
+  "stones": 10924
+ },
+ "conch-coarse-now-midday-1x.webp": {
+  "bytes": 79394,
+  "width": 506,
+  "height": 576,
+  "layMs": 201,
+  "stones": 10980
+ },
+ "conch-coarse-now-midday-2x.webp": {
+  "bytes": 185482,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 203,
+  "stones": 10980
+ },
+ "conch-coarse-now-afternoon-1x.webp": {
+  "bytes": 79496,
+  "width": 506,
+  "height": 576,
+  "layMs": 240,
+  "stones": 10931
+ },
+ "conch-coarse-now-afternoon-2x.webp": {
+  "bytes": 185186,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 221,
+  "stones": 10931
+ },
+ "conch-coarse-now-golden-pm-1x.webp": {
+  "bytes": 77932,
+  "width": 506,
+  "height": 576,
+  "layMs": 197,
+  "stones": 10933
+ },
+ "conch-coarse-now-golden-pm-2x.webp": {
+  "bytes": 184766,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 198,
+  "stones": 10933
+ },
+ "conch-coarse-now-twilight-1x.webp": {
+  "bytes": 70848,
+  "width": 506,
+  "height": 576,
+  "layMs": 229,
+  "stones": 10900
+ },
+ "conch-coarse-now-twilight-2x.webp": {
+  "bytes": 172160,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 228,
+  "stones": 10900
+ },
+ "conch-coarse-now-night-1x.webp": {
+  "bytes": 78126,
+  "width": 506,
+  "height": 576,
+  "layMs": 207,
+  "stones": 11516
+ },
+ "conch-coarse-now-night-2x.webp": {
+  "bytes": 191932,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 206,
+  "stones": 11516
+ },
+ "conch-coarse-now-night-wax-1x.webp": {
+  "bytes": 77866,
+  "width": 506,
+  "height": 576,
+  "layMs": 236,
+  "stones": 11474
+ },
+ "conch-coarse-now-night-wax-2x.webp": {
+  "bytes": 189470,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 236,
+  "stones": 11474
+ },
+ "conch-coarse-now-night-full-1x.webp": {
+  "bytes": 77972,
+  "width": 506,
+  "height": 576,
+  "layMs": 211,
+  "stones": 11493
+ },
+ "conch-coarse-now-night-full-2x.webp": {
+  "bytes": 191566,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 213,
+  "stones": 11493
+ },
+ "conch-coarse-now-night-wane-1x.webp": {
+  "bytes": 77292,
+  "width": 506,
+  "height": 576,
+  "layMs": 237,
+  "stones": 11422
+ },
+ "conch-coarse-now-night-wane-2x.webp": {
+  "bytes": 189908,
+  "width": 1012,
+  "height": 1152,
+  "layMs": 229,
+  "stones": 11422
+ },
+ "conch-coarse-sd-1x.webp": {
+  "bytes": 74504,
+  "width": 506,
+  "height": 576,
+  "layMs": 188,
+  "stones": 10404
+ },
+ "conch-coarse-blr-1x.webp": {
+  "bytes": 78042,
+  "width": 506,
+  "height": 576,
+  "layMs": 220,
+  "stones": 10467
+ },
+ "conch-coarse-nitk-1x.webp": {
+  "bytes": 77978,
+  "width": 506,
+  "height": 576,
+  "layMs": 189,
+  "stones": 10909
+ },
+ "frame-wide.webp": {
+  "bytes": 9944,
+  "width": 260,
+  "height": 260
+ },
+ "stele-wide-480.webp": {
+  "bytes": 24552,
+  "width": 960,
+  "height": 242
+ },
+ "stele-wide-520.webp": {
+  "bytes": 26684,
+  "width": 1040,
+  "height": 258
+ },
+ "stele-wide-580.webp": {
+  "bytes": 28758,
+  "width": 1160,
+  "height": 260
+ },
+ "frieze-wide.webp": {
+  "bytes": 6194,
+  "width": 312,
+  "height": 91
+ },
+ "frieze-wide-top.webp": {
+  "bytes": 6136,
+  "width": 312,
+  "height": 91
+ },
+ "loose-wide.webp": {
+  "bytes": 11248,
+  "width": 624,
+  "height": 78
+ },
+ "loose-wide-top.webp": {
+  "bytes": 10796,
+  "width": 624,
+  "height": 78
+ },
+ "frame-phone.webp": {
+  "bytes": 7372,
+  "width": 200,
+  "height": 200
+ },
+ "stele-phone-296.webp": {
+  "bytes": 14354,
+  "width": 592,
+  "height": 156
+ },
+ "stele-phone-336.webp": {
+  "bytes": 16122,
+  "width": 672,
+  "height": 168
+ },
+ "stele-phone-351.webp": {
+  "bytes": 16556,
+  "width": 702,
+  "height": 168
+ },
+ "stele-phone-366.webp": {
+  "bytes": 17008,
+  "width": 732,
+  "height": 168
+ },
+ "stele-phone-388.webp": {
+  "bytes": 17858,
+  "width": 776,
+  "height": 170
+ },
+ "stele-phone-406.webp": {
+  "bytes": 18558,
+  "width": 812,
+  "height": 170
+ },
+ "frieze-phone.webp": {
+  "bytes": 4600,
+  "width": 240,
+  "height": 70
+ },
+ "frieze-phone-top.webp": {
+  "bytes": 4640,
+  "width": 240,
+  "height": 70
+ },
+ "loose-phone.webp": {
+  "bytes": 8538,
+  "width": 480,
+  "height": 60
+ },
+ "loose-phone-top.webp": {
+  "bytes": 8204,
+  "width": 480,
+  "height": 60
+ },
+ "courses.webp": {
+  "bytes": 57792,
+  "width": 864,
+  "height": 576
+ },
+ "marble.webp": {
+  "bytes": 8538,
+  "width": 680,
+  "height": 520
+ },
+ "social.jpg": {
+  "bytes": 194290
+ }
+}
