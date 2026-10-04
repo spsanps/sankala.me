@@ -1,7 +1,7 @@
 // Check the built site, local media and both crawler responses after a move.
 // Run npm run build first, then npm run check:site.
 import assert from 'node:assert/strict';
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { preview } from 'vite';
@@ -9,8 +9,13 @@ import handler from '../../api/og.js';
 import { works } from '../../src/data/work.js';
 import { coverLoaders } from '../../src/components/art/covers/registry.js';
 import { LINES as POEM_LINES, STANZAS as POEM_STANZAS } from '../../src/pages/notes/nobody-owes-anything-now/poem.js';
+import { PATH as IROS, TITLE as IROS_TITLE, MODEL_URL, VIDEO, markdownMirror } from '../../src/pages/notes/iros-2026-origami/essay-meta.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
+// Counts follow the data, so a new milestone or photograph needs no edit here.
+const milestones = JSON.parse(await readFile(new URL('../../src/data/history.json', import.meta.url), 'utf8'));
+const careerPhotos = milestones.reduce((n, m) => n + m.images.length, 0);
+const irosEssay = await readFile(new URL('../../src/pages/notes/iros-2026-origami/essay.md', import.meta.url), 'utf8');
 const server = await preview({
   root,
   configFile: false,
@@ -18,12 +23,12 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/notes/iros-2026-origami', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
 const POEM = '/notes/nobody-owes-anything-now';
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
 const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
-const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
+const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/notes/iros-2026-origami.md', MODEL_URL, VIDEO.poster, '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
 
@@ -100,7 +105,7 @@ try {
     await page.goto(origin + '/notes/2', { waitUntil: 'networkidle' });
     assert.ok(page.url().endsWith('/notes/startr-postmortem'), 'Preserve numeric StartR URL');
     await page.goto(origin + '/history', { waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-milestone]').count(), 10, 'Complete history');
+    assert.equal(await page.locator('[data-milestone]').count(), milestones.length, 'Complete history');
     await page.goto(origin + '/this-route-does-not-exist', { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
@@ -109,8 +114,8 @@ try {
     await page.goto(origin + '/');
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-frame]').count(),4,'Four places on the homepage');
-    assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
-    for (const id of ['eai-challenge','ebay-research','ucsd-graduation','zinify','startr','ebay-internship','ebay-ml-challenge','ucsd-start','texas-instruments','nitk']) assert.equal(await page.locator(`#history-${id}`).count(),1,`History anchor kept: ${id}`);
+    assert.equal(await page.locator('[data-milestone]').count(),milestones.length,'All history on homepage');
+    for (const id of ['iros-2026','eai-challenge','ebay-research','ucsd-graduation','zinify','startr','ebay-internship','ebay-ml-challenge','ucsd-start','texas-instruments','nitk']) assert.equal(await page.locator(`#history-${id}`).count(),1,`History anchor kept: ${id}`);
     // the first paint's stills (wall, conch, the stele's marble, head and frame) all load, and the apse is shown
     const stills = await page.evaluate(async () => {
       const url = (sel, pseudo, prop) => { const el = document.querySelector(sel); const m = el && /url\(["']?([^"')]+)/.exec(getComputedStyle(el, pseudo)[prop]); return m ? m[1] : null; };
@@ -121,7 +126,7 @@ try {
     assert.ok(stills.ok.every(Boolean), `Static pictures of the apse load: ${JSON.stringify(stills)}`);
     await page.waitForFunction(() => !document.documentElement.classList.contains('apse-wait'), null, { timeout: 5000 });
     assert.ok(await page.locator('.apse').isVisible(), 'The apse is shown');
-    assert.equal(await page.locator('.tab-print').count(),8,'Career photos on the homepage');
+    assert.equal(await page.locator('.tab-print').count(),careerPhotos,'Career photos on the homepage');
     assert.equal(await page.locator('nav[aria-label="Footer"] a').count(), 6, `The mosaic footer's links at ${width}`);
     await page.locator('.tab-print').first().evaluate(link => link.click());
     assert.ok(await page.getByRole('dialog',{name:'Photograph'}).isVisible(),'Photo enlarges');
@@ -150,7 +155,7 @@ try {
     await nav.getByRole('link', { name: 'About', exact: true }).click();
     await page.getByRole('link', { name: 'Timeline', exact: true }).first().click();
     await page.locator('[data-milestone]').first().waitFor();
-    assert.equal(await page.locator('[data-milestone]').count(), 10, 'History remains easy to reach from About');
+    assert.equal(await page.locator('[data-milestone]').count(), milestones.length, 'History remains easy to reach from About');
     await page.close();
   }
 
@@ -172,13 +177,29 @@ try {
   const feed = await (await fetch(origin + '/feed.xml')).text(), sitemap = await (await fetch(origin + '/sitemap.xml')).text();
   assert.ok(feed.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the sitemap');
+  assert.ok(feed.includes('https://www.sankala.me' + IROS + '<') && sitemap.includes('https://www.sankala.me' + IROS + '<'), 'IROS essay in the RSS feed and sitemap');
 
   // The homepage's first paint: its stills and the scripts that choose San Jose's moment and hold
   // the apse until its pictures are in are in the prerendered HTML, with every milestone.
   const homeHtml = await (await fetch(origin + '/')).text();
   assert.ok(homeHtml.includes('data-sj') && homeHtml.includes('apse-wait'), 'First-paint scripts in the prerendered homepage');
   assert.ok(homeHtml.includes('/images/home/wall-side-1x.webp') && homeHtml.includes('/images/home/conch-fine-now-'), 'Homepage stills in the prerendered CSS');
-  assert.equal((homeHtml.match(/data-milestone/g) || []).length, 10, 'Every milestone in the prerendered homepage');
+  assert.equal((homeHtml.match(/data-milestone/g) || []).length, milestones.length, 'Every milestone in the prerendered homepage');
+
+  // The IROS essay: every paragraph in the prerendered page, its video and 3D model, an up-to-date Markdown mirror,
+  // the share card, the feed and the sitemap.
+  const irosHtml = await (await fetch(origin + IROS + '/')).text();
+  assert.ok(irosHtml.includes(`<h1>${IROS_TITLE}</h1>`), 'Prerendered IROS essay');
+  for (const paragraph of irosEssay.split(/\n\n+/).filter(p => /^[A-Z]/.test(p) && !/[*[_`|]/.test(p))) {
+    assert.ok(irosHtml.includes(paragraph.trim().replaceAll('&', '&amp;').replaceAll('"', '&quot;').slice(0, 80)), `Prerendered IROS paragraph: ${paragraph.slice(0, 60)}`);
+  }
+  assert.ok(irosHtml.includes(`src="${VIDEO.src}"`) && irosHtml.includes(`poster="${VIDEO.poster}"`), 'IROS video with its poster');
+  assert.ok(irosHtml.includes(`src="${MODEL_URL}?embed"`), 'IROS 3D model embedded');
+  assert.ok(irosHtml.includes('/images/covers/iros-2026-origami-social.jpg'), 'IROS share card');
+  const irosMarkdown = await (await fetch(origin + IROS + '.md')).text();
+  assert.equal(irosMarkdown, markdownMirror(irosEssay), 'IROS Markdown mirror is current (node scripts/essays/generate-iros-mirror.mjs)');
+  const modelHtml = await (await fetch(origin + MODEL_URL)).text();
+  assert.ok(modelHtml.includes('cdn.jsdelivr.net/npm/three@0.160.0/') && modelHtml.includes('illustration'), 'The 3D model page, with three.js pinned and its note on illustrations');
 
   const workHtml = await (await fetch(origin + '/work/')).text();
   assert.ok(workHtml.includes('<h1>Writing &amp; Projects</h1>'), 'Prerendered Work page');
@@ -188,7 +209,7 @@ try {
     const response = await fetch(origin + asset);
     assert.equal(response.status, 200, `Missing public file: ${asset}`);
     const type = response.headers.get('content-type') || '';
-    if (!asset.endsWith('.html')) assert.ok(!type.includes('text/html'), `SPA fallback instead of a file: ${asset}`);
+    if (!asset.split(/[?#]/)[0].endsWith('.html')) assert.ok(!type.includes('text/html'), `SPA fallback instead of a file: ${asset}`);
     assert.ok((await response.arrayBuffer()).byteLength > 0, `Empty public file: ${asset}`);
   }
 

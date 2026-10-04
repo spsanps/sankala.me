@@ -7,7 +7,7 @@ const byId = Object.fromEntries(milestones.map(m => [m.id, m]));
 export const ERA_LIST = [
   {
     key: 'now', place: 'San Jose', years: '2024 – now', role: 'AI research at eBay',
-    ids: ['eai-challenge', 'ebay-research'],
+    ids: ['iros-2026', 'eai-challenge', 'ebay-research'],
   },
   {
     key: 'sd', place: 'San Diego', years: '2022 – 2024', role: 'MS in computer science, UC San Diego',

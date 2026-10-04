@@ -127,5 +127,20 @@
       "shippori-mincho-800.woff2"
     ],
     "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Zen Maru Gothic",
+    "weights": [
+      500,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/zenmarugothic/OFL.txt",
+    "licenseFile": "zen-maru-gothic-OFL.txt",
+    "files": [
+      "zen-maru-gothic-500.woff2",
+      "zen-maru-gothic-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Used only by the code-drawn cover of \u201cTwo hands, one sheet of paper\u201d, loaded on demand with the FontFace API."
   }
 ]

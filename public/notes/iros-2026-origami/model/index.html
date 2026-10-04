@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The origami policy in 3D — San Kala</title>
+<meta name="description" content="An interactive 3D model of San Kala's 62-million-parameter origami policy from the IROS 2026 Robotic Origami Challenge, with a guided tour.">
+<link rel="canonical" href="https://www.sankala.me/notes/iros-2026-origami/model/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* layout: a full-height app, the 3D model on the left and a guided-tour rail on the right; stacked on phones */
+:root {
+  --bg: #F4EFE4; --panel: #FAF7F0; --ink: #1E2833; --muted: #5C6470; --line: #D9D1C1; --edge: #26303B;
+  --vision: #3567D8; --touch: #12806F; --state: #A86B0C; --action: #C73F23; --chip: #F1ECE1; --sheet: #2A7FBF;
+  --font-ui: 'Schibsted Grotesk', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11151D; --panel: #181E29; --ink: #E8EBF1; --muted: #9AA3B4; --line: #2A3241; --edge: #C3CAD8;
+    --vision: #86A8F5; --touch: #4CCBB6; --state: #E8AE55; --action: #F58468; --chip: #222A37; --sheet: #6FB3E6; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11151D; --panel: #181E29; --ink: #E8EBF1; --muted: #9AA3B4; --line: #2A3241; --edge: #C3CAD8;
+  --vision: #86A8F5; --touch: #4CCBB6; --state: #E8AE55; --action: #F58468; --chip: #222A37; --sheet: #6FB3E6; color-scheme: dark;
+}
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-ui); font-size: 15px; line-height: 1.55; }
+.app { display: flex; height: 100%; min-height: 0; }
+.stage { position: relative; flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.stage canvas { display: block; touch-action: none; }
+.labels { position: absolute; inset: 0; pointer-events: none; }
+.hint { position: absolute; left: 16px; bottom: 14px; font-size: 12px; color: var(--muted); pointer-events: none; }
+.rail { flex: 0 0 400px; min-width: 0; box-sizing: border-box; overflow-y: auto; background: var(--panel); border-left: 1px solid var(--line);
+  padding-block: 24px; padding-inline: 24px; display: flex; flex-direction: column; gap: 18px; }
+.eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+h1 { font-size: 24px; line-height: 1.2; margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+.stops { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.stops button { font: 600 12.5px var(--font-ui); color: var(--ink); background: var(--chip); border: 1px solid var(--line); border-radius: 999px;
+  padding: 6px 11px; cursor: pointer; }
+.stops button[aria-current="step"] { background: var(--sheet); color: #fff; border-color: var(--sheet); }
+.stops button:focus-visible, .nav button:focus-visible, .play:focus-visible { outline: 2px solid var(--sheet); outline-offset: 2px; }
+.card { display: flex; flex-direction: column; gap: 10px; }
+.card h2 { font-size: 20px; line-height: 1.25; margin: 0; text-wrap: balance; }
+.card p { margin: 0; max-width: 62ch; }
+.formula { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; background: var(--chip); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12.5px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.euler { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.play { font: 600 13px var(--font-ui); color: var(--panel); background: var(--action); border: 0; border-radius: 8px; padding: 9px 14px; cursor: pointer; }
+.counter { font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nav { display: flex; gap: 8px; margin-top: auto; padding-top: 6px; }
+.nav button { flex: 1; font: 600 13px var(--font-ui); color: var(--ink); background: var(--chip); border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; cursor: pointer; }
+.nav button:disabled { opacity: 0.45; cursor: default; }
+.nav button:not(:disabled):hover, .stops button:not([aria-current]):hover { border-color: var(--ink); }
+.loading-note { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 14px; pointer-events: none; }
+/* Embedded in the essay (?embed): the essay already names the page, and on phones the tour scrolls under the model. */
+.embed .rail > div:first-child { display: none; }
+.note { font-size: 12.5px; color: var(--muted); margin: 0; }
+.lbl { pointer-events: none; font: 600 12px var(--font-ui); color: var(--ink); background: color-mix(in srgb, var(--panel) 84%, transparent); border: 1px solid var(--line);
+  padding: 2px 7px; border-radius: 5px; white-space: nowrap; transition: opacity 0.4s; line-height: 1.35; }
+.lbl small { display: block; font: 400 10.5px var(--font-mono); color: var(--muted); }
+.lbl.faded { opacity: 0; }
+.lbl.on { border-color: var(--ink); }
+@media (max-width: 860px) {
+  .app { flex-direction: column; height: auto; }
+  .stage { flex: none; height: 58vh; min-height: 340px; }
+  .rail { flex: none; border-left: 0; border-top: 1px solid var(--line); }
+  .lbl { font-size: 10.5px; padding: 1px 5px; }
+  .lbl small { font-size: 9.5px; }
+}
+@media (max-width: 860px) {
+  .embed .app { height: 100%; }
+  .embed .stage { height: 52%; min-height: 0; }
+  .embed .rail { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 16px 18px; gap: 14px; }
+  .embed .rail > * { flex-shrink: 0; }
+  .embed .stops { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .embed .stops button { white-space: nowrap; }
+  .embed .card h2 { font-size: 18px; }
+  .embed .nav { margin-top: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .lbl { transition: none; } }
+</style>
+
+</head>
+<body>
+<div class="app">
+  <div class="stage" id="stage">
+    <div class="labels" id="labels"></div>
+    <div class="hint" id="hint">Drag to turn · scroll or pinch to zoom</div>
+    <p class="loading-note" id="loading">Loading the 3D model…</p>
+  </div>
+  <aside class="rail" aria-label="Guided tour of the model">
+    <div>
+      <p class="eyebrow">Second place · IROS 2026 Robotic Origami Challenge</p>
+      <h1>How the origami policy decides what to do next</h1>
+    </div>
+    <ol class="stops" id="stops"></ol>
+    <div class="card" aria-live="polite">
+      <h2 id="stopTitle"></h2>
+      <div id="stopBody"></div>
+    </div>
+    <div class="legend" aria-label="Colour key">
+      <span><i style="background: var(--vision)"></i>vision</span>
+      <span><i style="background: var(--touch)"></i>touch</span>
+      <span><i style="background: var(--state)"></i>joints and clock</span>
+      <span><i style="background: var(--action)"></i>the plan</span>
+    </div>
+    <div class="nav">
+      <button type="button" id="prev">Back</button>
+      <button type="button" id="next">Next</button>
+    </div>
+  </aside>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// Inside the essay the page must still scroll past the model: the mouse wheel zooms only with Ctrl or ⌘ held,
+// and on touch screens one finger scrolls the page while two fingers turn and zoom the model.
+const embedded = new URLSearchParams(location.search).has('embed');
+if (embedded) document.documentElement.classList.add('embed');
+document.getElementById('loading')?.remove();
+const C = { vision: 0x4A78E0, touch: 0x1FA592, state: 0xD4911E, action: 0xE2553A, mix: 0x8B80C6, paper: 0xFAF6EC, query: 0xFFFFFF };
+
+// ---------------------------------------------------------------- renderer, camera, controls
+const stage = document.getElementById('stage');
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+stage.prepend(renderer.domElement);
+const labelRenderer = new CSS2DRenderer({ element: document.getElementById('labels') });
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 400);
+camera.position.set(-21, 10, 34);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.target.set(-3, -2.5, 0);
+controls.minDistance = 4; controls.maxDistance = 90;
+if (embedded) {
+  controls.enableZoom = false;
+  stage.addEventListener('wheel', event => { controls.enableZoom = event.ctrlKey || event.metaKey; }, { capture: true, passive: true });
+  controls.touches = { ONE: -1, TWO: THREE.TOUCH.DOLLY_ROTATE };
+  renderer.domElement.style.touchAction = 'pan-y';
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  document.getElementById('hint').textContent = coarse ? 'Two fingers to turn and zoom' : 'Drag to turn · Ctrl or ⌘ + scroll to zoom';
+}
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8890a0, 1.15));
+const sun = new THREE.DirectionalLight(0xffffff, 1.35); sun.position.set(-12, 22, 18); scene.add(sun);
+
+const edgeMats = [];
+function edgeMat() { const m = new THREE.LineBasicMaterial({ color: 0x26303B, transparent: true, opacity: 0.6 }); edgeMats.push(m); return m; }
+function solid(color, opts = {}) { return new THREE.MeshStandardMaterial({ color, roughness: 0.62, metalness: 0, ...opts }); }
+function glass(color, opacity = 0.16) { return new THREE.MeshStandardMaterial({ color, roughness: 0.4, metalness: 0, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide }); }
+function box(w, h, d, mat, pos, edges = true) {
+  const g = new THREE.BoxGeometry(w, h, d), m = new THREE.Mesh(g, mat); m.position.set(...pos); scene.add(m);
+  if (edges) { const e = new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat()); m.add(e); }
+  return m;
+}
+function line(points, color, opts = {}) {
+  const g = new THREE.BufferGeometry().setFromPoints(points.map(p => new THREE.Vector3(...p)));
+  const mat = opts.dashed ? new THREE.LineDashedMaterial({ color, dashSize: 0.28, gapSize: 0.18, transparent: true, opacity: opts.opacity ?? 0.9 })
+                          : new THREE.LineBasicMaterial({ color, transparent: true, opacity: opts.opacity ?? 0.7 });
+  const l = new THREE.Line(g, mat); if (opts.dashed) l.computeLineDistances(); scene.add(l); return l;
+}
+function arrowHead(at, dir, color) {
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(0.13, 0.36, 14), solid(color));
+  cone.position.set(...at); cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(...dir).normalize()); scene.add(cone); return cone;
+}
+function flow(a, b, color = 0x7C8597) { line([a, b], color, { opacity: 0.75 }); const d = [b[0] - a[0], b[1] - a[1], b[2] - a[2]]; arrowHead(b, d, color); }
+
+// ---------------------------------------------------------------- labels (each knows the tour stops it belongs to)
+const labels = [];
+function label(name, dims, pos, stops) {
+  const el = document.createElement('div'); el.className = 'lbl'; el.textContent = name;
+  if (dims) { const s = document.createElement('small'); s.textContent = dims; el.appendChild(s); }
+  const o = new CSS2DObject(el); o.position.set(...pos); scene.add(o); labels.push({ el, stops }); return o;
+}
+
+// ---------------------------------------------------------------- seeded noise
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const rand = rng(20260930);
+const gauss = () => { const u = Math.max(1e-9, rand()), v = rand(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+
+// ---------------------------------------------------------------- 1. inputs
+function camTexture(kind) {
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  x.fillStyle = '#C9C2B3'; x.fillRect(0, 0, 256, 256);
+  x.save(); x.translate(128, 140);
+  const s = kind === 'head' ? 1 : 1.9; x.scale(s, s); x.rotate(kind === 'right' ? 0.35 : kind === 'left' ? -0.3 : -0.08);
+  x.fillStyle = '#F6F3EC'; x.fillRect(-62, -62, 124, 124);
+  x.strokeStyle = '#9C9384'; x.lineWidth = 1.5 / s; x.setLineDash([5 / s, 4 / s]); x.beginPath(); x.moveTo(0, -62); x.lineTo(-62, 0); x.moveTo(0, -62); x.lineTo(62, 0); x.stroke();
+  x.restore();
+  x.fillStyle = '#D9A98A';
+  if (kind === 'head') { x.beginPath(); x.ellipse(40, 220, 26, 16, -0.4, 0, 6.3); x.fill(); x.beginPath(); x.ellipse(214, 222, 26, 16, 0.4, 0, 6.3); x.fill(); }
+  else { x.beginPath(); x.ellipse(kind === 'left' ? 70 : 186, 206, 34, 22, kind === 'left' ? -0.6 : 0.6, 0, 6.3); x.fill(); x.beginPath(); x.ellipse(kind === 'left' ? 120 : 136, 236, 26, 16, 0, 0, 6.3); x.fill(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+['head', 'left', 'right'].forEach((k, i) => {
+  const mats = [solid(C.paper), new THREE.MeshStandardMaterial({ map: camTexture(k), roughness: 0.8 }), solid(C.paper), solid(C.paper), solid(C.paper), solid(C.paper)];
+  box(0.08, 2.4, 2.4, mats, [-17.4 + i * 0.7, 2.2 - i * 0.12, 1.5 - i * 1.5]);
+});
+label('3 cameras', '476 × 476 × 3 each', [-16.7, 4.2, 0], [0, 1]);
+for (let i = 0; i < 10; i++) box(0.34, 0.5, 0.2, solid(C.touch), [-16.7, -1.5, -1.45 + i * 0.32 + (i >= 5 ? 0.1 : 0)]);
+label('10 fingertips', '15 readings × 6 each', [-16.7, -0.6, 0], [0, 1]);
+box(0.34, 0.34, 0.34, solid(C.state), [-16.7, -3.0, -0.35]); box(0.34, 0.34, 0.34, solid(C.state), [-16.7, -3.0, 0.35]);
+label('joints and clock', '65 positions · frame count', [-16.7, -3.7, 0], [0, 1]);
+
+// ---------------------------------------------------------------- 2. encoders
+function frustum(rWide, rNarrow, len, color, x, y) {
+  const g = new THREE.CylinderGeometry(rNarrow, rWide, len, 4, 1); g.rotateY(Math.PI / 4); g.rotateZ(-Math.PI / 2);
+  const m = new THREE.Mesh(g, glass(color, 0.22)); m.position.set(x, y, 0); scene.add(m);
+  m.add(new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat())); return m;
+}
+frustum(1.75, 0.95, 2.4, C.vision, -13.4, 2.2);
+label('DINOv2 ViT-S/14', 'one network, shared by all 3', [-13.4, 4.0, 0], [0, 1]);
+function gridTexture(n, color) {
+  const c = document.createElement('canvas'); c.width = c.height = 340; const x = c.getContext('2d');
+  x.fillStyle = color; x.fillRect(0, 0, 340, 340); x.strokeStyle = 'rgba(255,255,255,0.55)'; x.lineWidth = 1;
+  for (let i = 0; i <= n; i++) { const p = i * 340 / n; x.beginPath(); x.moveTo(p, 0); x.lineTo(p, 340); x.moveTo(0, p); x.lineTo(340, p); x.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t;
+}
+const patchFace = new THREE.MeshStandardMaterial({ map: gridTexture(34, '#4A78E0'), roughness: 0.7 });
+box(1.3, 2.1, 2.1, [solid(0x6F93E8), patchFace, solid(0x6F93E8), solid(0x6F93E8), solid(0x5C86E4), solid(0x5C86E4)], [-10.6, 2.2, 0]);
+label('patch features', '34 × 34 patches × 384 numbers', [-10.6, 3.75, 0], [1]);
+frustum(1.15, 0.5, 1.5, C.vision, -8.55, 2.2);
+label('attention pooler', '32 learned queries per camera', [-8.55, 3.45, 0], [1]);
+box(0.7, 0.55, 0.9, glass(C.touch, 0.35), [-12.2, -1.5, 0]); label('MLP', null, [-12.2, -0.95, 0], [1]);
+box(0.7, 0.45, 0.9, glass(C.state, 0.35), [-12.2, -3.0, 0]); label('MLP', null, [-12.2, -2.55, 0], [1]);
+
+// ---------------------------------------------------------------- 3. token stacks
+const PITCH = 0.055;
+function tokenStack(colors, x, yTop, w = 0.7, d = 1.6) {
+  const n = colors.length, g = new THREE.BoxGeometry(w, PITCH * 0.78, d), m = new THREE.InstancedMesh(g, solid(0xffffff), n), mat = new THREE.Matrix4(), centers = [];
+  for (let i = 0; i < n; i++) { const y = yTop - i * PITCH; mat.makeTranslation(x, y, 0); m.setMatrixAt(i, mat); m.setColorAt(i, new THREE.Color(colors[i])); centers.push([x, y, 0]); }
+  scene.add(m); return { mesh: m, centers };
+}
+const ctxColors = [];
+for (let i = 0; i < 96; i++) ctxColors.push(i % 32 === 31 ? 0x3A62C4 : C.vision);
+for (let i = 0; i < 10; i++) ctxColors.push(C.touch);
+ctxColors.push(C.state, C.state);
+const ctxIn = tokenStack(ctxColors, -6.1, 3.6);
+label('context', '108 tokens × 512 numbers', [-6.1, 4.35, 0], [0, 1, 2]);
+flow([-17.0, 2.2, 0], [-14.75, 2.2, 0]); flow([-12.0, 2.2, 0], [-11.35, 2.2, 0]); flow([-9.9, 2.2, 0], [-9.35, 2.2, 0]); flow([-7.75, 2.2, 0], [-6.55, 2.2, 0]);
+flow([-16.45, -1.5, 0], [-12.6, -1.5, 0]); flow([-11.8, -1.5, 0], [-6.55, -1.95, 0]);
+flow([-16.45, -3.0, 0], [-12.6, -3.0, 0]); flow([-11.8, -3.0, 0], [-6.55, -2.25, 0]);
+
+for (const x of [-4.4, -2.9]) {
+  box(0.9, 6.6, 2.3, glass(0x8890A8, 0.13), [x, 0.6, 0]);
+  box(0.92, 0.5, 2.32, glass(C.mix, 0.32), [x, 1.6, 0], false); box(0.92, 0.5, 2.32, glass(0x9AA2B5, 0.32), [x, -0.6, 0], false);
+}
+label('context transformer × 2', 'self-attention, then MLP', [-3.65, 4.5, 0], [0, 2]);
+flow([-5.7, 0.6, 0], [-4.95, 0.6, 0]); flow([-2.35, 0.6, 0], [-1.05, 0.6, 0]);
+const mixColor = (c) => new THREE.Color(c).lerp(new THREE.Color(C.mix), 0.42).getHex();
+const ctxOut = tokenStack(ctxColors.map(mixColor), -0.6, 3.6);
+label('context out', 'keys and values · 108 × 512', [-0.6, 4.35, 0], [2, 3, 7]);
+
+// ---------------------------------------------------------------- 4. auxiliary heads
+const auxQ = box(0.7, 0.12, 1.6, solid(C.query), [3.0, 5.0, 0]);
+label('auxiliary query', '1 learned token', [3.0, 5.55, 0], [0, 7]);
+box(1.8, 0.16, 0.3, solid(0xD5D9E0), [5.6, 5.4, 0]); box(1.8 * 0.62, 0.18, 0.32, solid(C.action), [5.6 - 1.8 * 0.19, 5.4, 0], false);
+label('progress', 'e.g. 0.62 of the way through', [5.6, 5.95, 0], [7]);
+for (let h = 0; h < 4; h++) for (let f = 0; f < 10; f++) {
+  const v = Math.max(0, Math.sin(f * 0.7 + h * 0.9) * 0.5 + 0.35 + (f >= 5 ? 0.25 : 0) - h * 0.08);
+  box(0.13, 0.13 + v * 0.35, 0.13, solid(new THREE.Color(C.touch).lerp(new THREE.Color(0xffffff), 0.6 - v * 0.6).getHex()), [4.75 + f * 0.19, 3.75 + (0.13 + v * 0.35) / 2, -0.45 + h * 0.3], false);
+}
+label('future touch', '10 fingertips × 4 moments ahead', [5.6, 3.35, 0], [7]);
+flow([3.4, 5.0, 0], [4.6, 5.35, 0]); flow([3.4, 5.0, 0], [4.6, 4.2, 0]);
+const auxLines = attentionLines(ctxOut.centers, [3.0, 5.0, 0], scoresFor('aux'), 0x8B80C6);
+
+// ---------------------------------------------------------------- 5. action head
+function surface(width, depth, pos) {
+  const g = new THREE.PlaneGeometry(width, depth, 59, 64); g.rotateX(-Math.PI / 2);
+  g.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(60 * 65 * 3), 3));
+  const mesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.75, side: THREE.DoubleSide, flatShading: false }));
+  const wire = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x1B2130, wireframe: true, transparent: true, opacity: 0.1 }));
+  mesh.add(wire); mesh.position.set(...pos); scene.add(mesh);
+  const base = new THREE.Mesh(new THREE.PlaneGeometry(width, depth).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0x8890A0, transparent: true, opacity: 0.12, side: THREE.DoubleSide, depthWrite: false }));
+  base.position.set(pos[0], pos[1] - 1.05, pos[2]); scene.add(base);
+  return mesh;
+}
+// an example plan: 65 smooth joint paths over 60 rows, each starting at 0 (offsets from where the joint is now)
+const ROWS = 60, JOINTS = 65, PREFIX = 6;
+const plan = new Float32Array(ROWS * JOINTS), noise = new Float32Array(ROWS * JOINTS);
+for (let j = 0; j < JOINTS; j++) {
+  const a = 0.25 + 0.7 * rand(), f = 0.25 + 0.8 * rand(), ph = rand() * 6.28, s = (rand() - 0.5) * 0.9;
+  for (let i = 0; i < ROWS; i++) { const t = i / (ROWS - 1); plan[j * ROWS + i] = a * (Math.sin(6.283 * f * t + ph) - Math.sin(ph)) + s * t; noise[j * ROWS + i] = gauss() * 0.75; }
+}
+const H = 0.55, lo = new THREE.Color(0xF1E6DE), hi = new THREE.Color(C.action), held = new THREE.Color(0x2A3142), negC = new THREE.Color(C.vision), tmp = new THREE.Color();
+function paintSurface(mesh, valueAt, mode) {
+  const pos = mesh.geometry.attributes.position, col = mesh.geometry.attributes.color;
+  for (let j = 0; j < JOINTS; j++) for (let i = 0; i < ROWS; i++) {
+    const k = j * ROWS + i, v = valueAt(i, j); pos.setY(k, v * H);
+    if (mode === 'velocity') tmp.copy(lo).lerp(v < 0 ? negC : hi, Math.min(1, Math.abs(v) / 1.6));
+    else if (mode === 'xt' && i < PREFIX) tmp.copy(held).lerp(hi, 0.25);
+    else tmp.copy(lo).lerp(hi, Math.min(1, Math.abs(v) / 1.2) * 0.9 + 0.1);
+    col.setXYZ(k, tmp.r, tmp.g, tmp.b);
+  }
+  pos.needsUpdate = true; col.needsUpdate = true; mesh.geometry.computeVertexNormals();
+}
+const xt = surface(4.6, 4.9, [-12.2, -7.4, 0]);
+const xtAt = (t) => (i, j) => i < PREFIX ? plan[j * ROWS + i] : (1 - t) * noise[j * ROWS + i] + t * plan[j * ROWS + i];
+paintSurface(xt, xtAt(0), 'xt');
+label('noisy plan xₜ', '60 steps × 65 joints · starts as noise', [-12.2, -5.2, 0], [0, 5]);
+label('rows already running (held)', null, [-14.3, -6.2, 2.2], [5]);
+
+const rowColors = Array.from({ length: ROWS }, (_, i) => i < PREFIX ? 0x5A4A52 : C.action);
+const rowStack = tokenStack(rowColors, -7.6, -5.4, 0.7, 1.6);
+label('row tokens', '60 × 512', [-7.6, -4.75, 0], [4]);
+flow([-9.8, -7.2, 0], [-8.05, -7.2, 0]); flow([-7.15, -7.2, 0], [-6.25, -7.2, 0]);
+const ditX = [-5.6, -4.4, -3.2, -2.0, -0.8, 0.4];
+for (const x of ditX) {
+  box(0.82, 4.3, 2.4, glass(0x8890A8, 0.12), [x, -7.2, 0]);
+  box(0.84, 0.95, 2.42, glass(C.action, 0.3), [x, -5.85, 0], false);
+  box(0.84, 0.95, 2.42, glass(C.mix, 0.34), [x, -7.2, 0], false);
+  box(0.84, 0.95, 2.42, glass(0x9AA2B5, 0.32), [x, -8.55, 0], false);
+}
+label('DiT block × 6', 'self-attention · cross-attention · MLP', [-2.6, -4.55, 0], [0, 4]);
+label('self-attention', 'rows look at each other', [1.75, -5.85, 0], [4]);
+label('cross-attention', 'rows read the context', [1.75, -7.2, 0], [4]);
+label('MLP', 'each row on its own', [1.75, -8.55, 0], [4]);
+const tTok = box(0.5, 0.5, 0.5, solid(0x9AA2B5), [-2.6, -10.5, 1.0]);
+for (const x of ditX) line([[-2.6, -10.25, 1.0], [x, -9.35, 0.6]], 0x7C8597, { opacity: 0.45 });
+label('flow time t', 'tells each block how noisy the plan is', [-2.6, -11.15, 1.0], [4]);
+
+const vel = surface(3.0, 3.2, [3.6, -7.6, 0]);
+paintSurface(vel, (i, j) => i < PREFIX ? 0 : plan[j * ROWS + i] - noise[j * ROWS + i], 'velocity');
+label('velocity v', 'which way to move each number', [3.6, -5.6, 0], [5]);
+flow([0.9, -7.2, 0], [1.95, -7.2, 0]);
+const loopPts = [[3.6, -9.0, 1.8], [2.6, -10.9, 2.4], [-4.5, -12.2, 3.2], [-11.0, -10.9, 2.6], [-12.2, -9.0, 2.0]].map(p => new THREE.Vector3(...p));
+const loopCurve = new THREE.CatmullRomCurve3(loopPts);
+line(loopCurve.getPoints(80).map(p => [p.x, p.y, p.z]), C.action, { dashed: true });
+arrowHead([-12.2, -8.95, 2.0], [-0.25, 1, -0.2], C.action);
+label('Euler step: x ← x + 0.1 · v', 'repeat 10 times, t from 0 to 1', [-4.5, -12.65, 3.2], [0, 5]);
+
+const out = surface(6.2, 6.6, [10.6, -7.6, 0]);
+paintSurface(out, (i, j) => plan[j * ROWS + i], 'plan');
+label('the plan', '60 steps × 65 joints = 2 s at 30 Hz', [10.6, -4.4, 0], [0, 6]);
+label('time → 2 s', null, [10.6, -8.9, 3.8], [6]);
+label('65 joints', null, [6.9, -8.9, 0], [6]);
+line([[5.3, -7.6, 0], [7.2, -7.6, 0]], 0x7C8597, { dashed: true }); arrowHead([7.4, -7.6, 0], [1, 0, 0], 0x7C8597);
+label('after 10 steps', null, [6.3, -7.0, 0], [5, 6]);
+
+// ---------------------------------------------------------------- cross-attention lines (illustrative weights)
+function scoresFor(kind) {
+  const r = rng(kind === 'aux' ? 7 : 3), s = [];
+  for (let i = 0; i < 108; i++) {
+    let v = r() * 1.2;
+    if (kind === 'row') { if (i >= 64 && i < 96 && r() < 0.35) v += 2.6; if (i >= 101 && i < 106) v += 3.2; if (i === 106) v += 2.0; }
+    else { if (i >= 96 && i < 106) v += 1.8; if (i === 107) v += 3.0; if (i < 32 && r() < 0.2) v += 1.6; }
+    s.push(v);
+  }
+  const m = Math.max(...s), e = s.map(v => Math.exp((v - m) * 1.6)), z = e.reduce((a, b) => a + b, 0);
+  return e.map(v => v / z);
+}
+function attentionLines(centers, to, w, color) {
+  const group = new THREE.Group(), pts = [], cols = [], wmax = Math.max(...w), base = new THREE.Color(color);
+  centers.forEach((c, i) => { pts.push(c[0] + 0.36, c[1], c[2] + 0.8, ...to); const a = 0.06 + 0.9 * w[i] / wmax; cols.push(base.r, base.g, base.b, a, base.r, base.g, base.b, a); });
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3)); g.setAttribute('color', new THREE.Float32BufferAttribute(cols, 4));
+  group.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false })));
+  const order = w.map((v, i) => [v, i]).sort((a, b) => b[0] - a[0]).slice(0, 9), pulses = [];
+  for (const [v, i] of order) {
+    const c = centers[i], a = new THREE.Vector3(c[0] + 0.36, c[1], c[2] + 0.8), b = new THREE.Vector3(...to);
+    const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.LineCurve3(a, b), 12, 0.012 + 0.05 * v / wmax, 8), solid(ctxColors[i] === undefined ? color : mixColor(ctxColors[i]), { transparent: true, opacity: 0.85 }));
+    group.add(tube);
+    const dot = new THREE.Mesh(new THREE.SphereGeometry(0.06 + 0.06 * v / wmax, 12, 12), solid(0xffffff)); group.add(dot); pulses.push({ a, b, dot, off: Math.random() });
+  }
+  group.visible = false; scene.add(group); return { group, pulses };
+}
+const qPoint = [-3.2, -7.2, 1.25];
+const qMarker = box(0.86, 0.09, 0.2, solid(C.query), [-3.2, -7.2, 1.25]);
+const rowLines = attentionLines(ctxOut.centers, qPoint, scoresFor('row'), 0x8B80C6);
+label('one row of the plan asks', 'its query meets 108 keys', [-3.2, -6.55, 2.2], [3]);
+
+// ---------------------------------------------------------------- framing
+// The overview looks at the centre of the whole model from its own direction, and backs off until every
+// corner of the model's bounding box is inside the view with a margin. The other stops keep their framing,
+// moved back on narrow screens.
+const modelBox = new THREE.Box3();
+function measureModel() {
+  modelBox.makeEmpty();
+  scene.traverse(o => { if (o.isMesh || o.isLine || o.isLineSegments) { if (o.geometry && !o.geometry.boundingBox) o.geometry.computeBoundingBox(); if (o.geometry?.boundingBox && o.visible !== false) modelBox.union(o.geometry.boundingBox.clone().applyMatrix4(o.matrixWorld)); } });
+  // the labels sit above the blocks they name
+  modelBox.max.y += 0.9; modelBox.min.y -= 0.6;
+}
+function boxCorners() {
+  const corners = [];
+  for (const x of [modelBox.min.x, modelBox.max.x]) for (const y of [modelBox.min.y, modelBox.max.y]) for (const z of [modelBox.min.z, modelBox.max.z]) corners.push(new THREE.Vector3(x, y, z));
+  return corners;
+}
+function place(probe, tgtV, dir, d) { probe.position.copy(dir).multiplyScalar(d).add(tgtV); probe.lookAt(tgtV); probe.updateMatrixWorld(); probe.updateProjectionMatrix(); }
+function fitDistance(probe, corners, tgtV, dir) {
+  // leave room for the labels, which are about 120 px wide and centred on the parts they name
+  const w = Math.max(200, stage.clientWidth), h = Math.max(200, stage.clientHeight), mx = Math.min(0.92, 1 - 64 / (w / 2)), my = Math.min(0.9, 1 - 34 / (h / 2));
+  const fits = d => { place(probe, tgtV, dir, d); return corners.every(c => { const p = c.clone().project(probe); return p.z < 1 && Math.abs(p.x) <= mx && Math.abs(p.y) <= my; }); };
+  let lo = 5, hi = 240; for (let k = 0; k < 40; k++) { const mid = (lo + hi) / 2; if (fits(mid)) hi = mid; else lo = mid; }
+  return hi;
+}
+function framing(s) {
+  if (s.fitAll) {
+    if (modelBox.isEmpty()) measureModel();
+    const corners = boxCorners(), probe = camera.clone(), dir = new THREE.Vector3(...s.cam).sub(new THREE.Vector3(...s.tgt)).normalize();
+    const tgtV = modelBox.getCenter(new THREE.Vector3());
+    let d = fitDistance(probe, corners, tgtV, dir);
+    // centre the model's outline on screen (perspective pushes the near end off centre), then fit again
+    for (let k = 0; k < 4; k++) {
+      place(probe, tgtV, dir, d);
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      for (const c of corners) { const p = c.clone().project(probe); x0 = Math.min(x0, p.x); x1 = Math.max(x1, p.x); y0 = Math.min(y0, p.y); y1 = Math.max(y1, p.y); }
+      const halfH = d * Math.tan(THREE.MathUtils.degToRad(probe.fov / 2)), halfW = halfH * probe.aspect;
+      const right = new THREE.Vector3().setFromMatrixColumn(probe.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(probe.matrixWorld, 1);
+      tgtV.addScaledVector(right, (x0 + x1) / 2 * halfW).addScaledVector(up, (y0 + y1) / 2 * halfH);
+      d = fitDistance(probe, corners, tgtV, dir);
+    }
+    return { tgtV, camV: dir.clone().multiplyScalar(d).add(tgtV) };
+  }
+  const fit = Math.max(1, 1.16 / Math.max(0.3, camera.aspect)), tgtV = new THREE.Vector3(...s.tgt);
+  return { tgtV, camV: new THREE.Vector3(...s.cam).sub(tgtV).multiplyScalar(fit).add(tgtV) };
+}
+
+// ---------------------------------------------------------------- the tour
+const STOPS = [
+  { name: 'Overview', cam: [-21, 10, 34], tgt: [-2, -2.8, 0], fitAll: true, title: 'The whole model',
+    body: `<p>Every plan answers one question: given what the robot sees and feels right now, what should each of its 65 joints do for the next 2 seconds?</p>
+<p>The top row turns the sensors into 108 tokens; a token is a list of 512 numbers. The bottom row starts from random noise and refines it 10 times into a plan, reading those tokens every time.</p>
+<p class="note">62.3M parameters · about 85 ms per plan on one GPU · trained only on the public challenge dataset.</p>` },
+  { name: 'See and feel', cam: [-25, 4.5, 9], tgt: [-12, -0.4, 0], title: 'See and feel',
+    body: `<p>Each camera image (476 × 476 pixels) goes through DINOv2, a vision transformer pretrained on a large photo collection. It cuts the image into 34 × 34 patches of 14 pixels and describes each patch with 384 numbers.</p>
+<p>An attention pooler then asks 32 learned questions of each image and keeps the 32 answers, so each camera becomes 32 tokens.</p>
+<p>Each fingertip's last half second of force and torque (15 readings of 6 numbers) becomes one token. The 65 joint positions become one token, and so does the clock.</p>` },
+  { name: 'Context', cam: [-12, 4, 11], tgt: [-3.4, 0.6, 0], title: 'The context: one summary of the moment',
+    body: `<p>Stacked together that is 108 tokens: 96 from the cameras, 10 from the fingertips, 2 for the joints and the clock.</p>
+<p>Two transformer layers let every token look at every other one. A fingertip token can take in what the camera shows around that finger; a camera token can take in that a finger is pressing.</p>
+<p>What comes out (on the right, colours blended) is what the rest of the model reads.</p>` },
+  { name: 'Cross-attention', cam: [-12, 1.5, 20], tgt: [-2.0, -2.2, 0], title: 'How the plan reads the context',
+    body: `<p>Each of the 60 rows of the plan carries a <b>query</b>: a vector that says what it is looking for. Each context token carries a <b>key</b>, what it has to offer, and a <b>value</b>, what it passes on.</p>
+<p>A row scores its query against all 108 keys, turns the scores into weights that add up to 1, and takes the weighted average of the values. That average is added to the row.</p>
+<div class="formula">weightᵢ = softmax(q · kᵢ / √d)<br>out = Σᵢ weightᵢ · vᵢ</div>
+<p class="note">The lines show one row's weights; brighter and thicker means more weight. These weights are an illustration, not measured from the model: here the row leans on the right-wrist camera and the right-hand fingertips.</p>` },
+  { name: 'DiT blocks', cam: [-9, -3.5, 11], tgt: [-2.4, -7.2, 0], title: 'Six blocks that refine the plan',
+    body: `<p>The plan enters as 60 tokens, one per future time step. Each of the 6 blocks has three layers:</p>
+<p><b>Self-attention</b> lets the rows look at each other, so the motion hangs together over time. A rotary position code tells each row how far apart in time the others are.</p>
+<p><b>Cross-attention</b> reads the context, as in the previous stop. <b>An MLP</b> then processes each row on its own.</p>
+<p>The <b>flow time t</b> says how far the refining has got. It scales and shifts each layer (adaptive layer norm), so the same blocks treat a noisy plan differently from an almost finished one.</p>` },
+  { name: 'Euler steps', cam: [-15, -0.5, 15], tgt: [-6.5, -8.6, 0.8], title: 'From noise to a plan in ten Euler steps',
+    body: `<p>The network never writes the plan directly. Given the current plan xₜ, it predicts a <b>velocity</b> v: for each of the 60 × 65 numbers, which way and how fast to move it toward a realistic plan.</p>
+<p>An <b>Euler step</b> moves a small part of the way: x ← x + 0.1 · v. Ten steps carry pure noise at t = 0 to a finished plan at t = 1. This is flow matching.</p>
+<p>The dark rows at the front are already being executed, so they stay fixed and the new plan grows out of them.</p>
+<div class="euler"><button type="button" class="play" id="play">Play the 10 steps</button><span class="counter" id="counter">step 0 of 10 · t = 0.0</span></div>` },
+  { name: 'The plan', cam: [2.5, 1, 13], tgt: [10.2, -8.0, 0], title: 'What comes out: the plan',
+    body: `<p>60 rows × 65 numbers. Each row is one moment, 1/30 s apart, so the plan covers 2 seconds. Each number belongs to one joint of the robot.</p>
+<p>The numbers are offsets from where each joint is now, which is why every path starts at zero. Add the current positions and you have the targets the robot follows.</p>
+<p class="note">The surface is an example drawn for this page, not a recorded plan.</p>` },
+  { name: 'Auxiliary heads', cam: [-4, 9, 11], tgt: [3.0, 3.6, 0], title: 'Auxiliary heads: extra questions during training',
+    body: `<p>One more learned token reads the context with cross-attention and makes two predictions:</p>
+<p><b>Progress</b>: how far through the episode the robot is, from 0 to 1.<br><b>Future touch</b>: whether, and how hard, each of the 10 fingertips will be touching 0, 0.5, 1 and 1.5 seconds from now.</p>
+<p>The robot does not act on these. They exist for training: having to predict them pushes the context to keep track of the task and of contact that is about to happen.</p>` },
+];
+const stopsEl = document.getElementById('stops');
+STOPS.forEach((s, i) => { const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button'; b.textContent = s.name; b.onclick = () => go(i); li.appendChild(b); stopsEl.appendChild(li); });
+let current = 0, tween = null;
+function go(i) {
+  current = i; const s = STOPS[i];
+  document.getElementById('stopTitle').textContent = s.title;
+  document.getElementById('stopBody').innerHTML = s.body;
+  [...stopsEl.querySelectorAll('button')].forEach((b, k) => { if (k === i) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  document.getElementById('prev').disabled = i === 0; document.getElementById('next').disabled = i === STOPS.length - 1;
+  labels.forEach(l => { const inStop = l.stops.includes(i); l.el.classList.toggle('faded', !inStop); l.el.classList.toggle('on', i !== 0 && inStop); });
+  rowLines.group.visible = i === 3; auxLines.group.visible = i === 7; qMarker.visible = i === 3 || i === 4;
+  const { tgtV, camV } = framing(s);
+  const from = { p: camera.position.clone(), t: controls.target.clone() }, to = { p: camV, t: tgtV };
+  if (reduceMotion) { camera.position.copy(to.p); controls.target.copy(to.t); tween = null; } else tween = { from, to, t0: performance.now(), dur: 1100 };
+  euler.stop(); paintSurface(xt, xtAt(i === 6 ? 1 : 0), 'xt'); setCounter(i === 6 ? 10 : 0);
+  if (i === 5) { const p = document.getElementById('play'); p.onclick = () => euler.play(); if (!reduceMotion) setTimeout(() => current === 5 && euler.play(), 1200); }
+}
+document.getElementById('prev').onclick = () => current > 0 && go(current - 1);
+document.getElementById('next').onclick = () => current < STOPS.length - 1 && go(current + 1);
+function setCounter(k) { const c = document.getElementById('counter'); if (c) c.textContent = `step ${k} of 10 · t = ${(k / 10).toFixed(1)}`; }
+const euler = {
+  timer: null,
+  play() { this.stop(); let k = 0; paintSurface(xt, xtAt(0), 'xt'); setCounter(0); const p = document.getElementById('play'); if (p) p.textContent = 'Replay';
+    this.timer = setInterval(() => { k++; paintSurface(xt, xtAt(k / 10), 'xt'); setCounter(k); if (k >= 10) this.stop(); }, reduceMotion ? 120 : 520); },
+  stop() { if (this.timer) clearInterval(this.timer); this.timer = null; },
+};
+
+// ---------------------------------------------------------------- theme and size
+function applyTheme() {
+  const cs = getComputedStyle(document.documentElement);
+  scene.background = new THREE.Color(cs.getPropertyValue('--bg').trim() || '#EDEFF2');
+  const edge = new THREE.Color(cs.getPropertyValue('--edge').trim() || '#2A3142'); edgeMats.forEach(m => m.color.copy(edge));
+}
+applyTheme();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+let framedAspect = 0;
+function resize() { const w = stage.clientWidth, h = stage.clientHeight; renderer.setSize(w, h); labelRenderer.setSize(w, h); camera.aspect = w / Math.max(1, h); camera.updateProjectionMatrix();
+  if (framedAspect && current === 0 && Math.abs(camera.aspect - framedAspect) > 0.02 && !tween) { const { tgtV, camV } = framing(STOPS[0]); camera.position.copy(camV); controls.target.copy(tgtV); }
+  framedAspect = camera.aspect; }
+new ResizeObserver(resize).observe(stage); resize();
+
+// ---------------------------------------------------------------- loop
+const ease = (u) => u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+function frame(now) {
+  if (tween) { const u = Math.min(1, (now - tween.t0) / tween.dur), e = ease(u); camera.position.lerpVectors(tween.from.p, tween.to.p, e); controls.target.lerpVectors(tween.from.t, tween.to.t, e); if (u >= 1) tween = null; }
+  for (const set of [rowLines, auxLines]) if (set.group.visible) for (const p of set.pulses) { const u = reduceMotion ? 0.5 : ((now / 1600 + p.off) % 1); p.dot.position.lerpVectors(p.a, p.b, u); }
+  controls.update(); renderer.render(scene, camera); labelRenderer.render(scene, camera); requestAnimationFrame(frame);
+}
+scene.updateMatrixWorld(true); measureModel();
+go(0); if (tween) { camera.position.copy(tween.to.p); controls.target.copy(tween.to.t); tween = null; }
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
