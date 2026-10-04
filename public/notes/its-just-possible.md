@@ -96,7 +96,7 @@ The hard part wasn't the work. It was deciding the work was worth starting.
 
 ## Why I stopped using a research harness
 
-Before Opus 5.5, I did what a lot of people are doing: I built an "autoresearch" harness, a program that wraps AI models in a fixed research loop. Mine used GPT-6 Astra to think and plan, and DeepSeek to write the code, with a fixed set of prompts, a log of every result and a budget of $6 per research cycle.
+Before Opus 5.5, I did what a lot of people are doing: I built an ["autoresearch"](https://github.com/karpathy/autoresearch) harness, a program that wraps AI models in a fixed research loop. Mine used GPT-6 Astra to think and plan, and DeepSeek to write the code, with a fixed set of prompts, a log of every result and a budget of $6 per research cycle.
 
 It worked, up to a point. Over about two weeks, Astra, first on its own and then inside the harness, took the first track from 79.3 to 81.4. The final model still builds on that work. But each step was smaller than the last. When I switched to Opus 5.5, I asked it to look at the whole setup:
 
