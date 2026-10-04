@@ -4,6 +4,13 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 
 ## User intent and continuity
 
+**October 3, late — the mosaic apse becomes the homepage (branch `home-mosaic`, not deployed):** San
+chose the mosaic apse v2 over the live clear line, asking for a fast first render without the bare-box
+glitch and for a tile footer. The production build makes the first paint a set of pre-rendered stills
+(wall, apse, conch for San Jose's current moment, the stele's marble and frame), moves the laying, the
+waves and the gold light into a worker, and ends the page in a mosaic footer. Measurements, review
+images and open questions: `design/reviews/2026-10-03-mosaic-home/README.md`.
+
 **October 3, evening — state after the compaction:**
 - Live on www.sankala.me: the three essays (/notes/zinify, /notes/power-quality, the Glyp board game on
   /notes/startr-postmortem), the "Writing & projects" label (URL /work), and San's poem "Nobody Owes Anything

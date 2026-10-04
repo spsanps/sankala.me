@@ -1,0 +1,63 @@
+{
+ "alts": {
+  "now-golden-am": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is early morning in San Jose, and the conch is gold.",
+  "now-morning": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is morning in San Jose, and the conch is gold.",
+  "now-midday": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is midday in San Jose, and the conch is gold.",
+  "now-afternoon": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is afternoon in San Jose, and the conch is gold.",
+  "now-golden-pm": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is the golden hour in San Jose, and the conch is gold.",
+  "now-twilight": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is dusk in San Jose, and the conch is rows of dusk colour.",
+  "now-night": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is night in San Jose, and the conch is lapis with stars.",
+  "now-night-wax": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is night, the moon waxing in San Jose, and the conch is lapis with stars.",
+  "now-night-full": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is night, the moon full in San Jose, and the conch is lapis with stars.",
+  "now-night-wane": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it Mt Hamilton with the white domes of the Lick Observatory above golden foothills and valley oaks; it is night, the moon waning in San Jose, and the conch is lapis with stars.",
+  "sd": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, and behind it, on a clear San Diego morning, the stepped glass floors of the Geisel Library, the Pacific, the sandstone bluffs of Torrey Pines with a Torrey pine, and a lawn full of flowers, under a gold conch with the morning sun.",
+  "blr": "The apse, laid in mosaic: San’s desk with its red lamp, a stack of books, the laptop, the blue paper robot and a telescope, on a red-oxide terrace in Bengaluru on a monsoon afternoon; behind it flat pastel roofs with black water tanks, a gulmohar in flower and two kites, under a gold conch streaked with monsoon clouds.",
+  "nitk": "The apse, laid in mosaic: San’s desk with its lit red lamp, a stack of books, the glowing laptop, the blue paper robot and a telescope aimed at the stars, and behind it Surathkal at night: the Arabian Sea under a silver full moon, the red-and-white lighthouse on its headland with its beam sweeping, and a coconut palm, under a lapis conch full of gold stars."
+ },
+ "frames": {
+  "wide": {
+   "slice": 52
+  },
+  "phone": {
+   "slice": 40
+  }
+ },
+ "heads": {
+  "wide-480": {
+   "rise": 96,
+   "headH": 121
+  },
+  "wide-520": {
+   "rise": 104,
+   "headH": 129
+  },
+  "wide-580": {
+   "rise": 104,
+   "headH": 130
+  },
+  "phone-296": {
+   "rise": 59,
+   "headH": 78
+  },
+  "phone-336": {
+   "rise": 64,
+   "headH": 84
+  },
+  "phone-351": {
+   "rise": 64,
+   "headH": 84
+  },
+  "phone-366": {
+   "rise": 64,
+   "headH": 84
+  },
+  "phone-388": {
+   "rise": 64,
+   "headH": 85
+  },
+  "phone-406": {
+   "rise": 64,
+   "headH": 85
+  }
+ }
+}

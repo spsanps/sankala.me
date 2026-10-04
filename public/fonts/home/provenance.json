@@ -1,0 +1,16 @@
+[
+  {
+    "family": "EB Garamond:ital,wght@0,400..600;1,400",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..600;1,400&display=swap",
+    "license": "eb-garamond-OFL.txt (SIL Open Font License 1.1)",
+    "files": ["eb-garamond.woff2", "eb-garamond-400-italic.woff2"],
+    "conversion": "The latin subsets served by Google Fonts, saved unchanged (copied from the mosaic apse study, design/prototypes/2026-10-code-drawn-art/four-frames-apse/fonts/)."
+  },
+  {
+    "family": "Marcellus and Marcellus SC: 400",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Marcellus&family=Marcellus+SC&display=swap",
+    "license": "marcellus-OFL.txt (SIL Open Font License 1.1)",
+    "files": ["marcellus-400.woff2", "marcellus-sc-400.woff2"],
+    "conversion": "The latin subsets served by Google Fonts, saved unchanged (copied from the mosaic apse study)."
+  }
+]
