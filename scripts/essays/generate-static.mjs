@@ -7,12 +7,21 @@
 //
 // Usage: node scripts/essays/generate-static.mjs [url]
 //        (defaults to the production URL; pass http://localhost:5173/... to run against dev)
+//
+// Essays written in Markdown have their own generator, chosen by slug:
+//        npm run generate:essay-static -- its-just-possible
 
 import { chromium } from 'playwright';
 import { writeFileSync } from 'node:fs';
 import TurndownService from 'turndown';
 import turndownPluginGfm from 'turndown-plugin-gfm';
 import { unitreeTrajectory } from '../../src/pages/essays/gpt7-will-have-arms/data.js';
+
+const MARKDOWN_ESSAYS = { 'its-just-possible': './generate-its-just-possible.mjs' };
+if (MARKDOWN_ESSAYS[process.argv[2]]) {
+  await import(MARKDOWN_ESSAYS[process.argv[2]]);
+  process.exit(0);
+}
 
 const URL_ARG = process.argv[2] || 'https://www.sankala.me/essays/gpt7-will-have-arms';
 const SITE = 'https://www.sankala.me';

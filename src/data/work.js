@@ -5,6 +5,7 @@ export const formatNames = { research: 'Research', writing: 'Essay / note', film
 // A work can name its own kind where the format's name would be wrong (a poem is not an essay).
 export const formatName = work => work.formatLabel || formatNames[work.formats[0]];
 const classification = {
+  'its-just-possible': [['ai'], ['writing'], '2026-10-03'],
   'another-sky': [['worlds'], ['experiment'], '2026-09'],
   'gpt7-will-have-arms': [['ai'], ['writing', 'film'], '2025-12'],
   'eai-challenge': [['ai'], ['writing', 'research'], '2026-07'],
@@ -13,6 +14,7 @@ const classification = {
   'startr-postmortem': [['making'], ['writing'], '2025-12'],
 };
 const introductions = {
+  'its-just-possible': ['How I steered AI agents to first place at NeurIPS', 'How I steered a fleet of AI agents to #1 on both tracks of the NeurIPS 2026 RealPDE competition while flying to IROS, and what I think has changed about competitive ML.'],
   'capricious-god': ['The OpenAI–Hugging Face incident, as an animated film', 'How to Please a Capricious God: a painted allegory about AI agents, their tests, and the eye watching over them.'],
   'another-sky': ['Explore a space habitat in your browser', 'Walk or fly inside a rotating space habitat, with cities, lakes and a landscape that curves over your head. An interactive O’Neill cylinder.'],
   'a-clauiet-life': ['An AI-controlled bee in a simulated garden', 'What would Claude do with a quiet life as a bee? Watch it make decisions in a garden simulation.'],

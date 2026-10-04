@@ -1,5 +1,6 @@
 import { essayArticleHtml } from '../server/essay-previews/generated/gpt7-will-have-arms.js';
 import { eaiArticleHtml } from '../server/essay-previews/generated/eai-challenge.js';
+import { justPossibleArticleHtml } from '../server/essay-previews/generated/its-just-possible.js';
 
 export const config = {
   runtime: 'edge',
@@ -33,6 +34,20 @@ const PAGES = {
     byline: 'By <a href="' + SITE + '">San Kala</a> &amp; Chin Pradeep · Team AxisTilted2 · July 2026 · 4 min read',
     subtitleHtml: '<strong>First place, NeurIPS 2025 Embodied Agent Interface Challenge</strong>',
     article: eaiArticleHtml,
+  },
+  'its-just-possible': {
+    url: `${SITE}/notes/its-just-possible`,
+    title: "It's just possible",
+    description: 'How I steered a fleet of AI agents to #1 on both tracks of a NeurIPS competition while flying to IROS, and what I think has changed about competitive ML.',
+    ogImage: `${SITE}/images/covers/its-just-possible-social.jpg`,
+    alternativeHeadline: 'Steering a fleet of AI agents to #1 on both tracks of the NeurIPS 2026 RealPDE competition',
+    datePublished: '2026-10',
+    markdownUrl: `${SITE}/notes/its-just-possible.md`,
+    byline: 'By <a href="' + SITE + '">San Kala</a> · October 2026 · 12 min read',
+    subtitleHtml: '<em>How I steered a fleet of AI agents to #1 on both tracks of a NeurIPS competition while flying to IROS, and what I think has changed about competitive ML.</em>',
+    article: justPossibleArticleHtml,
+    // Readers get the prerendered page rather than the bare app shell.
+    shell: '/notes/its-just-possible/index.html',
   },
 };
 
@@ -117,11 +132,18 @@ ${page.article}
     });
   }
 
-  // Rich essay routes use the clean shell, rather than the prerendered homepage.
-  const indexUrl = new URL('/app.html', url.origin);
-  const indexResponse = await fetch(indexUrl.toString(), {
-    headers: { 'x-skip-og': 'true' }
-  });
+  // Rich essay routes use the clean shell, rather than the prerendered homepage; an essay
+  // with its own prerendered page uses that, falling back to the shell if it is missing.
+  const shell = PAGES[url.searchParams.get('page')]?.shell;
+  let indexResponse = null;
+  if (shell) {
+    try { indexResponse = await fetch(new URL(shell, url.origin).toString(), { headers: { 'x-skip-og': 'true' } }); } catch { indexResponse = null; }
+  }
+  if (!indexResponse || !indexResponse.ok) {
+    indexResponse = await fetch(new URL('/app.html', url.origin).toString(), {
+      headers: { 'x-skip-og': 'true' }
+    });
+  }
 
   return new Response(indexResponse.body, {
     headers: { 'Content-Type': 'text/html; charset=utf-8' },

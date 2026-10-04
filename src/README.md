@@ -9,7 +9,7 @@ src/
     home/                          homepage: the mosaic apse, the path on marble tablets, the shelf, the mosaic footer
       mosaic/                      the apse: laying engine, places, stills layout, live layer (worker), light
     about/                         personal background and project homes
-    history/                       complete ten-milestone history
+    history/                       the complete milestone history (Timeline)
     research/                      full publication details
     resume/                        resume page
     projects/                      interactive projects and film channel
@@ -17,6 +17,7 @@ src/
     lab/                           legacy experiment entry route
     notes/                         note listing and generic note page
       eai-challenge/               Winning by Overfitting write-up
+      its-just-possible/           It's just possible: essay.md (the text), the page, flight/ (map data and drawing)
     essays/
       gpt7-will-have-arms/          essay page, chart components and data
   components/site/                 author navigation, metadata, archive and CV components

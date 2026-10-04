@@ -1,14 +1,16 @@
 // Check the built site, local media and both crawler responses after a move.
 // Run npm run build first, then npm run check:site.
 import assert from 'node:assert/strict';
-import { writeFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import { preview } from 'vite';
 import handler from '../../api/og.js';
 import { works } from '../../src/data/work.js';
+import milestones from '../../src/data/history.json' with { type: 'json' };
 import { coverLoaders } from '../../src/components/art/covers/registry.js';
 import { LINES as POEM_LINES, STANZAS as POEM_STANZAS } from '../../src/pages/notes/nobody-owes-anything-now/poem.js';
+import { parseEssay } from '../../src/pages/notes/its-just-possible/essay-source.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const server = await preview({
@@ -18,12 +20,16 @@ const server = await preview({
   preview: { host: '127.0.0.1', port: 0, open: false },
 });
 const origin = `http://127.0.0.1:${server.httpServer.address().port}`;
-const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
+const routes = ['/', '/work', '/writing', '/projects', '/resume', '/notes', '/lab', '/history', '/research', '/about', '/notes/startr-postmortem', '/notes/zinify', '/notes/power-quality', '/notes/nobody-owes-anything-now', '/notes/its-just-possible', '/essays/gpt7-will-have-arms', '/notes/eai-challenge'];
 const POEM = '/notes/nobody-owes-anything-now';
+// "It's just possible": its paragraphs, read from the one Markdown source, must reach every edition.
+const ESSAY = '/notes/its-just-possible';
+const essay = parseEssay(await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8'));
+const essayParagraphs = essay.body.split('\n\n').filter(block => /^[A-Z]/.test(block) && !/[*[`]/.test(block));
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
 const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
-const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
+const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/notes/its-just-possible.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html']);
 const report = [];
 let browser;
 
@@ -75,6 +81,14 @@ try {
     assert.ok((await poemCover.getAttribute('src')).includes('/images/covers/nobody-owes-anything-now'), `The poem's cover at ${width}`);
     assert.ok(await page.locator('.poem-figure img').evaluate(image => image.complete && image.naturalWidth > 0), `The poem's still figure loads at ${width}`);
 
+    // The essay: every paragraph on the page, its cover beside the title.
+    await page.goto(origin + ESSAY, { waitUntil: 'networkidle' });
+    const essayText = (await page.locator('article').innerText()).replace(/\s+/g, ' ');
+    for (const paragraph of essayParagraphs) assert.ok(essayText.includes(paragraph.replace(/\s+/g, ' ')), `Essay paragraph on the page at ${width}: ${paragraph.slice(0, 50)}`);
+    assert.equal((await page.locator('h1').innerText()).trim(), essay.meta.title, `Essay title at ${width}`);
+    assert.ok(await page.locator('.frontispiece img').evaluate(image => image.complete && image.naturalWidth > 0), `The essay's cover loads at ${width}`);
+    assert.equal(await page.locator('article a[href="/notes/iros-2026-origami"]').count(), 1, `The origami story link at ${width}`);
+
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
     await page.goto(origin + '/work');
     assert.equal(await page.locator('[data-work]').count(), works.length, 'Every work on the Work page');
@@ -100,16 +114,16 @@ try {
     await page.goto(origin + '/notes/2', { waitUntil: 'networkidle' });
     assert.ok(page.url().endsWith('/notes/startr-postmortem'), 'Preserve numeric StartR URL');
     await page.goto(origin + '/history', { waitUntil: 'networkidle' });
-    assert.equal(await page.locator('[data-milestone]').count(), 10, 'Complete history');
+    assert.equal(await page.locator('[data-milestone]').count(), milestones.length, 'Complete history');
     await page.goto(origin + '/this-route-does-not-exist', { waitUntil: 'networkidle' });
     assert.ok((await page.locator('h1').innerText()).includes('isn’t here'), 'Meaningful missing-page state');
     // A new visitor can reach actual work and return without decoding a menu.
-    // The homepage: the mosaic apse with the desk in four places, all ten milestones with their
+    // The homepage: the mosaic apse with the desk in four places, every milestone with its
     // photographs, the covers, and the mosaic footer.
     await page.goto(origin + '/');
     await page.locator('[data-milestone]').first().waitFor();
     assert.equal(await page.locator('[data-frame]').count(),4,'Four places on the homepage');
-    assert.equal(await page.locator('[data-milestone]').count(),10,'All history on homepage');
+    assert.equal(await page.locator('[data-milestone]').count(),milestones.length,'All history on homepage');
     for (const id of ['eai-challenge','ebay-research','ucsd-graduation','zinify','startr','ebay-internship','ebay-ml-challenge','ucsd-start','texas-instruments','nitk']) assert.equal(await page.locator(`#history-${id}`).count(),1,`History anchor kept: ${id}`);
     // the first paint's stills (wall, conch, the stele's marble, head and frame) all load, and the apse is shown
     const stills = await page.evaluate(async () => {
@@ -150,7 +164,7 @@ try {
     await nav.getByRole('link', { name: 'About', exact: true }).click();
     await page.getByRole('link', { name: 'Timeline', exact: true }).first().click();
     await page.locator('[data-milestone]').first().waitFor();
-    assert.equal(await page.locator('[data-milestone]').count(), 10, 'History remains easy to reach from About');
+    assert.equal(await page.locator('[data-milestone]').count(), milestones.length, 'History remains easy to reach from About');
     await page.close();
   }
 
@@ -173,12 +187,26 @@ try {
   assert.ok(feed.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + POEM + '<'), 'Poem in the sitemap');
 
+  // The essay reaches crawlers whole: the prerendered page, its Markdown mirror, RSS, the sitemap and the crawler edition.
+  const essayHtml = (await (await fetch(origin + ESSAY + '/')).text()).replaceAll('&#x27;', "'").replaceAll('&quot;', '"').replaceAll('&amp;', '&');
+  const essayMarkdown = await (await fetch(origin + ESSAY + '.md')).text();
+  for (const paragraph of essayParagraphs) {
+    assert.ok(essayHtml.includes(paragraph), `Prerendered essay paragraph: ${paragraph.slice(0, 50)}`);
+    assert.ok(essayMarkdown.includes(paragraph), `Markdown mirror paragraph: ${paragraph.slice(0, 50)}`);
+  }
+  assert.ok(essayHtml.includes('/images/covers/its-just-possible-social.jpg'), 'Essay share card');
+  assert.ok(essayHtml.includes('/images/covers/its-just-possible-360.webp'), 'Essay cover in the prerendered page');
+  assert.ok(feed.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the RSS feed');
+  assert.ok(sitemap.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the sitemap');
+  const essayReader = await (await handler(new Request(`${origin}/api/og?page=its-just-possible`, { headers: { 'user-agent': 'Mozilla/5.0' } }))).text();
+  assert.ok(essayReader.includes('type="module"') && essayReader.includes(essayParagraphs[0].slice(0, 40)), 'Readers of the essay get its prerendered page');
+
   // The homepage's first paint: its stills and the scripts that choose San Jose's moment and hold
   // the apse until its pictures are in are in the prerendered HTML, with every milestone.
   const homeHtml = await (await fetch(origin + '/')).text();
   assert.ok(homeHtml.includes('data-sj') && homeHtml.includes('apse-wait'), 'First-paint scripts in the prerendered homepage');
   assert.ok(homeHtml.includes('/images/home/wall-side-1x.webp') && homeHtml.includes('/images/home/conch-fine-now-'), 'Homepage stills in the prerendered CSS');
-  assert.equal((homeHtml.match(/data-milestone/g) || []).length, 10, 'Every milestone in the prerendered homepage');
+  assert.equal((homeHtml.match(/data-milestone/g) || []).length, milestones.length, 'Every milestone in the prerendered homepage');
 
   const workHtml = await (await fetch(origin + '/work/')).text();
   assert.ok(workHtml.includes('<h1>Writing &amp; Projects</h1>'), 'Prerendered Work page');
@@ -192,7 +220,7 @@ try {
     assert.ok((await response.arrayBuffer()).byteLength > 0, `Empty public file: ${asset}`);
   }
 
-  for (const [key, title] of [['gpt7', 'GPT-7 Will Have Arms'], ['eai', 'Winning by Overfitting']]) {
+  for (const [key, title] of [['gpt7', 'GPT-7 Will Have Arms'], ['eai', 'Winning by Overfitting'], ['its-just-possible', "It's just possible"]]) {
     const response = await handler(new Request(`${origin}/api/og?page=${key}`, { headers: { 'user-agent': 'Twitterbot' } }));
     const html = await response.text();
     assert.equal(response.status, 200);
@@ -203,7 +231,7 @@ try {
 
   const reportArg = process.argv.indexOf('--report');
   if (reportArg >= 0) await writeFile(process.argv[reportArg + 1], JSON.stringify(report, null, 2) + '\n');
-  console.log(`Passed: ${report.length} page checks, fallback routing, ${assets.size} public files, both crawler articles and the browser shell.`);
+  console.log(`Passed: ${report.length} page checks, fallback routing, ${assets.size} public files, every crawler article and the browser shell.`);
 } finally {
   if (browser) await browser.close();
   await new Promise(resolve => server.httpServer.close(resolve));
