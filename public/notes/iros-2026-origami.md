@@ -49,7 +49,7 @@ The organizers announced AxisTilted2 as second.
 
 ## How I got there
 
-**The big model.** My first instinct was scale. I fine-tuned a very large pretrained robot model on the demonstrations, on a rented 8×A100 machine. In the first remote test on the real robot, every run ended in a stop within seconds. The model wasn’t the problem; its inference latency was. The robot executed a few steps of each action chunk, then paused waiting for the next. Execution matters as much as the model.
+**The big model.** My first instinct was scale. I fine-tuned a very large pretrained robot model on the demonstrations, on a rented 8×A100 machine. The first remote test on the real robot didn’t go well, and the problem wasn’t the model: it was the timing between the model and the robot. Execution matters as much as the model.
 
 **Circles.** I spent about ten days having agents build a high-fidelity paper simulator, so I could train with reinforcement learning. It produced no usable fold. Eventually I told a fresh session, “I feel like I might be going a bit in circles. What I really want is some way to achieve this really quickly but also actually solve the task.” It told me the simulator wasn’t on the critical path. It was right.
 
