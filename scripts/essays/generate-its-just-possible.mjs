@@ -11,17 +11,20 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { parseEssay, PATH, READ_TIME, FIGURE_AFTER } from '../../src/pages/notes/its-just-possible/essay-source.js';
-import { eventLog } from '../../src/pages/notes/its-just-possible/flight/timeline.js';
+import { stopLog } from '../../src/pages/notes/its-just-possible/flight/timeline.js';
 
 const SITE = 'https://www.sankala.me';
 const source = await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8');
 const { meta, body } = parseEssay(source);
-// The figure, "The final weekend, as a flight", as text, where it sits on the page: at the end of
+// The figure, "The final push, as a flight", as text, where it sits on the page: at the end of
 // the section "The weekend".
 
-const figure = `**Figure: The final weekend, as a flight.** Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](${SITE}${PATH}#flight) has the interactive map; here it is as a list:
+const [where, ...stops] = stopLog();
+const figure = `**Figure: The final push, as a flight.** How the final push of RealPDE went, drawn as an in-flight map of my trip to Pittsburgh. Each stop is a moment, in order; the map isn't to time. The [web edition](${SITE}${PATH}#flight) has the interactive map; here it is as a list.
 
-${eventLog().map(e => `- ${e.when}: ${e.text}`).join('\n')}
+${where}
+
+${stops.map((text, i) => `${i + 1}. ${text}`).join('\n')}
 `;
 const withFigure = body.replace(new RegExp(`(^## ${FIGURE_AFTER}\\n[\\s\\S]*?)(?=^## )`, 'm'), (section) => `${section.trimEnd()}\n\n${figure}\n`);
 if (withFigure === body) throw new Error(`Could not place the figure after the section "${FIGURE_AFTER}"`);

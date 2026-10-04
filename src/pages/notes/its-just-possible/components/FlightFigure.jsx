@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from 'react';
 import { queueBuild } from '../../../../components/art/build-queue';
-import { WAYPOINTS, SPAN, SUNDAY, OPENING, stateAt, stamp, eventLog } from '../flight/timeline';
+import { STOPS, COUNT, OPENING, fraction, stateAt, stopLog } from '../flight/timeline';
 import { PLANE_PATH } from './Leg';
 
-// "The final weekend, as a flight": a seatback moving map. The map's still is in the HTML;
-// once the figure is near the screen and the browser is idle, the same map is drawn live in a
-// canvas over it (src/pages/notes/its-just-possible/flight/). The panel, messages and controls
-// are real HTML, so they work before the canvas arrives, without it, and for screen readers.
+// "The final push, as a flight": a seatback moving map that steps through the moments of the
+// final push in order. Stops sit evenly along the route; the map isn't to time. The map's still
+// is in the HTML; once the figure is near the screen and the browser is idle, the same map is
+// drawn live in a canvas over it (src/pages/notes/its-just-possible/flight/). The panel,
+// messages and controls are real HTML, so they work before the canvas arrives, without it, and
+// for screen readers.
 const ART = '/images/notes/its-just-possible';
-const LAST = WAYPOINTS[WAYPOINTS.length - 1].t;
-const RATE = 80;           // minutes of the weekend per second of playback
-const DWELL = 1.6;         // seconds held at each waypoint
+const FLY = .9;            // seconds to fly from one stop to the next
+const DWELL = 1.8;         // seconds held at each stop
 const SENDER = { Agent: 'Agent', Me: 'Me', Fleet: 'GPUs', Leaderboard: 'Leaderboard' };
-const describe = s => `${s.clock.day} ${s.clock.date}, ${s.clock.time} UTC. Track 1 ${s.track1.rank}, Track 2 ${s.track2.rank}, ${s.gpus} GPUs online.`;
+const rank = r => r === '~#7' ? 'about 7th' : r === 'Top 10' ? 'top 10' : r;
+const describe = (i, s) => `${i ? `Stop ${i} of ${COUNT}` : 'The start'}. Track 1 ${rank(s.track1.rank)}, score ${s.track1.score}; Track 2 ${rank(s.track2.rank)}, score ${s.track2.score}; ${s.gpus} GPUs online.`;
 
 function Readout({ label, value, sub, className = '' }) {
   return <div className={`ijp-readout ${className}`}>
@@ -23,12 +25,13 @@ function Readout({ label, value, sub, className = '' }) {
 }
 
 export default function FlightFigure() {
-  const [t, setT] = useState(OPENING);
+  const [stop, setStop] = useState(OPENING);      // the stop shown in the panel (0 = the start)
+  const [pos, setPos] = useState(OPENING);        // where the plane is, in stops; between stops while flying
   const [playing, setPlaying] = useState(false);
   const [live, setLive] = useState(false);
-  const stage = useRef(null), canvas = useRef(null), map = useRef(null), now = useRef(OPENING);
-  const s = stateAt(t);
-  now.current = t;
+  const stage = useRef(null), canvas = useRef(null), map = useRef(null), now = useRef({ pos: OPENING, stop: OPENING });
+  const s = stateAt(stop);
+  now.current = { pos, stop };
 
   // Draw the live map once the figure is close and the browser is idle; rebuild on a real resize.
   useEffect(() => {
@@ -46,7 +49,7 @@ export default function FlightFigure() {
         const next = await createFlightMap({ canvas: canvas.current, width, height, small: rect.width < 560 });
         if (disposed) return;
         map.current = next; built = width;
-        next.draw(now.current, stateAt(now.current).waypoint);
+        next.draw(now.current.pos, now.current.stop);
         setLive(true);
       }).catch(() => {}).finally(() => { building = false; });
     };
@@ -57,45 +60,34 @@ export default function FlightFigure() {
     return () => { disposed = true; io.disconnect(); ro?.disconnect(); clearTimeout(timer); };
   }, []);
 
-  useEffect(() => { if (map.current) map.current.draw(t, s.waypoint); }, [t, s.waypoint, live]);
+  useEffect(() => { if (map.current) map.current.draw(pos, stop); }, [pos, stop, live]);
 
-  // Playback: the plane flies at a steady rate and waits at each waypoint. With reduced motion
-  // it steps from waypoint to waypoint instead.
+  // Playback: fly to the next stop, wait there, and go on. With reduced motion the plane jumps.
   useEffect(() => {
     if (!playing) return undefined;
-    let cur = now.current >= LAST ? 0 : now.current, raf = 0, timer = 0, hold = 0, last = performance.now();
-    setT(cur);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const step = () => { const next = WAYPOINTS.find(w => w.t > cur); if (!next) { setT(SPAN); setPlaying(false); return; } cur = next.t; setT(cur); timer = setTimeout(step, 2400); };
-      timer = setTimeout(step, 700);
-      return () => clearTimeout(timer);
-    }
-    const frame = time => {
-      const dt = Math.min(.1, (time - last) / 1000); last = time;
-      if (hold > 0) hold -= dt;
-      else {
-        const next = WAYPOINTS.find(w => w.t > cur);
-        let nt = cur + dt * RATE;
-        if (next && nt >= next.t) { nt = next.t; hold = DWELL; }
-        cur = Math.min(SPAN, nt); setT(cur);
-        if (cur >= SPAN) { setPlaying(false); return; }
-      }
+    let cur = now.current.stop >= COUNT ? 0 : now.current.stop, raf = 0, timer = 0;
+    setStop(cur); setPos(cur);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const arrive = n => { cur = n; setStop(n); setPos(n); if (n >= COUNT) { setPlaying(false); return; } timer = setTimeout(next, DWELL * 1000); };
+    const next = () => {
+      const from = cur, to = cur + 1;
+      if (reduce) { arrive(to); return; }
+      const t0 = performance.now();
+      const frame = time => {
+        const u = Math.min(1, (time - t0) / (FLY * 1000)), e = u * u * (3 - 2 * u);
+        setPos(from + e);
+        if (u < 1) raf = requestAnimationFrame(frame); else arrive(to);
+      };
       raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(raf);
+    timer = setTimeout(next, cur === 0 ? 900 : 200);
+    return () => { clearTimeout(timer); cancelAnimationFrame(raf); };
   }, [playing]);
 
-  const go = value => { setPlaying(false); setT(Math.max(0, Math.min(SPAN, value))); };
-  const onKey = event => {
-    const jumps = { ArrowLeft: -30, ArrowDown: -30, ArrowRight: 30, ArrowUp: 30, PageDown: -360, PageUp: 360 };
-    if (jumps[event.key] === undefined) return;
-    event.preventDefault(); go(Math.round(t) + jumps[event.key]);
-  };
-  const prevWp = [...WAYPOINTS].reverse().find(w => w.t < Math.round(t)), nextWp = WAYPOINTS.find(w => w.t > Math.round(t));
-  const wp = s.waypoint >= 0 ? WAYPOINTS[s.waypoint] : null;
-  const atEnd = t >= LAST && !playing;
-  const pct = v => `${(v / SPAN * 100).toFixed(2)}%`;
+  const go = n => { setPlaying(false); const v = Math.max(0, Math.min(COUNT, n)); setStop(v); setPos(v); };
+  const here = stop > 0 ? STOPS[stop - 1] : null;
+  const atEnd = stop >= COUNT && !playing;
+  const pct = v => `${(fraction(v) * 100).toFixed(2)}%`;
 
   return <figure className="ijp-flight" id="flight">
     <div className="ijp-bezel">
@@ -104,31 +96,28 @@ export default function FlightFigure() {
           <picture>
             <source media="(max-width: 600px)" srcSet={`${ART}/flight-map-phone-760.webp`} />
             <img src={`${ART}/flight-map-1400.webp`} srcSet={`${ART}/flight-map-700.webp 700w, ${ART}/flight-map-1400.webp 1400w`} sizes="(max-width: 1060px) 70vw, 720px"
-              width="1400" height="933" alt="An in-flight map of the United States: a glowing route from San Jose to Pittsburgh, flown to the end, with waypoints along it for the messages and results of the final weekend." />
+              width="1400" height="933" alt="An in-flight map of the United States: a glowing route from San Jose to Pittsburgh, flown to the end, with eight stops along it for the messages and results of the final push." />
           </picture>
           <canvas ref={canvas} className={live ? 'is-live' : ''} aria-hidden="true" />
         </div>
 
         <div className="ijp-side">
           <div className="ijp-readouts">
-            <Readout className="ijp-wide" label="Time (UTC)" value={`${s.clock.day} ${s.clock.date} · ${s.clock.time}`} />
             <Readout className="ijp-rank" label="Track 1" value={s.track1.rank} sub={`score ${s.track1.score}`} />
             <Readout className="ijp-rank" label="Track 2" value={s.track2.rank} sub={`score ${s.track2.score}`} />
-            <Readout label="GPUs online" value={s.gpus} />
-            <Readout label="Time to deadline" value={s.toGo} />
+            <Readout className="ijp-wide" label="GPUs online" value={s.gpus} />
           </div>
           <div className="ijp-message">
             <div className="ijp-message-head">
-              <span>{wp ? `${stamp(wp.t)} UTC` : 'Messages'}</span>
+              <span>{here ? `Stop ${stop} of ${COUNT}` : 'The start'}</span>
               <span className="ijp-message-nav">
-                <button type="button" onClick={() => prevWp && go(prevWp.t)} disabled={!prevWp} aria-label="Previous waypoint">‹</button>
-                <span aria-hidden="true">{s.waypoint + 1}/{WAYPOINTS.length}</span>
-                <button type="button" onClick={() => nextWp && go(nextWp.t)} disabled={!nextWp} aria-label="Next waypoint">›</button>
+                <button type="button" onClick={() => go(stop - 1)} disabled={stop <= 0} aria-label="Previous stop">‹</button>
+                <button type="button" onClick={() => go(stop + 1)} disabled={stop >= COUNT} aria-label="Next stop">›</button>
               </span>
             </div>
             <div className="ijp-message-body" aria-live="polite">
-              {wp ? wp.lines.map(([who, text], i) => <p key={i} className={`ijp-line is-${who.toLowerCase()}`}><span className="ijp-who">{SENDER[who]}</span><span className="ijp-said">{text}</span></p>)
-                : <p className="ijp-line is-quiet"><span className="ijp-said">Saturday morning: 13 GPUs online, Track 1 in the top 10, Track 2 about 7th.</span></p>}
+              {here ? here.lines.map(([who, text], i) => <p key={i} className={`ijp-line is-${who.toLowerCase()}`}><span className="ijp-who">{SENDER[who]}</span><span className="ijp-said">{text}</span></p>)
+                : <p className="ijp-line is-quiet"><span className="ijp-said">Where we start: 13 GPUs online, Track 1 in the top 10, Track 2 about 7th.</span></p>}
             </div>
           </div>
         </div>
@@ -139,25 +128,25 @@ export default function FlightFigure() {
             <span>{playing ? 'Pause' : atEnd ? 'Replay' : 'Play'}</span>
           </button>
           <span className="ijp-code">SJC</span>
-          <div className="ijp-track" style={{ '--at': pct(t) }}>
+          <div className="ijp-track" style={{ '--at': pct(pos) }}>
             <span className="ijp-track-flown" aria-hidden="true" />
-            {WAYPOINTS.map(w => <span key={w.t} className={`ijp-tick is-${w.kind}${w.t <= t ? ' is-passed' : ''}`} style={{ left: pct(w.t) }} aria-hidden="true" />)}
-            <span className="ijp-day" style={{ left: pct(SUNDAY) }} aria-hidden="true">Sun</span>
+            {STOPS.map((st, i) => <span key={i} className={`ijp-tick is-${st.kind}${i + 1 <= pos + 1e-6 ? ' is-passed' : ''}`} style={{ left: pct(i + 1) }} aria-hidden="true" />)}
             <span className="ijp-thumb" aria-hidden="true"><svg viewBox="-11 -11 22 22" width="24" height="24"><path d={PLANE_PATH} /></svg></span>
-            <input type="range" min="0" max={SPAN} step="1" value={Math.round(t)} onChange={event => go(Number(event.target.value))} onKeyDown={onKey}
-              aria-label="Time through the final weekend" aria-valuetext={describe(s)} />
+            <input type="range" min="0" max={COUNT} step="1" value={stop} onChange={event => go(Number(event.target.value))}
+              aria-label="Stops of the final push" aria-valuetext={describe(stop, s)} />
           </div>
           <span className="ijp-code">PIT</span>
         </div>
       </div>
     </div>
     <figcaption>
-      <strong>The final weekend, as a flight.</strong> Our leaderboard positions over the final weekend of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane’s position is time, not GPS. Times UTC.
+      <strong>The final push, as a flight.</strong> How the final push of RealPDE went, drawn as an in-flight map of my trip to Pittsburgh. Each stop is a moment, in order; the map isn’t to time.
       <span className="ijp-legend" aria-hidden="true"><i className="is-chat" /> messages <i className="is-fleet" /> GPUs <i className="is-board" /> leaderboard</span>
     </figcaption>
     <details className="ijp-log">
-      <summary>The weekend as text</summary>
-      <ol>{eventLog().map(e => <li key={e.t + e.text}><time>{e.when}</time> {e.text}</li>)}</ol>
+      <summary>The final push as text</summary>
+      <p>{stopLog()[0]}</p>
+      <ol>{stopLog().slice(1).map(text => <li key={text}>{text}</li>)}</ol>
     </details>
   </figure>;
 }

@@ -1,8 +1,8 @@
-// The figure's moving map: "The final weekend, as a flight". The map, cities and the route
-// still to fly are printed once per size; each frame adds the route flown so far, the
-// waypoints and the plane at minute t. The plane's position is time, not GPS.
+// The figure's moving map: "The final push, as a flight". The map, cities and the route still
+// to fly are printed once per size; each frame adds the route flown so far, the stops and the
+// plane. Stops sit evenly along the route, in order; the map isn't to time.
 import { albers, fitView, greatCircle, drawMap, drawPlane, haloText, labelSpot, COLORS, PLACES, CITIES } from './map.js';
-import { WAYPOINTS, SPAN, clock } from './timeline.js';
+import { STOPS, fraction } from './timeline.js';
 import { loadCoverFonts } from '../../../../components/art/covers/fonts.js';
 
 export const DW = 900, DH = 600;   // design units, 3:2
@@ -62,28 +62,29 @@ export async function createFlightMap({ canvas, width, height, small = false }) 
   b.textAlign = 'left'; b.fillStyle = COLORS.amber; b.font = `700 ${10 * kf}px ${F}`; b.fillText('DESTINATION', fx + 10, fy + 17 * kf);
   b.fillStyle = COLORS.label; b.font = `800 ${21 * kf}px ${F}`; b.fillText('Pittsburgh', fx + 10, fy + 40 * kf);
 
-  const marks = WAYPOINTS.map(w => ({ ...w, p: route.at(w.t / SPAN) }));
+  const marks = STOPS.map((stop, i) => ({ ...stop, n: i + 1, p: route.at(fraction(i + 1)) }));
   const diamond = (x, y, r) => { ctx.beginPath(); ctx.moveTo(x, y - r); ctx.lineTo(x + r, y); ctx.lineTo(x, y + r); ctx.lineTo(x - r, y); ctx.closePath(); };
 
   return {
-    draw(t, current) {
+    // pos: where the plane is, in stops (0 = San Jose, may be between stops); current: the stop shown (0 = none)
+    draw(pos, current) {
       ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.drawImage(base, 0, 0);
       ctx.setTransform(S, 0, 0, S, 0, 0); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      const plane = route.at(t / SPAN);
+      const plane = route.at(fraction(pos));
       const flown = route.pts.slice(0, plane.i).concat([[plane.x, plane.y]]);
       if (flown.length > 1) {
         ctx.strokeStyle = 'rgba(6,18,40,.8)'; ctx.lineWidth = 8; line(ctx, flown); ctx.stroke();
         ctx.save(); ctx.shadowColor = 'rgba(255,160,30,.95)'; ctx.shadowBlur = 12 * S; ctx.strokeStyle = COLORS.amber; ctx.lineWidth = 4.6; line(ctx, flown); ctx.stroke(); ctx.restore();
         ctx.strokeStyle = COLORS.amberHot; ctx.lineWidth = 1.5; line(ctx, flown); ctx.stroke();
       }
-      marks.forEach((m, i) => {
-        const passed = m.t <= t, r = (i === current ? 6.4 : 4.3) * kf;
+      marks.forEach(m => {
+        const passed = m.n <= pos + 1e-6, r = (m.n === current ? 6.4 : 4.3) * kf;
         diamond(m.p.x, m.p.y, r + 1.8); ctx.fillStyle = 'rgba(6,18,40,.9)'; ctx.fill();
         diamond(m.p.x, m.p.y, r);
         if (passed) { ctx.fillStyle = KIND[m.kind]; ctx.fill(); } else { ctx.strokeStyle = 'rgba(235,242,255,.9)'; ctx.lineWidth = 1.4; ctx.stroke(); }
       });
-      if (current >= 0) {
-        const m = marks[current], c = clock(m.t), txt = `${c.day.toUpperCase()} ${c.time}`;
+      if (current > 0) {
+        const m = marks[current - 1], txt = `STOP ${m.n}`;
         ctx.strokeStyle = KIND[m.kind]; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.arc(m.p.x, m.p.y, 13 * kf, 0, TAU); ctx.stroke();
         ctx.font = `700 ${12.5 * k}px ${F}`; const tw = ctx.measureText(txt).width + 14 * k, th = 21 * k;
         const fx2 = Math.max(6, Math.min(DW - tw - 6, m.p.x - tw / 2)), fy2 = m.p.y - 22 * k - th;   // the flag sits above, on the north side
