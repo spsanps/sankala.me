@@ -29,7 +29,7 @@ The RealPDE development phase closed at midnight UTC on Sunday, September 27. Th
 
 Scores in RealPDE sit around 82 out of 100, a mix of accuracy, speed and how well a model knows its own uncertainty. At 2 pm UTC on Sunday, my agents reported where we stood: 9th on one track and 5th on the other, about a quarter of a point behind first on each. By 6:10 pm we were first on both.
 
-All weekend I worked through one long Claude Code session running Opus 5.5, remotely, some of it over airplane wifi. From that session I directed roughly 200 helper agents over the final week, using as many as 17 rented GPUs at once. The push cost about $1,200 all in, for GPUs, my Claude subscription and some credits. If first place holds on both tracks, the prize is $12,000.
+All weekend I worked through one long Claude Code session running Opus 5.5, remotely, some of it over airplane wifi. From that session I directed roughly 200 helper agents in all, using as many as 17 rented GPUs at once. The push cost about $1,200 all in, for GPUs, my Claude subscription and some credits. If first place holds on both tracks, the prize is $12,000.
 
 **Figure: The last 72 hours, as a flight.** Our leaderboard positions over the final 72 hours of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](https://www.sankala.me/notes/its-just-possible#flight) has the interactive map; here it is as a list:
 
@@ -55,9 +55,9 @@ All weekend I worked through one long Claude Code session running Opus 5.5, remo
 
 The agents were very good. They built the models, ran thousands of experiments, wrote fast GPU code and checked their own work. But one thing kept happening, even with Opus 5.5: they would decide we'd hit the ceiling.
 
-In the final week it happened four times. Each time, I said no. And each time, the next improvement came within hours.
+It happened four times near the end. Each time, I said no. And each time, the next improvement wasn't far behind.
 
-On Friday evening the agent decided this approach was done:
+Once, the agent decided this approach was done:
 
 > **Agent:** No lever left inside this model family… 82.3 is not reachable with any lever I can measure.
 >
@@ -65,15 +65,15 @@ On Friday evening the agent decided this approach was done:
 >
 > **Me:** hey don't be like this, there is always ways to improve… if you think can't then you can't
 
-It answered, "a settled 'information limit' verdict isn't research, it's a stopping point," and went back to work. That night it found a way to read the wind speed and the wing's angle straight from the input data, and a way for the second track's model to make better use of the data it had just seen. Both were real gains.
+It answered, "a settled 'information limit' verdict isn't research, it's a stopping point," and went back to work. Soon after, it found a way to read the wind speed and the wing's angle straight from the input data, and a way for the second track's model to make better use of the data it had just seen. Both were real gains.
 
-A few hours later:
+Another time:
 
 > **Agent:** None of them is a robust #1.
 >
 > **Me:** stooppp!!! you cannot say this, your entire instruction is to take a step back and address the track 1 gap
 
-It went back to closing that gap, and the changes it found took Track 1 to first. On Saturday night it said we were at a "local optimum":
+It went back to closing that gap, and the changes it found took Track 1 to first. On the final weekend it said we were at a "local optimum":
 
 > **Me:** every time we encountered this negativity from you I was able to help you find the next push. I think this mindset is wrong. Does that make sense, Claude? Believe we can.
 
@@ -83,7 +83,7 @@ Pushing doesn't always work. In August, one change I pushed for improved our pri
 
 ### A leaderboard is proof
 
-The most useful question I asked all month was this one, early in the final week:
+The most useful question I asked all month was this one:
 
 > **Me:** There is something we are missing if the leaderboard is able to get it right? Shouldn't we work with that mindset?
 
@@ -117,7 +117,7 @@ With the newer model, the conversation itself was the loop. I gave it access to 
 
 People ask what prompts I use. Mostly, these.
 
-**At the start of the final week,** I gave it this:
+**When I started the final push,** I gave it this:
 
 > Your task is to iterate at a very high sensible pace and come up with multiple winning solutions… Please respect the competition rules. Aggressively proceed.
 
