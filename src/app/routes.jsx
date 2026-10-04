@@ -22,6 +22,7 @@ export const routes = [
     // Essays with their own hand-made figure; the figure code loads only on these pages.
     { path: '/notes/zinify', lazy: async () => ({ Component: (await import('../pages/notes/zinify/ZinifyEssay')).default }) },
     { path: '/notes/power-quality', lazy: async () => ({ Component: (await import('../pages/notes/power-quality/PowerQualityEssay')).default }) },
+    { path: '/notes/its-just-possible', lazy: async () => ({ Component: (await import('../pages/notes/its-just-possible/ItsJustPossibleEssay')).default }) },
     // The poem is light (its figure's code loads only when on screen), so its page and styles
     // come with the site and the prerendered HTML is typeset from the first paint.
     { path: '/notes/nobody-owes-anything-now', element: <PoemPage /> },

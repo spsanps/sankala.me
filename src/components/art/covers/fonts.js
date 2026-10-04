@@ -10,6 +10,7 @@ const FACES = {
   'michroma-400': ['Michroma', 400],
   'courier-prime-400': ['Courier Prime', 400], 'courier-prime-700': ['Courier Prime', 700],
   'shippori-mincho-800': ['Shippori Mincho', 800],
+  'sofia-sans-condensed-500-800': ['Sofia Sans Condensed', '500 800'],
 };
 const loading = new Map();
 

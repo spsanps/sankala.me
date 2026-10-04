@@ -11,6 +11,7 @@ export const coverLoaders = {
   'zinify': () => import('./zinify.js'),
   'power-quality': () => import('./power-quality.js'),
   'nobody-owes-anything-now': () => import('./nobody-owes-anything-now.js'),
+  'its-just-possible': () => import('./its-just-possible.js'),
 };
 
 export const coverDescriptions = {
@@ -24,6 +25,7 @@ export const coverDescriptions = {
   'zinify': 'A pink and blue risograph zine cover: a research paper turning into a zine.',
   'power-quality': 'A technical journal cover with an oscilloscope showing a sagging waveform.',
   'nobody-owes-anything-now': 'A sgraffito slab, white slip scratched through to red clay: a ring of land seen end-on, with a house marked POTTERY at the bottom, an orchard hanging overhead, and a cup in the middle.',
+  'its-just-possible': 'An airline seatback moving map: a glowing route from San Jose toward Pittsburgh with a small plane partway, the title where the destination would be named, and a data panel reading Track 1 #1 and Track 2 #1.',
 };
 
 export const hasCover = slug => Object.prototype.hasOwnProperty.call(coverLoaders, slug);

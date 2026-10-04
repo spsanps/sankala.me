@@ -1,5 +1,39 @@
 [
   {
+    "year": "2026",
+    "title": "First on both tracks of the NeurIPS 2026 RealPDE competition",
+    "description": "I finished the development phase first on both tracks, steering a fleet of AI agents while I travelled to IROS in Pittsburgh. The final phase retrains every finalist from scratch, and results come out on November 10.",
+    "id": "realpde",
+    "month": "September",
+    "location": "Online",
+    "category": "Competition",
+    "images": [],
+    "links": [
+      [
+        "/notes/its-just-possible",
+        "Read how"
+      ]
+    ],
+    "date": "2026-09"
+  },
+  {
+    "year": "2026",
+    "title": "Fifth in the Tartan IMU Challenge at IROS 2026",
+    "description": "[Chin](https://chin.bio) and I placed fifth of 131 teams. One model had to estimate velocity from one second of raw motion-sensor data, across a car, a legged robot, a drone and a walking person.",
+    "id": "tartan-imu",
+    "month": "September",
+    "location": "Pittsburgh, PA",
+    "category": "Competition",
+    "images": [],
+    "links": [
+      [
+        "https://www.kaggle.com/competitions/tartan-imu-challenge-iros2026",
+        "The competition"
+      ]
+    ],
+    "date": "2026-09"
+  },
+  {
     "year": "2025",
     "title": "First place at the NeurIPS EAI Challenge",
     "description": "[Chin](https://chin.bio) and I won first place in the NeurIPS 2025 Embodied Agent Interface Challenge, as team AxisTilted2. We built language-model agents that reason about physical tasks in simulated environments.",

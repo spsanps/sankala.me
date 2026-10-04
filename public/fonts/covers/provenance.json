@@ -127,5 +127,21 @@
       "shippori-mincho-800.woff2"
     ],
     "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Sofia Sans Condensed",
+    "weights": [
+      500,
+      600,
+      700,
+      800
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Sofia+Sans+Condensed:wght@500;600;700;800",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/sofiasanscondensed/OFL.txt",
+    "licenseFile": "sofia-sans-condensed-OFL.txt",
+    "files": [
+      "sofia-sans-condensed-500-800.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset of the variable font (one file covers weights 500-800), unmodified. Lettering for the seatback moving-map cover of \"It's just possible\" (and its figure), loaded on demand with the FontFace API."
   }
 ]
