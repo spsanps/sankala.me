@@ -34,15 +34,15 @@ The organizers announced AxisTilted2 as second.
 
 ## How I got there
 
-**The big model.** My first instinct was scale. I fine-tuned a very large pretrained robot model on the demonstrations, on a rented 8×A100 machine. In the first remote test on the real robot, every run ended in a stop within seconds. The model wasn’t the problem. It was too slow for the robot, and the robot executed a few frames of each plan and then paused. Execution matters as much as the model.
+**The big model.** My first instinct was scale. I fine-tuned a very large pretrained robot model on the demonstrations, on a rented 8×A100 machine. In the first remote test on the real robot, every run ended in a stop within seconds. The model wasn’t the problem; its inference latency was. The robot executed a few steps of each action chunk, then paused waiting for the next. Execution matters as much as the model.
 
 **Circles.** I spent about ten days having agents build a high-fidelity paper simulator, so I could train with reinforcement learning. It produced no usable fold. Eventually I told a fresh session, “I feel like I might be going a bit in circles. What I really want is some way to achieve this really quickly but also actually solve the task.” It told me the simulator wasn’t on the critical path. It was right.
 
 **kami.** I brought in a small browser page I’d written myself, a fast paper simulation, and told the agent to be guided by it instead of the old checkpoints. Within a day it was a GPU simulator running a thousand sheets at once. In the end it never trained the competition model. Its real use was as a test bench: it caught the policy freezing and copying before I spent robot time on them. I’ve open-sourced it as [kami](https://github.com/spsanps/kami), a paper physics simulator.
 
-**The policy.** I pushed for a different kind of model: small, fast, and generative instead of averaging. “Averaging is a mistake, I don’t think this is how modern robotic models do it.” The first version predicted the average of the demonstrations, and when the demonstrations disagreed, the average was to do nothing. It would hover over the sheet, frozen. The new design draws one plausible plan instead.
+**The policy.** My first policy was an ACT-style transformer, trained by behavior cloning with an L1 loss on action chunks. A regression loss averages across modes: where demonstrators folded in different ways, the mean action was close to standing still, and in closed-loop tests the hands hovered over the sheet. I replaced the regression head with a small, fast flow-matching action head, which samples one mode instead of averaging them.
 
-**The data.** Training the same small model on every robot and every frame in the dataset cut its error by 39%, and by 62% on the most recent recordings. A 3.6-billion-parameter touch-aware model, fine-tuned for the same task, was 37% worse on the same held-out moments and slower. (It saw far fewer samples than mine in the time I had, so this says what each could do with my budget, not that small always beats big.) Then I packed everything into a private repo and a handoff page so agents could keep working while I travelled.
+**The data.** Training the same small model on every robot and every frame in the dataset cut its error by 39%, and by 62% on the most recent recordings. A 3.6-billion-parameter touch-aware model, fine-tuned for the same task, was 37% worse on the same held-out moments and slower. (It saw far fewer samples than mine in the time I had, so this says what each could do with my budget, not that small always beats big.)
 
 **The night before the last test run.** The data suggested the policy would do better with sharper camera images: 476 pixels instead of 224, with the whole vision encoder free to learn. But it was evening in Pittsburgh, the last test slot was the next morning, and I had honestly given up on it. Was I really going to start a training run now?
 
@@ -54,33 +54,33 @@ The plan was written with an agent at 8:20 pm. A rented H100 started at 8:57 and
 
 [model]
 
-Every plan answers one question: given what the robot sees and feels right now, what should each of its 65 joints do for the next two seconds?
+Every action chunk answers one question: given what the robot sees and feels right now, what should each of its 65 joints do for the next two seconds?
 
-- **See:** each of the three camera images goes through a shared DINOv2 vision encoder and becomes 32 tokens.
-- **Feel:** each of the ten fingertips becomes one token, from its last 15 readings of force and torque. The model also predicts the touch to come, which forces it to pay attention to touch.
-- **Know where it is:** one token for the current joint positions, and one for a clock, so it has a sense of how far into the fold it is.
-- **Decide:** a small transformer mixes the 108 tokens. Then a flow-matching head starts from random noise and refines it in ten quick steps into a plan: 60 steps × 65 joints, two seconds at 30 Hz. It’s the same idea image generators use, applied to motion.
-- **Stitch:** each new plan is built as a continuation of the part of the old plan already being executed, so the hands don’t jump between plans.
+- **See:** the three camera views (head and both wrists) go through a shared DINOv2 ViT-S/14 encoder, pooled to 32 tokens per view.
+- **Feel:** each of the ten fingertips becomes one token, from its last 15 six-axis force–torque readings. Touch is never dropped during training, and an auxiliary head predicts future contact, which gives the touch pathway its own training signal.
+- **Proprioception and progress:** one token for the current joint positions, and one for an episode clock, so the policy knows how far into the fold it is.
+- **Act:** a two-layer context transformer mixes the 108 tokens. A six-block DiT action head then generates an action chunk of 60 steps × 65 joints (two seconds at 30 Hz) by rectified flow: ten Euler steps from noise shaped like real action chunks. It’s the same idea image generators use, applied to motion.
+- **Real-time chunking:** each new chunk is conditioned on the prefix of the previous chunk that is still being executed (trained by inpainting that prefix), so consecutive chunks join without a jump.
 
-It has 62.3 million parameters, plans in about 85 ms on one GPU, and was trained only on the public dataset.
+It has 62.3 million parameters, generates a chunk in about 85 ms on one GPU, and was trained only on the public dataset.
 
 ## What made the difference
 
 None of the parts is new. The architecture is assembled from known ideas: ACT, Diffusion Policy, flow-matching action heads, real-time chunking. What worked was the boring discipline around it:
 
 1. **More data beat a bigger model.** All the robots, all the frames.
-2. **Sample a plan, don’t average one.** An average of different ways to fold is a way to not fold.
-3. **Take away the crutches.** Given its own recent joint positions, my first policy leaned on them instead of watching the paper. Blanking that input changed its output by 17%. I removed it, along with motor torque, which leaked the answer.
-4. **Touch is the hardest signal to use well.** Sharpa’s fingertips sense force finely, which is exactly what folding needs, but my first policy barely used it: removing touch changed its output by about 1%. Giving each fingertip its own token, and predicting the touch to come, helped a little. Getting a policy to really feel the paper is the open problem I’d go after next.
-5. **Stitch plans together.** Each new plan used to jump the hands by 148 milliradians. Building it as a continuation cut that to 6.
-6. **Be fast.** About 85 ms per plan let the robot run the plan it was given.
+2. **A generative head, not regression.** With multimodal demonstrations, an L1 head averages the modes, and an average of different ways to fold is a way to not fold. A flow-matching head samples one.
+3. **Watch for the copycat problem.** Given its own proprioceptive history, my first policy leaned on it instead of watching the paper, a form of causal confusion: blanking that input changed its output by 17%. I removed joint history, along with motor torque, which leaked the action label.
+4. **Don’t let the model learn to ignore touch.** Sharpa’s fingertips sense force finely, which is exactly what folding needs. My first policy was trained with touch dropout and learned to work without it: removing touch changed its output by about 1%. The flow policy never drops touch and predicts future contact, and it does use it: in my paper simulator its creases scored 0.51 with touch against 0.31 without, and at the moment of contact, removing touch raised its error by about 5%. Getting a policy to really feel the paper is still the open problem I’d go after next.
+5. **Real-time chunking.** Without it, each new chunk jumped the hands by 148 milliradians at the seam. Conditioning on the executing prefix cut that to 6.
+6. **Latency is part of the policy.** About 85 ms per chunk let the robot execute the actions it was given.
 7. **Watch the real thing.** Twice, agents told me the demonstrations fold the paper in the air. “No it doesn’t, you should probably look at some more videos.” The paper stays on the table: one hand pins, the other lifts a flap and presses the crease. You can delegate the work, but not the looking.
 
 ## References and credits
 
 **Data and hardware**
 
-- Sharpa. *Robotic Origami Challenge: fold-plane demonstrations* (LeRobot format). [Hugging Face](https://huggingface.co/datasets/SharpaIT/Robotic_Origami_Challenge), 2026. CC BY 4.0. I resized frames and computed my own statistics; no endorsement implied.
+- Sharpa. *Robotic Origami Challenge: fold-plane demonstrations* (LeRobot format). [Hugging Face](https://huggingface.co/datasets/SharpaIT/Robotic_Origami_Challenge), 2026. CC BY 4.0. Licensed CC BY 4.0. Changes: I resized the frames and computed my own normalisation statistics. This work isn’t endorsed by Sharpa.
 - The robot: bimanual arms with [Sharpa](https://www.sharpa.com) hands and fingertip touch sensing.
 
 **Methods I built on**
