@@ -1,0 +1,150 @@
+/* It's just possible: the seatback moving map. The reading column is the site's own; the map's
+   world frames it: flight-progress strips at the sections, the messages and prompts as small
+   screens, and the flight figure. Screens are deep navy with cyan labels and amber readouts. */
+@font-face { font-family: 'Sofia Sans Condensed'; src: url('/fonts/covers/sofia-sans-condensed-500-800.woff2') format('woff2'); font-weight: 500 800; font-display: swap; }
+@font-face { font-family: 'JetBrains Mono'; src: url('/fonts/essays/jetbrains-mono-400-500.woff2') format('woff2'); font-weight: 400 500; font-display: swap; }
+
+.personal-site .ijp-page {
+  --ijp-screen: #071531; --ijp-screen-2: #0c1f40; --ijp-rule: rgba(127, 220, 255, .2);
+  --ijp-cyan: #7fdcff; --ijp-amber: #ffb63d; --ijp-text: #eef3fb; --ijp-dim: #c3d0e3; --ijp-muted: #8ea0bb;
+  --ijp-ui: 'Sofia Sans Condensed', 'Arial Narrow', sans-serif; --ijp-route: #d98600; --ijp-navy-ink: #17325a;
+}
+.personal-site .ijp-page .ijp-body h2 { margin-top: 0; }
+
+/* ── the section strips: SJC to PIT, the plane as far along as you are ── */
+.personal-site .ijp-page .ijp-leg { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; column-gap: 12px; margin: 72px 0 22px; font: 700 12px/1 var(--ijp-ui); letter-spacing: .14em; color: var(--ijp-navy-ink); user-select: none; }
+.personal-site .ijp-page .ijp-leg.is-first { margin: 0 0 40px; }
+.personal-site .ijp-page .ijp-leg.is-last { margin: 56px 0 8px; }
+.personal-site .ijp-page .ijp-leg-track { position: relative; height: 20px; background: radial-gradient(circle, rgba(23, 50, 90, .55) 1.1px, transparent 1.7px) 0 50% / 8px 8px repeat-x; }
+.personal-site .ijp-page .ijp-leg-flown { position: absolute; left: 0; top: 50%; width: var(--at); height: 2.5px; transform: translateY(-50%); border-radius: 2px; background: var(--ijp-route); box-shadow: 0 0 5px rgba(255, 160, 30, .45); }
+.personal-site .ijp-page .ijp-leg-plane { position: absolute; left: var(--at); top: 50%; transform: translate(-50%, -50%); fill: var(--ijp-navy-ink); overflow: visible; }
+.personal-site .ijp-page .ijp-leg-note { margin-left: 6px; color: var(--muted); font-weight: 600; font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+
+/* ── messages: one small screen per exchange, my lines in amber, the agent's in cyan ── */
+.personal-site .ijp-page .prose blockquote.ijp-chat, .personal-site .ijp-page .prose blockquote.ijp-prompt { position: relative; margin: 34px -22px 38px; padding: 0; border: 1px solid var(--ijp-rule); border-radius: 14px; font-style: normal; color: var(--ijp-text); background: linear-gradient(180deg, var(--ijp-screen-2), var(--ijp-screen)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 18px 30px -24px rgba(8, 20, 44, .8); overflow: hidden; }
+.personal-site .ijp-page .prose blockquote.ijp-chat::after, .personal-site .ijp-page .prose blockquote.ijp-prompt::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .1) 0 1px, transparent 1px 3px); border-radius: inherit; }
+.personal-site .ijp-page .prose blockquote.ijp-chat { display: grid; gap: 12px; padding: 18px 18px 20px; }
+.personal-site .ijp-page .ijp-msg { position: relative; z-index: 1; max-width: 86%; padding: 11px 16px 13px; border-left: 3px solid var(--ijp-cyan); border-radius: 4px 10px 10px 4px; background: rgba(127, 220, 255, .06); }
+.personal-site .ijp-page .ijp-msg.is-me { margin-left: auto; border-left-color: var(--ijp-amber); background: rgba(255, 182, 61, .09); }
+.personal-site .ijp-page .prose .ijp-msg-head { display: flex; justify-content: space-between; gap: 16px; margin: 0 0 7px; font: 700 12px/1 var(--ijp-ui); letter-spacing: .16em; text-transform: uppercase; }
+.personal-site .ijp-page .ijp-sender { color: var(--ijp-cyan); }
+.personal-site .is-me .ijp-sender { color: var(--ijp-amber); }
+.personal-site .ijp-page .ijp-seq { color: var(--ijp-muted); letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.personal-site .ijp-page .prose .ijp-msg-text { margin: 0; font: 400 17.5px/1.55 'DM Sans', sans-serif; color: var(--ijp-dim); }
+.personal-site .ijp-page .prose .is-me .ijp-msg-text { color: #fff; font-weight: 500; }
+
+/* ── prompts and notes: the text I typed, as a system prompt ── */
+.personal-site .ijp-page .prose .ijp-card-head { position: relative; z-index: 1; display: flex; justify-content: space-between; gap: 16px; margin: 0; padding: 11px 20px 10px; border-bottom: 1px solid var(--ijp-rule); background: rgba(127, 220, 255, .07); font: 700 12px/1 var(--ijp-ui); letter-spacing: .16em; text-transform: uppercase; }
+.personal-site .ijp-page .ijp-card-label { color: var(--ijp-amber); }
+.personal-site .ijp-page .ijp-card-to { color: var(--ijp-muted); }
+.personal-site .ijp-page .ijp-prompt-text, .personal-site .ijp-page .prose .ijp-note-list { position: relative; z-index: 1; padding: 16px 22px 18px; font: 400 15.5px/1.7 'JetBrains Mono', ui-monospace, monospace; color: #f4f7fc; }
+.personal-site .ijp-page .prose .ijp-prompt-text p { margin: 0 0 10px; padding-left: 1.3em; text-indent: -1.3em; }
+.personal-site .ijp-page .prose .ijp-prompt-text p:last-child { margin-bottom: 0; }
+.personal-site .ijp-page .ijp-caret { display: inline-block; width: 1.3em; text-indent: 0; color: var(--ijp-amber); font-weight: 500; }
+.personal-site .ijp-page .prose .ijp-note-list { margin: 0; list-style: none; counter-reset: note; }
+.personal-site .ijp-page .prose .ijp-note-list li { position: relative; margin: 0; padding: 0 0 12px 2.2em; counter-increment: note; }
+.personal-site .ijp-page .prose .ijp-note-list li:last-child { padding-bottom: 0; }
+.personal-site .ijp-page .prose .ijp-note-list li::before { content: counter(note, decimal-leading-zero); position: absolute; left: 0; color: var(--ijp-muted); }
+.personal-site .ijp-page .ijp-note-list strong { color: var(--ijp-amber); font-weight: 500; }
+
+/* ── the figure: a seatback screen, wider than the column ── */
+.personal-site .ijp-page .ijp-flight { --w: min(1060px, calc(100vw - 48px)); width: var(--w); margin: 52px 0 60px calc(50% - var(--w) / 2); font: 16px/1.4 var(--ijp-ui); }
+.personal-site .ijp-page .ijp-bezel { padding: 12px; border-radius: 24px; background: linear-gradient(160deg, #2c3038, #16181d 42%, #0e1013); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), inset 0 -1px 0 rgba(0, 0, 0, .6), 0 26px 44px -28px rgba(16, 20, 30, .7); }
+.personal-site .ijp-page .ijp-lcd { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 276px; grid-template-areas: 'map side' 'bar bar'; border-radius: 10px; overflow: hidden; background: #061229; color: var(--ijp-text); }
+.personal-site .ijp-page .ijp-lcd::after { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .08) 0 1px, transparent 1px 3px), radial-gradient(ellipse at 42% 40%, transparent 58%, rgba(0, 0, 0, .3)), linear-gradient(128deg, rgba(255, 255, 255, .055), transparent 38%); }
+.personal-site .ijp-page .ijp-map { grid-area: map; position: relative; aspect-ratio: 3 / 2; overflow: hidden; background: #0a2142; }
+.personal-site .ijp-page .ijp-map img, .personal-site .ijp-page .ijp-map canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.personal-site .ijp-page .ijp-map canvas { opacity: 0; transition: opacity .5s ease; }
+.personal-site .ijp-page .ijp-map canvas.is-live { opacity: 1; }
+
+.personal-site .ijp-page .ijp-side { grid-area: side; display: flex; flex-direction: column; min-width: 0; border-left: 1px solid var(--ijp-rule); background: linear-gradient(180deg, #0b1b37, #061229); }
+.personal-site .ijp-page .ijp-readouts { display: grid; grid-template-columns: 1fr 1fr; }
+.personal-site .ijp-page .ijp-readout { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 10px 14px 11px; border-bottom: 1px solid rgba(127, 220, 255, .12); }
+.personal-site .ijp-page .ijp-readouts > :nth-child(2), .personal-site .ijp-page .ijp-readouts > :nth-child(4) { border-right: 1px solid rgba(127, 220, 255, .12); }
+.personal-site .ijp-page .ijp-wide { grid-column: 1 / -1; }
+.personal-site .ijp-page .ijp-lbl { font: 700 11px/1.1 var(--ijp-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--ijp-cyan); }
+.personal-site .ijp-page .ijp-val { font: 700 21px/1.05 var(--ijp-ui); color: var(--ijp-amber); text-shadow: 0 0 10px rgba(255, 170, 40, .4); font-variant-numeric: tabular-nums; white-space: nowrap; animation: ijp-refresh .6s ease-out; }
+.personal-site .ijp-page .ijp-rank .ijp-val { font-size: 36px; font-weight: 800; letter-spacing: -.01em; }
+.personal-site .ijp-page .ijp-sub { font: 600 12px/1.1 var(--ijp-ui); letter-spacing: .05em; color: var(--ijp-muted); font-variant-numeric: tabular-nums; }
+@keyframes ijp-refresh { from { color: #fff; text-shadow: 0 0 16px rgba(255, 226, 160, .95); } }
+
+.personal-site .ijp-page .ijp-message { display: flex; flex: 1; flex-direction: column; min-height: 0; padding: 10px 14px 12px; }
+.personal-site .ijp-page .ijp-message-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font: 700 11.5px/1 var(--ijp-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ijp-cyan); }
+.personal-site .ijp-page .ijp-message-nav { display: inline-flex; align-items: center; gap: 8px; color: var(--ijp-muted); font-variant-numeric: tabular-nums; }
+.personal-site .ijp-page .ijp-message-nav button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0 0 2px; border: 1px solid rgba(127, 220, 255, .38); border-radius: 7px; background: rgba(127, 220, 255, .07); color: #eaf6ff; font: 700 19px/1 var(--ijp-ui); }
+.personal-site .ijp-page .ijp-message-nav button:disabled { opacity: .35; cursor: default; }
+.personal-site .ijp-page .ijp-message-body { display: grid; align-content: start; gap: 8px; margin-top: 10px; }
+.personal-site .ijp-page .ijp-line { --c: var(--ijp-cyan); display: grid; gap: 3px; margin: 0; padding: 8px 11px 9px; border-left: 3px solid var(--c); border-radius: 3px 8px 8px 3px; background: rgba(255, 255, 255, .045); }
+.personal-site .ijp-page .ijp-line.is-me { --c: var(--ijp-amber); background: rgba(255, 182, 61, .09); }
+.personal-site .ijp-page .ijp-line.is-leaderboard { --c: #ffffff; }
+.personal-site .ijp-page .ijp-line.is-quiet { --c: var(--ijp-muted); }
+.personal-site .ijp-page .ijp-who { font: 700 11px/1 var(--ijp-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--c); }
+.personal-site .ijp-page .ijp-said { font: 500 16px/1.38 'DM Sans', sans-serif; color: #f2f6fc; }
+
+.personal-site .ijp-page .ijp-bar { grid-area: bar; display: flex; align-items: center; gap: 14px; padding: 12px 18px 24px; border-top: 1px solid var(--ijp-rule); background: #050f22; }
+.personal-site .ijp-page .ijp-play { display: inline-flex; flex: none; align-items: center; gap: 8px; min-width: 104px; padding: 9px 15px 8px; border: 1px solid rgba(255, 182, 61, .75); border-radius: 999px; background: rgba(255, 182, 61, .09); color: #ffd58a; font: 700 13px/1 var(--ijp-ui); letter-spacing: .12em; text-transform: uppercase; }
+.personal-site .ijp-page .ijp-play svg { fill: currentColor; }
+.personal-site .ijp-page .ijp-play:hover { background: rgba(255, 182, 61, .16); }
+.personal-site .ijp-page .ijp-code { flex: none; font: 700 13px/1 var(--ijp-ui); letter-spacing: .14em; color: #dfe9f7; }
+.personal-site .ijp-page .ijp-track { position: relative; flex: 1; min-width: 0; height: 30px; }
+.personal-site .ijp-page .ijp-track::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 4px; transform: translateY(-50%); background: radial-gradient(circle, rgba(235, 242, 255, .8) 1px, transparent 1.5px) 0 50% / 7px 4px repeat-x; }
+.personal-site .ijp-page .ijp-track-flown { position: absolute; left: 0; top: 50%; width: var(--at); height: 3px; transform: translateY(-50%); border-radius: 2px; background: var(--ijp-amber); box-shadow: 0 0 8px rgba(255, 160, 30, .8); }
+.personal-site .ijp-page .ijp-tick { --c: #fff; position: absolute; top: 50%; width: 7px; height: 7px; transform: translate(-50%, -50%) rotate(45deg); border: 1.3px solid rgba(235, 242, 255, .8); background: #050f22; }
+.personal-site .ijp-page .ijp-tick.is-chat { --c: var(--ijp-amber); }
+.personal-site .ijp-page .ijp-tick.is-fleet { --c: var(--ijp-cyan); }
+.personal-site .ijp-page .ijp-tick.is-passed { border-color: var(--c); background: var(--c); }
+.personal-site .ijp-page .ijp-day { position: absolute; top: calc(50% + 9px); transform: translateX(-50%); font: 700 10px/1 var(--ijp-ui); letter-spacing: .14em; text-transform: uppercase; color: var(--ijp-muted); }
+.personal-site .ijp-page .ijp-day::before { content: ''; position: absolute; left: 50%; top: -13px; width: 1px; height: 8px; background: rgba(235, 242, 255, .55); }
+.personal-site .ijp-page .ijp-thumb { position: absolute; left: var(--at); top: 50%; display: grid; transform: translate(-50%, -50%); border-radius: 50%; fill: #fff; filter: drop-shadow(0 0 4px rgba(255, 255, 255, .55)); }
+.personal-site .ijp-page .ijp-track input { position: absolute; left: 0; top: -6px; width: 100%; height: calc(100% + 12px); margin: 0; opacity: 0; cursor: pointer; }
+.personal-site .ijp-page .ijp-track:focus-within .ijp-thumb { outline: 2px solid var(--ijp-amber); outline-offset: 3px; }
+.personal-site .ijp-page .ijp-flight button:focus-visible { outline: 2px solid var(--ijp-amber); outline-offset: 3px; }
+
+.personal-site .ijp-page .ijp-flight figcaption { max-width: 680px; margin: 16px auto 0; color: var(--muted); font: 14px/1.6 'DM Sans', sans-serif; }
+.personal-site .ijp-page .ijp-flight figcaption strong { color: var(--ink); font-weight: 600; }
+.personal-site .ijp-page .ijp-legend { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-left: 8px; font-size: 13px; }
+.personal-site .ijp-page .ijp-legend i { display: inline-block; width: 8px; height: 8px; margin-left: 6px; transform: rotate(45deg); border: 1px solid var(--ijp-navy-ink); }
+.personal-site .ijp-page .ijp-legend .is-chat { background: var(--ijp-amber); }
+.personal-site .ijp-page .ijp-legend .is-fleet { background: var(--ijp-cyan); }
+.personal-site .ijp-page .ijp-legend .is-board { background: #fff; }
+.personal-site .ijp-page .ijp-log { max-width: 680px; margin: 10px auto 0; font: 14px/1.6 'DM Sans', sans-serif; color: var(--muted); }
+.personal-site .ijp-page .ijp-log summary { width: max-content; text-decoration: underline; text-decoration-color: #a2a7ab; text-underline-offset: 4px; }
+.personal-site .ijp-page .ijp-log ol { margin: 10px 0 0; padding: 0; list-style: none; }
+.personal-site .ijp-page .ijp-log li { padding: 3px 0; }
+.personal-site .ijp-page .ijp-log time { display: inline-block; min-width: 82px; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 860px) {
+  .personal-site .ijp-page .ijp-lcd { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'map' 'side' 'bar'; }
+  .personal-site .ijp-page .ijp-side { border-left: 0; border-top: 1px solid var(--ijp-rule); }
+  .personal-site .ijp-page .ijp-readouts { grid-template-columns: 1.3fr 1fr 1fr; }
+  .personal-site .ijp-page .ijp-readouts > :nth-child(2), .personal-site .ijp-page .ijp-readouts > :nth-child(4) { border-right: 0; }
+  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(.ijp-wide) { border-right: 1px solid rgba(127, 220, 255, .12); }
+  .personal-site .ijp-page .ijp-wide { grid-column: auto; }
+  .personal-site .ijp-page .ijp-message-body { min-height: 128px; }
+}
+@media (max-width: 600px) {
+  .personal-site .ijp-page .ijp-leg { grid-template-columns: auto minmax(0, 1fr) auto; row-gap: 6px; margin-top: 60px; }
+  .personal-site .ijp-page .ijp-leg-note { grid-column: 1 / -1; justify-self: end; margin: 0; }
+  .personal-site .ijp-page .prose blockquote.ijp-chat, .personal-site .ijp-page .prose blockquote.ijp-prompt { margin-inline: -8px; }
+  .personal-site .ijp-page .prose blockquote.ijp-chat { padding: 14px 12px 16px; gap: 10px; }
+  .personal-site .ijp-page .ijp-msg { max-width: 94%; padding: 10px 13px 12px; }
+  .personal-site .ijp-page .prose .ijp-msg-text { font-size: 16.5px; }
+  .personal-site .ijp-page .ijp-prompt-text, .personal-site .ijp-page .prose .ijp-note-list { padding: 14px 16px 16px; font-size: 14.5px; }
+  .personal-site .ijp-page .prose .ijp-card-head { padding-inline: 16px; }
+  .personal-site .ijp-page .ijp-flight { --w: calc(100vw - 20px); margin-block: 40px 48px; }
+  .personal-site .ijp-page .ijp-bezel { padding: 7px; border-radius: 16px; }
+  .personal-site .ijp-page .ijp-lcd { border-radius: 8px; }
+  .personal-site .ijp-page .ijp-readouts { grid-template-columns: 1fr 1fr; }
+  .personal-site .ijp-page .ijp-wide { grid-column: 1 / -1; }
+  .personal-site .ijp-page .ijp-readouts > :not(:last-child):not(.ijp-wide) { border-right: 0; }
+  .personal-site .ijp-page .ijp-readouts > :nth-child(2), .personal-site .ijp-page .ijp-readouts > :nth-child(4) { border-right: 1px solid rgba(127, 220, 255, .12); }
+  .personal-site .ijp-page .ijp-rank .ijp-val { font-size: 32px; }
+  .personal-site .ijp-page .ijp-bar { gap: 10px; padding: 12px 12px 24px; }
+  .personal-site .ijp-page .ijp-play { min-width: 0; padding-inline: 12px; }
+  .personal-site .ijp-page .ijp-code { font-size: 11.5px; }
+  .personal-site .ijp-page .ijp-legend { display: flex; margin: 6px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .personal-site .ijp-page .ijp-val { animation: none; }
+  .personal-site .ijp-page .ijp-map canvas { transition: none; }
+}

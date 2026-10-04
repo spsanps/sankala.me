@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>It's just possible: figure harness</title>
+<!-- Loaded by scripts/publishing/render-its-just-possible-art.mjs through the Vite dev server. It draws
+     the flight map with the same code as /notes/its-just-possible and hands the stills back as data
+     URLs. Opened directly, ?t=<minutes>&w=<css width>&small=1 shows one frame. -->
+<style>html, body { margin: 0; background: #111; } canvas { display: block; }</style>
+</head>
+<body>
+<canvas id="view"></canvas>
+<script type="module">
+import { createFlightMap, DW, DH } from '/src/pages/notes/its-just-possible/flight/flight-map.js';
+import { OPENING, stateAt } from '/src/pages/notes/its-just-possible/flight/timeline.js';
+
+const q = new URLSearchParams(location.search);
+const cssW = Number(q.get('w') || 900), small = q.get('small') === '1';
+const view = document.getElementById('view');
+view.style.width = cssW + 'px'; view.style.height = Math.round(cssW * DH / DW) + 'px';
+const t = q.has('t') ? Number(q.get('t')) : OPENING;
+const map = await createFlightMap({ canvas: view, width: cssW * 2, height: Math.round(cssW * DH / DW) * 2, small });
+map.draw(t, stateAt(t).waypoint);
+
+// The still for the page: the opening moment at a given pixel width.
+window.renderStill = async (width, isSmall) => {
+  const c = document.createElement('canvas');
+  const m = await createFlightMap({ canvas: c, width, height: Math.round(width * DH / DW), small: isSmall });
+  m.draw(OPENING, stateAt(OPENING).waypoint);
+  return c.toDataURL('image/webp', .88);
+};
+window.__ready = true;
+</script>
+</body>
+</html>
