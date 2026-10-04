@@ -13,6 +13,7 @@
 ## Complete writing
 
 - [It's just possible](https://www.sankala.me/notes/its-just-possible.md): Complete Markdown mirror. October 2026. How San steered a fleet of AI agents to #1 on both tracks of the NeurIPS 2026 RealPDE competition's development phase while flying to IROS; also the IROS origami final and the Tartan IMU Challenge, with a short guide.
+- [Two hands, one sheet of paper](https://www.sankala.me/notes/iros-2026-origami.md): Complete Markdown mirror. Second place at the IROS 2026 Robotic Origami Challenge, October 2026: dexterous, bimanual robot folding with a 62-million-parameter policy; the page has the video and an interactive 3D model of the policy.
 - [Nobody Owes Anything Now](https://www.sankala.me/notes/nobody-owes-anything-now.md): A poem, October 2026. Complete text. A potter in an O’Neill cylinder, after AI made money stop mattering; the page has a sgraffito cup turning on a wheel.
 - [GPT-7 Will Have Arms](https://www.sankala.me/essays/gpt7-will-have-arms.md): Complete Markdown mirror. Original forecast: December 2025. Film adaptation: September 2026.
 - [Winning by Overfitting](https://www.sankala.me/notes/eai-challenge.md): Complete account of the NeurIPS 2025 EAI Challenge at the FMEA Workshop, written July 2026.

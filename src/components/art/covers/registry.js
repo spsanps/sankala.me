@@ -12,6 +12,7 @@ export const coverLoaders = {
   'power-quality': () => import('./power-quality.js'),
   'nobody-owes-anything-now': () => import('./nobody-owes-anything-now.js'),
   'its-just-possible': () => import('./its-just-possible.js'),
+  'iros-2026-origami': () => import('./iros-2026-origami.js'),
 };
 
 export const coverDescriptions = {
@@ -24,6 +25,7 @@ export const coverDescriptions = {
   'dyson-swarm': 'A screenprint of solar collectors orbiting an orange sun while Mercury is taken apart.',
   'zinify': 'A pink and blue risograph zine cover: a research paper turning into a zine.',
   'power-quality': 'A technical journal cover with an oscilloscope showing a sagging waveform.',
+  'iros-2026-origami': 'A page of origami instructions, step 2 of 5: a square sheet with both top corners folded to the centre, a robot hand pressing the centre crease while the other pins the sheet, with dashed and dot-dash fold lines and curved arrows.',
   'nobody-owes-anything-now': 'A sgraffito slab, white slip scratched through to red clay: a ring of land seen end-on, with a house marked POTTERY at the bottom, an orchard hanging overhead, and a cup in the middle.',
   'its-just-possible': 'An airline seatback moving map: a glowing route from San Jose toward Pittsburgh with a small plane partway, the title where the destination would be named, and a data panel reading Track 1 #1 and Track 2 #1.',
 };

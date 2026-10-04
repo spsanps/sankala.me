@@ -24,9 +24,12 @@ const introductions = {
   'startr-postmortem': ['What went wrong with my writing-assistant startup', 'The story of building a tool for novelists through UCSD’s StartR accelerator, and why it never made it to market.'],
   'zinify': ['Turning research papers into illustrated zines', 'ZINify uses language models to turn academic papers into visual zines. UIST 2023 Student Innovation Contest Honorable Mention.'],
   'power-quality': ['Recognizing electrical disturbances with neural networks', 'Research on classifying power-quality events using recurrent neural networks. IEEE DISCOVER 2019 Best Paper Award.'],
+  'iros-2026-origami': ['Second place at the IROS 2026 Robotic Origami Challenge', 'Two robot hands, one sheet of paper: how a small, fast policy, trained the night before the last test run, folded the first two stages of a paper plane.'],
   'nobody-owes-anything-now': ['A poem about a potter in a space habitat', 'Life in an O’Neill cylinder after AI made money stop mattering, told by a potter who makes cups by hand.'],
 };
 export const works = [
+  { slug: 'iros-2026-origami', title: 'Two hands, one sheet of paper', date: 'October 2026', sortDate: '2026-10-03',
+    url: '/notes/iros-2026-origami', topics: ['ai'], formats: ['writing'] },
   { slug: 'nobody-owes-anything-now', title: 'Nobody Owes Anything Now', date: 'October 2026', sortDate: '2026-10-03',
     url: '/notes/nobody-owes-anything-now', topics: ['worlds', 'ai'], formats: ['writing'], formatLabel: 'Poem' },
   { slug: 'capricious-god', title: 'How to Please a Capricious God', date: 'September 8, 2026', sortDate: '2026-09-08', url: 'https://www.paperrobots.studio/films/capricious-god/', filmUrl: 'https://www.youtube.com/watch?v=wswbqJNMFBw', topics: ['ai'], formats: ['film'] },

@@ -15,6 +15,7 @@ Created: 2026-09-05. Last discussed: 2026-10-03. Time zone: America/Los_Angeles.
 - IROS 2026 Robotic Origami Challenge: San confirmed sole 2nd place, as a solo entry (AxisTilted2). The organizer in the rig photo is Santiago Pravisani (BitRobot).
 - Two essays are in progress:
   - the IROS essay, with policy-3d.html as the model render; only kami gets released, later;
+    San approved the text for publishing as is ("put it up, I will read it live"). Milestone 1 is on branch `essay-iros-2026`: /notes/iros-2026-origami with the full text (`src/pages/notes/iros-2026-origami/essay.md`), the 26 s video, the 3D model embedded from `public/notes/iros-2026-origami/model/`, a first cover in origami-diagram notation, and the September 2026 Timeline milestone. Next: the five-folds step-through figure and the cover polish. The companion essay *It's just possible* is named without a link until it exists.
   - an agents/mindset essay on RealPDE (#1 on both dev-phase tracks), Tartan IMU (5th; that model was built by Codex) and IROS.
   - Fact briefs are in the session scratchpad (`research/*-brief.md`).
 - A social video cut is in progress: `C:\Users\sanps\Desktop\iros-assets\edits\`.

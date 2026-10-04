@@ -1,6 +1,29 @@
 [
   {
     "year": "2026",
+    "title": "Second place at the IROS 2026 Robotic Origami Challenge",
+    "description": "I entered on my own, as team AxisTilted2. In the final in Pittsburgh, my policy folded the first two stages of a paper plane with two robot hands.",
+    "id": "iros-2026",
+    "month": "September",
+    "location": "Pittsburgh, PA",
+    "category": "Competition",
+    "images": [
+      {
+        "src": "/images/history/iros-2026-leaderboard.webp",
+        "alt": "San in front of the Robotic Origami Challenge leaderboard at IROS 2026.",
+        "caption": "The challenge leaderboard at IROS 2026, Pittsburgh"
+      }
+    ],
+    "links": [
+      [
+        "/notes/iros-2026-origami",
+        "Read the essay"
+      ]
+    ],
+    "date": "2026-09"
+  },
+  {
+    "year": "2026",
     "title": "First on both tracks of the NeurIPS 2026 RealPDE competition",
     "description": "I finished the development phase first on both tracks, steering a fleet of AI agents while I travelled to IROS in Pittsburgh. The final phase retrains every finalist from scratch, and results come out on November 10.",
     "id": "realpde",

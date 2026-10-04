@@ -14,7 +14,7 @@
       "archivo-600.woff2",
       "archivo-800.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Anton",
@@ -27,7 +27,7 @@
     "files": [
       "anton-400.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Abril Fatface",
@@ -40,7 +40,7 @@
     "files": [
       "abril-fatface-400.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Old Standard TT",
@@ -55,7 +55,7 @@
       "old-standard-tt-400.woff2",
       "old-standard-tt-700.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Jost",
@@ -70,7 +70,7 @@
       "jost-500.woff2",
       "jost-700.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Josefin Sans",
@@ -85,7 +85,7 @@
       "josefin-sans-600.woff2",
       "josefin-sans-700.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Michroma",
@@ -98,7 +98,7 @@
     "files": [
       "michroma-400.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Courier Prime",
@@ -113,7 +113,7 @@
       "courier-prime-400.woff2",
       "courier-prime-700.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Shippori Mincho",
@@ -126,7 +126,7 @@
     "files": [
       "shippori-mincho-800.woff2"
     ],
-    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus \u00b7 \u2013 \u2014 \u2018 \u2019 \u201c \u201d \u2192 (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
+    "conversion": "Downloaded the official Google Fonts static TTFs, subset with fontTools pyftsubset to Basic Latin plus · – — ‘ ’ “ ” → (kern, liga kept) and compressed to WOFF2. Used only by the code-drawn covers in src/components/art/covers/, loaded on demand with the FontFace API."
   },
   {
     "family": "Sofia Sans Condensed",
@@ -143,5 +143,20 @@
       "sofia-sans-condensed-500-800.woff2"
     ],
     "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset of the variable font (one file covers weights 500-800), unmodified. Lettering for the seatback moving-map cover of \"It's just possible\" (and its figure), loaded on demand with the FontFace API."
+  },
+  {
+    "family": "Zen Maru Gothic",
+    "weights": [
+      500,
+      700
+    ],
+    "stylesheet": "https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/zenmarugothic/OFL.txt",
+    "licenseFile": "zen-maru-gothic-OFL.txt",
+    "files": [
+      "zen-maru-gothic-500.woff2",
+      "zen-maru-gothic-700.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Used only by the code-drawn cover of “Two hands, one sheet of paper”, loaded on demand with the FontFace API."
   }
 ]

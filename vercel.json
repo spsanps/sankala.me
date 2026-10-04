@@ -23,6 +23,7 @@
     { "source": "/notes/zinify", "destination": "/notes/zinify/index.html" },
     { "source": "/notes/power-quality", "destination": "/notes/power-quality/index.html" },
     { "source": "/notes/nobody-owes-anything-now", "destination": "/notes/nobody-owes-anything-now/index.html" },
+    { "source": "/notes/iros-2026-origami", "destination": "/notes/iros-2026-origami/index.html" },
     { "source": "/notes/:slug", "destination": "/app.html" },
     { "source": "/lab/:id", "destination": "/app.html" }
   ]
