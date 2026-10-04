@@ -17,7 +17,8 @@ src/
     lab/                           legacy experiment entry route
     notes/                         note listing and generic note page
       eai-challenge/               Winning by Overfitting write-up
-      its-just-possible/           It's just possible: essay.md (the text), the page, flight/ (map data and drawing)
+      its-just-possible/           It's just possible: essay.md (the text), the page, components/ (message and prompt cards,
+                                   section strips, the flight figure), flight/ (map data, timeline, drawing)
       iros-2026-origami/           Two hands, one sheet of paper: essay.md (the text), its page, the diagram kit (art/)
     essays/
       gpt7-will-have-arms/          essay page, chart components and data

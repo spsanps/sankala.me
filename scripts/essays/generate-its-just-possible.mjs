@@ -10,13 +10,23 @@ import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { parseEssay, PATH, READ_TIME } from '../../src/pages/notes/its-just-possible/essay-source.js';
+import { parseEssay, PATH, READ_TIME, FIGURE_AFTER } from '../../src/pages/notes/its-just-possible/essay-source.js';
+import { eventLog } from '../../src/pages/notes/its-just-possible/flight/timeline.js';
 
 const SITE = 'https://www.sankala.me';
 const source = await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8');
 const { meta, body } = parseEssay(source);
+// The figure, "The last 72 hours, as a flight", as text, where it sits on the page: at the end of
+// the section "The weekend".
+
+const figure = `**Figure: The last 72 hours, as a flight.** Our leaderboard positions over the final 72 hours of RealPDE, drawn as an in-flight map of my trip to Pittsburgh. The plane's position is time, not GPS. Times UTC. The [web edition](${SITE}${PATH}#flight) has the interactive map; here it is as a list:
+
+${eventLog().map(e => `- ${e.when}: ${e.text}`).join('\n')}
+`;
+const withFigure = body.replace(new RegExp(`(^## ${FIGURE_AFTER}\\n[\\s\\S]*?)(?=^## )`, 'm'), (section) => `${section.trimEnd()}\n\n${figure}\n`);
+if (withFigure === body) throw new Error(`Could not place the figure after the section "${FIGURE_AFTER}"`);
 // Site links become absolute, so both editions work wherever they are read.
-const absolute = body.replace(/\]\((\/[^)\s]*)\)/g, (_, href) => `](${SITE}${href})`);
+const absolute = withFigure.replace(/\]\((\/[^)\s]*)\)/g, (_, href) => `](${SITE}${href})`);
 
 const html = renderToStaticMarkup(createElement(ReactMarkdown, { remarkPlugins: [remarkGfm] }, absolute)).replace(/\n{3,}/g, '\n\n');
 await writeFile(new URL('../../server/essay-previews/generated/its-just-possible.js', import.meta.url), `// GENERATED FILE - do not edit by hand.

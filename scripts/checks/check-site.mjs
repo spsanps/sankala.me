@@ -10,7 +10,8 @@ import { works } from '../../src/data/work.js';
 import milestones from '../../src/data/history.json' with { type: 'json' };
 import { coverLoaders } from '../../src/components/art/covers/registry.js';
 import { LINES as POEM_LINES, STANZAS as POEM_STANZAS } from '../../src/pages/notes/nobody-owes-anything-now/poem.js';
-import { parseEssay } from '../../src/pages/notes/its-just-possible/essay-source.js';
+import { parseEssay, essayPieces } from '../../src/pages/notes/its-just-possible/essay-source.js';
+import { OPENING as FLIGHT_OPENING } from '../../src/pages/notes/its-just-possible/flight/timeline.js';
 import { PATH as IROS, TITLE as IROS_TITLE, MODEL_URL, VIDEO, markdownMirror } from '../../src/pages/notes/iros-2026-origami/essay-meta.js';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
@@ -30,8 +31,9 @@ const POEM = '/notes/nobody-owes-anything-now';
 const ESSAY = '/notes/its-just-possible';
 const essay = parseEssay(await readFile(new URL('../../src/pages/notes/its-just-possible/essay.md', import.meta.url), 'utf8'));
 const essayParagraphs = essay.body.split('\n\n').filter(block => /^[A-Z]/.test(block) && !/[*[`]/.test(block));
+const essayParts = essayPieces(essay.body), partCount = type => essayParts.filter(piece => piece.type === type).length;
 // Essays whose hand-made figure must mount: the route and the figure's canvas.
-const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas']];
+const figures = [['/notes/startr-postmortem', '#game-figure canvas'], ['/notes/zinify', '#zfig canvas'], ['/notes/power-quality', '#scope canvas'], ['/notes/eai-challenge', '#fig-loop canvas'], [POEM, '.poem-figure canvas'], [ESSAY, '#flight canvas']];
 const writingCount = works.filter(work => work.formats.includes('writing')).length;
 const assets = new Set(['/documents/resume.pdf', '/essays/gpt7-will-have-arms.md', '/notes/eai-challenge.md', '/notes/zinify.md', '/notes/power-quality.md', '/notes/nobody-owes-anything-now.md', '/notes/its-just-possible.md', '/fonts/essays/provenance.json', '/toys/bee-sim/index.html', '/notes/iros-2026-origami.md']);
 const report = [];
@@ -92,6 +94,23 @@ try {
     assert.equal((await page.locator('h1').innerText()).trim(), essay.meta.title, `Essay title at ${width}`);
     assert.ok(await page.locator('.frontispiece img').evaluate(image => image.complete && image.naturalWidth > 0), `The essay's cover loads at ${width}`);
     assert.equal(await page.locator('article a[href="/notes/iros-2026-origami"]').count(), 1, `The origami story link at ${width}`);
+    // the quoted messages and prompts are set as screens, every message named by its sender
+    assert.equal(await page.locator('blockquote.ijp-chat').count(), partCount('chat'), `Message cards at ${width}`);
+    assert.equal(await page.locator('blockquote.ijp-prompt').count(), partCount('prompt') + partCount('notes'), `Prompt and note cards at ${width}`);
+    const senders = essayParts.filter(piece => piece.type === 'chat').flatMap(piece => piece.messages.map(m => m.sender));
+    assert.deepEqual(await page.locator('.ijp-chat .ijp-sender').allInnerTexts(), senders.map(name => name.toUpperCase()), `Every sender named at ${width}`);
+    // the flight figure: its still first, then the live map; the panel follows the keyboard
+    const flight = page.locator('#flight');
+    await flight.scrollIntoViewIfNeeded();
+    assert.ok(await flight.locator('img').evaluate(image => image.complete && image.naturalWidth > 0), `The flight map's still loads at ${width}`);
+    assert.equal(await flight.locator('input[type=range]').inputValue(), String(FLIGHT_OPENING), `The figure opens on Sunday 18:10 at ${width}`);
+    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('#1'), `The panel reads first place at ${width}`);
+    await flight.locator('input[type=range]').focus();
+    await page.keyboard.press('Home');
+    assert.ok((await flight.locator('.ijp-readouts').innerText()).includes('Fri 25 Sep · 00:00'), `Home flies back to Friday at ${width}`);
+    await flight.locator('button[aria-label="Next waypoint"]').click();
+    assert.ok((await flight.locator('.ijp-message-body').innerText()).includes('82.3 is not reachable'), `The first waypoint's message at ${width}`);
+    assert.ok((await flight.locator('figcaption').innerText()).includes('The plane’s position is time, not GPS.'), `The figure's caption at ${width}`);
 
     // One Work page: every work, plain filters, search; the old index routes show it filtered.
     await page.goto(origin + '/work');
@@ -200,6 +219,8 @@ try {
     assert.ok(essayMarkdown.includes(paragraph), `Markdown mirror paragraph: ${paragraph.slice(0, 50)}`);
   }
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-social.jpg'), 'Essay share card');
+  assert.ok(essayHtml.includes('/images/notes/its-just-possible/flight-map-1400.webp') && essayHtml.includes('class="ijp-chat"'), 'The flight map still and the message cards in the prerendered page');
+  assert.ok(essayMarkdown.includes('Figure: The last 72 hours, as a flight') && essayMarkdown.includes('Track 2: first, 82.491.'), 'The flight figure as text in the Markdown mirror');
   assert.ok(essayHtml.includes('/images/covers/its-just-possible-360.webp'), 'Essay cover in the prerendered page');
   assert.ok(feed.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the RSS feed');
   assert.ok(sitemap.includes('https://www.sankala.me' + ESSAY + '<'), 'Essay in the sitemap');

@@ -12,11 +12,18 @@ export const COLORS = {
 export const PLACES = {
   sanJose: [-121.89, 37.34], pittsburgh: [-79.996, 40.44],
 };
+// [name, lon, lat, label side: r right, l left, u above]
 export const CITIES = [
-  ['Seattle', -122.33, 47.61], ['Los Angeles', -118.24, 34.05], ['Las Vegas', -115.14, 36.17], ['Salt Lake City', -111.89, 40.76],
-  ['Denver', -104.99, 39.74], ['Dallas', -96.80, 32.78], ['Omaha', -95.93, 41.26], ['Chicago', -87.63, 41.88],
-  ['Toronto', -79.38, 43.65], ['New York', -74.01, 40.71], ['Atlanta', -84.39, 33.75], ['Minneapolis', -93.27, 44.98],
+  ['Seattle', -122.33, 47.61, 'r'], ['Los Angeles', -118.24, 34.05, 'r'], ['Las Vegas', -115.14, 36.17, 'r'], ['Salt Lake City', -111.89, 40.76, 'u'],
+  ['Denver', -104.99, 39.74, 'r'], ['Dallas', -96.80, 32.78, 'r'], ['Omaha', -95.93, 41.26, 'r'], ['Chicago', -87.63, 41.88, 'u'],
+  ['Toronto', -79.38, 43.65, 'r'], ['New York', -74.01, 40.71, 'r'], ['Atlanta', -84.39, 33.75, 'r'], ['Minneapolis', -93.27, 44.98, 'r'],
 ];
+// Where a city's label goes, given its dot at (x, y) and the label's font size.
+export function labelSpot(side, x, y, size) {
+  if (side === 'u') return [x, y - size * .75, 'center'];
+  if (side === 'l') return [x - size * .55, y + size * .35, 'right'];
+  return [x + size * .55, y + size * .35, 'left'];
+}
 
 // Albers equal-area conic, standard parallels 29.5° and 45.5° (the usual United States map).
 export function albers({ lon0 = -98, lat0 = 37.5, p1 = 29.5, p2 = 45.5 } = {}) {

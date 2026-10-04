@@ -200,5 +200,21 @@
       "rokkitt-500-700.woff2"
     ],
     "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset (Basic Latin, Latin-1 and common punctuation), unmodified. Loaded on demand with the FontFace API only when the essay figure mounts; no runtime Google Fonts request."
+  },
+  {
+    "family": "JetBrains Mono",
+    "weights": [
+      400,
+      500
+    ],
+    "usedBy": "src/pages/notes/its-just-possible/ (the prompt and note cards, as CSS text)",
+    "stylesheet": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500",
+    "licenseKind": "SIL Open Font License 1.1",
+    "license": "https://raw.githubusercontent.com/google/fonts/main/ofl/jetbrainsmono/OFL.txt",
+    "licenseFile": "jetbrains-mono-OFL.txt",
+    "files": [
+      "jetbrains-mono-400-500.woff2"
+    ],
+    "conversion": "Downloaded on 2026-10-03 from the Google Fonts CSS2 API: the official latin unicode-range WOFF2 subset of the variable font (one file covers weights 400-500), unmodified. Declared with @font-face in the essay's stylesheet, so only that page loads it; no runtime Google Fonts request."
   }
 ]
