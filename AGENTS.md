@@ -60,6 +60,10 @@ paint is pre-rendered stills (`npm run render:home`), the stele and tablets are 
 all live laying and the gold light run in a worker, and the page ends in a mosaic footer. Measurements
 and review images: `design/reviews/2026-10-03-mosaic-home/`. The clear-line Four frames is now the
 earlier homepage; History and 404 keep their clear-line vignettes. Not yet deployed.
+Phones (San, 2026-10-04: "text but no art" on Android Chrome; make the art smaller and the text bigger): phones and
+low-resource devices get the still mosaic with no canvas or worker, the art ends at about half the screen, and a
+watchdog drops the live layer to the stills on desktop if it stalls (`?live=1` / `?simple=1` force a mode).
+Review: `design/reviews/2026-10-04-mobile-home/`.
 Rule (San, 2026-10-03): every essay, figure and project gets its OWN unique art style and
 creative idea. Never reuse another piece's visual style or engine look (he rejected the ZINify
 draft for reusing the EAI riso style). Check the style register in
