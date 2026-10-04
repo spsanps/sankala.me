@@ -19,7 +19,8 @@ src/
       eai-challenge/               Winning by Overfitting write-up
       its-just-possible/           It's just possible: essay.md (the text), the page, components/ (message and prompt cards,
                                    section strips, the flight figure), flight/ (map data, timeline, drawing)
-      iros-2026-origami/           Two hands, one sheet of paper: essay.md (the text), its page, the diagram kit (art/)
+      iros-2026-origami/           Two hands, one sheet of paper: essay.md (the text), its page, art/ (the origami-diagram
+                                   kit with the folding sheet and robot hands, the five folds, the corner vignette)
     essays/
       gpt7-will-have-arms/          essay page, chart components and data
   components/site/                 author navigation, metadata, archive and CV components
