@@ -57,7 +57,7 @@ The agents were very good. They built the models, ran thousands of experiments, 
 
 In the final week it happened four times. Each time, I said no. And each time, the next improvement came within hours.
 
-On Friday evening the agent decided this approach was done:
+Two days before the deadline, the agent decided this approach was done:
 
 > **Agent:** No lever left inside this model family… 82.3 is not reachable with any lever I can measure.
 >
@@ -73,7 +73,7 @@ A few hours later:
 >
 > **Me:** stooppp!!! you cannot say this, your entire instruction is to take a step back and address the track 1 gap
 
-It went back to closing that gap, and the changes it found took Track 1 to first. On Saturday night it said we were at a "local optimum":
+It went back to closing that gap, and the changes it found took Track 1 to first. The next night it said we were at a "local optimum":
 
 > **Me:** every time we encountered this negativity from you I was able to help you find the next push. I think this mindset is wrong. Does that make sense, Claude? Believe we can.
 
