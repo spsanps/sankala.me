@@ -13,7 +13,7 @@ canonical: https://www.sankala.me/notes/its-just-possible
 
 ---
 
-I like competitions because they prove agency: you have to make it happen. You can't talk your way out of a leaderboard. Do it however you want, cleverly or by brute force, but only the result counts. Machine learning competitions feel a lot like math olympiads that way, and I think anyone who did IMO or AIME knows the feeling.
+I like competitions because they prove agency: you have to make it happen. You can't talk your way out of a leaderboard. Do it however you want, cleverly or by brute force, but only the result counts. Machine learning competitions are like competitive programming that way, or any competition really: there's a problem, a clock and a scoreboard.
 
 This September I entered three:
 
@@ -101,9 +101,11 @@ People ask what prompts I use. Mostly, these.
 
 > Your task is to iterate at a very high sensible pace and come up with multiple winning solutions… Please respect the competition rules. Aggressively proceed.
 
-**A standing goal.** I asked Claude to write a short, motivating goal in my voice, something it would keep working toward. Part of it read:
+**A note from me, at the top of its instructions.** Claude Code reads a file called CLAUDE.md at the start of every session. I asked Claude to write "a natural, clean, happy, excited paragraph… mostly motivating you, from me", put it at the top of that file, and set it as the goal:
 
-> The leader has our accuracy… That proves it's possible, so there's something we're missing, and I believe you can find it.
+> Hey Claude, we're going for it! We have the next 24 hours, and I want you to go all in on closing the gap to #1 and pushing past it. The leader has our accuracy, but they're faster… That proves it's possible, so there's something we're missing, and I believe you can find it. Think big and out of the box. Small tweaks won't get us there anymore… Move fast: a 10-minute experiment, a quick intuition, then the next idea. Keep every GPU busy the whole time, and drop losers without regret… Stay within the rules, keep the safe upload ready, and have fun with it. I'm excited to see what you come up with. Let's go!
+
+It feels silly to write a pep talk for an AI. I'd do it again.
 
 **Standing notes.** Claude Code keeps notes between sessions. Whenever I corrected something important, I had it save the lesson, so I only had to say it once. A few of them:
 
@@ -114,6 +116,10 @@ People ask what prompts I use. Mostly, these.
 > **The loop.** When ideas fail, step back, look at the errors, visualize them, and only then pick the next ideas.
 >
 > **Idle GPUs mean step back.** If GPUs sit idle, study where the best model is still wrong and start a new wave of ideas.
+
+**A skill, after the win.** Once we'd won, I asked it to "capture the skill of keeping pushing, taking a step back and finding, instead of saying this is it all the time." It wrote a short guide that future sessions load whenever they're about to give up. It opens:
+
+> A plateau is a hypothesis, not a conclusion. When I'm stuck, my "this is it" answers have been wrong far more often than right.
 
 **And a lot of short pushes:** "you got this!!!", "why freeze early when we can continue pushing?", "we do want to get #1 on both."
 

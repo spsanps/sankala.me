@@ -59,7 +59,7 @@ The organizers announced AxisTilted2 as second.
 
 Then: no, I just need to do it. It’s 30 minutes, maybe an hour of my time. Otherwise it would keep tugging at the back of my head.
 
-The plan was written with an agent at 8:20 pm. A rented H100 started at 8:57 and trained through the night, unattended. At 4:20 am it passed its checks. On September 30 that model ran in the final.
+The plan was written with an agent at 8:20 pm. A rented H100 started at 8:57 and trained through the night, unattended. At 4:20 am it passed its checks. On September 30 that model ran in the final. That night is a big part of why I wrote [It’s just possible](https://www.sankala.me/notes/its-just-possible), about how I work with AI agents and why I don’t stop.
 
 ## The model
 
