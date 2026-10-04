@@ -96,28 +96,28 @@ html.apse-wait .apse { visibility: hidden; }
 .stele::after { content: ''; position: absolute; left: 0; right: 0; top: var(--head-h); bottom: 0; border-style: solid; border-color: transparent; border-width: 0 var(--fw) var(--fw); border-image-source: var(--frame); border-image-slice: var(--slice); border-image-width: 0 var(--fw) var(--fw); border-image-repeat: round; pointer-events: none; }
 .stele-text { position: relative; z-index: 1; text-align: center; padding: calc(var(--rise) + var(--fw) + 22px) calc(var(--fw) + clamp(14px, 2.2cqw, 34px)) calc(var(--fw) + 26px); }
 .stele h1 { font-size: var(--h1); color: var(--title); }
-.stele-lede { margin: 16px auto 0; font-size: var(--lede); line-height: 1.55; text-wrap: pretty; }
-.stele-more { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 24px; font-size: calc(var(--lede) - 1px); }
+.home .stele-lede { margin: 16px auto 0; font-size: var(--lede); line-height: 1.55; text-wrap: pretty; }
+.home .stele-more { margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 24px; font-size: calc(var(--lede) - 1px); }
 .stele-mail { color: var(--ink-soft); user-select: all; }
 .stele a, .tab a, .mosaic-footer .stele a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .16em; text-decoration-color: rgba(122, 36, 28, .5); }
 .stele a:hover, .tab a:hover { text-decoration-color: currentColor; }
 
-.wall-note { width: var(--stele-w); max-width: 100%; margin: 10vh auto 0; text-align: center; color: #efe3c4; font-size: clamp(18.5px, 1.25cqw, 22px); line-height: 1.5; text-shadow: 0 1px 1px rgba(5, 10, 30, .75); }
+.home .wall-note { width: var(--stele-w); max-width: 100%; margin: 10vh auto 0; text-align: center; color: #efe3c4; font-size: clamp(18.5px, 1.25cqw, 22px); line-height: 1.5; text-shadow: 0 1px 1px rgba(5, 10, 30, .8), 0 0 10px rgba(8, 16, 52, .95), 0 0 22px rgba(8, 16, 52, .8); }
 .wall-clock { display: block; min-height: 1.5em; margin-top: 4px; color: var(--gold-lit); }
 .apse .wall-tilt { margin-top: 14px; font: 500 18px 'EB Garamond', serif; color: var(--gold-lit); background: rgba(10, 18, 48, .6); border: 1px solid rgba(240, 212, 136, .55); padding: 10px 18px; cursor: pointer; }
-.path { width: var(--stele-w); max-width: 100%; margin: 16vh auto 30px; text-align: center; font: 400 clamp(32px, 2.6cqw, 46px)/1.1 'Marcellus SC', 'Marcellus', serif !important; letter-spacing: .12em; color: #f7dc94; text-shadow: 0 1px 1px rgba(5, 10, 30, .7); }
+.home .path { width: var(--stele-w); max-width: 100%; margin: 16vh auto 30px; text-align: center; font: 400 clamp(32px, 2.6cqw, 46px)/1.1 'Marcellus SC', 'Marcellus', serif !important; letter-spacing: .12em; color: #f7dc94; text-shadow: 0 1px 1px rgba(5, 10, 30, .8), 0 0 14px rgba(8, 16, 52, .95), 0 0 28px rgba(8, 16, 52, .8); }
 
 /* the path: one marble tablet per place, framed in the same courses */
 .tab { position: relative; width: var(--stele-w); max-width: 100%; margin: 14vh auto 0; padding: 26px clamp(14px, 2.4cqw, 36px) 32px; background: #f5f0e4 var(--marble-img) center top / 1360px 1040px; border: var(--fw) solid transparent; border-image: var(--frame) var(--slice) / var(--fw) round; }
-.path + .tab { margin-top: 0; }
+.home .path + .tab { margin-top: 0; }
 .place-head { display: grid; gap: 4px; text-align: center; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid rgba(132, 38, 31, .3); }
 .place-years { font: 400 clamp(15.5px, 1.05cqw, 19px)/1.2 'Marcellus SC', serif; letter-spacing: .18em; color: var(--porphyry); font-variant-numeric: lining-nums; }
-.place-head h2 { font-size: clamp(36px, 2.9cqw, 52px); color: var(--title); letter-spacing: .03em; }
+.home .place-head h2 { font-size: clamp(36px, 2.9cqw, 52px); color: var(--title); letter-spacing: .03em; }
 .place-role { font-size: clamp(19px, 1.3cqw, 23px); color: var(--ink-soft); font-style: italic; }
 .entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
 .entries time { display: block; margin-bottom: 4px; font: 400 clamp(14.5px, 1cqw, 18px)/1.3 'Marcellus SC', serif; letter-spacing: .13em; color: var(--porphyry); font-variant-numeric: lining-nums; }
-.entries h3 { font: 600 clamp(21px, 1.45cqw, 26px)/1.25 'EB Garamond', serif; letter-spacing: 0; color: var(--title); }
-.entries p { margin-top: 6px; font-size: clamp(18.5px, 1.3cqw, 22.5px); line-height: 1.55; }
+.home .entries h3 { font: 600 clamp(21px, 1.45cqw, 26px)/1.25 'EB Garamond', serif; letter-spacing: 0; color: var(--title); }
+.home .entries p { margin-top: 6px; font-size: clamp(18.5px, 1.3cqw, 22.5px); line-height: 1.55; }
 .entry-links { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: clamp(18px, 1.2cqw, 21px) !important; }
 .tab-print { display: block; width: min(300px, 86%); margin-top: 14px; padding: 4px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); box-shadow: 0 3px 8px -3px rgba(40, 28, 10, .5); }
 .tab a.tab-print { text-decoration: none; }
@@ -128,7 +128,7 @@ html.apse-wait .apse { visibility: hidden; }
 .lightbox::backdrop { background: rgba(14, 22, 52, .9); }
 .lightbox figure { margin: 0; }
 .lightbox img { display: block; max-height: 76dvh; width: auto; max-width: 100%; margin: auto; object-fit: contain; }
-.lightbox figcaption { margin-top: 12px; text-align: center; font-size: 19px; color: var(--ink-soft); }
+.home .lightbox figcaption { margin-top: 12px; text-align: center; font-size: 19px; color: var(--ink-soft); }
 .apse .lightbox-close { display: block; margin: 0 0 14px auto; font: inherit; font-size: 18px; padding: 6px 14px; background: transparent; border: 1px solid var(--rule); cursor: pointer; }
 
 /* ───────── where the mosaic ends: the border, loose stones, then plaster ───────── */
@@ -138,7 +138,7 @@ html.apse-wait .apse { visibility: hidden; }
 .home-anchor { position: absolute; top: 0; }
 .home-shelf-text { text-align: center; }
 .home-shelf-text h2 { font: 400 clamp(36px, 3.2cqw, 54px)/1.1 'Marcellus SC', 'Marcellus', serif; letter-spacing: .1em; color: var(--title); }
-.home-shelf-text > p { margin: 16px auto 0; max-width: 30em; color: var(--ink-soft); font-size: clamp(19.5px, 1.4cqw, 24px); }
+.home .home-shelf-text > p { margin: 16px auto 0; max-width: 30em; color: var(--ink-soft); font-size: clamp(19.5px, 1.4cqw, 24px); }
 .home-shelf-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 28px; margin-top: 18px !important; font-size: clamp(19px, 1.3cqw, 22px) !important; }
 .home-shelf a, .home-recent a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: .16em; text-decoration-color: rgba(122, 36, 28, .45); }
 .home-covers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(44%, 200px), 1fr)); gap: 44px 26px; }
@@ -147,7 +147,7 @@ html.apse-wait .apse { visibility: hidden; }
 .home-cover .cover-art { display: block; aspect-ratio: auto; padding: 4px; background: linear-gradient(135deg, #f0d488, #b8892f 45%, #e8c46a 60%, #9a7128); border-radius: 0; box-shadow: 0 10px 18px -12px rgba(40, 28, 10, .6); transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
 .home-cover .cover-art img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; }
 .home-cover:hover .cover-art, .home-cover:focus-visible .cover-art { transform: translateY(-4px); }
-.home-cover-title { display: block; margin-top: 14px; font-size: clamp(19px, 1.3cqw, 22px); line-height: 1.28; text-wrap: balance; }
+.home .home-cover-title { display: block; margin-top: 14px; font-size: clamp(19px, 1.3cqw, 22px); line-height: 1.28; text-wrap: balance; }
 .home-cover:hover .home-cover-title { text-decoration: underline; text-underline-offset: .18em; }
 .home-cover-meta { display: block; margin-top: 4px; font: 400 clamp(14.5px, .95cqw, 17px)/1.3 'Marcellus SC', serif; letter-spacing: .1em; color: var(--porphyry); }
 .home-recent { width: min(1240px, calc(100% - 32px)); margin: 0 auto; padding: 30px 0 56px; border-top: 1px solid var(--rule); text-align: center; color: var(--ink-soft); font-size: clamp(19px, 1.3cqw, 22px); }
@@ -160,10 +160,10 @@ html.apse-wait .apse { visibility: hidden; }
   background: var(--frieze-top) repeat-x 0 0 / calc(24 * var(--fstone-px)) calc(7 * var(--fstone-px)), var(--frieze) repeat-x 0 100% / calc(24 * var(--fstone-px)) calc(7 * var(--fstone-px)), #17255a var(--courses) repeat 0 0 / calc(72 * var(--fstone-px) * 1.1) calc(48 * var(--fstone-px) * 1.1); }
 .stele-foot .stele-text { padding-bottom: calc(var(--fw) + 22px); }
 .mf-name { font: 400 calc(var(--h1) * .72)/1.1 'Marcellus', serif; color: var(--title); }
-.mf-line { margin-top: 6px; color: var(--ink-soft); font-size: var(--lede); font-style: italic; }
-.mf-site, .mf-elsewhere { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; margin-top: 16px; font-size: calc(var(--lede) - 1px); }
-.mf-elsewhere { margin-top: 10px; font-size: calc(var(--lede) - 2px); }
-.mf-small { text-wrap: balance; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(132, 38, 31, .3); color: var(--ink-soft); font-size: calc(var(--lede) - 3px); }
+.home .mf-line { margin-top: 6px; color: var(--ink-soft); font-size: var(--lede); font-style: italic; }
+.home .mf-site, .home .mf-elsewhere { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; margin-top: 16px; font-size: calc(var(--lede) - 1px); }
+.home .mf-elsewhere { margin-top: 10px; font-size: calc(var(--lede) - 2px); }
+.home .mf-small { text-wrap: balance; margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(132, 38, 31, .3); color: var(--ink-soft); font-size: calc(var(--lede) - 3px); }
 .mosaic-footer .stele a { color: var(--link); }
 
 @media (prefers-reduced-motion: reduce) { .home-cover .cover-art { transition: none; } .home-cover:hover .cover-art { transform: none; } }
